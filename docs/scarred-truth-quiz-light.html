@@ -302,7 +302,7 @@ function currentRes(){
 function profileMixCard(k,tally,roleLabel){
   var p=P[k]; if(!p) return '';
   return '<div class="mixcard card reveal" style="'+famVars(k)+'"><div class="in">'+
-    '<img class="mixpix" src="site-assets/illustrations/'+k+'.jpg" alt="">'+
+    '<img class="mixpix" src="site-assets/illustrations/'+k+'.webp" alt="">'+
     '<div class="mixbody"><span class="eyebrow">'+roleLabel+' · '+pctOf(k,tally)+'%</span>'+
     '<h3>'+esc(p.name)+'</h3><p>'+esc(p.cost)+'</p>'+
     '<p class="mixshift">'+esc(p.wayBack.shift)+'</p></div></div></div>';
@@ -316,7 +316,7 @@ function renderFeaturedStory(key){
     '<span class="eyebrow">'+who+'</span>'+
     '<h2 class="fs-title">'+esc(s.title)+'</h2>'+
     '<p class="fs-recog">“'+esc(s.recognition)+'”</p>'+
-    '<div class="fs-img"><img src="site-assets/illustrations/'+key+'.jpg" alt=""></div>'+
+    '<div class="fs-img"><img src="site-assets/illustrations/'+key+'.webp" alt=""></div>'+
     '<div class="fs-body">'+ps+'</div>'+
     '<div class="fs-lesson"><span class="eyebrow">What it taught her</span><p>'+esc(s.lesson)+'</p></div>'+
     '<div class="fs-trans"><span class="eyebrow">Who she is now</span><p>'+esc(s.transformation)+'</p></div>'+
@@ -351,7 +351,7 @@ function fillNote(text){
   var nm=person.name?esc(person.name):'';
   var paras=String(text).split(/\n{2,}/).map(function(x){return '<p>'+esc(x.trim())+'</p>';}).join('');
   slot.innerHTML='<div class="notewrap reveal"><div class="note"><div class="nh">A note from Zane'+(nm?' · for you, '+nm:'')+'</div>'+paras+
-    '<div class="sig-mark"><img src="site-assets/zane-signature.png" alt="Zane — signed"></div></div></div>';
+    '<div class="sig-mark"><img src="site-assets/zane-signature.webp" alt="Zane — signed"></div></div></div>';
 }
 function fetchNote(){
   var res=currentRes(); var p=P[res.primary]; if(!p) return;
@@ -412,7 +412,7 @@ function wireResultChat(){
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function cite(q){var a=q.age?(' · '+q.age):'';return '<span class="c">— '+esc(q.source)+a+'</span>';}
 function getQuotes(key,kind){var o=C.quotes[key]||{};return (o[kind]||[]);}
-function illImg(key){return '<img src="site-assets/illustrations/'+key+'.jpg" alt="">';}
+function illImg(key){return '<img src="site-assets/illustrations/'+key+'.webp" alt="">';}
 function famVars(key){var f=FAM[key]||FAM.steady;return '--fc:var('+f.fc+');--cardbg:var('+f.bg+')';}
 var REVEAL;
 function wireReveal(){
@@ -475,7 +475,7 @@ function renderEntry(){
       '<h1>Eight ways a strong woman <span class="ink">loses herself</span>.<br>Which is yours?</h1>'+
     '</div>'+
     '<div class="qhero-bg reveal">'+
-      '<img src="site-assets/illustrations/group.jpg" alt="Eight women — each losing herself a different way, around the one who found her way back">'+
+      '<img src="site-assets/illustrations/group.webp" alt="Eight women — each losing herself a different way, around the one who found her way back">'+
       '<span class="grain"></span>'+
       '<span class="nameplate" style="left:8.5%;top:80%"><span class="tick"></span><span class="nm">The Invisible One</span></span>'+
       '<span class="nameplate" style="left:21%;top:89%"><span class="tick"></span><span class="nm">The Impostor</span></span>'+
@@ -528,7 +528,7 @@ function renderEntry(){
 
   /* DREAM cine + detail */
   '<section class="cine">'+
-    '<div class="cband"><img src="site-assets/illustrations/steady.jpg" alt="A woman standing free, the weight set down">'+
+    '<div class="cband"><img src="site-assets/illustrations/steady.webp" alt="A woman standing free, the weight set down">'+
       '<div class="q reveal"><span class="sm">Where everyone’s headed</span><h2>“'+esc(ds.northStar)+'”</h2></div>'+
     '</div>'+
   '</section>'+
@@ -551,7 +551,7 @@ function renderEntry(){
 
   /* UNIFIED FOOTER */
   '<footer class="bigfoot">'+
-    '<div class="ffmedia"><img src="site-assets/illustrations/journey.jpg" alt="A woman’s journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>'+
+    '<div class="ffmedia"><img src="site-assets/illustrations/journey.webp" alt="A woman’s journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>'+
     '<div class="ffinner reveal">'+
       '<span class="eyebrow">Where this goes</span>'+
       '<h2>You weren’t meant to carry this <em>forever</em>.</h2>'+
@@ -655,7 +655,7 @@ function zaneNote(p){
   body+='<p>Here’s where I’d start'+(nm?', '+nm:'')+': '+esc(p.firstStep)+'</p>';
 
   return '<div class="notewrap reveal"><div class="note"><div class="nh">A note from Zane · for you'+(nm?', '+nm:'')+'</div>'+body+
-    '<div class="sig-mark"><img src="site-assets/zane-signature.png" alt="Zane — signed"></div></div></div>';
+    '<div class="sig-mark"><img src="site-assets/zane-signature.webp" alt="Zane — signed"></div></div></div>';
 }
 
 /* ===== SCORE BARS — TOP 3 only, light ===== */
@@ -678,7 +678,7 @@ function renderScores(res){
 }
 
 /* ===== RESULT ===== */
-function blk(label,body,mark){var m=mark?'<img class="bgmark" src="site-assets/marks/'+mark+'.png" alt="" aria-hidden="true">':'';return '<div class="block reveal">'+m+'<span class="eyebrow">'+label+'</span>'+body+'</div>';}
+function blk(label,body,mark){var m=mark?'<img class="bgmark" src="site-assets/marks/'+mark+'.webp" alt="" aria-hidden="true">':'';return '<div class="block reveal">'+m+'<span class="eyebrow">'+label+'</span>'+body+'</div>';}
 function renderResult(){
   var res=currentRes(); var p=P[res.primary]||P.steady; var fam=FAM[res.primary];
   var isSteady=(res.primary==='steady');
@@ -719,7 +719,7 @@ function renderResult(){
     /* who you are */
     blk('Where it comes from','<p>'+esc(p.root)+'</p>','stone')+
     blk('What it’s costing you','<p>'+esc(p.cost)+'</p>','carry')+
-    '<div class="strength-card card reveal"><div class="in"><img class="bgmark" src="site-assets/marks/heart.png" alt="" aria-hidden="true"><span class="eyebrow">The strength hiding underneath</span><p>'+esc(p.strength)+'</p></div></div>'+
+    '<div class="strength-card card reveal"><div class="in"><img class="bgmark" src="site-assets/marks/heart.webp" alt="" aria-hidden="true"><span class="eyebrow">The strength hiding underneath</span><p>'+esc(p.strength)+'</p></div></div>'+
 
     '<div id="zane-note-slot">'+zaneNote(p)+'</div>'+
     renderChatWidget()+
@@ -738,22 +738,22 @@ function renderResult(){
       '<div class="journey">'+
         '<figure>'+illImg(res.primary)+'<figcaption>Where you are now</figcaption></figure>'+
         '<div class="jarrow"><svg viewBox="0 0 52 30"><path d="M3 15 C19 9 33 21 49 15 M49 15 L42 10 M49 15 L42 21"/></svg><span>becomes</span></div>'+
-        '<figure><img src="site-assets/illustrations/steady.jpg" alt="A woman standing free, the weight set down, on her own throne"><figcaption>Where this goes</figcaption></figure>'+
+        '<figure><img src="site-assets/illustrations/steady.webp" alt="A woman standing free, the weight set down, on her own throne"><figcaption>Where this goes</figcaption></figure>'+
       '</div>'+
     '</div>'+
 
     '<div class="block reveal"><span class="eyebrow" style="color:var(--gold-deep)">A real woman who stood where you are</span>'+renderFeaturedStory(res.primary)+'</div>'+
 
     '<div class="echo reveal"><span class="eyebrow" style="color:var(--gold-deep);display:block;margin-bottom:14px">Women who’ve stood where you are</span>'+echoHtml+
-      '<div class="resultband"><img src="site-assets/illustrations/group.jpg" alt="Women, each carrying a different weight, together at dawn"><p class="rcap" style="margin-top:10px">You’re in good company.</p></div></div>'+
+      '<div class="resultband"><img src="site-assets/illustrations/group.webp" alt="Women, each carrying a different weight, together at dawn"><p class="rcap" style="margin-top:10px">You’re in good company.</p></div></div>'+
 
-    '<div class="firststep reveal"><div class="card cta-card"><img class="bgmark" src="site-assets/marks/peak.png" alt="" aria-hidden="true"><span class="eyebrow">Your first step — today</span><h3>Start this small</h3><p class="step">'+esc(p.firstStep)+'</p>'+
+    '<div class="firststep reveal"><div class="card cta-card"><img class="bgmark" src="site-assets/marks/peak.webp" alt="" aria-hidden="true"><span class="eyebrow">Your first step — today</span><h3>Start this small</h3><p class="step">'+esc(p.firstStep)+'</p>'+
       '<a class="btn" href="index-light.html">Send me the free 7-Day Reset →</a></div></div>'+
   '</div>'+
 
     /* UNIFIED FOOTER — result variant (they took the quiz → soft cross-sell to Zane) */
     '<footer class="bigfoot">'+
-      '<div class="ffmedia"><img src="site-assets/illustrations/journey.jpg" alt="A woman’s journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>'+
+      '<div class="ffmedia"><img src="site-assets/illustrations/journey.webp" alt="A woman’s journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>'+
       '<div class="ffinner reveal">'+
         '<span class="eyebrow">You don’t walk it alone</span>'+
         '<h2>Zane’s here whenever the weight gets <em>loud</em>.</h2>'+

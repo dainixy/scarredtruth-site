@@ -223,7 +223,9 @@ app.post("/api/chat", async (req, res) => {
 // --- static pages -------------------------------------------------------------
 // docs/ at root: index-light.html is the homepage, plus quiz, stories, /site-assets, etc.
 app.use(express.static(DOCS_DIR, { index: "index-light.html" }));
-// standalone Talk-to-Zane app under /zane
+// standalone Talk-to-Zane app under /zane — shares the site's images/css from docs/
+// (so site-assets aren't duplicated), then serves the page itself from public/.
+app.use("/zane/site-assets", express.static(path.join(DOCS_DIR, "site-assets")));
 app.use("/zane", express.static(PUBLIC_DIR, { index: "index-light.html" }));
 // shareable result link — redirect to the quiz with ?r=<id> so the page's relative
 // assets (css, stories-data.js, illustrations) always resolve from the site root.
