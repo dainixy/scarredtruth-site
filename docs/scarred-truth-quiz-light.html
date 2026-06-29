@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's Quietly Draining Your Confidence? — Scarred Truth</title>
+<meta name="description" content="Find the one quiet thing draining your confidence — and the first step back. Free, no email to see your result.">
+<link rel="stylesheet" href="site-assets/scarred-light.css">
+<style>
+  /* page-specific bits not covered by the shared light system */
+
+  /* HERO — one combined unit: the hook title over a warm 'dawn' sky, then the full eight-profile
+     portrait with EACH woman named, then the CTA + stats. The sky flows into the image and the image
+     into the cream so nothing reads as a hard band. Names make the picture mean something. */
+  /* ONE continuous wash behind the whole hero that WARMS toward the image's own gold by the time it reaches it — so the title, gradient and image share a tone and there's no seam. Cream again below for the plates/CTA. */
+  .qhero{position:relative;overflow:hidden;text-align:center;padding-top:clamp(30px,4.6vh,62px);background:linear-gradient(180deg,#FBF3CF 0%,#F7E9C0 13%,#F0DCAA 21%,#EAD39B 29%,#EFDDB2 40%,var(--paper) 58%,var(--paper) 100%)}
+  .qhero-head{position:relative;z-index:2;max-width:840px;margin:0 auto;padding:0 26px}
+  .qhero-head h1{margin:0 auto;max-width:21ch;font-size:clamp(30px,4.9vw,55px);line-height:1.06}
+  .qhero-head h1 .ink{color:var(--gold-deep);font-style:italic;font-weight:560}
+  .qhero-bg{position:relative;z-index:1;width:100%;margin-top:clamp(2px,1vh,16px)}
+  /* the image's TOP edge dissolves into the shared warm wash (mask) — women rise out of the gradient, no seam */
+  .qhero-bg img{display:block;width:100%;height:auto;opacity:.8;-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 8%,#000 18%);mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 8%,#000 18%)}
+  /* only the BOTTOM is feathered to cream now (for the name plates + CTA); the top is handled by the mask above */
+  .qhero-bg::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(247,242,233,0) 0%,rgba(247,242,233,0) 72%,rgba(247,242,233,.34) 80%,rgba(247,242,233,.8) 89%,rgba(247,242,233,.97) 96%,var(--paper) 100%)}
+  .qhero-bg .grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  /* name plates — one per woman, sitting low over her dress (below faces + every prop) so the picture stays clear */
+  .nameplate{position:absolute;transform:translateX(-50%);z-index:3;text-align:center;pointer-events:none}
+  .nameplate .tick{display:block;width:1px;height:15px;margin:0 auto 6px;background:var(--gold-deep);opacity:.45}
+  .nameplate .nm{display:inline-block;font:600 10.5px/1.1 var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--ink);background:rgba(255,253,248,.84);backdrop-filter:blur(3px) saturate(1.1);-webkit-backdrop-filter:blur(3px) saturate(1.1);border:1px solid rgba(255,255,255,.7);border-radius:30px;padding:6px 12px;box-shadow:0 7px 20px rgba(120,80,40,.18);white-space:nowrap}
+  .nameplate.dream .tick{opacity:.7}
+  .nameplate.dream .nm{color:#fff;background:var(--gold-deep);border-color:var(--gold);box-shadow:0 9px 24px rgba(150,100,40,.36)}
+  /* CTA + stats as one panel overlaid on the throne woman's skirt (below her face, above the bags), on a soft feathered blur cushion so it reads while she stays visible behind */
+  /* CTA + stats panel — centered, sitting at the bottom nestled onto the image's cream edge (below the women + name plates), flowing smoothly into the page below */
+  .qhero-overlay{position:relative;z-index:5;margin:clamp(-44px,-3.6vh,-18px) auto 0;width:min(94%,720px);display:flex;flex-direction:column;align-items:center;gap:clamp(22px,3.4vh,40px);padding:0 26px;text-align:center}
+  .qhero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center}
+  .qhero-names{display:none}
+  .qhero-stats{display:flex;justify-content:center;gap:clamp(12px,2.4vw,30px);flex-wrap:nowrap}
+  .qhero-overlay .qstat span{max-width:128px}
+  .qstat{text-align:center}
+  .qstat b{display:block;font-family:var(--display);font-style:italic;font-weight:560;font-size:clamp(23px,3vw,34px);line-height:1;color:var(--gold-deep)}
+  .qstat span{display:block;font:500 10px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-top:7px;max-width:150px}
+  /* mobile — the image is too small for 8 floating plates, so name the eight as a tidy chip row below it */
+  @media(max-width:760px){
+    .qhero{padding-top:26px}
+    .qhero-head h1{font-size:clamp(30px,8vw,40px)}
+    .nameplate{display:none}
+    .qhero-names{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-width:520px;margin:14px auto 0;padding:0 20px}
+    .qhero-names span{font:600 9.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);border-radius:20px;padding:6px 10px}
+    .qhero-names span.dream{color:#fff;background:var(--gold-deep);border-color:var(--gold)}
+    .qhero-overlay{width:auto;max-width:none;padding:0 20px;margin:18px auto 0;gap:16px}
+    .qhero-stats{padding:6px 22px 10px;gap:14px 20px}
+    .qstat b{font-size:21px}.qstat span{font-size:8px;letter-spacing:.06em;max-width:110px}
+  }
+
+  /* statband + methodology */
+  .statband{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .inher{margin:30px auto 0;max-width:var(--read)}
+  .inher .row{padding:12px 0;border-bottom:1px solid var(--line-soft);font-size:17px;color:var(--ink-2)}
+  .inher .row:last-child{border-bottom:0}
+  .inher b{color:var(--gold-deep);font-style:italic;font-weight:500}
+  .mnote{max-width:var(--read);margin:22px auto 0;font-size:16px;color:var(--ink-2)}
+
+  /* type-family heading + grid spacing */
+  .fhead{max-width:var(--read);margin:46px auto 22px}
+  .fhead .eyebrow{margin-bottom:8px}
+  .fhead p{margin:0;color:var(--dim);font-style:italic;font-size:17px}
+  .fhead .dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--fc,var(--gold));margin-right:10px;vertical-align:middle}
+  .types{margin-bottom:8px}
+  .tcard .src{margin-top:13px;font:500 10px/1.4 var(--mono);letter-spacing:.08em;color:var(--dim)}
+  .tcard .tq{display:inline-block;margin-top:14px;font-family:var(--display);font-style:italic;font-size:15px;line-height:1.4;color:var(--ink);border-left:2px solid var(--fc,var(--ember));padding:2px 0 2px 12px}
+
+  /* unified compact 'eight' grid + group band */
+  .groupband{border-radius:16px;overflow:hidden;border:1px solid var(--line);margin:8px 0 18px;box-shadow:var(--shadow)}
+  .groupband img{display:block;width:100%;height:auto}
+  .famlegend{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin:0 0 28px}
+  .famlegend .lg{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:8px}
+  .famlegend .lg .d{width:10px;height:10px;border-radius:50%}
+  .eight{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:900px){.eight{grid-template-columns:repeat(2,1fr)}}
+  .tcard.sm .tpix{aspect-ratio:1/1}
+  .tcard.sm .tbody{padding:14px 16px 18px}
+  .tcard.sm .tfam{font-size:8.5px;margin-bottom:8px}
+  .tcard.sm h3{font-size:18px;margin:0 0 5px}
+  .tcard.sm .hk{font-size:13.5px;line-height:1.4;color:var(--ink-2)}
+
+  /* dream / cine — full-bleed cinematic band; copy overlaid at the bottom, never over her face */
+  .cine{position:relative;text-align:center;overflow:hidden;padding:0}
+  .cine .cband{position:relative;width:100%;min-height:clamp(440px,62vh,640px);overflow:hidden}
+  .cine .cband img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block;border-radius:0}
+  .cine .cband::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--paper) 0%,rgba(247,242,233,.2) 7%,rgba(247,242,233,0) 22%,rgba(247,242,233,0) 46%,rgba(247,242,233,.55) 63%,rgba(247,242,233,.92) 81%,var(--paper) 96%)}
+  .cine .q{position:absolute;left:0;right:0;bottom:0;z-index:3;max-width:680px;margin:0 auto;padding:0 26px clamp(34px,6vh,58px);text-align:center}
+  .cine .q .sm{font:500 12px/1.5 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--ember);margin-bottom:14px;text-shadow:0 1px 10px rgba(247,242,233,.95)}
+  .cine .q h2{font-size:clamp(26px,4vw,44px);max-width:18ch;margin:0 auto;font-style:italic;color:var(--ink);text-shadow:0 2px 18px rgba(247,242,233,.96)}
+  .vocab{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:760px;margin:24px auto 0}
+  .vocab span{border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:15px;color:var(--gold-deep);background:var(--paper-2)}
+  .scenes{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;max-width:840px;margin:28px auto 0}
+  .scenes .sc{flex:1 1 240px;max-width:340px;font-style:italic;color:var(--ink-2);font-size:16px;border-top:1px solid var(--line);padding-top:14px}
+
+  /* quiz stage */
+  .quizstage{min-height:90vh;display:flex;flex-direction:column;justify-content:center;padding:48px 0 80px}
+  .progress{display:flex;gap:6px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--line);transition:.3s}
+  .dot.done{background:var(--gold)}
+  .dot.now{background:var(--ember);transform:scale(1.55)}
+  .qcount{text-align:center;margin-bottom:18px}
+  .qprompt{font-family:var(--display);font-weight:560;font-size:clamp(26px,4.4vw,42px);text-align:center;max-width:20ch;margin:0 auto 34px;line-height:1.12;color:var(--ink)}
+  .opts{display:flex;flex-direction:column;gap:12px;max-width:640px;margin:0 auto;width:100%}
+  .opt{cursor:pointer;text-align:left;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;font:400 18px/1.45 var(--body);color:var(--ink);box-shadow:var(--shadow);
+    transition:border-color .15s,transform .12s,box-shadow .18s}
+  .opt:hover{border-color:var(--ember);transform:translateX(3px);box-shadow:var(--shadow-lift)}
+  .qback{display:block;margin:30px auto 0;background:none;border:0;color:var(--dim);cursor:pointer;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+  .qback:hover{color:var(--ink-2)}
+
+  /* personal stage */
+  .personal{padding:72px 0 90px}
+  .personal .why{border-left:2px solid var(--ember);padding-left:18px;color:var(--ink-2);font-style:italic;font-size:18px;margin:0 0 6px}
+  textarea,input[type=text]{width:100%;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:400 17px/1.5 var(--body);padding:14px 16px;resize:vertical}
+  textarea{min-height:104px;margin-bottom:6px} input[type=text]{margin-bottom:4px}
+  textarea:focus,input:focus{outline:none;border-color:var(--ember)}
+  textarea::placeholder,input::placeholder{color:var(--dim)}
+  .fieldlbl{display:block;font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);margin:22px 0 8px}
+
+  /* result */
+  .rwrap{padding:60px 0 80px}
+  .result .rpix{position:relative}
+  .result .rpix .rfam{position:absolute;top:16px;left:16px;font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--fc,var(--fam-vanish));padding:7px 11px;border-radius:20px}
+  .rbody .eyebrow{color:var(--fc,var(--ember));margin-bottom:10px}
+  .rbody .sub{color:var(--fc,var(--fam-vanish))}
+  .rbody .lead-fear{font-family:var(--display);font-style:italic;font-size:clamp(20px,2.6vw,26px);line-height:1.34;color:var(--ink);border-left:3px solid var(--fc,var(--ember));padding-left:20px;margin:0 0 22px}
+  .bar .fill{background:var(--barfc,var(--fam-vanish))}
+  .block{max-width:var(--read);margin:0 auto;padding:34px 0 0}
+  .block .eyebrow{color:var(--ember);margin-bottom:10px}
+  .block p{margin:0 0 16px;font-size:19px;line-height:1.7;color:var(--ink-2)}
+  .strength-card{max-width:var(--read);margin:34px auto 0}
+  .strength-card .in{padding:30px 32px}
+  .strength-card .eyebrow{color:var(--gold-deep);margin-bottom:10px}
+  .strength-card p{margin:0;font-size:19px;line-height:1.6;color:var(--ink);font-style:italic}
+  .notewrap{max-width:var(--read);margin:34px auto 0}
+  .note p+p{margin-top:12px}
+  .note .yourwords{font-style:normal;color:var(--gold-deep);border-left:2px solid var(--ember);padding-left:14px;font-size:17px}
+  .note .sig{display:flex;align-items:center;gap:9px;font-family:var(--display);font-style:italic;color:var(--gold-deep);font-size:17px;margin-top:14px}
+  .moves{list-style:none;padding:0;margin:16px 0 0;max-width:var(--read)}
+  .moves li{position:relative;padding:16px 20px 16px 64px;border:1px solid var(--line);border-radius:12px;margin-bottom:11px;color:var(--ink-2);font-size:18px;line-height:1.6;background:var(--paper-2)}
+  .moves li .num{position:absolute;left:18px;top:14px;width:32px;height:32px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-style:italic;color:var(--gold-deep);font-size:16px}
+  .dreampull{max-width:var(--read);margin:18px auto 0;font-family:var(--display);font-style:italic;font-size:22px;line-height:1.4;color:var(--gold-deep);border-top:1px solid var(--line);padding-top:18px}
+  .secondary{max-width:var(--read);margin:34px auto 0}
+  .secondary .in{padding:26px 30px}
+  .secondary .eyebrow{color:var(--ember);margin-bottom:8px}
+  .secondary h3{font-size:20px;color:var(--ink);margin:0 0 8px}
+  .secondary p{margin:0;color:var(--ink-2);font-size:17px;line-height:1.6}
+  .echo{max-width:var(--read);margin:34px auto 0}
+  .echo .eq{font-family:var(--display);font-style:italic;color:var(--ink);font-size:19px;border-left:2px solid var(--ember);padding-left:18px;margin:0 0 16px}
+  .echo .eq .c{display:block;font:500 10.5px/1.4 var(--mono);letter-spacing:.08em;color:var(--dim);font-style:normal;margin-top:7px}
+  .firststep{max-width:var(--read);margin:38px auto 0;text-align:center}
+  .firststep .in{padding:40px 36px}
+  .firststep .eyebrow{color:var(--gold-deep)}
+  .firststep h3{font-size:24px;color:var(--ink);margin:2px 0 10px}
+  .firststep .step{color:var(--ink-2);margin:0 auto 22px;max-width:48ch}
+  .rfoot{text-align:center;margin:38px auto 0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .scorecap{font-size:15px;margin-top:8px;text-align:left}
+  /* result illustrations */
+  .resultimg{width:100%;max-width:520px;margin:22px auto;display:block;border-radius:16px;object-fit:contain;height:auto}
+  .rcap{max-width:520px;margin:0 auto 8px;text-align:center;font:500 11px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .resultband{max-width:var(--read);margin:34px auto 0}
+  .resultband img{width:100%;height:auto;display:block;border-radius:16px}
+  .beforeafter{max-width:var(--read);margin:30px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end}
+  .beforeafter figure{margin:0;text-align:center}
+  .beforeafter img{width:100%;height:auto;display:block;border-radius:16px;object-fit:contain}
+  .beforeafter figcaption{margin-top:10px;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+  @media(max-width:560px){.beforeafter{grid-template-columns:1fr}}
+
+  /* === RESULT REDESIGN — breathing room, gold-tick bullets, big bg watermarks, the journey === */
+  .rwrap .block{position:relative;padding-top:46px}
+  .block > *{position:relative;z-index:1}
+  .bgmark{position:absolute;z-index:0;pointer-events:none;width:clamp(94px,14vw,136px);height:auto;top:10px;right:8px;opacity:.13;filter:sepia(.45) saturate(1.35) hue-rotate(-8deg)}
+  .strength-card .in,.firststep .card{position:relative;overflow:hidden}
+  .strength-card .bgmark{top:18px;right:18px}
+  .firststep .bgmark{width:clamp(186px,32vw,246px);top:50%;left:50%;transform:translate(-50%,-50%);right:auto;opacity:.2}
+  /* gold-tick bullets — same little mark as the home .bullets */
+  .checklist{list-style:none;padding:0;margin:18px 0 0}
+  .checklist li{position:relative;padding:0 0 0 30px;margin:0 0 15px;font-size:18px;line-height:1.62;color:var(--ink-2)}
+  .checklist li:last-child{margin-bottom:0}
+  .checklist li::before{content:"";position:absolute;left:0;top:11px;width:14px;height:2px;background:var(--gold)}
+  .checklist li::after{content:"";position:absolute;left:5px;top:5px;width:2px;height:14px;background:var(--ember)}
+  /* THE JOURNEY — before -> after joined by a hand-drawn signature arrow */
+  .journeyhead{text-align:center;max-width:var(--read);margin:0 auto}
+  .journey{max-width:var(--read);margin:20px auto 0;display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center}
+  .journey figure{margin:0;text-align:center}
+  .journey img{width:100%;height:auto;display:block;border-radius:16px;box-shadow:var(--shadow)}
+  .journey figcaption{margin-top:11px;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+  .journey .jarrow{display:flex;flex-direction:column;align-items:center;gap:5px}
+  .journey .jarrow svg{width:52px;height:30px;overflow:visible}
+  .journey .jarrow svg path{fill:none;stroke:var(--ember);stroke-width:2;stroke-linecap:round}
+  .journey .jarrow span{font-family:'Caveat',cursive;font-weight:600;font-size:19px;color:var(--ember);white-space:nowrap}
+  @media(max-width:560px){.journey{grid-template-columns:1fr;gap:8px}.journey .jarrow svg{transform:rotate(90deg)}}
+  footer.bigfoot .rfoot{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:22px 0 4px}
+
+  /* === quiz upgrade: %match · blend (top 3) · featured story · share link · embedded chat === */
+  input[type=email]{width:100%;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:400 17px/1.5 var(--body);padding:14px 16px;margin-bottom:4px}
+  input[type=email]:focus{outline:none;border-color:var(--ember)}
+  .matchpct{display:flex;align-items:baseline;gap:8px;margin:4px 0 16px;font-family:var(--display);font-style:italic;font-weight:560;font-size:38px;line-height:1;color:var(--fc,var(--gold-deep))}
+  .matchpct span{font:500 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-style:normal}
+  .blend{max-width:var(--read);margin:30px auto 0}
+  .blend>.eyebrow{display:block;margin-bottom:14px;color:var(--ember)}
+  .mixcard{margin:0 0 14px}
+  .mixcard .in{display:flex;gap:16px;align-items:flex-start;padding:20px 22px}
+  .mixpix{width:74px;height:74px;border-radius:14px;object-fit:cover;flex:0 0 auto;box-shadow:var(--shadow)}
+  .mixbody .eyebrow{color:var(--fc,var(--ember));margin-bottom:6px}
+  .mixbody h3{font-size:19px;color:var(--ink);margin:0 0 8px}
+  .mixbody p{margin:0 0 8px;color:var(--ink-2);font-size:16px;line-height:1.58}
+  .mixbody .mixshift{color:var(--ink);font-style:italic}
+  .featstory{max-width:var(--read);margin:8px auto 0;background:var(--paper-2);border:1px solid var(--line);border-radius:18px;padding:32px 30px;box-shadow:var(--shadow)}
+  .featstory .eyebrow{color:var(--fc,var(--gold-deep))}
+  .fs-title{font-size:clamp(24px,3.4vw,32px);margin:.15em 0 .1em}
+  .fs-recog{font-family:var(--display);font-style:italic;color:var(--gold-deep);font-size:19px;line-height:1.4;margin:.2em 0 18px}
+  .fs-img{margin:0 0 18px}
+  .fs-img img{width:100%;max-width:300px;height:auto;border-radius:14px;display:block;margin:0 auto;box-shadow:var(--shadow)}
+  .fs-body p{font-size:18px;line-height:1.72;color:var(--ink-2);margin:0 0 14px}
+  .fs-lesson,.fs-trans{border-left:3px solid var(--ember);padding:4px 0 4px 16px;margin:18px 0}
+  .fs-lesson p,.fs-trans p{margin:.2em 0 0;font-style:italic;color:var(--ink);font-size:17px}
+  .fs-cta{margin:20px 0 0;font-size:17px;color:var(--gold-deep);font-style:italic}
+  .sharebox{max-width:var(--read);margin:26px auto 0;background:var(--paper-2);border:1px dashed var(--gold);border-radius:14px;padding:20px 22px;text-align:center}
+  .sharebox .eyebrow{color:var(--gold-deep);display:block;margin-bottom:10px}
+  .sharebox .row{display:flex;gap:8px;max-width:460px;margin:0 auto}
+  .sharebox input{flex:1;min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:11px 12px;font:500 13px/1.4 var(--mono);color:var(--ink-2)}
+  .sharebox .hint{font-size:13px;color:var(--dim);margin:10px 0 0}
+  .chatwrap{max-width:var(--read);margin:38px auto 0}
+  .chatcard{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+  .chathead{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .chathead .eyebrow{margin:0;color:var(--gold-deep)}
+  .chathead .left{font:500 10px/1 var(--mono);letter-spacing:.08em;color:var(--dim);margin-left:auto}
+  .chatthread{padding:18px 20px;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+  .cmsg{max-width:88%;padding:12px 15px;border-radius:14px;font-size:16px;line-height:1.55}
+  .cmsg.zane{background:var(--paper);border:1px solid var(--line);color:var(--ink);align-self:flex-start}
+  .cmsg.her{background:var(--gold-deep);color:#fff;align-self:flex-end}
+  .cmsg p{margin:0 0 8px}.cmsg p:last-child{margin:0}
+  .chatform{display:flex;gap:8px;padding:14px 16px;border-top:1px solid var(--line)}
+  .chatform textarea{flex:1;min-height:46px;max-height:120px;margin:0}
+  .chatwall{padding:22px;text-align:center;border-top:1px solid var(--line);background:var(--paper)}
+  .chatwall p{font-size:16px;color:var(--ink);margin:0 0 14px}
+  .chatwall .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<script id="corpus" type="application/json">{"profiles": [{"key": "invisible", "name": "The Invisible One", "group": "The ones who vanish", "coreFear": "I don't matter, and no one would really notice if I disappeared.", "hookLine": "the one nobody notices — including, lately, herself", "oneLineCost": "She spends her days reading the room instead of being in it, so sure she's forgettable that even being looked at makes her flinch.", "root": "It usually starts small. Maybe you asked for something you needed and it landed wrong, or didn’t land at all. Maybe the world just slowly stopped noticing you were there. Either way, you got quieter — because quiet felt safer than reaching out and being missed again.", "cost": "Now you spend your days reading the room instead of being in it. You're the one who notices everything and the one nobody notices. You've gone so still that when someone actually looks your way, you flinch a little, like you got caught existing.", "strength": "You went quiet because you'd rather take up no room than take up someone else's. That's not nothing. That's a careful, gentle heart that never once wanted to be a weight on anybody. You shrank to make life easier for the people around you.", "whatsTrue": "Here's what nobody told you: you never actually disappeared. You're still right here. You just got so good at being easy to overlook that you started believing the overlooking was the truth about you. It isn't. You went small to stay safe. It worked. And the same thing that kept you safe is the thing that's now costing you what you wanted all along, which is to be seen.", "wayBack": {"shift": "You don't get seen by waiting long enough that someone finally notices. You get seen the moment you let one person actually look. That's a door you open, not a prize you have to earn first.", "moves": ["The relief of one person knowing the real you — you tell one safe person a true thing instead of \"I'm fine,\" and you watch their face change as they actually see you", "What it feels like to be in the room instead of along the wall — you say one thing out loud while it's happening, right there, and feel it land instead of getting swallowed", "Being missed when you go — one person who'd notice the empty chair, who'd ask where you were, because they finally know you were ever there"]}, "rebuild": "You walk into a room and you don't scan it anymore for how to stay small. You just walk in. One person knows the real you now, the tired parts and the funny parts, and that one person seeing you is worth more than a whole crowd clapping. You stopped waiting to be found. You're here, and people can tell.", "firstStep": "Today, the next time one safe person asks how you're doing, give them one true sentence instead of \"I'm fine.\"", "dreamPicture": "She walks into a room and doesn't shrink — she takes up space even when it feels uncomfortable, and she's not apologizing for looking older anymore. She knows she matters and her needs matter, and the ordinary quiet moments feel good now because she's become good company for herself."}, {"key": "lost", "name": "The One Who Lost Herself", "group": "The ones who vanish", "coreFear": "The real me got lost somewhere, and I'm not sure she's still in there.", "hookLine": "the one who's in every photo and somehow not in the room", "oneLineCost": "She gets everything done for everyone and goes blank when someone asks what she wants, because she stopped asking herself a long time ago.", "root": "It usually starts slow. One day someone needed you. Then someone else did. You kept showing up, year after year, until there was no part of the day left that was just yours. Some of it got taken. Some of it you gave away without even noticing. Either way, somewhere in there, you got buried under everyone you were holding up.", "cost": "You get everything done and still feel like a stranger in your own life. Someone asks what you want for dinner and you go blank, because you stopped asking yourself a long time ago. The little things you used to light up about — a song, a book, a slow Saturday morning — you can't remember the last time you let yourself have one. You're in every photo and somehow not in the room.", "strength": "Here's what I want you to see before anything else: you didn't get lost because you're weak. You got lost because you're the one who shows up. The whole house runs on you. People lean on you and the floor holds, every time. That kind of steady love is rare. You just never aimed a single drop of it back at yourself — and somewhere in there, you quietly went missing.", "whatsTrue": "You keep waiting to feel like yourself again before you do anything for yourself. It works the other way around. You don't think your way back to her. You do one small thing for her, and she shows up while you're doing it — not before. She was never gone. She's just been standing behind everyone who needed you, waiting for one quiet minute to step forward. The woman you're missing is still in there. She's just been last in line for years.", "wayBack": {"shift": "You've been treating \"me\" as the last thing on the list — the thing you'll finally get to once everyone else is handled. But the list is never empty. That day doesn't come. She doesn't come back when the list runs out. She comes back the minute you give her five minutes before it does.", "moves": ["Take back one thing that was just yours — a book, a song, a walk you used to take alone — and let yourself have a piece of it tonight. Not for anyone. Just because you used to love it.", "Claim five minutes a day that belong to nobody but you, and stop explaining them. You don't owe anyone a reason for closing a door. \"I'll be back in five\" is a full sentence.", "Stop asking permission to exist. Next time you want something small — the good coffee, the long shower, the chair by the window — just take it, quietly, without the apology. You're allowed to be a person in your own house."]}, "rebuild": "You're still the one everyone leans on — but now there's a woman underneath all the roles who's actually there. You have things that are yours again. You know what you'd answer if someone asked what you want. You laugh at your own stuff, you take the chair by the window, and there's a small corner of the day that belongs to nobody but you. You didn't walk out on anyone to get her back. You just stopped leaving her out.", "firstStep": "Tonight, play one song you loved years ago and listen to the whole thing, start to finish, before you do one more thing for anyone else.", "dreamPicture": "She woke up one day and didn't dread waking up — she felt like herself, back to the me she knew before, and was surprised by how much she'd missed her. \"I'm finally back to the me I knew before\" — her sparkle is back and she's building a life that's actually hers."}, {"key": "never", "name": "The Never-Enough One", "group": "The ones who can never rest", "coreFear": "No matter what I do, it's never enough — and one day everyone will see I fell short.", "hookLine": "the one who hits the goal and feels nothing, because the bar already moved", "oneLineCost": "She finishes something good and feels nothing but the next thing she got wrong, so even her rest has a knot in it.", "root": "It usually starts young. Somewhere back there, you learned that being good got you noticed, and being just okay got you silence — or worse. So you kept reaching for the bar. And somewhere along the way, the bar started sliding up every single time you got close to it. You never decided that. It just became the air you breathe.", "cost": "You finish something good and you feel nothing. You're already looking at the next thing you got wrong. A win lands for about ten seconds, then it's gone. And you can't really sit down — there's always a little voice running the list of what's still not done, so even your rest has a knot in it. You're tired in a way sleep doesn't touch.", "strength": "You hold yourself to a high bar because you actually care about getting it right. That's not a flaw. That's rare. The same drive that's wearing you out is the exact reason people trust you, the reason they lean on you, the reason your good work is actually good. You're not broken. You're a person who cares hard and never learned where the off switch is.", "whatsTrue": "Here's what nobody told you: the bar isn't real. There's no number where the feeling finally flips over to enough. You could hit it tomorrow and the line would just slide up again — because the sliding is the wound. It was never proof you came up short. Somewhere young, you got taught that you have to earn your spot fresh every single day, like the day before didn't count. You've been doing that for years. You can stop. The work was good the whole time. You just couldn't hear it over the noise.", "wayBack": {"shift": "The bar isn't a measure of how good you are. It's an old habit that moves on its own, and you don't have to chase it. The minute you stop running, you find out the ground under you was solid the whole time.", "moves": ["You get to finish one thing, call it done, and walk away without going back to check it — and watch nothing fall apart.", "You get to talk to yourself the way you'd talk to a good friend who did the exact same thing — plain and kind, no lecture, no list.", "You get to rest before you've earned it, and find out rest was never something you had to buy in the first place."]}, "rebuild": "You finish a thing and it actually lands. Done is done, and you let it be done. You sit down at the end of the day and nothing is chasing you, because you finally quit racing a bar that was never going to hold still. You still care. You still do good work. You just don't bleed for it anymore. The good things in your life start to feel good again — because you're finally there to feel them.", "firstStep": "Tonight, leave one small thing unfinished on purpose. A dish in the sink. An email half-typed. Then go to bed anyway — and notice the morning still comes.", "dreamPicture": "She stopped beating herself up for what she hadn't done and looks at herself, flaws and all, and likes what she sees. She knows, on most days, that she is enough as she is — not because she proved it, but because she finally stopped trying to."}, {"key": "pleaser", "name": "The Pleaser", "group": "The ones measuring against the world", "coreFear": "If I stop being useful and giving, the people I love will leave.", "hookLine": "the one who gives everyone everything and is quietly bracing to be left anyway", "oneLineCost": "She wakes up already tired, running the list of what everyone else needs, giving more and more to buy a spot she's terrified she could lose.", "root": "It started young. You figured out that being good kept the peace. Be easy, be helpful, never any trouble, and people stayed. So you got very, very good at being the one everybody needs.", "cost": "You wake up already tired. Before your feet hit the floor, you're running the list of what everyone else needs today. And under all of it sits a quiet fear you never say out loud: that you do all this, and they could still leave. So you give more. Just to be safe.", "strength": "You feel people. You walk into a room and you already know who's hurting, who got left out, who needs a soft word before anyone else even notices. That's a rare thing. People are gentler around you, and most of them never thank you for it.", "whatsTrue": "Here's what nobody told you. You've been trying to buy a spot in people's lives. More favors, more yes, more of you — and you called that empty feeling \"being a good person.\" But the ones who only stay while you're paying? They were never staying for you. They were staying for the help. The right people don't make you earn it. They were never keeping score.", "wayBack": {"shift": "You don't have to be useful to be kept. Love was never the thing you buy with favors. The real ones don't stay because you earn them — they just stay. So the giving you've been doing out of fear? You can set it down, and the right people are still there.", "moves": ["Say one small no this week. Watch the world not end. That little jolt of fear with nothing bad behind it — that's you learning you were safe the whole time.", "Pick one person you always over-give to and just stop reaching first. Let the silence sit. The ones who come find you are showing you something you've needed to see for years.", "Next time someone thanks you, don't deflect it or hand back another favor. Just say thank you and let it land. Feel how it feels to be given to instead of always doing the giving."]}, "rebuild": "You wake up and the first name on the list is your own. You still give, because giving is just who you are — but now it's a gift, not a payment, and you can feel the difference in your chest. The people around you are the ones who stayed after you stopped paying. And for the first time, you actually believe them. The tired is gone. You're not bracing for everyone to leave anymore.", "firstStep": "Today, when someone asks you for something, wait three seconds before you answer. You don't have to say no. Just feel, for three seconds, that the choice was yours.", "dreamPicture": "She doesn't have enough energy to be a people pleaser anymore — she says no without the guilt and stopped apologizing for existing. No more walking on eggshells, and she feels SO relieved instead of obligated to make everyone else happy."}, {"key": "behind", "name": "The Behind-Everyone One", "group": "The ones measuring against the world", "coreFear": "Everyone else is ahead of me, and I missed the window to catch up.", "hookLine": "the one who can’t enjoy her own life because she’s too busy checking how far behind she is", "oneLineCost": "She's so busy watching where everyone else is that she walks right past the good things happening in her own life.", "root": "It usually starts with one quiet comparison. Someone your age with the house, the title, the life that already looks finished. And something in you sank. After that you stopped just living your day. You started keeping score, and you were always losing.", "cost": "You're so busy watching where everyone else is that you can't feel where you are. Good things happen right in front of you and you walk past them, because in your head you're already late. You don't get to enjoy your own life. You just keep checking how far behind you think you are.", "strength": "Here's what most people miss about you. You still believe your life can be more. You see how far a person can go and some part of you knows you were meant to go somewhere too. That ache isn't a flaw. It's proof you haven't quit on yourself, even tired, even now. People who've truly given up don't feel behind. You feel behind because you're still in the race.", "whatsTrue": "There's no finish line you missed. Nobody ever handed you a real schedule that said where you're supposed to be by now. You just picked one up from watching everyone else's best moments stacked in a row. But that's not their life. That's the highlight reel. The truth is they're not ahead of you. They're on a completely different road, running a clock that has nothing to do with yours.", "wayBack": {"shift": "You're not behind. You've just been staring at the wrong scoreboard — one that was never keeping your score.", "moves": ["Mute the accounts that leave you feeling small. Feel how much quieter your own head gets when you're not measuring yourself all day.", "Stop running on a clock you got from strangers. On your own clock, you're not late — you're right on time.", "Point to one real thing you did this week that was yours, and let it count. You've been crossing those off without noticing."]}, "rebuild": "Picture a day where your eyes are on your own path and nobody else's. The little voice that kept whispering you're behind is just quiet. What's left is a woman who knows her life is hers to build, on her own time, no one to catch. You stopped racing strangers. And for the first time in years you can actually feel the ground under your feet — and it's holding you.", "firstStep": "Today, mute one account that always leaves you feeling behind. Just one.", "dreamPicture": "She wouldn't go back to being 25 if you paid her — she lives on her own timeline and stopped comparing herself to everyone else. There's so much time left; she knows who she is and where she's going, off the scoreboard and content, even excited."}, {"key": "critic", "name": "The Self-Critic", "group": "The ones who can never rest", "coreFear": "There's a voice in my head that's right about me — I'm not good enough.", "hookLine": "the one carrying a bully in her head who never takes a day off", "oneLineCost": "She works twice as hard as anyone and still goes to bed feeling like she fell short, worn out from carrying the voice that keeps score against her.", "root": "It usually starts with one person who talked down to you long enough that their voice moved in and never left. You didn't make that voice up. You learned it from someone who should have been kinder, and you've been hearing it in your own head ever since.", "cost": "You work twice as hard as anyone around you and still go to bed feeling like you fell short. Nothing you do ever lands as good enough in there. And you're tired in a way sleep doesn't touch, because you've been carrying two people around all day. You, and the one in your head keeping score against you.", "strength": "A voice only gets that harsh inside someone who cares deeply about doing right by people. Careless folks don't lie awake replaying every little mistake. That ache to be good and fair, that's one of the best things about you. It just got turned around and pointed back at you, instead of out at the world where it belongs.", "whatsTrue": "That voice is not the truth, and it was never yours to start with. It belongs to the person who hurt you, and somewhere along the way you started saying their lines for them. Here's the part that changes everything: a voice that was learned can be turned down, the same way you'd lower a radio someone left up too loud. You don't have to argue with it or win. You just have to stop letting it speak to you in a way you would never let it speak to someone you love.", "wayBack": {"shift": "You've been treating that voice like a judge reading out the final verdict on you. It's not a judge. It's an old recording of someone else, playing on a loop, and you're the one holding the volume.", "moves": ["When it starts in on you, ask one quiet question: would I ever say this to a friend I love? You already know you wouldn't. That answer alone takes the air right out of it.", "Try saying those exact words out loud to a child you care about. You can't get them out. That you can't is your proof the voice was lying the whole time.", "Catch it just once and answer back gentle, the way you wish someone had spoken to you back then. One kinder reply, and you've shown yourself the old recording isn't the only voice in the room."]}, "rebuild": "You move through your day lighter, because the running commentary finally went quiet. When you slip up, you give yourself the same easy grace you've handed everyone else your whole life, and it feels like setting down a heavy bag you forgot you were even carrying. You're still the woman who cares that deeply. You just stopped pointing all that care at yourself like a weapon.", "firstStep": "The next time that voice cuts in today, don't fight it. Just notice it out loud, even under your breath: \"there it is.\" That small bit of distance is enough for now.", "dreamPicture": "The cruel inner voice goes quiet — she has no ammunition left to attack herself with. She talks to herself the way she'd talk to her sister, because she'd never say a negative thing to a friend, and for the first time she feels pretty when she looks in the mirror."}, {"key": "impostor", "name": "The Impostor", "group": "The ones who can never rest", "coreFear": "I fooled everyone, and one day they'll find out the real me isn't enough.", "hookLine": "the one everyone calls capable, quietly waiting to be found out", "oneLineCost": "She works twice as hard to stay bulletproof, the praise slides right off, and she finishes every win a little more tired and a little more sure she's about to be exposed.", "root": "It usually starts somewhere you weren't safe to be good at things. So you learned to wave it off — \"lucky,\" \"right place, right time\" — because taking the credit felt dangerous. Shrinking felt safer. So you got good at shrinking.", "cost": "You work twice as hard as everyone around you, because being good was never going to be enough — you have to be bulletproof so nobody catches you. And the praise never lands. It slides right off. So you finish every win a little more tired and a little less sure, waiting for the day they figure you out.", "strength": "A real fraud never lies awake worrying they're one. The fact that you care this much about being honest, about actually earning your spot — that's not the mark of a fake. That's the mark of the real thing.", "whatsTrue": "Here's what nobody told you. You didn't get lucky. You showed up, you figured it out, you stayed when it was hard and no one was watching. That was you, every single time. Luck doesn't show up on command for ten years straight. You were the real thing the whole way — you're just the last one in the room to see it.", "wayBack": {"shift": "Luck visits once and leaves. What keeps happening, year after year, is you. So stop letting your own work get filed under \"got lucky\" — that was never luck. That was you, and you get to keep it.", "moves": ["Catch yourself the next time you say \"I just got lucky,\" and quietly swap it for \"I earned that\" — and notice how much steadier the second one feels.", "Pick one good thing in your life and trace it back. Who actually showed up and made it happen? It was you. Sit with that until it stops feeling like a stretch.", "Stop bracing for the day you get found out. There's nothing to find. You can put that weight down — it was never real, and you don't have to carry it one more day."]}, "rebuild": "You walk into the room and you take up your full space, because you finally believe you belong in it. The praise lands now — you hear it, you keep it, you let it be true. And the exhausting part is gone. You're not guarding a secret anymore, watching the door, waiting to be caught. There was never a secret. There was only you, doing the thing, the whole time.", "firstStep": "Tonight, write down one thing that went right this week. Then write two words under it: \"I earned that.\" Read it back slow.", "dreamPicture": "She doesn't have to pretend or prove herself anymore — at work, in relationships, anywhere — because she stopped performing and started being honest, and being honest turned out to be liberating. She knows her skills are real, she actually deserves the good things, and she's proud of how far she's come."}, {"key": "steady", "name": "Her Own Woman", "group": "The dream", "coreFear": "none — this is the healthy state", "hookLine": "the steady one — the calm in the room other people lean on", "oneLineCost": "The only thing it's costing her is the credit, because she keeps moving the finish line and won't let the quiet work she's already done count.", "root": "Somewhere along the way you stopped waiting for someone to fix you and started doing it yourself, one quiet day at a time. Most people never catch the moment they turn that corner. You turned it a while ago, and you never once stopped to clap for yourself.", "cost": "The only thing it's costing you is the credit. You keep moving the finish line, so all the steady, unglamorous work you've already done feels like it doesn't count yet. It counts. You just won't let it.", "strength": "You keep the small promises you make to yourself, even when nobody's watching and nobody would ever know if you didn't. Most people only keep their word when someone's holding them to it. You hold yourself to it. That's not a small thing. That's the whole thing.", "whatsTrue": "Listen to me. You are not waiting to be okay anymore — you already are, far more than you'll admit out loud. The reason it doesn't feel like a win is there was no big moment. No crash, nobody riding in to save you. Just you, getting up and showing up for yourself one ordinary Tuesday after another, until the ground under you got solid and you barely noticed. That slow, quiet way you got here is not \"not bad enough to count.\" That's the hardest way there is. That's a woman who learned to be her own steady ground. The work left isn't fixing something broken. It's letting yourself stand on what you already built.", "wayBack": {"shift": "Stop checking whether you're better yet, and start standing on the fact that you already are. You're not climbing out of the hole anymore. You're up top, on solid ground, deciding where you want to go next. That's a whole different question.", "moves": ["You get to stop waiting for permission to feel okay — it's already yours, you don't owe anybody the wait", "You get to keep your own quiet promises and let that be enough, with nobody clapping and nobody needing to know", "You get to enjoy your own steady life out loud, no shrinking, no apology for how good you've gotten at this"]}, "rebuild": "You stop bracing for the next bad thing and start trusting the ground under your own feet. You make yourself a quiet promise and you keep it, and you don't need a single person to see it to know it's real. You're not the woman waiting to be rescued anymore. You're the steady one — the calm in the room, the one other people lean on when their own ground shakes.", "firstStep": "Tonight, say out loud one thing you did for yourself this week — just once — and let it count. No \"but.\" Just let it be true.", "dreamPicture": "She wakes up and, for the first time in a long time, doesn’t dread it. Nothing’s chasing her. She’s comfortable in her own skin, doesn’t need anyone’s say-so, and quietly likes the life she’s built — the calmest she’s ever been."}], "dreamState": {"northStar": "I feel like myself again — lighter, free, and I actually like who I am.", "definition": "“Free” and “myself again” don’t mean she got more confident, or finally fixed herself. They mean she put a weight down. She wakes up and doesn’t dread the morning. Her chest lets go and she can breathe. The mean voice in her head finally goes quiet. It’s not a makeover — it’s coming home. She got back the woman she already was, and missed, and she’s surprised how much she likes her.", "law": "Sell the relief on the other side of letting go — relief and homecoming, subtraction not addition. She drops a load, she doesn't acquire confidence; she comes home to herself, she doesn't become someone new.", "feelingVocab": ["free", "lighter", "myself again", "I can breathe", "at peace", "a weight lifted off my shoulders", "unbothered", "calm", "I actually like myself", "comfortable in my own skin", "relieved", "enough"], "concreteScenes": ["The morning she wakes up and doesn't dread the fact that she woke up — she's actually happy to get up and wants the day.", "The mirror moment: for the first time in her whole life she looks and feels pretty, and she keeps examining her features until it hits her that she can't help but adore herself.", "She stops apologizing — saying \"thank you for your patience\" instead of \"sorry for the delay,\" and dropping \"just\" out of how she talks.", "Bold lipstick or no makeup at all, sweatpants to the grocery store — whatever she wants, with no glam performance and no one to answer to.", "She says no without the guilt, with no more walking on eggshells, and her mood no longer rises and falls on whether someone approves of her.", "She talks to herself the way she'd talk to her sister or her best friend — she'd never say a cruel thing to them, so she stops saying it to herself.", "She takes up space in a room without shrinking, and she's not apologizing for looking older anymore."], "inspiringLines": ["I just want to feel like myself again. I don't even remember who she is anymore.", "I didn't realize how much I missed me.", "I like me. I like who I am. I like the direction I'm going. Why wouldn't I own it?", "My sparkle is back. I am so happy to be getting up in the morning.", "This realization makes me feel like a weight has been lifted off my shoulders. I feel like I can breathe.", "I became a person I could love."]}, "quizScenes": [{"prompt": "You wake up. Before your eyes are even open, what's the first thing that lands on you?", "options": [{"label": "A scoreboard — everyone my age is further along than me.", "maps": "behind"}, {"label": "The list of everyone I need to keep happy today.", "maps": "pleaser"}, {"label": "Everything I didn't get done, already pulling at me.", "maps": "never"}, {"label": "Bracing to keep the mask on for one more day.", "maps": "impostor"}, {"label": "One small thing I'm actually looking forward to.", "maps": "healthy"}]}, {"prompt": "You walk into a room full of people. Where do you end up?", "options": [{"label": "At the edge, on my phone, waiting for someone to pull me in.", "maps": "invisible"}, {"label": "In the middle, performing — making sure everyone's having a good time.", "maps": "pleaser"}, {"label": "There, but rehearsing every word so I don't sound stupid.", "maps": "critic"}, {"label": "Scanning for who's doing better than me. I always find them.", "maps": "behind"}, {"label": "Joining in when I feel like it, quiet when I don't — both are fine.", "maps": "healthy"}]}, {"prompt": "Someone gives you a real compliment. What happens inside you?", "options": [{"label": "I brush it off — “it was nothing,” “I just got lucky.”", "maps": "impostor"}, {"label": "I don't believe it. They're only being nice.", "maps": "critic"}, {"label": "It doesn't stick. Compliments slide right off me.", "maps": "invisible"}, {"label": "I instantly feel like I owe them one back.", "maps": "pleaser"}, {"label": "I let it land. “Thank you” — and I actually take it in.", "maps": "healthy"}]}, {"prompt": "You're scrolling, and everyone's life looks shinier than yours. What's the feeling?", "options": [{"label": "Everyone's further along — settled, promoted, glowing. I'm still here.", "maps": "behind"}, {"label": "I scroll past all of it — none of it feels like it's about me.", "maps": "invisible"}, {"label": "I wouldn't even know what I'd post. I'm not sure who I am anymore.", "maps": "lost"}, {"label": "I see someone's win and my stomach drops — not jealous, just defeated.", "maps": "never"}, {"label": "I notice the pull, put the phone down, and get on with my day.", "maps": "healthy"}]}, {"prompt": "You make a small mistake — nothing major. What's the first thing the voice in your head says?", "options": [{"label": "“I'm such an idiot. I can't get anything right.”", "maps": "critic"}, {"label": "“Now they'll see I've been faking it all along.”", "maps": "impostor"}, {"label": "“This is why I don't try — I always mess it up.”", "maps": "never"}, {"label": "“Oops, that was clumsy.” And I let it slide.", "maps": "healthy"}]}, {"prompt": "You catch yourself in the mirror when you weren't expecting to. What goes through you?", "options": [{"label": "I don't really recognize her anymore.", "maps": "lost"}, {"label": "I used to turn heads. Now I feel like I've gone invisible.", "maps": "invisible"}, {"label": "I scan for everything wrong before I see anything right.", "maps": "critic"}, {"label": "“There I am.” Older maybe, but still me. We're okay.", "maps": "healthy"}]}, {"prompt": "Someone asks, “So what are you into these days?” What happens?", "options": [{"label": "I name something I used to love — nothing I actually do now.", "maps": "lost"}, {"label": "I say whatever I think they'll find interesting.", "maps": "pleaser"}, {"label": "I panic a little — everyone has an answer and I don't.", "maps": "behind"}, {"label": "I light up — there are a few things that are really mine.", "maps": "healthy"}]}, {"prompt": "You’re already running on empty. Then the one person whose approval you need most asks you for a favor. You…", "options": [{"label": "Say yes anyway. Saying no feels like they'd stop liking me.", "maps": "pleaser"}, {"label": "Say yes — honestly, nobody usually asks me for anything.", "maps": "invisible"}, {"label": "Say yes, then beat myself up for doing it badly.", "maps": "critic"}, {"label": "Say yes — I should be able to handle it.", "maps": "never"}, {"label": "Say a kind no — I’ve got nothing left to give right now.", "maps": "healthy"}]}, {"prompt": "You finish something you worked hard on, and it's genuinely good. What's the thought?", "options": [{"label": "“It could've been better.”", "maps": "never"}, {"label": "“I got lucky. Don't get used to it.”", "maps": "impostor"}, {"label": "“I hope someone notices.”", "maps": "invisible"}, {"label": "“I did that.” And I let it land.", "maps": "healthy"}]}, {"prompt": "You finally say no — and you can tell they're disappointed in you. What happens in you?", "options": [{"label": "Guilt, immediately. I want to take it back so they'll like me again.", "maps": "pleaser"}, {"label": "I replay it all night, sure I handled it wrong.", "maps": "critic"}, {"label": "I feel like I failed a test I was supposed to pass.", "maps": "never"}, {"label": "It's uncomfortable — but I let them be disappointed and don't undo it.", "maps": "healthy"}]}, {"prompt": "The day's done and the house goes quiet. What fills the silence?", "options": [{"label": "Every little thing I got wrong today, on a loop.", "maps": "critic"}, {"label": "The list of everything still not done.", "maps": "never"}, {"label": "Honestly, I don't even know what I'd do with the quiet anymore.", "maps": "lost"}, {"label": "Too much time to think about how far behind I am.", "maps": "behind"}, {"label": "I finally breathe — this hour is mine, and that's enough.", "maps": "healthy"}]}, {"prompt": "You think about something you always wanted to do. What stops you?", "options": [{"label": "It's too late for me now — I missed that window.", "maps": "behind"}, {"label": "Why bother — I'd just find a way to fail at it.", "maps": "never"}, {"label": "I'm not even sure what I'd want anymore.", "maps": "lost"}, {"label": "Who am I to think I could pull that off?", "maps": "impostor"}, {"label": "Nothing, really — I've started taking small steps toward it.", "maps": "healthy"}]}, {"prompt": "Someone praises you out loud, in front of other people. What's it like inside?", "options": [{"label": "Uncomfortable — I don't know what to do with being seen.", "maps": "invisible"}, {"label": "Now the bar's higher, and they'll expect more than I can give.", "maps": "impostor"}, {"label": "I'm sure they're just being polite.", "maps": "critic"}, {"label": "I feel like I have to give something back, right now.", "maps": "pleaser"}, {"label": "Warm. I let myself enjoy it for a second.", "maps": "healthy"}]}, {"prompt": "It's a hard day and you're struggling. How do you talk to yourself?", "options": [{"label": "Like a drill sergeant — “get it together, what is wrong with you.”", "maps": "critic"}, {"label": "“Other people manage this. You're just not enough.”", "maps": "never"}, {"label": "“Keep it together before someone notices you're falling apart.”", "maps": "impostor"}, {"label": "I don't, really — it wouldn't matter anyway.", "maps": "invisible"}, {"label": "The same way I'd talk to a friend I love — gentle.", "maps": "healthy"}]}, {"prompt": "Last one. Which of these sounds most like the quiet thing you carry?", "anchor": true, "options": [{"label": "Like I could disappear and it'd be a while before anyone noticed.", "maps": "invisible"}, {"label": "Like I don't really know who I am anymore.", "maps": "lost"}, {"label": "Like nothing I do is ever quite enough.", "maps": "never"}, {"label": "Like I have to earn my place by being useful, or people leave.", "maps": "pleaser"}, {"label": "Like everyone's ahead of me and I'm running out of time.", "maps": "behind"}, {"label": "Like there's a voice in my head that's never once on my side.", "maps": "critic"}, {"label": "Like I'm faking it, and one day they'll all find out.", "maps": "impostor"}, {"label": "Honestly? None of these really fit — I'm in a good place right now.", "maps": "healthy"}]}], "methodology": {"premise": "There are only a handful of quiet ways a woman loses herself, and each one is really a different fear underneath. But every one of them is walking toward the same place — being whole again, on her own two feet.", "howItWorks": "You'll answer a few questions about real moments from your own life — the late-night thought, what you'd do if he walked in right now, the time of day it hits hardest. You just tap what's true. Your answers quietly point to the one thing that's been running the show without you noticing.", "whatWeDont": "This is a mirror, not a label you have to wear for life. It's not a diagnosis and it won't tell you who you are forever — it just shows you what you're carrying right now, so you can finally see it and set it down.", "inHerWords": ["Not 'low self-esteem' — that quiet sense that you're somehow not enough.", "Not 'people-pleasing' — saying yes when every part of you means no.", "Not 'imposter syndrome' — waiting for the day they find out you were faking it.", "Not 'loss of identity' — that feeling of not knowing who you are anymore.", "Not 'negative self-talk' — the voice in your head that's never once on your side."]}, "families": [{"title": "The ones who vanish", "sub": "You went quiet, or you went missing inside your own life.", "keys": ["invisible", "lost"]}, {"title": "The ones who can never rest", "sub": "You hold a bar that keeps moving, or a voice that never lets up.", "keys": ["never", "critic", "impostor"]}, {"title": "The ones measuring against the world", "sub": "You live by everyone else's clock, or buy your place with yes.", "keys": ["behind", "pleaser"]}], "order": ["invisible", "lost", "never", "pleaser", "behind", "critic", "impostor"], "quotes": {"invisible": {"recognition": [{"text": "I really felt like I was invisible", "source": "@maggie_after"}, {"text": "I'm surrounded by ppl but invisible... I don't understand why ppl neglect me so easily", "source": "@quiet.reset"}, {"text": "I always sit in the very edge of the table, watching something on my phone while they all talk to each other and laugh", "source": "@sarahbecomes"}, {"text": "my whole existence just seems so unimportant... if I disappeared, no one would notice", "source": "@the_long_way_home"}, {"text": "I cry almost everyday because all i want is to be seen for once", "source": "@notjustfine_"}, {"text": "I don't feel seen... no one ever asks the questions I silently hope someone will ask", "source": "@mara.rebuilds"}], "dream": [{"text": "I'm allowed to take up space, even when it feels uncomfortable.", "source": "@finding_elise"}, {"text": "I went from being invisible to noticed essentially.", "source": "@oncewasloud"}]}, "lost": {"recognition": [{"text": "I just want my old self back. How do I find her again?", "source": "@tired.but.trying", "age": 30}, {"text": "all i want is some confidence and hope so i can start rebuilding the real me, not some false facade that i put on to seem ok. i want to be real, raw, authentic and happy.", "source": "@claire_unfolds"}, {"text": "I lost my smile and personality", "source": "@softer_now"}, {"text": "I've built my life around perfection, control, people-pleasing, or emotional numbness. Now I know that was never really me and I'm just so lost.", "source": "@becoming.bex"}], "dream": [{"text": "I didn't realize how much I missed me.", "source": "@hannah.exhales", "age": 36}, {"text": "I became a person I could love.", "source": "@a_room_of_my_own"}]}, "never": {"recognition": [{"text": "All positive comments I get, I discard as \"that's not that cool\", \"it was a long time ago\", \"I just got lucky\".", "source": "@late_bloom_lila"}, {"text": "i don't believe people when they say i'm doing a good job…i'm thinking of tiny mistakes i make, worried i'm gonna get fired", "source": "@justme_renee"}, {"text": "no matter how many times I affirm that to myself, I can't make myself believe it", "source": "@slowly_steady"}, {"text": "Always criticism but never correction.", "source": "@paige.again"}], "dream": [{"text": "Nothing. Just the knowledge that I am enough as I am.", "source": "@the_quiet_turn"}, {"text": "Realized that I'm not broken, but actually full and complete within myself once the noise calmed down.", "source": "@unhidden_jo"}]}, "pleaser": {"recognition": [{"text": "I'm a people pleaser who relinquishes my needs for others.", "source": "@megan_mornings"}, {"text": "I would always lose myself completely in these people and relationships, ignoring my boundaries, giving way too much of myself.", "source": "@up_at_2am_again"}, {"text": "You apologize to everyone for everything, even when it's not necessary... to place blame or responsibility on themselves before the other party does.", "source": "@ruth_rebuilt"}, {"text": "I'm always waiting for them to tell me I'm too much, that I'm a burden, that I'm toxic, that they can't handle me", "source": "@coming_back_to_me"}], "dream": [{"text": "Stopped people pleasing. Became selfish. I feel so good. I feel so free. Live your life for yourself.", "source": "@dani_daybreak"}, {"text": "I don't need external validation for my existence anymore.", "source": "@no_longer_fine"}]}, "behind": {"recognition": [{"text": "I feel less than in every aspect and wake up feeling like a legit loser", "source": "@kept.promises"}, {"text": "All of my friends and acquaintances are objectively at a much better place than I. Think: wealthier, more beautiful, healthier... in happy relationships, have become moms", "source": "@anna_out_loud"}, {"text": "I wish that I could disappear from the people I know until I'm better", "source": "@small_brave_things"}, {"text": "the people I went to high school with have all secured their life", "source": "@no_more_eggshells"}], "dream": [{"text": "I wouldn't go back to being 25 if you paid me... You have so much further to go, and so much security and contentment waiting for you to get there. Keep going!", "source": "@vivian.lets.go", "age": 35}, {"text": "I'm better today than I was yesterday, and I'm going to be even better tomorrow", "source": "@quiet_comeback"}]}, "critic": {"recognition": [{"text": "I've been my own biggest enemy", "source": "@jules_in_progress"}, {"text": "feeling completely defeated by myself", "source": "@her_own_ground"}, {"text": "that I'll never amount to anything", "source": "@almost_spring"}, {"text": "wow, was I mean to myself. I wouldn't talk to anyone else that way, so why was it ok to talk to myself like that?", "source": "@tessa_takes_space"}], "dream": [{"text": "I like to think of myself as my best friend. I'm the only one who will always be there for me. I would never say a negative thing to my friend and therefore won't say a negative thing to myself.", "source": "@beth_breathes"}, {"text": "For me it was realising that everything I wanted to hear and feel from someone else, was everything I needed to tell and feel for myself.", "source": "@found_my_voice_finally"}]}, "impostor": {"recognition": [{"text": "this company seems so \"out of my league\" but I know it's just the imposter syndrome talking", "source": "@kira_unshrinks"}, {"text": "I feel like in the moment I forget everything that's normal to say and my words come out like mush", "source": "@minenow_maddy"}, {"text": "None of that worked for me — it just felt like a mask", "source": "@soft_landing_sam"}, {"text": "Wanting to impress them, making my performance about them thinking I'm good rather than for myself.", "source": "@leah.lately"}], "dream": [{"text": "I don't have to prove myself anymore", "source": "@enough_as_i_am", "age": 42}, {"text": "I deserve to be here and (2) they hired me because they think I...", "source": "@wildquiet_wren"}]}, "steady": {"recognition": [], "dream": [{"text": "I just want to feel like myself again.", "source": "@the_steady_one_now", "age": 25}, {"text": "I like me. I like who I am. I like the direction I'm going. Why wouldn't I own it?", "source": "@nora_no_apology"}, {"text": "I feel lighter in every way. Mental, emotionally, physically.", "source": "@gwen.gets.it"}, {"text": "One of the unexpected perks of reaching 40 has been the new IDGAF attitude. It almost happened overnight... I feel confident. I know what I'm doing. And ain't nobody messing with me.", "source": "@marlowe_mends", "age": 40}, {"text": "I'm finally a happy, confident woman, who knows herself better than ever.", "source": "@quietly_brave_b", "age": 45}]}}}</script>
+
+<script src="stories-data.js"></script>
+<div id="app"></div>
+<script>
+var C = JSON.parse(document.getElementById('corpus').textContent);
+var ORDER = C.order;
+var TEAR = "<div class=\"tear\"><svg viewBox=\"0 0 1200 30\" preserveAspectRatio=\"none\"><path d=\"M0,30 L0,14 L50,9 L100,18 L150,8 L200,16 L250,10 L300,20 L350,7 L400,17 L450,11 L500,6 L550,18 L600,10 L650,19 L700,8 L750,15 L800,11 L850,19 L900,7 L950,16 L1000,11 L1050,20 L1100,9 L1150,17 L1200,12 L1200,30 Z\" fill=\"#FFFDF8\"/></svg></div>";
+var P = {}; C.profiles.forEach(function(p){ P[p.key]=p; });
+var LBL = {invisible:'Invisible',lost:'Lost',never:'Never-Enough',pleaser:'Pleaser',behind:'Behind',critic:'Critic',impostor:'Impostor',steady:'Steady'};
+/* family color-coding: which CSS family var each profile belongs to */
+var FAM = {
+  invisible:{fc:'--fam-vanish',bg:'--bg-vanish'}, lost:{fc:'--fam-vanish',bg:'--bg-vanish'},
+  never:{fc:'--fam-rest',bg:'--bg-rest'}, critic:{fc:'--fam-rest',bg:'--bg-rest'}, impostor:{fc:'--fam-rest',bg:'--bg-rest'},
+  pleaser:{fc:'--fam-measure',bg:'--bg-measure'}, behind:{fc:'--fam-measure',bg:'--bg-measure'},
+  steady:{fc:'--fam-dream',bg:'--bg-dream'}
+};
+var person = {name:'',open1:'',open2:'',email:''};
+
+/* ===== ENGINE (validated) — VERBATIM, do not change ===== */
+function score(answers){
+  var tally={}; ORDER.forEach(function(k){tally[k]=0;});
+  var healthy=0;
+  for(var i=0;i<answers.length;i++){
+    var sc=C.quizScenes[i]; var w=(sc&&sc.anchor)?2:1; var m=answers[i];
+    if(m==='healthy') healthy+=w; else if(tally.hasOwnProperty(m)) tally[m]+=w;
+  }
+  var woundTotal=0; ORDER.forEach(function(k){woundTotal+=tally[k];});
+  var ranked=ORDER.map(function(k){return {k:k,v:tally[k]};});
+  ranked.sort(function(a,b){return b.v-a.v || ORDER.indexOf(a.k)-ORDER.indexOf(b.k);});
+  var maxWound=ranked[0].v;
+  var rebuilding=(healthy>=woundTotal)&&(maxWound<=4);
+  var primary,secondary;
+  if(rebuilding){ primary='steady'; secondary=(maxWound>0)?ranked[0].k:null; }
+  else { primary=ranked[0].k; secondary=(ranked[1].v>0)?ranked[1].k:null; }
+  return {primary:primary,secondary:secondary,tally:tally,healthy:healthy,woundTotal:woundTotal,rebuilding:rebuilding};
+}
+window.CP={score:score,C:C,ORDER:ORDER};
+
+/* ===== backend wiring + scoring extras (quiz upgrade) ===== */
+var API=''; var RESULT_ID=null; var LOADED=null;
+function api(p,o){return fetch(API+p,o||{});}
+/* a profile's max reachable weighted points — for an independent % read (primary can be 82%, not always 100%) */
+var MAXPOSS=(function(){var m={};ORDER.forEach(function(k){m[k]=0;});
+  C.quizScenes.forEach(function(s){var w=s.anchor?2:1;var hit={};
+    s.options.forEach(function(o){if(o.maps!=='healthy')hit[o.maps]=true;});
+    Object.keys(hit).forEach(function(k){if(m[k]!=null)m[k]+=w;});});
+  return m;})();
+function pctOf(k,tally){var mx=MAXPOSS[k]||1;return Math.max(0,Math.min(100,Math.round(((tally[k]||0)/mx)*100)));}
+function rankedKeys(tally){return ORDER.slice().sort(function(a,b){return (tally[b]||0)-(tally[a]||0)||ORDER.indexOf(a)-ORDER.indexOf(b);});}
+function storyFor(key){return (window.STORIES||{})[key]||null;}
+function currentRes(){
+  if(LOADED){var L=LOADED;return {primary:L.primary,secondary:L.secondary||null,tertiary:L.tertiary||null,tally:L.profileTallies||{},rebuilding:!!L.rebuilding};}
+  return score(answers);
+}
+
+/* top-3 "blend" cards (image + name + % + short) */
+function profileMixCard(k,tally,roleLabel){
+  var p=P[k]; if(!p) return '';
+  return '<div class="mixcard card reveal" style="'+famVars(k)+'"><div class="in">'+
+    '<img class="mixpix" src="site-assets/illustrations/'+k+'.jpg" alt="">'+
+    '<div class="mixbody"><span class="eyebrow">'+roleLabel+' · '+pctOf(k,tally)+'%</span>'+
+    '<h3>'+esc(p.name)+'</h3><p>'+esc(p.cost)+'</p>'+
+    '<p class="mixshift">'+esc(p.wayBack.shift)+'</p></div></div></div>';
+}
+/* featured transformation story for her primary profile */
+function renderFeaturedStory(key){
+  var s=storyFor(key); if(!s) return '';
+  var ps=(s.story||'').split(/\n{2,}/).map(function(x){return '<p>'+esc(x.trim())+'</p>';}).join('');
+  var who=s.pov==='zane'?'Zane’s own story':'A woman Zane sat with · name changed';
+  return '<div class="featstory reveal" style="'+famVars(key)+'">'+
+    '<span class="eyebrow">'+who+'</span>'+
+    '<h2 class="fs-title">'+esc(s.title)+'</h2>'+
+    '<p class="fs-recog">“'+esc(s.recognition)+'”</p>'+
+    '<div class="fs-img"><img src="site-assets/illustrations/'+key+'.jpg" alt=""></div>'+
+    '<div class="fs-body">'+ps+'</div>'+
+    '<div class="fs-lesson"><span class="eyebrow">What it taught her</span><p>'+esc(s.lesson)+'</p></div>'+
+    '<div class="fs-trans"><span class="eyebrow">Who she is now</span><p>'+esc(s.transformation)+'</p></div>'+
+    '<p class="fs-cta">'+esc(s.cta)+'</p></div>';
+}
+function renderChatWidget(){
+  return '<div class="chatwrap reveal"><div class="chatcard">'+
+    '<div class="chathead"><span class="eyebrow">Talk to Zane about this</span><span class="left" id="chat-left"></span></div>'+
+    '<div class="chatthread" id="chat-thread"></div>'+
+    '<form class="chatform" id="chat-form"><textarea id="chat-input" rows="1" placeholder="Tell him what landed… one line is enough."></textarea><button class="btn" type="submit">Send</button></form>'+
+    '</div></div>';
+}
+
+/* ===== demo: render a clean sample result for ONE profile (its own page via ?profile=) ===== */
+var DEMO_BLEND={invisible:['lost','critic'],lost:['invisible','pleaser'],never:['critic','impostor'],pleaser:['invisible','critic'],behind:['never','lost'],critic:['never','impostor'],impostor:['critic','never'],steady:[null,null]};
+function renderDemoProfile(key){
+  var b=DEMO_BLEND[key]||[null,null]; var sec=(key==='steady')?null:b[0]; var ter=(key==='steady')?null:b[1];
+  var tally={}; if(key!=='steady'){tally[key]=9; if(sec)tally[sec]=6; if(ter)tally[ter]=3;}
+  LOADED={primary:key,secondary:sec,tertiary:ter,profileTallies:tally,rebuilding:(key==='steady'),person:{name:'',open1:'',open2:'',email:''},demo:true};
+  RESULT_ID=null; stage='result'; paint(); window.scrollTo(0,0);
+}
+
+/* ===== after the result paints: unique note, share link, live chat ===== */
+function afterResult(){
+  if(LOADED&&LOADED.id){ RESULT_ID=LOADED.id; }
+  if(LOADED&&LOADED.note){ fillNote(LOADED.note); } else { fetchNote(); }
+  if(RESULT_ID){ showShare(RESULT_ID); }
+  wireResultChat();
+}
+function fillNote(text){
+  var slot=document.getElementById('zane-note-slot'); if(!slot||!text) return;
+  var nm=person.name?esc(person.name):'';
+  var paras=String(text).split(/\n{2,}/).map(function(x){return '<p>'+esc(x.trim())+'</p>';}).join('');
+  slot.innerHTML='<div class="notewrap reveal"><div class="note"><div class="nh">A note from Zane'+(nm?' · for you, '+nm:'')+'</div>'+paras+
+    '<div class="sig-mark"><img src="site-assets/zane-signature.png" alt="Zane — signed"></div></div></div>';
+}
+function fetchNote(){
+  var res=currentRes(); var p=P[res.primary]; if(!p) return;
+  api('/api/note',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+    resultId:RESULT_ID||null, name:person.name,
+    primary:{name:p.name,coreFear:p.coreFear,whatsTrue:p.whatsTrue,firstStep:p.firstStep},
+    secondary:res.secondary?{name:(P[res.secondary]||{}).name||''}:null,
+    open1:person.open1, open2:person.open2})})
+    .then(function(r){return r.json();}).then(function(j){ if(j&&j.note) fillNote(j.note); }).catch(function(){});
+}
+function showShare(id){
+  var slot=document.getElementById('sharebox-slot'); if(!slot||slot.dataset.done) return; slot.dataset.done='1';
+  var url=(location.origin&&location.origin.indexOf('http')===0?location.origin:'https://scarredtruth.com')+'/r/'+id;
+  slot.innerHTML='<div class="sharebox reveal"><span class="eyebrow">Your result is saved for 30 days</span>'+
+    '<div class="row"><input id="shareurl" readonly value="'+esc(url)+'"><button class="btn" type="button" onclick="copyShare()">Copy link</button></div>'+
+    '<p class="hint">Keep this link to come back to your result anytime — or paste it to Zane so he has the full picture of where you are.</p></div>';
+}
+function copyShare(){var i=document.getElementById('shareurl'); if(!i) return; i.select();
+  try{navigator.clipboard.writeText(i.value);}catch(_){ try{document.execCommand('copy');}catch(e){} } }
+
+function wireResultChat(){
+  var thread=document.getElementById('chat-thread'), form=document.getElementById('chat-form'),
+      input=document.getElementById('chat-input'), left=document.getElementById('chat-left');
+  if(!thread||!form) return;
+  var res=currentRes(); var p=P[res.primary]||P.steady;
+  var intro="You just read all that. What landed hardest — or what did I get wrong? Tell me in a line.";
+  var hist=[{role:'assistant',content:intro}];
+  var CAP=50; var sent=(LOADED&&LOADED.chatCount)||0; var busy=false, walled=false;
+  function add(role,text){var m=document.createElement('div');m.className='cmsg '+(role==='her'?'her':'zane');
+    setParas(m,text); thread.appendChild(m); thread.scrollTop=thread.scrollHeight; return m;}
+  function setParas(node,text){node.innerHTML=''; String(text).split(/\n{2,}/).forEach(function(t){if(!t.trim())return;var q=document.createElement('p');q.textContent=t.trim();node.appendChild(q);});}
+  function updateLeft(){ if(left) left.textContent=Math.max(0,CAP-sent)+' free messages left'; }
+  function wall(){ walled=true; form.style.display='none';
+    var w=document.createElement('div'); w.className='chatwall';
+    w.innerHTML='<div class="row"><a class="btn" href="index-light.html">Get the free 7-Day Reset</a><a class="btn ghost" href="/zane/index-light.html">Join the waitlist</a></div>';
+    form.parentNode.appendChild(w); }
+  add('zane',intro); updateLeft();
+  form.addEventListener('submit',function(e){e.preventDefault(); if(busy||walled) return;
+    var t=input.value.trim(); if(!t) return;
+    add('her',t); hist.push({role:'user',content:t}); input.value=''; sent++; updateLeft(); busy=true;
+    var bubble=add('zane','…'); var acc='';
+    api('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-16),resultId:RESULT_ID||(LOADED&&LOADED.id)||null})})
+      .then(function(r){ if(!r.body) throw 0; var rd=r.body.getReader(),dec=new TextDecoder(),buf='';
+        function pump(){return rd.read().then(function(c){ if(c.done){busy=false;return;}
+          buf+=dec.decode(c.value,{stream:true}); var parts=buf.split('\n\n'); buf=parts.pop();
+          parts.forEach(function(b){var ln=b.split('\n').find(function(l){return l.indexOf('data:')===0;}); if(!ln)return; var pay=ln.slice(5).trim(); if(!pay)return;
+            try{var o=JSON.parse(pay);
+              if(o.delta){acc+=o.delta; setParas(bubble,acc); thread.scrollTop=thread.scrollHeight;}
+              if(o.done){ if(acc.trim()) hist.push({role:'assistant',content:acc.trim()}); busy=false; if(o.wall) wall(); }
+            }catch(_){}});
+          return pump();});}
+        return pump();
+      }).catch(function(){ if(!acc.trim()){bubble.textContent='Something dropped the thread. Say that again — I’m still here.';} busy=false; });
+  });
+}
+
+/* ===== helpers ===== */
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function cite(q){var a=q.age?(' · '+q.age):'';return '<span class="c">— '+esc(q.source)+a+'</span>';}
+function getQuotes(key,kind){var o=C.quotes[key]||{};return (o[kind]||[]);}
+function illImg(key){return '<img src="site-assets/illustrations/'+key+'.jpg" alt="">';}
+function famVars(key){var f=FAM[key]||FAM.steady;return '--fc:var('+f.fc+');--cardbg:var('+f.bg+')';}
+var REVEAL;
+function wireReveal(){
+  if(REVEAL) REVEAL.disconnect();
+  REVEAL=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');REVEAL.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal,.seam').forEach(function(el){REVEAL.observe(el);});
+}
+function topbar(){
+  return '<div class="topbar"><div class="row">'+
+    '<a class="brandmark" href="index-light.html"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a>'+
+    '<div class="nav">'+
+      '<a class="lnk" href="index-light.html">Home</a>'+
+      '<a class="lnk" href="#" onclick="go(\'entry\');return false;">The&nbsp;Quiz</a>'+
+      '<a class="lnk" href="zane-story-light.html">His&nbsp;Story</a>'+
+      '<a class="lnk" href="all-profiles.html">All&nbsp;Profiles</a>'+
+      '<a class="navcta" href="/zane/index-light.html">Talk to Zane</a>'+
+    '</div>'+
+  '</div></div>';
+}
+function seam(){return '<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>';}
+
+/* ===== ENTRY ===== */
+function renderEntry(){
+  var m=C.methodology, ds=C.dreamState, steady=P['steady'];
+
+  /* family title per key (for compact tags + legend) + family-grouped order */
+  var FAMTITLE={}; var eightOrder=[];
+  C.families.forEach(function(f){ f.keys.forEach(function(k){ FAMTITLE[k]=f.title; eightOrder.push(k); }); });
+  FAMTITLE['steady']='The dream'; if(eightOrder.indexOf('steady')<0) eightOrder.push('steady');
+  var legend=C.families.map(function(f){var fc=FAM[f.keys[0]].fc;return '<span class="lg"><span class="d" style="background:var('+fc+')"></span>'+esc(f.title)+'</span>';}).join('')+
+    '<span class="lg"><span class="d" style="background:var(--fam-dream)"></span>The dream</span>';
+  /* ALL 8 hearts in ONE unified compact grid (family-adjacent order) */
+  var eightCards=eightOrder.map(function(k){
+    var p=P[k]; if(!p) return '';
+    return '<article class="card tcard sm" style="'+famVars(k)+'">'+
+      '<div class="tpix">'+illImg(k)+'</div>'+
+      '<div class="tbody"><div class="tfam"><span class="dot"></span>'+esc(FAMTITLE[k]||'')+'</div>'+
+      '<h3>'+esc(p.name)+'</h3><p class="hk">'+esc(p.hookLine)+'</p></div></article>';
+  }).join('');
+
+  /* methodology "in her words" rows */
+  var inher=m.inHerWords.map(function(x){var pt=x.split('—');return '<div class="row">'+(pt.length>1?'<b>'+esc(pt[0].trim())+'</b> — '+esc(pt.slice(1).join('—').trim()):esc(x))+'</div>';}).join('');
+
+  /* dream vocab + scenes */
+  var vocab=ds.feelingVocab.slice(0,10).map(function(v){return '<span>'+esc(v)+'</span>';}).join('');
+  var scenes=(ds.concreteScenes||[]).slice(0,3).map(function(s){return '<div class="sc">'+esc(s)+'</div>';}).join('');
+
+  /* testimonials — real on-frame quotes, three families */
+  var tq=['invisible','never','behind'].map(function(k){
+    var q=getQuotes(k,'recognition')[0]; if(!q) return '';
+    return '<div class="card qcard"><span class="qmark">“</span><p>'+esc(q.text)+'</p><span class="src">— '+esc(q.source)+(q.age?(' · '+q.age):'')+'</span></div>';
+  }).join('');
+
+  return ''+
+  topbar()+
+
+  /* HERO — header + the 'all profiles' group image + stats, fused into one unit */
+  '<header class="qhero" id="top">'+
+    '<div class="qhero-head reveal">'+
+      '<h1>Eight ways a strong woman <span class="ink">loses herself</span>.<br>Which is yours?</h1>'+
+    '</div>'+
+    '<div class="qhero-bg reveal">'+
+      '<img src="site-assets/illustrations/group.jpg" alt="Eight women — each losing herself a different way, around the one who found her way back">'+
+      '<span class="grain"></span>'+
+      '<span class="nameplate" style="left:8.5%;top:80%"><span class="tick"></span><span class="nm">The Invisible One</span></span>'+
+      '<span class="nameplate" style="left:21%;top:89%"><span class="tick"></span><span class="nm">The Impostor</span></span>'+
+      '<span class="nameplate" style="left:31.5%;top:80%"><span class="tick"></span><span class="nm">Behind Everyone</span></span>'+
+      '<span class="nameplate dream" style="left:50%;top:80%"><span class="tick"></span><span class="nm">Her Own Woman</span></span>'+
+      '<span class="nameplate" style="left:66%;top:80%"><span class="tick"></span><span class="nm">The Pleaser</span></span>'+
+      '<span class="nameplate" style="left:79%;top:89%"><span class="tick"></span><span class="nm">Never Enough</span></span>'+
+      '<span class="nameplate" style="left:88.5%;top:80%"><span class="tick"></span><span class="nm">Lost Herself</span></span>'+
+      '<span class="nameplate" style="left:94%;top:89%"><span class="tick"></span><span class="nm">Self-Critic</span></span>'+
+      '<div class="qhero-names reveal">'+
+        '<span>Invisible</span><span>Impostor</span><span>Behind Everyone</span><span class="dream">Her Own Woman</span><span>Pleaser</span><span>Never Enough</span><span>Lost Herself</span><span>Self-Critic</span>'+
+      '</div>'+
+    '</div>'+
+    '<div class="qhero-overlay reveal">'+
+      '<div class="qhero-cta">'+
+        '<button class="btn" onclick="go(\'quiz\')">See which one is you</button>'+
+        '<button class="btn ghost" onclick="scrollToTypes()">Meet all eight</button>'+
+      '</div>'+
+      '<div class="qhero-stats">'+
+        '<div class="qstat"><b>2 min</b><span>no email to see your result</span></div>'+
+        '<div class="qstat"><b>8</b><span>profiles — one is yours</span></div>'+
+        '<div class="qstat"><b>1M+</b><span>find these words / month</span></div>'+
+        '<div class="qstat"><b>Free</b><span>+ the first step back</span></div>'+
+      '</div>'+
+    '</div>'+
+  '</header>'+
+
+  /* METHODOLOGY */
+  '<section><div class="wrap"><div class="read reveal" style="text-align:center;margin:0 auto">'+
+    '<span class="eyebrow">How this read works</span>'+
+    '<h2>The one thing quietly running the show</h2>'+
+    '<p class="lead" style="margin:0 0 8px">'+esc(m.premise)+'</p>'+
+    '<p class="mnote">'+esc(m.howItWorks)+'</p>'+
+    '<p class="mnote it">'+esc(m.whatWeDont)+'</p>'+
+    '</div>'+
+    '<div class="inher reveal">'+inher+'</div>'+
+  '</div></section>'+
+  TEAR+
+
+  /* THE EIGHT */
+  '<section id="types" class="band"><div class="wrap">'+
+    '<div class="sec-head reveal"><span class="eyebrow">The eight</span>'+
+    '<h2>See if one of these was written about you</h2>'+
+    '<p class="dim">Eight quiet ways a woman loses herself — and the one they’re all walking toward. Most women know theirs the second they read it.</p></div>'+
+    '<div class="famlegend reveal">'+legend+'</div>'+
+    '<div class="eight reveal">'+eightCards+'</div>'+
+  '</div></section>'+
+
+  seam()+
+
+  /* DREAM cine + detail */
+  '<section class="cine">'+
+    '<div class="cband"><img src="site-assets/illustrations/steady.jpg" alt="A woman standing free, the weight set down">'+
+      '<div class="q reveal"><span class="sm">Where everyone’s headed</span><h2>“'+esc(ds.northStar)+'”</h2></div>'+
+    '</div>'+
+  '</section>'+
+
+  '<section><div class="wrap" style="text-align:center">'+
+    '<div class="read reveal" style="margin:0 auto"><p class="lead" style="color:var(--ink-2)">'+esc(ds.definition)+'</p></div>'+
+    '<div class="vocab reveal">'+vocab+'</div>'+
+    '<div class="scenes reveal">'+scenes+'</div>'+
+  '</div></section>'+
+  TEAR+
+
+  /* TESTIMONIALS */
+  '<section class="band"><div class="wrap">'+
+    '<div class="sec-head reveal"><span class="eyebrow">In her own words</span>'+
+    '<h2>You’re not the only one who feels it.</h2></div>'+
+    '<div class="quotes reveal">'+tq+'</div>'+
+  '</div></section>'+
+
+  seam()+
+
+  /* UNIFIED FOOTER */
+  '<footer class="bigfoot">'+
+    '<div class="ffmedia"><img src="site-assets/illustrations/journey.jpg" alt="A woman’s journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>'+
+    '<div class="ffinner reveal">'+
+      '<span class="eyebrow">Where this goes</span>'+
+      '<h2>You weren’t meant to carry this <em>forever</em>.</h2>'+
+      '<p class="fflead">See the one weight you’re really carrying — then let’s set it down, together.</p>'+
+      '<button class="btn" onclick="go(\'quiz\')">Find what you’re still carrying</button>'+
+      '<p class="brand">Scarred Truth · Zane</p>'+
+      '<p class="fine">© Scarred Truth · You can forgive, and still keep your peace.</p>'+
+    '</div>'+
+  '</footer>';
+}
+
+/* ===== QUIZ ===== */
+var answers=[]; var qi=0;
+function renderQuiz(){
+  var sc=C.quizScenes[qi];
+  var dots=C.quizScenes.map(function(_,i){var cls=i<qi?'dot done':(i===qi?'dot now':'dot');return '<div class="'+cls+'"></div>';}).join('');
+  var opts=sc.options.map(function(o,idx){return '<button class="opt" onclick="pick('+idx+')">'+esc(o.label)+'</button>';}).join('');
+  var back=qi>0?'<button class="qback" onclick="qback()">← back</button>':'';
+  return topbar()+'<div class="quizstage"><div class="wrap">'+
+    '<div class="progress">'+dots+'</div>'+
+    '<div class="qcount eyebrow" style="display:block;text-align:center">Question '+(qi+1)+' of '+C.quizScenes.length+'</div>'+
+    '<div class="qprompt">'+esc(sc.prompt)+'</div>'+
+    '<div class="opts">'+opts+'</div>'+back+
+  '</div></div>';
+}
+function pick(idx){answers[qi]=C.quizScenes[qi].options[idx].maps;
+  if(qi<C.quizScenes.length-1){qi++;paint();window.scrollTo(0,0);}else{go('personal');}}
+function qback(){if(qi>0){qi--;paint();window.scrollTo(0,0);}}
+
+/* ===== PERSONAL ===== */
+function renderPersonal(){
+  return topbar()+'<div class="personal"><div class="wrap"><div class="read reveal">'+
+    '<span class="eyebrow">One last thing — the important one</span>'+
+    '<h2>This is where it stops being generic.</h2>'+
+    '<p class="why">The quiz found your pattern. But I can only speak to <em>your</em> life if you tell me about it — the more you put here, the more what comes next is about you, not a type.</p>'+
+    '<label class="fieldlbl">Where does this show up most right now — and what’s it costing you?</label>'+
+    '<textarea id="open1" placeholder="Tell me like you’d tell a friend. A few real sentences."></textarea>'+
+    '<label class="fieldlbl">And what would lighter look like for you?</label>'+
+    '<textarea id="open2" placeholder="Even one line. What changes when this lifts?"></textarea>'+
+    '<label class="fieldlbl">What should I call you?</label>'+
+    '<input type="text" id="pname" placeholder="First name">'+
+    '<label class="fieldlbl">Want your result + Zane’s note emailed to you? (optional)</label>'+
+    '<input type="email" id="pemail" placeholder="you@email.com — optional, never spammed">'+
+    '<div style="margin-top:24px"><button class="btn" onclick="savePersonal()">Show me my result →</button></div>'+
+    '<p class="meta">No email needed to see your result. The women who write a few honest lines get the most out of what comes next.</p>'+
+  '</div></div></div>';
+}
+function savePersonal(){
+  var g=function(id){var e=document.getElementById(id);return e?e.value:'';};
+  person.open1=g('open1');person.open2=g('open2');person.name=g('pname');person.email=g('pemail');
+  LOADED=null; RESULT_ID=null;
+  go('result'); // render immediately; the saved id + share link arrive a beat later
+  var res=score(answers); var ranked=rankedKeys(res.tally); var p=P[res.primary];
+  var top3={}; ranked.slice(0,3).forEach(function(k){ if(res.tally[k]>0) top3[k]=pctOf(k,res.tally); });
+  var payload={answers:answers, primary:res.primary,
+    secondary:(res.primary!=='steady'&&res.secondary)?res.secondary:null,
+    tertiary:(res.primary!=='steady'&&ranked[2]&&res.tally[ranked[2]]>0&&ranked[2]!==res.secondary)?ranked[2]:null,
+    primaryName:p?p.name:'', coreFear:p?p.coreFear:'',
+    pcts:top3, profileTallies:res.tally, rebuilding:res.rebuilding,
+    person:{name:person.name,open1:person.open1,open2:person.open2,email:person.email}};
+  api('/api/result',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(function(r){return r.json();})
+    .then(function(j){ if(j&&j.id){ RESULT_ID=j.id; try{history.replaceState(null,'','/r/'+j.id);}catch(_){ } showShare(j.id); } })
+    .catch(function(){});
+}
+
+/* ===== ZANE NOTE (deterministic, offline, faith-aware, responds to her words) ===== */
+function firstSentence(s){
+  s=(s||'').trim(); if(!s) return '';
+  var m=s.match(/^[^.!?\n]+[.!?]?/);
+  var out=m?m[0].trim():s;
+  if(out.length>180) out=out.slice(0,177).replace(/\s+\S*$/,'')+'…';
+  return out;
+}
+function trimEcho(s){
+  /* strip a trailing run of bare punctuation so we never echo raw "." or "…" */
+  return (s||'').replace(/[\s.!?,;:…—-]+$/,'').trim();
+}
+function mentionsFaith(s){return /\b(god|jesus|christ|faith|pray(?:er|ing|ed)?|church|lord|bible|scripture|believer|blessed|grace)\b/i.test(s||'');}
+function zaneNote(p){
+  var nm=person.name?esc(trimEcho(person.name)):'';
+  var o1raw=trimEcho(person.open1);
+  var o2raw=trimEcho(firstSentence(person.open2));
+  var o1=o1raw?esc(o1raw):'';
+  var o2=o2raw?esc(o2raw):'';
+  var faith=mentionsFaith(person.open1)||mentionsFaith(person.open2);
+
+  var body='';
+  body+='<p>'+(nm?nm+', here':'Here')+'’s what I want you to know.</p>';
+  if(o1){
+    body+='<p class="yourwords">You told me: “'+o1+'”</p>';
+    body+='<p>I read that twice. That’s not a small thing to carry, and you’ve been carrying it quietly — which is exactly why nobody handed you the words for it before now.</p>';
+  }
+  body+='<p>'+esc(p.whatsTrue)+'</p>';
+  if(o2){
+    body+='<p>You said lighter would feel like “'+o2+'.” That’s not a far-off someday. That’s the door this opens — and it’s closer than it feels from where you’re standing right now.</p>';
+  }
+  if(faith){
+    body+='<p>And you don’t have to do it on your own strength. You were already held before you ever found these words.</p>';
+  }
+  body+='<p>Here’s where I’d start'+(nm?', '+nm:'')+': '+esc(p.firstStep)+'</p>';
+
+  return '<div class="notewrap reveal"><div class="note"><div class="nh">A note from Zane · for you'+(nm?', '+nm:'')+'</div>'+body+
+    '<div class="sig-mark"><img src="site-assets/zane-signature.png" alt="Zane — signed"></div></div></div>';
+}
+
+/* ===== SCORE BARS — TOP 3 only, light ===== */
+function renderScores(res){
+  var maxV=Math.max(1,Math.max.apply(null,ORDER.map(function(k){return res.tally[k];})));
+  var ranked=ORDER.slice().sort(function(a,b){return res.tally[b]-res.tally[a]||ORDER.indexOf(a)-ORDER.indexOf(b);});
+  var top3=ranked.slice(0,3);
+  var lab=['strongest','also you','a little'];
+  var bars=top3.map(function(k,i){
+    var w=(res.tally[k]/maxV);
+    var fc=(k===res.primary&&res.primary!=='steady')?('var('+FAM[k].fc+')'):'var(--fam-rest)';
+    if(i===1) fc='var(--fam-measure)'; if(i===2) fc='var(--dim)';
+    if(k===res.primary&&res.primary!=='steady') fc='var('+FAM[k].fc+')';
+    return '<div class="bar" style="--w:'+w.toFixed(2)+';--barfc:'+fc+'">'+
+      '<div class="lab"><span>'+esc(LBL[k])+'</span><span>'+(res.tally[k]>0?pctOf(k,res.tally)+'%':'—')+'</span></div>'+
+      '<div class="track"><div class="fill"></div></div></div>';
+  }).join('');
+  var cap=(res.primary==='steady')?'Barely a flicker on any of them — and that’s exactly the point.':'Your top three. The tallest is the one quietly running the show.';
+  return '<div class="bars">'+bars+'</div><p class="dim scorecap">'+cap+'</p>';
+}
+
+/* ===== RESULT ===== */
+function blk(label,body,mark){var m=mark?'<img class="bgmark" src="site-assets/marks/'+mark+'.png" alt="" aria-hidden="true">':'';return '<div class="block reveal">'+m+'<span class="eyebrow">'+label+'</span>'+body+'</div>';}
+function renderResult(){
+  var res=currentRes(); var p=P[res.primary]||P.steady; var fam=FAM[res.primary];
+  var isSteady=(res.primary==='steady');
+  var ranked=rankedKeys(res.tally);
+  var secKey=(!isSteady)?(res.secondary||(ranked[1]&&res.tally[ranked[1]]>0&&ranked[1]!==res.primary?ranked[1]:null)):null;
+  var terKey=(!isSteady)?((LOADED&&LOADED.tertiary)||(ranked[2]&&res.tally[ranked[2]]>0&&ranked[2]!==res.primary&&ranked[2]!==secKey?ranked[2]:null)):null;
+  var famTitle=isSteady?'The dream':p.group;
+  var lead=isSteady
+    ? 'You’re not waiting to be okay anymore. You already are — you just don’t say it out loud.'
+    : '“'+esc(p.coreFear)+'”';
+  var matchHtml=isSteady?'':'<div class="matchpct">'+pctOf(res.primary,res.tally)+'% <span>this is you</span></div>';
+  var blendHtml=(secKey||terKey)?('<div class="blend reveal"><span class="eyebrow">Your blend — the top three</span>'+
+    profileMixCard(res.primary,res.tally,'Strongest')+
+    (secKey?profileMixCard(secKey,res.tally,'Also strong in you'):'')+
+    (terKey?profileMixCard(terKey,res.tally,'A thread of this too'):'')+'</div>'):'';
+  var moves=(p.wayBack.moves||[]).map(function(mv){return '<li>'+esc(mv)+'</li>';}).join('');
+  var echo=getQuotes(res.primary,'recognition').slice(0,2);
+  if(!echo.length) echo=getQuotes(res.primary,'dream').slice(0,2);
+  var echoHtml=echo.map(function(q){return '<p class="eq">“'+esc(q.text)+'”'+cite(q)+'</p>';}).join('');
+  var ds=C.dreamState; var scenes=(ds.concreteScenes||[]).slice(0,3).map(function(s){return '<li>'+esc(s)+'</li>';}).join('');
+
+  return topbar()+'<div class="rwrap"><div class="wrap">'+
+    /* portrait + bars + Zane note */
+    '<div class="card result reveal" style="'+famVars(res.primary)+'">'+
+      '<div class="rpix">'+illImg(res.primary)+'<span class="rfam">'+esc(famTitle)+'</span></div>'+
+      '<div class="rbody">'+
+        '<span class="eyebrow">Your result</span>'+
+        '<h2>'+esc(p.name)+'</h2>'+
+        '<p class="sub">'+esc(p.hookLine)+'</p>'+matchHtml+
+        '<p class="lead-fear">'+lead+'</p>'+
+        renderScores(res)+
+      '</div>'+
+    '</div>'+
+    '</div>'+
+    blendHtml+
+    '<div id="sharebox-slot"></div>'+
+
+    /* who you are */
+    blk('Where it comes from','<p>'+esc(p.root)+'</p>','stone')+
+    blk('What it’s costing you','<p>'+esc(p.cost)+'</p>','carry')+
+    '<div class="strength-card card reveal"><div class="in"><img class="bgmark" src="site-assets/marks/heart.png" alt="" aria-hidden="true"><span class="eyebrow">The strength hiding underneath</span><p>'+esc(p.strength)+'</p></div></div>'+
+
+    '<div id="zane-note-slot">'+zaneNote(p)+'</div>'+
+    renderChatWidget()+
+
+    seam()+
+
+    /* the way out */
+    blk('The way back','<p>'+esc(p.wayBack.shift)+'</p><ul class="checklist">'+moves+'</ul>','release')+
+    blk('Who you become on the other side','<p>'+esc(p.rebuild)+'</p>'+(p.dreamPicture?'<p class="dreampull">'+esc(p.dreamPicture)+'</p>':''),'wing')+
+    blk('Picture the day it lifts','<ul class="checklist">'+scenes+'</ul>')+
+
+    seam()+
+
+    /* THE JOURNEY — where you are now -> where this goes, joined by a signature arrow */
+    '<div class="block reveal" style="padding-top:12px"><div class="journeyhead"><span class="eyebrow" style="color:var(--gold-deep)">The journey from here</span><h2 style="font-size:clamp(24px,3.4vw,34px)">Where you are now — and where it goes.</h2></div>'+
+      '<div class="journey">'+
+        '<figure>'+illImg(res.primary)+'<figcaption>Where you are now</figcaption></figure>'+
+        '<div class="jarrow"><svg viewBox="0 0 52 30"><path d="M3 15 C19 9 33 21 49 15 M49 15 L42 10 M49 15 L42 21"/></svg><span>becomes</span></div>'+
+        '<figure><img src="site-assets/illustrations/steady.jpg" alt="A woman standing free, the weight set down, on her own throne"><figcaption>Where this goes</figcaption></figure>'+
+      '</div>'+
+    '</div>'+
+
+    '<div class="block reveal"><span class="eyebrow" style="color:var(--gold-deep)">A real woman who stood where you are</span>'+renderFeaturedStory(res.primary)+'</div>'+
+
+    '<div class="echo reveal"><span class="eyebrow" style="color:var(--gold-deep);display:block;margin-bottom:14px">Women who’ve stood where you are</span>'+echoHtml+
+      '<div class="resultband"><img src="site-assets/illustrations/group.jpg" alt="Women, each carrying a different weight, together at dawn"><p class="rcap" style="margin-top:10px">You’re in good company.</p></div></div>'+
+
+    '<div class="firststep reveal"><div class="card cta-card"><img class="bgmark" src="site-assets/marks/peak.png" alt="" aria-hidden="true"><span class="eyebrow">Your first step — today</span><h3>Start this small</h3><p class="step">'+esc(p.firstStep)+'</p>'+
+      '<a class="btn" href="index-light.html">Send me the free 7-Day Reset →</a></div></div>'+
+  '</div>'+
+
+    /* UNIFIED FOOTER — result variant (they took the quiz → soft cross-sell to Zane) */
+    '<footer class="bigfoot">'+
+      '<div class="ffmedia"><img src="site-assets/illustrations/journey.jpg" alt="A woman’s journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>'+
+      '<div class="ffinner reveal">'+
+        '<span class="eyebrow">You don’t walk it alone</span>'+
+        '<h2>Zane’s here whenever the weight gets <em>loud</em>.</h2>'+
+        '<p class="fflead">Day or night, in his own words — tell him what you’re carrying. He already knows where you’ve been.</p>'+
+        '<a class="btn" href="/zane/index-light.html">Talk to Zane, anytime</a>'+
+        '<div class="rfoot"><button class="btn ghost" onclick="restart()">Take it again</button><button class="btn ghost" onclick="go(\'entry\')">Meet the other types</button></div>'+
+        '<p class="brand">Scarred Truth · Zane</p>'+
+        '<p class="fine">© Scarred Truth · You can set it down, and still be exactly who you are.</p>'+
+      '</div>'+
+    '</footer>';
+}
+function restart(){answers=[];qi=0;person={name:'',open1:'',open2:''};go('quiz');}
+
+/* ===== ROUTER ===== */
+var stage='entry';
+function paint(){
+  var app=document.getElementById('app');
+  if(stage==='entry') app.innerHTML=renderEntry();
+  else if(stage==='quiz') app.innerHTML=renderQuiz();
+  else if(stage==='personal') app.innerHTML=renderPersonal();
+  else app.innerHTML=renderResult();
+  wireReveal();
+  if(stage==='result') afterResult();
+}
+function go(s){stage=s; if(s==='quiz'&&qi>=C.quizScenes.length){qi=0;answers=[];} paint(); window.scrollTo(0,0);}
+function scrollToTypes(){var t=document.getElementById('types'); if(t) t.scrollIntoView({behavior:'smooth'});}
+(function init(){
+  var prof=(location.search.match(/[?&]profile=([a-z]+)/)||[])[1];
+  if(prof && P[prof]){ renderDemoProfile(prof); return; }
+  var pm=location.pathname.match(/\/r\/([A-Za-z0-9_-]{4,})/);
+  var qm=location.search.match(/[?&]r=([A-Za-z0-9_-]{4,})/);
+  var id=(pm&&pm[1])||(qm&&qm[1]);
+  if(id){ stage='result';
+    api('/api/result/'+id).then(function(r){return r.ok?r.json():null;}).then(function(rec){
+      if(rec){ LOADED=rec; RESULT_ID=rec.id; var pr=rec.person||{}; person={name:pr.name||'',open1:pr.open1||'',open2:pr.open2||'',email:pr.email||''}; }
+      paint();
+    }).catch(function(){ paint(); });
+  } else { paint(); }
+})();
+</script>
+</body>
+</html>

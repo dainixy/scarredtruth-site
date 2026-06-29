@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The eight profiles — Scarred Truth</title>
+<meta name="description" content="The eight quiet ways a strong woman loses herself — read each full result on its own page.">
+<link rel="stylesheet" href="site-assets/scarred-light.css">
+<style>
+  .aphero{text-align:center;max-width:780px;margin:0 auto;padding:clamp(34px,6vh,72px) 22px 8px}
+  .aphero h1{font-size:clamp(30px,5vw,52px);line-height:1.07;margin:.2em 0}
+  .aphero .ink{color:var(--gold-deep);font-style:italic;font-weight:560}
+  .aphero p{color:var(--ink-2);margin:.5em auto 0;max-width:60ch}
+  .aphero .links{margin:18px 0 0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .apgrid{max-width:1040px;margin:30px auto 0;padding:0 18px 80px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(max-width:760px){.apgrid{grid-template-columns:1fr}}
+  .apcard{display:flex;flex-direction:column;background:var(--paper-2);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:transform .14s,box-shadow .18s,border-color .15s}
+  .apcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift,0 18px 40px rgba(120,80,40,.16));border-color:var(--ember)}
+  .apcard .pix{aspect-ratio:16/10;overflow:hidden}
+  .apcard .pix img{width:100%;height:100%;object-fit:cover;display:block}
+  .apcard .b{padding:20px 22px 22px}
+  .apcard .b .eyebrow{color:var(--gold-deep)}
+  .apcard h2{font-size:22px;margin:6px 0 6px;color:var(--ink)}
+  .apcard p{margin:0 0 14px;color:var(--ink-2);font-size:15.5px;line-height:1.5}
+  .apcard .go{font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ember)}
+  .apcard.dream{border-color:var(--gold)}
+  .apcard.dream .eyebrow{color:var(--ember)}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="row"><a class="brandmark" href="index-light.html"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a><div class="nav"><a class="lnk" href="index-light.html">Home</a><a class="lnk" href="scarred-truth-quiz-light.html">The&nbsp;Quiz</a><a class="lnk" href="zane-story-light.html">His&nbsp;Story</a><a class="lnk" href="all-profiles.html">All&nbsp;Profiles</a><a class="navcta" href="../zane-ai/public/index-light.html">Talk to Zane</a></div></div></div>
+<header class="aphero">
+  <span class="eyebrow">The eight · read each on its own page</span>
+  <h1>Eight ways a strong woman <span class="ink">loses herself</span>.</h1>
+  <p>Tap any profile to open its full result page on its own — the reading, the percentages, the note from Zane, and the true story of a woman who came back. Two are Zane’s own.</p>
+  <div class="links">
+    <a class="btn" href="scarred-truth-quiz-light.html">Take the quiz</a>
+    <a class="btn ghost" href="scarred-truth-stories-light.html">Just the 8 stories</a>
+  </div>
+</header>
+<main class="apgrid" id="apgrid"></main>
+<footer style="text-align:center;padding:24px 22px 50px;color:var(--dim);font:500 12px/1.6 var(--mono)">Scarred Truth · Zane · names changed to protect real people</footer>
+<script>
+var PROFILES = [
+  {k:'invisible', n:'The Invisible One',       h:'The one nobody notices — including, lately, herself.'},
+  {k:'lost',      n:'The One Who Lost Herself', h:'In every photo, and somehow not in the room.'},
+  {k:'never',     n:'The Never-Enough One',     h:'Hits the goal and feels nothing — the bar already moved.'},
+  {k:'pleaser',   n:'The Pleaser',              h:'Gives everyone everything, quietly bracing to be left anyway.'},
+  {k:'behind',    n:'The Behind-Everyone One',  h:'Too busy checking how far behind she is to enjoy her own life.'},
+  {k:'critic',    n:'The Self-Critic',          h:'Carrying a bully in her head who never takes a day off.'},
+  {k:'impostor',  n:'The Impostor',             h:'Everyone calls her capable; she’s waiting to be found out.'},
+  {k:'steady',    n:'Her Own Woman',            h:'The dream — the calm in the room other people lean on.'}
+];
+document.getElementById('apgrid').innerHTML = PROFILES.map(function(p){
+  return '<a class="apcard'+(p.k==='steady'?' dream':'')+'" href="scarred-truth-quiz-light.html?profile='+p.k+'">'+
+    '<div class="pix"><img src="site-assets/illustrations/'+p.k+'.jpg" alt=""></div>'+
+    '<div class="b"><span class="eyebrow">'+(p.k==='steady'?'The dream':'Profile')+'</span>'+
+    '<h2>'+p.n+'</h2><p>'+p.h+'</p><span class="go">Read her full result →</span></div></a>';
+}).join('');
+</script>
+</body>
+</html>

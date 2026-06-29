@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scarred Truth — Zane | You're not broken, you're being rebuilt</title>
+<meta name="description" content="Scar tissue grows back stronger than skin that was never cut. Take the free quiz and find the one thing still keeping your heart stuck.">
+
+<link rel="icon" type="image/svg+xml" href="site-assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="site-assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="site-assets/apple-touch-icon.png">
+<meta name="theme-color" content="#F7F2E9">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Scarred Truth — You're not broken, you're being rebuilt.">
+<meta property="og:description" content="Take the free quiz and find the one thing still keeping your heart stuck.">
+<meta property="og:image" content="https://scarredtruth.com/site-assets/og-image.png">
+<meta property="og:url" content="https://scarredtruth.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://scarredtruth.com/site-assets/og-image.png">
+
+<!--
+  SCARRED TRUTH — index-light.html (2026-06-26). LIGHT "Daybreak" reskin of
+  index-v4.html. VISUAL reskin only — every line of copy is verbatim from v4.
+  Uses the shared light system (site-assets/scarred-light.css). Dark cinematic
+  photo breaks are replaced with warm illustration bands (hero.jpg / steady.jpg)
+  keeping the exact quote copy. Origin + Ask-Zane-AI use the illustrated
+  portrait zane.png. Dark index-v4.html is left untouched.
+-->
+<link rel="stylesheet" href="site-assets/scarred-light.css">
+<style>
+  /* page-specific bits not covered by the shared light system */
+
+  /* HERO — full-bleed immersive illustration + floating glass card */
+  .hero{position:relative;min-height:clamp(660px,92vh,940px);display:flex;align-items:center;padding:0;overflow:hidden;background:var(--paper)}
+  .heropic{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:78% 42%;display:block;transform-origin:64% 50%;animation:heroDrift 32s ease-in-out infinite alternate}
+  @keyframes heroDrift{from{transform:scale(1.05)}to{transform:scale(1.12) translate(-1.4%,-0.6%)}}
+  .hero-scrim{position:absolute;inset:0;pointer-events:none;background:
+    linear-gradient(98deg,rgba(247,242,233,.95) 0%,rgba(247,242,233,.88) 23%,rgba(247,242,233,.5) 45%,rgba(247,242,233,.12) 65%,rgba(247,242,233,0) 84%),
+    linear-gradient(180deg,rgba(247,242,233,0) 55%,rgba(247,242,233,.5) 82%,rgba(247,242,233,.95) 96%,var(--paper) 100%)}
+  .hero .wrap{position:relative;z-index:2;width:100%}
+  .hero-card{max-width:560px;background:rgba(255,253,248,.62);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);border:1px solid rgba(255,255,255,.65);border-radius:24px;box-shadow:0 34px 80px rgba(120,80,40,.24),inset 0 1px 0 rgba(255,255,255,.6);padding:46px 44px}
+  @media(max-width:600px){.hero-card{padding:30px 24px;background:rgba(255,253,248,.85)}}
+  .hero h1 .ink{color:var(--gold-deep);font-style:italic;font-weight:560}
+  .hero .lead{margin:20px 0 16px}
+  .hero-cap{position:absolute;right:18px;bottom:18px;z-index:2;font:500 9px/1.4 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#5e4029;background:rgba(255,253,248,.5);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);padding:8px 13px;border-radius:30px;border:1px solid rgba(255,255,255,.5)}
+  @media(max-width:760px){.hero-cap{display:none}}
+  @media(prefers-reduced-motion:reduce){.heropic{animation:none;transform:scale(1.05)}}
+  .bullets{list-style:none;padding:0;margin:0 0 26px}
+  .bullets li{position:relative;padding-left:28px;margin:0 0 11px;color:var(--ink);font-size:17px;line-height:1.5}
+  .bullets li::before{content:"";position:absolute;left:0;top:9px;width:13px;height:2px;background:var(--gold)}
+  .bullets li::after{content:"";position:absolute;left:5px;top:3px;width:2px;height:13px;background:var(--ember)}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .stats{display:flex;gap:28px;margin-top:30px;flex-wrap:wrap}
+  .stat{position:relative;padding-right:26px}
+  .stat:not(:last-child)::after{content:"";position:absolute;right:0;top:4px;bottom:4px;width:1px;background:var(--line)}
+  .stat b{display:block;font-family:var(--display);font-style:italic;font-weight:560;font-size:30px;line-height:1;color:var(--gold-deep)}
+  .stat span{display:block;font:500 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-top:8px}
+
+  /* ORIGIN — illustrated portrait + confession */
+  .origin-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:center}
+  @media(max-width:860px){.origin-grid{grid-template-columns:1fr;gap:30px}}
+  .portraitframe{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lift);background:var(--paper)}
+  .portraitframe img{width:100%;height:auto;display:block}
+  .portraitframe .tag{position:absolute;z-index:2;top:14px;left:14px;font:600 9px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(42,35,29,.5);padding:6px 10px;border-radius:20px}
+  .confess::first-letter{font-family:var(--display);font-size:62px;line-height:.8;float:left;padding:6px 12px 0 0;color:var(--gold-deep);font-weight:640}
+  .pull{font-family:var(--display);font-style:italic;font-size:24px;line-height:1.4;color:var(--ink);border-top:1px solid var(--line);padding-top:20px;margin-top:6px}
+
+  /* RECOGNITION block lead-in line */
+  .lead-line .sm{font:500 12px/1.5 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--ember);margin-bottom:14px;display:inline-block}
+  .lead-line h2{max-width:18ch;margin:0 auto}
+  .recog .quietpull{border-left:2px solid var(--oxblood);padding-left:20px;color:var(--ink);font-style:italic;font-size:21px;line-height:1.55;margin:8px 0 0}
+
+  /* CINEMATIC bands (light illustration + quote) */
+  .cine{position:relative;overflow:hidden}
+  .cine .cband{position:relative;width:100%;height:clamp(360px,52vw,560px);overflow:hidden;background:var(--paper)}
+  .cine .cband img{width:100%;height:100%;object-fit:cover;object-position:58% 42%}
+  .cine .cband::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,242,233,.04),rgba(247,242,233,.18) 38%,rgba(247,242,233,.82) 72%,rgba(247,242,233,.98) 94%,var(--paper))}
+  .cine .q{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center;padding:0 24px 46px}
+  .cine .q::before{content:"";position:absolute;left:0;right:0;bottom:0;height:80%;pointer-events:none;background:linear-gradient(180deg,transparent 0%,rgba(247,242,233,.45) 40%,rgba(247,242,233,.86) 66%,rgba(247,242,233,.97) 86%,var(--paper) 100%)}
+  .cine .q>*{position:relative;z-index:1}
+  .cine .q .sm{font:500 12px/1.5 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:16px;text-shadow:0 1px 10px rgba(247,242,233,.95)}
+  .cine .q h2{font-size:clamp(30px,5vw,52px);max-width:20ch;color:var(--ink);text-shadow:0 2px 16px rgba(247,242,233,1),0 1px 3px rgba(247,242,233,1)}
+  .cine .q h2 em{color:var(--gold-deep);font-style:italic}
+  .cine .q .sub{color:var(--ink);font-size:clamp(16px,2vw,19px);max-width:560px;margin:16px auto 0;text-shadow:0 1px 3px rgba(247,242,233,1),0 0 14px rgba(247,242,233,1)}
+
+  /* REFRAME (centered quote on cream) */
+  .reframe-band{text-align:center;padding:90px 0}
+  .reframe-band .sm{font:500 12px/1.5 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--ember);margin-bottom:16px;display:inline-block}
+  .reframe-band h2{font-size:clamp(30px,5vw,52px);max-width:22ch;margin:0 auto}
+  .reframe-band h2 em{color:var(--gold-deep);font-style:italic}
+
+  /* JOURNEY MAP (before → after path) */
+  .jmap{position:relative;margin-top:38px}
+  .jrow{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;position:relative}
+  @media(max-width:760px){.jrow{grid-template-columns:1fr;gap:30px}}
+  .jconn{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+  @media(max-width:760px){.jconn{display:none}}
+  .jcard{position:relative;z-index:2;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+  .jcard .jimg{display:block;width:100%;height:auto}
+  .jcard .jbody{padding:24px 26px 28px}
+  .jcard .jlabel{font:500 10.5px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ember);margin-bottom:11px}
+  .jcard h3{font-size:25px;color:var(--ink);margin:0 0 8px}
+  .jcard p{margin:0;font-size:16px;line-height:1.55;color:var(--ink-2)}
+  .jmap-cta{text-align:center;margin-top:42px}
+  .jmap-labels{display:flex;justify-content:space-between;gap:16px;margin-top:14px;padding:0 6px}
+  .jmap-labels .jlabel{font:500 10.5px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ember)}
+  @media(max-width:560px){.jmap-labels{flex-direction:column;gap:6px;text-align:center}}
+
+  /* THE PLAN — numbered path of 5 steps with a dotted connector */
+  .plan{list-style:none;max-width:740px;margin:44px auto 0;padding:0;position:relative}
+  .plan::before{content:"";position:absolute;left:26px;top:26px;bottom:30px;width:2px;background:repeating-linear-gradient(var(--gold) 0 6px,transparent 6px 15px);opacity:.55}
+  @media(max-width:560px){.plan::before{left:20px}}
+  .plan li{position:relative;display:grid;grid-template-columns:54px 1fr;gap:24px;align-items:start;padding:0 0 30px}
+  @media(max-width:560px){.plan li{grid-template-columns:40px 1fr;gap:16px;padding-bottom:24px}}
+  .plan li:last-child{padding-bottom:0}
+  .plan .num{position:relative;z-index:1;width:54px;height:54px;border-radius:50%;background:var(--paper);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-style:italic;font-weight:560;font-size:23px;color:var(--gold-deep);box-shadow:0 6px 18px rgba(120,80,40,.12)}
+  @media(max-width:560px){.plan .num{width:40px;height:40px;font-size:18px}}
+  .plan .scnt{padding-top:5px}
+  .plan h3{font-size:23px;color:var(--ink);margin:0 0 6px}
+  .plan h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--gold);transition:color .2s}
+  .plan h3 a:hover{color:var(--gold-deep)}
+  .plan .soon{font:600 8.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);border:1px solid var(--gold);border-radius:20px;padding:4px 9px;margin-left:9px;vertical-align:middle;white-space:nowrap}
+  .plan p{margin:0;font-size:16px;line-height:1.55;color:var(--ink-2)}
+  /* staggered reveal for the steps */
+  .plan.reveal li{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .plan.reveal.in li{opacity:1;transform:none}
+  .plan.reveal.in li:nth-child(1){transition-delay:.04s}
+  .plan.reveal.in li:nth-child(2){transition-delay:.12s}
+  .plan.reveal.in li:nth-child(3){transition-delay:.20s}
+  .plan.reveal.in li:nth-child(4){transition-delay:.28s}
+  .plan.reveal.in li:nth-child(5){transition-delay:.36s}
+  @media(prefers-reduced-motion:reduce){.plan.reveal li{opacity:1;transform:none;transition:none}}
+
+  /* QUIZ INVITE */
+  .invite{padding:48px 40px;text-align:center}
+  @media(max-width:560px){.invite{padding:34px 24px}}
+
+  /* GOODIES */
+  .goodies{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:760px){.goodies{grid-template-columns:1fr}}
+  .gcard{position:relative;padding:36px 32px}
+  .gcard.feature{border:1px solid var(--gold)}
+  .gcard .glabel{font:500 11px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ember);margin-bottom:12px}
+  .gcard h3{font-size:26px;color:var(--ink);margin-bottom:10px}
+  .gcard p{font-size:16px;margin-bottom:24px}
+  .gbadge{position:absolute;top:18px;right:18px;font:600 9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);border:1px solid var(--gold);border-radius:20px;padding:6px 11px}
+
+  /* DAILY — scrolling ribbon framing the "you're being rebuilt" + Daily practice card */
+  .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+  .marquee .track{display:inline-flex;align-items:center;white-space:nowrap;animation:scroll 34s linear infinite;will-change:transform}
+  .marquee.rev .track{animation-direction:reverse}
+  .marquee .track span{font-family:var(--display);font-style:italic;font-size:28px;color:var(--gold-deep);opacity:.55;padding:0 22px}
+  .marquee .track .star{color:var(--ember);opacity:.85;font-style:normal;font-size:16px}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.marquee .track{animation:none}}
+  .rebuild-combo{display:grid;grid-template-columns:.9fr 1.1fr;align-items:stretch;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lift);margin:26px 0}
+  @media(max-width:860px){.rebuild-combo{grid-template-columns:1fr}}
+  .rebuild-combo .rc-media{position:relative;min-height:380px}
+  .rebuild-combo .rc-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 24%}
+  @media(max-width:860px){.rebuild-combo .rc-media{min-height:300px}}
+  .rebuild-combo .rc-tag{position:absolute;left:18px;bottom:16px;z-index:2;font:600 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--ember);border-radius:3px;padding:7px 11px}
+  .rebuild-combo .rc-body{padding:46px 44px}
+  @media(max-width:560px){.rebuild-combo .rc-body{padding:34px 26px}}
+  .rebuild-combo .rc-body h2{margin:6px 0 14px}
+  .rebuild-combo .rc-body .lead-line{margin:0 0 4px;color:var(--ink-2)}
+  .feat{list-style:none;padding:0;margin:18px 0 24px}
+  .feat li{font:500 13px/1.5 var(--body);color:var(--ink-2);padding-left:22px;position:relative;margin-bottom:8px}
+  .feat li::before{content:"";position:absolute;left:0;top:9px;width:12px;height:2px;background:var(--gold)}
+
+  /* ASK ZANE AI */
+  .ai{display:grid;grid-template-columns:1fr .82fr;gap:44px;align-items:center;padding:46px 42px}
+  @media(max-width:860px){.ai{grid-template-columns:1fr;gap:30px}}@media(max-width:560px){.ai{padding:32px 24px}}
+  .ai h2{font-size:clamp(28px,4.6vw,46px)} .ai h2 .q{color:var(--ember);font-style:italic}
+  .ai-points{list-style:none;padding:0;margin:22px 0 26px;display:flex;gap:26px;flex-wrap:wrap}
+  .ai-points li{font:500 12px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+  .ai-points li b{display:block;color:var(--gold-deep);font-family:var(--display);font-style:italic;font-size:19px;text-transform:none;letter-spacing:0;margin-bottom:3px}
+  .ai-phonewrap{position:relative;padding-top:34px}
+  .ai-portrait{display:block;width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:50% 22%;border:4px solid var(--paper-2);box-shadow:var(--shadow);margin:0 auto -28px;position:relative;z-index:3}
+  .ai .phone .h{margin-top:18px}
+
+  /* PROOF */
+  .proof{position:relative;text-align:center;overflow:hidden;border-radius:var(--radius);border:1px solid var(--gold);background:linear-gradient(180deg,#FFFDF8,#FBF4E8)}
+  .proof .inner{position:relative;z-index:2;padding:64px 24px}
+  .proof .big{font-family:var(--display);font-style:italic;font-size:clamp(30px,5vw,46px);color:var(--gold-deep);line-height:1.08}
+  .proof .lbl{font:500 12px/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);margin-top:14px}
+
+  /* popup */
+  .pop{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(42,35,29,.55);backdrop-filter:blur(5px);padding:24px}
+  .pop.show{display:flex;animation:fadein .3s ease}@keyframes fadein{from{opacity:0}to{opacity:1}}
+  .popcard{position:relative;max-width:720px;width:100%;border:1px solid var(--gold);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 40px 90px rgba(120,80,40,.3);background:var(--paper-2)}
+  @media(max-width:620px){.popcard{grid-template-columns:1fr}.popimg{display:none}}
+  .popimg{position:relative;overflow:hidden;min-height:360px;background:var(--paper)}
+  .popimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+  .poptext{padding:38px 34px}
+  .popcard .x{position:absolute;top:12px;right:14px;cursor:pointer;color:var(--ink);font:400 22px/1 var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:3px;width:34px;height:34px;z-index:3}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar"><div class="row"><a class="brandmark" href="index-light.html"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a><div class="nav"><a class="lnk" href="index-light.html">Home</a><a class="lnk" href="scarred-truth-quiz-light.html">The&nbsp;Quiz</a><a class="lnk" href="zane-story-light.html">His&nbsp;Story</a><a class="lnk" href="all-profiles.html">All&nbsp;Profiles</a><a class="navcta" href="../zane-ai/public/index-light.html">Talk to Zane</a></div></div></div>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <img class="heropic" src="site-assets/illustrations/hero-wide.jpg" alt="A woman in hiking gear climbing a mountain at dawn, carrying an elegant man on her back who scrolls his phone, indifferent to her effort">
+  <div class="hero-scrim"></div>
+  <div class="wrap">
+    <div class="hero-card reveal">
+      <span class="eyebrow">Scarred Truth · Zane</span>
+      <h1>Scar tissue grows back <span class="ink">stronger</span> than skin that was never cut.</h1>
+      <p class="lead it" style="margin:20px 0 16px">That's not a metaphor. That's you.</p>
+      <ul class="bullets">
+        <li>Forgive — without reconciling, or letting them back in.</li>
+        <li>Put down the weight that was never yours — even the voice that says you're not enough.</li>
+        <li>Rebuild stronger than the version that broke.</li>
+      </ul>
+      <div class="cta-row">
+        <a class="btn" href="scarred-truth-quiz-light.html">See what you're carrying</a>
+        <a class="btn ghost" href="#origin">Watch my story</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>1M+</b><span>find these words / month</span></div>
+        <div class="stat"><b>Eight</b><span>hearts — one is yours</span></div>
+        <div class="stat"><b>Free</b><span>quiz + 7-day reset</span></div>
+      </div>
+    </div>
+  </div>
+  <span class="hero-cap">The weight you were never meant to carry</span>
+</header>
+
+<div class="tear"><svg viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,30 L0,14 L50,9 L100,18 L150,8 L200,16 L250,10 L300,20 L350,7 L400,17 L450,11 L500,6 L550,18 L600,10 L650,19 L700,8 L750,15 L800,11 L850,19 L900,7 L950,16 L1000,11 L1050,20 L1100,9 L1150,17 L1200,12 L1200,30 Z" fill="#FFFDF8"/></svg></div>
+
+<!-- ORIGIN -->
+<section id="origin" class="band">
+  <div class="wrap">
+    <div class="origin-grid">
+      <div class="portraitframe reveal">
+        <img src="site-assets/illustrations/zane.png" alt="Zane">
+        <span class="tag">Why listen to me</span>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Why listen to me</span>
+        <h2>I didn't read about this. I lived it.</h2>
+        <p class="confess">When she left in 2019, I kept her last voicemail. I'd play it at 2am to prove
+          I'd earned the right to be angry. Then the world locked down — and it was just me, an empty
+          apartment, and her voice on a phone.</p>
+        <p>Alone in that long quiet, it finally landed: I wasn't keeping it as evidence. I was waiting for
+          an apology that was never coming. The silence was the answer. So I deleted it — not because she
+          earned it, but because I was done paying every morning for a crime I didn't commit.</p>
+        <p>That's the part nobody tells you: <em>you can set it down and still keep the door locked.</em></p>
+        <p class="pull">Forgiveness was never a gift I gave her. It was the weight I finally set down for myself.</p>
+        <div class="sig-mark reveal"><img src="site-assets/zane-signature.png" alt="Zane — signed"></div>
+        <a class="btn ghost" href="zane-story-light.html" style="margin-top:4px">Read the whole story →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- THE PATH YOU'LL WALK — placed right after his story -->
+<section>
+  <div class="wrap">
+    <div class="read reveal" style="text-align:center">
+      <span class="eyebrow">The path you'll walk</span>
+      <h2>Here's the plan — and the order to take it.</h2>
+      <p class="dim" style="max-width:52ch;margin:14px auto 0">No guessing what comes next. Five steps, walked at your pace — never pushed.</p>
+    </div>
+    <ol class="plan reveal">
+      <li>
+        <span class="num">1</span>
+        <div class="scnt">
+          <h3><a href="zane-story-light.html">Read my story</a></h3>
+          <p>See why I get it. I didn't learn this from a book — I lived every word of it.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <div class="scnt">
+          <h3><a href="scarred-truth-quiz-light.html">Take the quiz</a></h3>
+          <p>Find the heart you've been carrying it with — and the one quiet thing that's keeping you stuck.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <div class="scnt">
+          <h3><a href="../zane-ai/public/index-light.html">Talk to Zane, anytime</a></h3>
+          <p>Tell me what's sitting on you at 2am. I'll help you see what's really going on underneath it.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">4</span>
+        <div class="scnt">
+          <h3>Walk the free 7-Day Reset <span class="soon">Free</span></h3>
+          <p>Seven mornings. One short word, one scripture, one honest question — and we set the weight down together.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">5</span>
+        <div class="scnt">
+          <h3>Keep building — the 31-Day Rebuild</h3>
+          <p>Find your feet, rebuild your worth, walk forward. On your terms, never pushed.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- DAILY REBUILD — the daily practice, right under the plan -->
+<section>
+  <div class="wrap">
+    <div class="marquee reveal"><div class="track">
+      <span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span>
+      <span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span>
+    </div></div>
+    <div class="rebuild-combo reveal">
+      <div class="rc-media">
+        <img src="site-assets/illustrations/steady.jpg" alt="A woman sitting tall and free on her own throne at dawn">
+        <span class="rc-tag">The Daily Rebuild · free</span>
+      </div>
+      <div class="rc-body">
+        <span class="eyebrow">From the dark toward the door</span>
+        <h2>You're not broken.<br>You're being <em>rebuilt</em>.</h2>
+        <p class="lead-line">One short piece from me every day — the text version of the videos. No fluff, no jargon.</p>
+        <ul class="feat">
+          <li>The day's video</li><li>The same words, in text</li><li>One small thing to do today</li>
+        </ul>
+        <a class="btn" href="#" data-substack style="margin-bottom:22px">Subscribe on Substack</a>
+        <div class="acc">
+          <details open><summary>Set it down — not because they earned it</summary>
+            <div class="a">Why putting the weight down is repossession, not surrender — and the door can stay locked the whole time.</div></details>
+          <details><summary>What forgiveness is NOT</summary>
+            <div class="a">It's not forgetting. Not letting them back in. Not telling them they were right. Here's what it actually is.</div></details>
+          <details><summary>The bill you keep paying</summary>
+            <div class="a">They did the damage once. You've been re-billing yourself every morning since. Today you stop the autopay.</div></details>
+        </div>
+      </div>
+    </div>
+    <div class="marquee rev reveal"><div class="track">
+      <span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span>
+      <span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span>
+    </div></div>
+  </div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- RECOGNITION — 2am window lead -->
+<section>
+  <div class="wrap">
+    <div class="read reveal lead-line" style="text-align:center">
+      <img class="markq" src="site-assets/marks/carry.png" alt="" aria-hidden="true">
+      <span class="sm">2am · the house finally quiet</span>
+      <h2>You've carried it so long, you think it's just who you are now.</h2>
+    </div>
+  </div>
+</section>
+<section class="recog" style="padding-top:0">
+  <div class="wrap"><div class="read reveal">
+    <p>The thing someone did to you years ago. The love you gave that never came back the same.
+      The loss nobody else still talks about. Or maybe no one did anything at all — you just kept
+      shrinking, putting everyone first, never quite feeling like enough. You learned to function
+      around it. You kept going. You told yourself other people have it worse.</p>
+    <p>But at 2am, when the house is quiet, the weight is still there — and you're tired of pretending it isn't.</p>
+    <p class="quietpull">Most people think the only way to put it down is to excuse what happened, let the person back in, or just keep trying harder to be enough.
+      So they never put it down at all.</p>
+  </div></div>
+</section>
+
+<!-- CINEMATIC: THE WEIGHT YOU CLIMB WITH -->
+<div class="tear"><svg viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,0 L0,16 L60,9 L120,20 L180,8 L240,17 L300,10 L360,21 L420,7 L480,17 L540,11 L600,6 L660,19 L720,10 L780,20 L840,8 L900,16 L960,11 L1020,21 L1080,9 L1140,17 L1200,12 L1200,0 Z" fill="#FFFDF8"/></svg></div>
+<section class="cine">
+  <div class="cband">
+    <img src="site-assets/illustrations/hero.jpg" alt="A woman climbing a mountain at sunset, carrying a grown man on her back" style="object-position:50% 0">
+    <div class="q reveal">
+      <span class="sm">What the weight really costs</span>
+      <h2>You can climb carrying all of it.<br>You just can't climb <em>free</em>.</h2>
+      <p class="sub">The weight doesn't sit still — it grows. Every year you carry it up the hill, the next step gets heavier, until one day you start calling the exhaustion your life.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BIG REFRAME — set it down -->
+<section class="reframe-band reveal">
+  <div class="wrap">
+    <img class="markq" src="site-assets/marks/release.png" alt="" aria-hidden="true">
+    <span class="sm">The one thing to remember</span>
+    <h2>It was never a gift you gave them.<br>It's <em>the weight you set down for yourself.</em></h2>
+  </div>
+</section>
+
+<!-- (the "you're being rebuilt" beat now leads the Daily Rebuild section lower down) -->
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- THE WHOLE IDEA, IN ONE PICTURE — annotated insight diagram -->
+<section>
+  <div class="wrap">
+    <div class="read reveal" style="text-align:center">
+      <span class="eyebrow">The whole idea, in one picture</span>
+      <h2>Three moves — and where they meet.</h2>
+    </div>
+    <div class="diagram reveal" role="img" aria-label="Carry it, set it down, rebuild — and where the three meet, you're free">
+      <img class="dimg" src="site-assets/marks/venn.png" alt="">
+      <span class="scribble" style="top:-4px;left:50%;transform:translateX(-50%)">what you carry</span>
+      <svg class="arrow" width="30" height="52" viewBox="0 0 30 52" style="top:26px;left:50%;transform:translateX(-50%)"><path d="M15 2 C9 18 22 32 15 48 M15 48 L8 39 M15 48 L22 39"/></svg>
+      <span class="scribble" style="top:44%;left:4px">set it down</span>
+      <svg class="arrow" width="78" height="34" viewBox="0 0 78 34" style="top:calc(44% + 6px);left:108px"><path d="M2 16 C26 8 50 26 75 16 M75 16 L65 13 M75 16 L67 23"/></svg>
+      <span class="scribble" style="top:44%;right:4px">rebuild</span>
+      <svg class="arrow" width="78" height="34" viewBox="0 0 78 34" style="top:calc(44% + 6px);right:86px"><path d="M76 16 C52 8 28 26 3 16 M3 16 L13 13 M3 16 L11 23"/></svg>
+      <span class="scribble accent" style="bottom:-4px;left:50%;transform:translateX(-50%)">here you’re free ✦</span>
+      <svg class="arrow accent" width="28" height="54" viewBox="0 0 28 54" style="bottom:26px;left:50%;transform:translateX(-50%)"><path d="M14 52 C8 36 21 24 14 3 M14 3 L7 12 M14 3 L21 12"/></svg>
+    </div>
+    <p style="text-align:center;font-family:'Caveat',cursive;font-weight:500;font-size:clamp(16px,2.6vw,20px);color:var(--ink-2);margin:16px auto 0;max-width:34ch">Where all three overlap is the only place the weight isn't.</p>
+  </div>
+</section>
+
+<!-- QUIZ INVITE -->
+<section>
+  <div class="wrap"><div class="card cta-card invite reveal">
+    <span class="eyebrow">Free · no email to start</span>
+    <h2>What are you still carrying?</h2>
+    <p class="lead dim read" style="margin:0 auto 26px">See the one weight that's really keeping your
+      heart stuck — the ex, the parent, the loss, the person who drained you — and the first step to set
+      it down. No wrong answers.</p>
+    <a class="btn" href="scarred-truth-quiz-light.html">See what you're carrying</a>
+    <p class="meta">Free · your result opens day one of the 7-Day Reset</p>
+  </div></div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- GOODIES -->
+<section>
+  <div class="wrap">
+    <div class="read reveal" style="text-align:center"><span class="eyebrow">More from Zane</span>
+      <h2 style="margin-bottom:34px">A few more ways in.</h2></div>
+    <div class="goodies reveal">
+      <div class="card gcard">
+        <span class="gbadge">Coming</span>
+        <p class="glabel">The Book</p>
+        <h3>The Weight You Were Never Meant to Carry</h3>
+        <p>The deepest version of everything here — the whole story, all eight hearts, and the way down to
+          setting it all down. Audiobook in Zane's own voice.</p>
+        <a class="btn ghost" href="scarred-truth-quiz-light.html">Get on the list</a>
+      </div>
+      <div class="card gcard feature">
+        <span class="gbadge">Free</span>
+        <p class="glabel">The 7-Day Reset</p>
+        <h3>Seven mornings to set it down</h3>
+        <p>One short word, one scripture, one honest question a day — the ex, the voicemail, and the
+          morning he finally deleted it. It starts the moment you finish the quiz.</p>
+        <a class="btn" href="scarred-truth-quiz-light.html">Start free</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- ASK ZANE AI -->
+<section>
+  <div class="wrap"><div class="card ai reveal">
+    <div>
+      <span class="eyebrow">Live now · free to start</span>
+      <h2>What's the one thing <span class="q">you can't put down?</span></h2>
+      <p>Tell Zane what you're carrying and get his answer — in his words, day or night. For the 2am moments when
+        the house is quiet and the weight is loud.</p>
+      <ul class="ai-points">
+        <li><b>Text it like a friend</b>no forms, no jargon</li>
+        <li><b>His voice</b>not a bot script</li>
+        <li><b>Day or night</b>for the 2am moments</li>
+      </ul>
+      <a class="btn" href="../zane-ai/public/index-light.html">Talk to Zane</a>
+    </div>
+    <div class="ai-phonewrap">
+      <img class="ai-portrait" src="site-assets/illustrations/zane.png" alt="Zane">
+      <div class="phone">
+        <div class="h">Talk to Zane</div>
+        <div class="bub you">i don't even know who i am anymore</div>
+        <div class="bub z">You lost yourself slowly — piece by piece, keeping everyone else okay. You're still in there. Who were you before everyone needed something from you?</div>
+        <div class="bub you">…god. it's been so long.</div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- PROOF -->
+<section>
+  <div class="wrap"><div class="proof reveal">
+    <div class="inner">
+      <p class="big">Over a million people find these words every month.</p>
+      <p class="lbl">and most were sure they'd carried it too long to set it down</p>
+      <p class="dim" style="margin-top:18px;color:var(--ink-2)">They were wrong. So are you.</p>
+    </div>
+  </div></div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap"><div class="read reveal">
+    <h2 style="text-align:center;margin-bottom:30px">Before you start</h2>
+    <div class="faq"><h3>Isn't forgiving just letting them off the hook?</h3>
+      <p>No. You can forgive someone completely and never let them near you again. Forgiveness sets
+        <em>you</em> free — it was never a key back to the door.</p></div>
+    <div class="faq"><h3>Do I have to be religious for this?</h3>
+      <p>No. Faith is woven through what I share because it's woven through me — but the quiz, the reset,
+        and the daily meet you wherever you are.</p></div>
+    <div class="faq"><h3>What's the daily, and is it free?</h3>
+      <p>The Daily Rebuild is a short message from me each day — video, text, and one small action.
+        It's free, it lives on Substack, and you can leave anytime.</p></div>
+    <div class="faq"><h3>Will you flood my inbox?</h3>
+      <p>Only what you choose. Your quiz result, the seven-day reset, and the daily if you want it.
+        Unsubscribe anytime; your information is never shared.</p></div>
+  </div></div>
+</section>
+
+<!-- UNIFIED FOOTER -->
+<footer class="bigfoot">
+  <div class="ffmedia"><img src="site-assets/illustrations/journey.jpg" alt="A woman's journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>
+  <div class="ffinner reveal">
+    <span class="eyebrow">Where this goes</span>
+    <h2>You weren’t meant to carry this <em>forever</em>.</h2>
+    <p class="fflead">See the one weight you’re really carrying — then let’s set it down, together.</p>
+    <a class="btn" href="scarred-truth-quiz-light.html">Find what you’re still carrying</a>
+    <p class="brand">Scarred Truth · Zane</p>
+    <p class="fine">© Scarred Truth · You can forgive, and still keep your peace.</p>
+  </div>
+</footer>
+
+<!-- QUIZ POPUP -->
+<div class="pop" id="quizPop">
+  <div class="popcard">
+    <button class="x" id="popClose" aria-label="Close">×</button>
+    <div class="popimg"><img src="site-assets/illustrations/hero-pair.jpg" alt="A woman carrying a man up a mountain at sunset" style="object-position:52% 40%"></div>
+    <div class="poptext">
+      <span class="eyebrow">Not sure where to start?</span>
+      <h2 style="font-size:30px;margin:0 0 14px">Which heart are you carrying it with?</h2>
+      <p class="dim" style="margin-bottom:26px">Fifteen gentle questions, no wrong answers — and the
+        one quiet thing that's keeping you stuck.</p>
+      <a class="btn" href="scarred-truth-quiz-light.html">Find out yours</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
+  document.querySelectorAll('.reveal,.seam').forEach(function(el){io.observe(el);});
+  var KEY='st_quiz_popup_light',pop=document.getElementById('quizPop');
+  function done(){pop.classList.remove('show');try{sessionStorage.setItem(KEY,'1');}catch(e){}}
+  try{if(!sessionStorage.getItem(KEY)){setTimeout(function(){pop.classList.add('show');},8000);}}catch(e){setTimeout(function(){pop.classList.add('show');},8000);}
+  document.getElementById('popClose').addEventListener('click',done);
+  pop.addEventListener('click',function(e){if(e.target===pop)done();});
+  pop.querySelector('a.btn').addEventListener('click',done);
+})();
+</script>
+</body>
+</html>
