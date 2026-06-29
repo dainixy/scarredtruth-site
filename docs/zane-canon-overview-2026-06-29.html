@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Zane Canon — Decisions Map (what's locked, what's open)</title>
+<!-- Scarred Truth "Daybreak" LIGHT system (matches site-assets/scarred-light.css) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F2E9; --paper-2:#FFFDF8; --panel2:#FBF6EC; --panel3:#F3EADB;
+    --ink:#2A231D; --ink2:#5C5045; --dim:#9b8f80; --line:#E7DCC9; --line-soft:#efe7d8;
+    --gold:#C9A05A; --gold-deep:#9A6A1E; --gold-bg:#F7EDD2;
+    --ember:#BC6A43; --ember-bg:#F4E5DE; --oxblood:#9a443c; --ox-bg:#F4E0DC;
+    --sage:#5C7E54; --sage-deep:#46673E; --sage-bg:#E9EFE2;
+    --blue:#6F7E94; --blue-bg:#E4E8EE;
+    --display:'Fraunces',Georgia,serif; --body:'Newsreader',Georgia,serif;
+    --mono:'Spline Sans Mono',ui-monospace,Menlo,monospace;
+    --shadow:0 1px 2px rgba(70,45,20,.04),0 16px 40px rgba(120,80,40,.07);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:400 17px/1.62 var(--body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:1060px;margin:0 auto;padding:52px 24px 120px}
+  h1{font-family:var(--display);font-size:clamp(30px,5vw,46px);line-height:1.05;margin:0 0 12px;letter-spacing:-.014em;font-weight:640;color:var(--ink)}
+  h1 .g{color:var(--gold-deep)}
+  .sub{color:var(--ink2);font-size:18px;margin:0 0 6px;max-width:740px}
+  h2{font-family:var(--display);font-size:26px;margin:56px 0 8px;letter-spacing:-.012em;padding-bottom:10px;border-bottom:1px solid var(--line);color:var(--ink);font-weight:560}
+  h2 .n{color:var(--ember);font-variant-numeric:tabular-nums;margin-right:10px}
+  h2 .hint{display:block;font:400 14px/1.4 var(--body);color:var(--dim);margin-top:6px;letter-spacing:0}
+  h3{font-family:var(--display);font-size:19px;margin:26px 0 8px;color:var(--gold-deep);font-weight:560}
+  p{margin:0 0 13px}
+  a{color:var(--ember)}
+  .eyebrow{font:500 12px/1 var(--mono);letter-spacing:.28em;text-transform:uppercase;color:var(--ember);display:block;margin-bottom:14px}
+  .card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:14px 0;box-shadow:var(--shadow)}
+  .card.hl{border-color:rgba(201,160,90,.5)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0 0;font-size:14px;color:var(--ink2)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+  .d-lock{background:var(--sage)} .d-open{background:var(--gold)} .d-soft{background:var(--blue)}
+
+  .chip{display:inline-block;font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;
+    padding:5px 8px;border-radius:6px;vertical-align:middle;white-space:nowrap}
+  .lock{background:var(--sage-bg);border:1px solid rgba(92,126,84,.45);color:var(--sage-deep)}
+  .open{background:var(--gold-bg);border:1px solid rgba(154,106,30,.4);color:var(--gold-deep)}
+  .soft{background:var(--blue-bg);border:1px solid rgba(111,126,148,.45);color:#4f5c70}
+
+  table{border-collapse:collapse;width:100%;margin:8px 0 6px;font-size:15.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font:600 12px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--dim)}
+  td:first-child{color:var(--ink);font-weight:600;width:24%}
+  td .what{color:var(--ink2)} td .miss{color:var(--ember)}
+  tr:last-child td{border-bottom:none}
+
+  .arc{border-radius:12px;padding:16px 18px;margin:11px 0;border:1px solid var(--line);background:var(--paper-2);box-shadow:var(--shadow)}
+  .arc.strong{border-left:4px solid var(--sage);background:linear-gradient(90deg,var(--sage-bg),var(--paper-2) 62%)}
+  .arc.amber{border-left:4px solid var(--gold);background:linear-gradient(90deg,var(--gold-bg),var(--paper-2) 65%)}
+  .arc.weak{border-left:4px solid var(--oxblood);background:linear-gradient(90deg,var(--ox-bg),var(--paper-2) 60%)}
+  .arc .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px}
+  .arc .name{font-family:var(--display);font-size:18px;font-weight:560;color:var(--ink)}
+  .arc .verdict{font:600 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:6px}
+  .v-green{background:var(--sage-bg);border:1px solid rgba(92,126,84,.5);color:var(--sage-deep)}
+  .v-amber{background:var(--gold-bg);border:1px solid rgba(154,106,30,.45);color:var(--gold-deep)}
+  .v-red{background:var(--ox-bg);border:1px solid rgba(154,68,60,.5);color:var(--oxblood)}
+  .arc p{margin:4px 0 0;color:var(--ink2);font-size:15.5px}
+  .arc .why{color:var(--dim);font-size:14px;margin-top:6px}
+
+  .decide{background:linear-gradient(180deg,var(--gold-bg),var(--paper-2) 70%);border:1px solid rgba(154,106,30,.32);border-radius:12px;padding:16px 18px;margin:11px 0}
+  .decide .q{font-family:var(--display);font-weight:560;color:var(--ink);margin-bottom:4px}
+  .decide .rec{color:var(--sage-deep);font-size:15px}
+  .decide .rec b{color:var(--sage)}
+  .conflict{border-left:4px solid var(--oxblood)}
+  .flag{color:var(--oxblood);font-weight:600}
+  .ok{color:var(--sage-deep);font-weight:600}
+  .mini{font-size:14px;color:var(--dim)}
+  ul{margin:6px 0 12px;padding-left:20px} li{margin:5px 0;color:var(--ink2)}
+  .pillrow{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 0}
+  .pill{font:600 13px/1 var(--mono);text-decoration:none;color:var(--ink);background:var(--paper-2);
+    border:1px solid var(--line);border-radius:30px;padding:11px 16px;transition:.15s;box-shadow:var(--shadow)}
+  .pill:hover{border-color:var(--ember);color:var(--ember)}
+  hr{border:0;border-top:1px solid var(--line);margin:30px 0}
+  /* shared review-set switcher (sticky / always-on) */
+  .navset{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:var(--paper);padding:14px 0 12px;margin:0 0 24px;border-bottom:1px solid var(--line)}
+  @media(max-width:680px){.navset{grid-template-columns:1fr}}
+  .ns-card{position:relative;display:block;text-decoration:none;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px 13px;box-shadow:var(--shadow);transition:.15s;color:var(--ink)}
+  .ns-card:hover{border-color:var(--ember);transform:translateY(-1px)}
+  .ns-card .ns-n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;font:600 12px/1 var(--mono);background:var(--gold-bg);color:var(--gold-deep);border:1px solid rgba(154,106,30,.3);margin-bottom:8px}
+  .ns-card .ns-t{display:block;font-family:var(--display);font-weight:560;font-size:17px;color:var(--ink);letter-spacing:-.01em}
+  .ns-card .ns-d{display:block;font-size:13px;color:var(--dim);margin-top:3px;line-height:1.4}
+  .ns-card.active{border-color:var(--ember);background:linear-gradient(180deg,var(--ember-bg),var(--paper-2) 80%);box-shadow:0 0 0 1px rgba(188,106,67,.25) inset,var(--shadow)}
+  .ns-card.active .ns-n{background:var(--ember);color:#fff;border-color:transparent}
+  .ns-card .ns-tag{position:absolute;top:12px;right:12px;font:600 9px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--gold-deep);background:var(--gold-bg);border:1px solid rgba(154,106,30,.35);border-radius:5px;padding:4px 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="navset" aria-label="Zane canon review set">
+    <a class="ns-card active" href="zane-canon-overview-2026-06-29.html"><span class="ns-n">1</span><span class="ns-t">The Summary</span><span class="ns-d">What's locked, what's open &amp; the ranked arcs</span></a>
+    <a class="ns-card" href="zane-canon-bible-toc-2026-06-29.html"><span class="ns-n">2</span><span class="ns-t">The Story Bible</span><span class="ns-d">His whole life, chapter by chapter</span></a>
+    <a class="ns-card" href="zane-canon-story-arc-bank-2026-06-29.html"><span class="ns-n">3</span><span class="ns-t">Story + Arc Bank</span><span class="ns-d">Every candidate story to choose from</span></a>
+  </nav>
+
+  <span class="eyebrow">Scarred Truth · Zane Canon · Decisions Map — 2026-06-29</span>
+  <h1>Zane's life story — <span class="g">what's locked, what's open, what to build.</span></h1>
+  <p class="sub">A bird's-eye control panel for the whole backstory. Skim it once and you'll know
+    every piece we've decided, every hole still to fill, and which story arcs are worth our energy.
+    The full structure (chapter by chapter) is in the companion page.</p>
+
+  <div class="legend">
+    <span><i class="dot d-lock"></i> <b>Locked</b> — you decided it, it's ground truth</span>
+    <span><i class="dot d-open"></i> <b>Open</b> — needs a decision (I recommend one)</span>
+    <span><i class="dot d-soft"></i> <b>Soft on purpose</b> — kept vague so it can't contradict itself</span>
+  </div>
+
+  <div class="pillrow">
+    <a class="pill" href="zane-story-light.html">📄 Related — the live story</a>
+  </div>
+
+  <!-- ================= CONFLICTS ================= -->
+  <h2><span class="n">A</span>First: 3 conflicts with the old research
+    <span class="hint">Your decisions override the earlier Kimi "brain" docs. Flagging so nothing silently drifts back.</span>
+  </h2>
+  <div class="card conflict">
+    <table>
+      <tr><th>Element</th><th>Old Kimi canon</th><th>Your decision → wins</th><th>Knock-on effect</th></tr>
+      <tr><td>Age</td><td class="what">Born ~1965 (~60)</td><td><span class="ok">39</span></td>
+        <td class="what">He's a peer/younger-brother figure to the 35–65 woman, not a grandfather — fits the "AI Tony Robbins / Jay Shetty" brand better. Kills the "15-year marriage" framing.</td></tr>
+      <tr><td>The wound</td><td class="what">15-yr marriage, an affair, a clear villain</td><td><span class="ok">2-yr relationship (2017–19), no villain, both lonely</span></td>
+        <td class="what">Actually stronger — sidesteps the "fake male healer claims her wound" trap. The pain is self-abandonment, not betrayal.</td></tr>
+      <tr><td>The voicemail</td><td class="what">Kept for years, couldn't delete</td><td><span class="ok">Deleted week one — that's the mistake</span></td>
+        <td class="what"><span class="flag">The 7-Day Reset emails still use the OLD "kept it 11 years" version</span> — they must be re-synced once this canon locks.</td></tr>
+    </table>
+  </div>
+
+  <!-- ================= DECIDED + GAPS MATRIX ================= -->
+  <h2><span class="n">B</span>The element checklist
+    <span class="hint">Every building block of Zane's life. Green = filled. Gold = a hole we need to fill or decide. Blue = deliberately vague.</span>
+  </h2>
+
+  <h3>Identity &amp; body</h3>
+  <table>
+    <tr><th>Element</th><th>Status</th><th>What we have / what's missing</th></tr>
+    <tr><td>Age, nationality, sex</td><td><span class="chip lock">Locked</span></td><td class="what">39, American, male.</td></tr>
+    <tr><td>The eyes</td><td><span class="chip lock">Locked</span></td><td class="what">Heterochromia — brown right, blue left. Part of why he was "the different kid."</td></tr>
+    <tr><td>Scars → face tattoos</td><td><span class="chip lock">Locked</span></td><td class="what">Scars from the beating; chose face tattoos over hiding. Theme: "I stopped hiding."</td></tr>
+    <tr><td>Faith</td><td><span class="chip lock">Locked</span></td><td class="what">Believes in God. Quiet floor, never preached.</td></tr>
+    <tr><td>Relationship status now</td><td><span class="chip lock">Locked</span></td><td class="what">Single — no wife, no girlfriend. Has kids.</td></tr>
+    <tr><td>US region / "feel"</td><td><span class="chip soft">Soft</span></td><td class="what">Keep vague (South/Midwest small-town texture fits the voice). Never load-bearing.</td></tr>
+  </table>
+
+  <h3>Family of origin</h3>
+  <table>
+    <tr><th>Element</th><th>Status</th><th>What we have / what's missing</th></tr>
+    <tr><td>Mother</td><td><span class="chip lock">Locked</span> <span class="chip open">+open</span></td><td class="what">The strong one, the rock. <span class="miss">Open: alive or passed? Source of his faith? (recommend: yes, faith from her.)</span></td></tr>
+    <tr><td>Father</td><td><span class="chip lock">Locked</span> <span class="chip open">+open</span></td><td class="what">The narcissist. <span class="miss">Open: alive / estranged today? Any reckoning? (recommend: low-contact, no tidy reconciliation.)</span></td></tr>
+    <tr><td>Being "different" + gifted</td><td><span class="chip lock">Locked</span></td><td class="what">~2 years ahead academically + the eyes → bully target.</td></tr>
+    <tr><td>Siblings</td><td><span class="chip soft">Soft</span></td><td class="what">Not mentioned unless needed. Keep vague.</td></tr>
+  </table>
+
+  <h3>The schoolyard origin (scars)</h3>
+  <table>
+    <tr><th>Element</th><th>Status</th><th>What we have / what's missing</th></tr>
+    <tr><td>The climb into the cool kids</td><td><span class="chip lock">Locked</span></td><td class="what">Got in, never belonged — the root of Pleaser/Invisible.</td></tr>
+    <tr><td>Defending the girl</td><td><span class="chip lock">Locked</span> <span class="chip open">+open</span></td><td class="what">They bullied a girl he knew; he stood up for her. <span class="miss">Open: does she ever recur? (recommend: one-time beat, no romance.)</span></td></tr>
+    <tr><td>Jumped by 7 "friends"</td><td><span class="chip lock">Locked</span></td><td class="what">The betrayal + beating that scarred his face.</td></tr>
+    <tr><td>Choosing the tattoos</td><td><span class="chip lock">Locked</span></td><td class="what">Wanted to hide → chose to mark instead.</td></tr>
+  </table>
+
+  <h3>The pattern &amp; the adult years</h3>
+  <table>
+    <tr><th>Element</th><th>Status</th><th>What we have / what's missing</th></tr>
+    <tr><td>His own profile</td><td><span class="chip lock">Locked</span></td><td class="what">Pleaser + Invisible — in love and at work — until he stopped.</td></tr>
+    <tr><td>The kids</td><td><span class="chip open">OPEN — top priority</span></td><td class="miss">How many, ages, who's the mother (must predate 2017), custody shape? The 2-yr ex didn't bear them — needs an earlier off-page relationship. Biggest hole.</td></tr>
+    <tr><td>Where bad self-talk was installed</td><td><span class="chip open">OPEN</span></td><td class="miss">Narcissist father, an earlier toxic relationship, or both? (recommend: father installs it, an earlier ex reinforces it, 2019 is where it costs the most.)</td></tr>
+    <tr><td>His work / livelihood</td><td><span class="chip open">OPEN</span></td><td class="miss">Ordinary humble job, before &amp; now. Lean hands-on/practical. Must NOT read as a "self-made success" flex.</td></tr>
+  </table>
+
+  <h3>The wound, the spiral, the turn</h3>
+  <table>
+    <tr><th>Element</th><th>Status</th><th>What we have / what's missing</th></tr>
+    <tr><td>The relationship (2017–19)</td><td><span class="chip lock">Locked</span></td><td class="what">~2 yrs, lonely, she leaves 2019. Not a villain — both lonely.</td></tr>
+    <tr><td>The voicemail + deleting it</td><td><span class="chip lock">Locked</span></td><td class="what">Deletes it week one thinking it frees him. It doesn't.</td></tr>
+    <tr><td>CRASH (nostalgia trap)</td><td><span class="chip lock">Locked</span></td><td class="what">Replays good/bad, imagines the future, "maybe I was too hard," "good person, bad timing."</td></tr>
+    <tr><td>PATCHES (rebound / drinking / COVID)</td><td><span class="chip lock">Locked</span> <span class="chip open">+open</span></td><td class="what">Next person, drinking, partying, worse under lockdown. <span class="miss">Open: phase vs. addiction? (recommend: heavy phase, NOT an addiction identity.)</span></td></tr>
+    <tr><td>The quote that stops him</td><td><span class="chip lock">≈Locked</span></td><td class="what">Seneca, Letter 28 (recommended in v2). Research to confirm + offer alternates.</td></tr>
+    <tr><td>The turn</td><td><span class="chip lock">Locked</span></td><td class="what">Exhaustion in COVID isolation; the loneliness was always inside; "PhD in bad self-talk."</td></tr>
+  </table>
+
+  <h3>The rebuild &amp; becoming the witness</h3>
+  <table>
+    <tr><th>Element</th><th>Status</th><th>What we have / what's missing</th></tr>
+    <tr><td>The lesson</td><td><span class="chip lock">Locked</span></td><td class="what">Forgiveness is for you; closure is a lie; befriend yourself; the door stays locked.</td></tr>
+    <tr><td>Faith as floor</td><td><span class="chip lock">Locked</span></td><td class="what">Hands justice to God so he goes free; never preaches it.</td></tr>
+    <tr><td>The bridge to "the map" (quiz)</td><td><span class="chip open">OPEN</span></td><td class="miss">How a wounded man humbly notices "the same patterns in everyone" and turns it into something he offers — without the savior/brand-narrative smell.</td></tr>
+  </table>
+
+  <!-- ================= ARCS RANKED ================= -->
+  <h2><span class="n">C</span>The story arcs, ranked
+    <span class="hint">Which life threads are worth building. Green = strongest (build on these). Amber = good support, not load-bearing. Red = weakest / riskiest (cut or keep tiny).</span>
+  </h2>
+
+  <h3 style="color:var(--sage-deep)">🟢 Strongest — these carry the whole brand</h3>
+
+  <div class="arc strong">
+    <div class="top"><span class="name">The scars → "I stopped hiding"</span><span class="verdict v-green">Build · locked</span></div>
+    <p>Defends the girl → jumped by 7 "friends" → facial scars → chooses face tattoos instead of cover-up.</p>
+    <p class="why">Why it's the strongest: it's his <b>visual identity</b> (the tattoos people already see), a clean betrayal-by-your-own-people beat, and the literal birth of his whole message — refusing to hide what hurt you. Nothing else does this much work in one image.</p>
+  </div>
+  <div class="arc strong">
+    <div class="top"><span class="name">Pleaser + Invisible — "the man nobody saw"</span><span class="verdict v-green">Build · locked</span></div>
+    <p>The kid who got into the cool group but never belonged, who grew into the man who disappears to keep the peace — at work and in love — and thought love had to be earned.</p>
+    <p class="why">Why: this is <b>his own quiz result</b>, which means it's the exact mirror the audience steps into. Maximum "that's me," and it funnels straight to the test.</p>
+  </div>
+  <div class="arc strong">
+    <div class="top"><span class="name">The deleted voicemail — avoidance fails</span><span class="verdict v-green">Build · locked</span></div>
+    <p>He erases her last message in week one to be free; it takes the lid off instead. The thing he tried to delete just moves where he can't reach it.</p>
+    <p class="why">Why: the origin spine, the physical-object signature, and the cleanest possible proof that running doesn't work — already drafted on the v2 page.</p>
+  </div>
+  <div class="arc strong">
+    <div class="top"><span class="name">"PhD in bad self-talk" — the cruelest voice is your own</span><span class="verdict v-green">Build · locked</span></div>
+    <p>The loneliness was never about her — he was lonely before, during, after. The real wound was his connection with himself; the inner critic ran on autopilot. (Seneca: you carry yourself with you.)</p>
+    <p class="why">Why: the universal hinge. Almost every woman in the audience has this voice. It's the turn that makes the rebuild earned, not preachy.</p>
+  </div>
+  <div class="arc strong">
+    <div class="top"><span class="name">Narcissist father / strong mother</span><span class="verdict v-green">Build · locked + fill</span></div>
+    <p>Where the pleasing and the inner critic were installed: a father who made love conditional, a mother who held the floor.</p>
+    <p class="why">Why: explains the pattern's <b>origin</b> without melodrama, and the "narcissistic parent" wound is one of the most relatable on the internet. Just keep the father unresolved (no tidy hug).</p>
+  </div>
+
+  <h3 style="color:var(--gold-deep)">🟡 Good support — beats inside the arc, not headliners</h3>
+  <div class="arc amber">
+    <div class="top"><span class="name">COVID isolation as the crucible</span><span class="verdict v-amber">Setting</span></div>
+    <p>The forced quiet that strips every distraction so he finally has to look at himself.</p>
+    <p class="why">Powerful as the <b>stage</b> the turn happens on — but it's a setting, not a standalone arc. Don't lean on "the pandemic" as the meaning.</p>
+  </div>
+  <div class="arc amber">
+    <div class="top"><span class="name">CRASH — the nostalgia trap &amp; "good person, bad timing"</span><span class="verdict v-amber">Beat</span></div>
+    <p>Replaying good and bad, imagining a future, the lie that it was just timing — then the correction: when it's your person, timing doesn't matter.</p>
+    <p class="why">Lands hard <i>inside</i> Act II and gives a quotable myth-buster. Not big enough to be its own life-arc.</p>
+  </div>
+  <div class="arc amber">
+    <div class="top"><span class="name">PATCHES — the rebound</span><span class="verdict v-amber">Beat · bound it</span></div>
+    <p>Trying to delete the loneliness with the next person, the next night out.</p>
+    <p class="why">Relatable, but mild cliché risk. Works as a short beat that proves the loneliness is portable — keep the drinking a phase, not a label.</p>
+  </div>
+
+  <h3 style="color:var(--oxblood)">🔴 Weakest / riskiest — suggest, but cut or keep tiny</h3>
+  <div class="arc weak">
+    <div class="top"><span class="name">Drinking as an addiction identity</span><span class="verdict v-red">Risky — keep it a phase</span></div>
+    <p class="why">A clinical-addiction storyline fights the faith floor and the confident-brand. The research's whole "wounded healer" credibility wants a coping <i>phase</i> he walks out of, not a recovery-identity.</p>
+  </div>
+  <div class="arc weak">
+    <div class="top"><span class="name">One dramatic rock-bottom (DUI / ER / arrest)</span><span class="verdict v-red">Cut</span></div>
+    <p class="why">Every real account says the turn is <b>exhaustion, not a movie moment</b>. A big dramatic bottom is the fastest way to make the whole thing read invented.</p>
+  </div>
+  <div class="arc weak">
+    <div class="top"><span class="name">Reconciliation / a hug with the narcissist father</span><span class="verdict v-red">Cut</span></div>
+    <p class="why">Too-perfect redemption is a documented "fake healer" tell. Honest version: the father wound stays named and unresolved.</p>
+  </div>
+  <div class="arc weak">
+    <div class="top"><span class="name">The defended girl returns as a love interest</span><span class="verdict v-red">Cut</span></div>
+    <p class="why">Soap-opera neatness. It cheapens a beat whose power is that he did the right thing for nothing in return.</p>
+  </div>
+  <div class="arc weak">
+    <div class="top"><span class="name">A "self-made success / money" flex</span><span class="verdict v-red">Cut</span></div>
+    <p class="why">Monetized-trauma posture — women smell it instantly. His service has to read quiet and humble, not "I made it, now I sell it."</p>
+  </div>
+  <div class="arc weak">
+    <div class="top"><span class="name">Kids as a central origin plot driver</span><span class="verdict v-red">Keep soft</span></div>
+    <p class="why">Real, but the timeline is fragile (they predate the 2017 ex). Decide them once, keep them off-page, never let them carry a chapter or they'll contradict something later.</p>
+  </div>
+  <div class="arc weak">
+    <div class="top"><span class="name">Getting back together with the 2019 ex</span><span class="verdict v-red">Forbidden</span></div>
+    <p class="why">Breaks the load-bearing thesis ("the door stays locked"). Hard no, in every channel.</p>
+  </div>
+
+  <!-- ================= ANSWERS (VERIFIED) ================= -->
+  <h2><span class="n">D</span>The answers — now sourced &amp; verified
+    <span class="hint">Our research workflow (21 agents) filled every open decision with web-sourced answers, then a skeptic pass refuted each one. Below = what survived. Full sources in the gap-fill findings doc. (Kimi is running separately as an independent second opinion.)</span>
+  </h2>
+
+  <div class="card conflict">
+    <p style="margin:0 0 6px"><b>The skeptic pass caught 4 tempting answers that broke the canon — corrected before they shipped:</b></p>
+    <ul style="margin:0">
+      <li><span class="flag">Mother as spiral-corrector</span> → cut. An outside rescuer kills the locked self-sourced turn.</li>
+      <li><span class="flag">A recovery / sober-living job</span> → cut. Textbook "I sell my pain" tell + clashes with drinking-as-a-phase.</li>
+      <li><span class="flag">Estrangement = "closure / healing"</span> → relabel. Closure is canon-locked as a <i>lie</i>; it's ongoing grief.</li>
+      <li><span class="flag">Drinking as an addiction identity</span> → keep tiny. An "alcoholic who conquered it" arc manufactures a fake rock-bottom.</li>
+    </ul>
+  </div>
+
+  <div class="decide">
+    <p class="q">1. The kids <span class="chip lock" style="margin-left:6px">✓ verified</span></p>
+    <p class="rec"><b>Two kids, mid-to-late teens, from one earlier relationship that ended before 2017.</b> Un-villainized co-parent (treat her like the 2019 ex), ~50/50. Kids are an ongoing fact of his life, <b>never his redemption arc</b>. <span class="flag">Revision:</span> avoid hard birth years — they collided with the locked timeline; "mid/late teens" is safe.</p>
+  </div>
+  <div class="decide">
+    <p class="q">2. Where the bad self-talk was installed <span class="chip lock" style="margin-left:6px">✓ kept clean</span></p>
+    <p class="rec">The <b>father's voice</b> installs it — bridge line: <i>"I became my father's voice. I taught myself he was right."</i> The 2017–19 relationship <b>reinforces, doesn't create</b> it. Connects the two locked canon lines exactly.</p>
+  </div>
+  <div class="decide">
+    <p class="q">3. The father today <span class="chip open" style="margin-left:6px">revised</span></p>
+    <p class="rec"><b>Estrangement as ongoing, ambiguous grief</b> — no hope of reconciliation, relief and loss side by side. "Forgiveness ≠ reconciliation" as the permission layer. <span class="flag">No "closure," no tidy hug.</span></p>
+  </div>
+  <div class="decide">
+    <p class="q">4. The mother &amp; his faith <span class="chip open" style="margin-left:6px">revised</span></p>
+    <p class="rec">She's the <b>bedrock source of his faith</b>, <b>internalized from childhood</b> — surfaces in his worst years but does <b>not</b> fix him. Can be <b>alive &amp; present</b> (avoids the dead-saint trap), but <span class="flag">not his wound-healer and never corrects his spiral.</span></p>
+  </div>
+  <div class="decide">
+    <p class="q">5. His work / livelihood <span class="chip open" style="margin-left:6px">revised</span></p>
+    <p class="rec"><b>Skilled trades</b> — carpentry/electrical, apprentice → journeyman in his 20s/30s; now a <b>foreman / site-supervisor or property-maintenance lead</b>. The drinking years hurt the work but it stayed a phase. <span class="flag">Cut the recovery/sober-living job entirely.</span></p>
+  </div>
+  <div class="decide">
+    <p class="q">6. The drinking <span class="chip lock" style="margin-left:6px">✓ verified</span></p>
+    <p class="rec">A <b>bounded, situational coping phase</b> (lost routines + isolation + grief), <b>not addiction</b>. Ban all "I was an alcoholic" language. The turn comes from <b>exhaustion</b> — the drinking is just one failed patch.</p>
+  </div>
+  <div class="decide">
+    <p class="q">7. The bridge to "the map" (the quiz) <span class="chip open" style="margin-left:6px">revised</span></p>
+    <p class="rec"><b>Witness / sitting-first</b> — the map = field notes from years of ordinary one-on-one conversation <b>after</b> his solitary turn ("what I kept hearing"), not "the system I built from my pain." <span class="flag">Never a facilitator, counselor, or credentialed peer.</span></p>
+  </div>
+  <div class="decide">
+    <p class="q">Bonus — the quote &amp; the no-villain grounding <span class="chip lock" style="margin-left:6px">✓ verified</span></p>
+    <p class="rec"><b>Seneca, Letter 28</b> confirmed real &amp; public-domain ("you always take yourself with you") — drop the Thich Nhat Hanh add-on. The no-villain wound is grounded in <b>Leslie Jamison's <i>Splinters</i></b> — but fence it: use only the loneliness-with-love material, exclude her new-love arc (breaks "the door stays locked").</p>
+  </div>
+
+  <hr>
+  <p class="mini">Next: say yes/no to the 8 answers above (only #1's kids-shape really needs your call) → freeze the canon in the story bible → re-sync the 7-Day Reset emails to the "deleted it week one" arc → feed Zane AI. Independent Kimi pass lands separately for triangulation.</p>
+
+</div>
+</body>
+</html>
