@@ -53,9 +53,11 @@ function rateLimited(ip) {
 function originAllowed(req) {
   const origin = req.headers.origin;
   if (!origin) return true;
-  if (ALLOWED_ORIGINS.length === 0)
-    return /^https?:\/\/localhost(:\d+)?$/.test(origin) || /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(origin);
-  return ALLOWED_ORIGINS.includes(origin);
+  // same-origin (the site calling its own API) is always fine — no config needed,
+  // works on the onrender.com URL and on scarredtruth.com alike.
+  try { if (new URL(origin).hostname === req.hostname) return true; } catch (_) {}
+  if (ALLOWED_ORIGINS.length) return ALLOWED_ORIGINS.includes(origin);
+  return /^https?:\/\/localhost(:\d+)?$/.test(origin) || /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(origin);
 }
 
 app.get("/api/health", (_req, res) => {
