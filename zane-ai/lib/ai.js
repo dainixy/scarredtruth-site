@@ -20,7 +20,7 @@ function headers() {
     Authorization: `Bearer ${API_KEY}`,
     "Content-Type": "application/json",
     "HTTP-Referer": process.env.OPENROUTER_REFERER || "https://scarredtruth.com",
-    "X-Title": "Scarred Truth — Zane",
+    "X-Title": "Scarred Truth - Zane",
   };
 }
 
