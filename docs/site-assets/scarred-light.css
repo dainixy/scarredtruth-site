@@ -13,18 +13,18 @@
   --paper-2:#FFFDF8;      /* warm white — floating cards */
   --ink:#2A231D;          /* warm near-black text */
   --ink-2:#5C5045;        /* secondary text */
-  --dim:#9b8f80;          /* muted */
+  --dim:#6B6052;          /* muted (darkened for AA contrast) */
   --line:#E7DCC9;         /* hairline on cream */
   --line-soft:#efe7d8;
   --gold:#C9A05A;         /* decorative accent / the seam */
   --gold-deep:#9A6A1E;    /* gold used as TEXT on light */
-  --ember:#BC6A43;        /* terracotta — eyebrows, emphasis, primary button */
+  --ember:#A8512F;        /* terracotta — eyebrows, emphasis, primary button (darkened for AA) */
   --oxblood:#9a443c;
   /* family color-coding + soft illustration grounds (warm only, no green) */
-  --fam-vanish:#C2755C;   --bg-vanish:#F4E5DE;   /* invisible, lost — clay-rose */
-  --fam-rest:#B0822E;     --bg-rest:#F6ECD3;     /* never, critic, impostor — ochre */
-  --fam-measure:#6F7E94;  --bg-measure:#E4E8EE;  /* pleaser, behind — dusty blue */
-  --fam-dream:#C9A05A;    --bg-dream:#F7EDD2;    /* steady — luminous gold */
+  --fam-vanish:#A1493A;   --bg-vanish:#F4E5DE;   /* invisible, lost — clay-rose (darkened for AA text) */
+  --fam-rest:#8A6212;     --bg-rest:#F6ECD3;     /* never, critic, impostor — ochre (darkened for AA text) */
+  --fam-measure:#515F77;  --bg-measure:#E4E8EE;  /* pleaser, behind — dusty blue (darkened for AA text) */
+  --fam-dream:#93701A;    --bg-dream:#F7EDD2;    /* steady — gold (darkened for AA text) */
   --display:'Fraunces',Georgia,serif; --body:'Newsreader',Georgia,serif;
   --mono:'Spline Sans Mono',ui-monospace,Menlo,monospace;
   --maxw:1140px; --read:680px; --radius:16px;
@@ -57,7 +57,7 @@ section{padding:84px 0;position:relative}
 
 /* ---- top bar ---- */
 .topbar{position:sticky;top:0;z-index:40;background:rgba(247,242,233,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.topbar .row{display:flex;align-items:center;justify-content:space-between;padding:14px 26px;max-width:var(--maxw);margin:0 auto}
+.topbar .row{display:flex;align-items:center;justify-content:space-between;padding:14px 26px;max-width:var(--maxw);margin:0 auto;position:relative}
 .brandmark{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
 .brandmark span{font:600 13px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase}
 .nav{display:flex;gap:26px;align-items:center}
@@ -65,7 +65,21 @@ section{padding:84px 0;position:relative}
 .nav a.lnk:hover{color:var(--ember)}
 .navcta{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:#fff;background:var(--ember);border-radius:3px;padding:11px 16px;transition:.18s}
 .navcta:hover{filter:brightness(1.06)}
-@media(max-width:720px){.nav .lnk{display:none}}
+/* skip link (a11y) */
+.skip{position:absolute;left:8px;top:-52px;z-index:60;background:var(--ink);color:var(--paper);padding:11px 16px;border-radius:6px;font:600 12px/1 var(--mono);letter-spacing:.1em;text-decoration:none;transition:top .15s}
+.skip:focus{top:8px}
+/* mobile hamburger (JS-free) — replaces the hidden links so the quiz stays reachable */
+.navtoggle{display:none;background:none;border:0;cursor:pointer;padding:10px;margin:-10px -6px -10px 0;color:var(--ink);-webkit-tap-highlight-color:transparent}
+.navtoggle svg{display:block}
+#navtog{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+@media(max-width:720px){
+  .navtoggle{display:block}
+  .nav{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--paper-2);border-bottom:1px solid var(--line);box-shadow:var(--shadow-lift);padding:6px 0;display:none}
+  #navtog:checked ~ .nav{display:flex}
+  .nav a.lnk{display:block;padding:15px 26px;font-size:13px;letter-spacing:.14em;border-top:1px solid var(--line-soft)}
+  .nav a.lnk:first-of-type{border-top:0}
+  .nav .navcta{margin:10px 22px 12px;text-align:center;padding:15px}
+}
 
 /* ---- buttons ---- */
 .btn{display:inline-block;cursor:pointer;text-decoration:none;font:600 13.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#fff;
@@ -229,8 +243,8 @@ footer.bigfoot{position:relative;margin-top:48px;padding:0;border:0;border-top:1
 footer.bigfoot .ffmedia{position:absolute;inset:0;z-index:0;overflow:hidden}
 footer.bigfoot .ffmedia img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;animation:none}
 footer.bigfoot .ffmedia::after{content:"";position:absolute;inset:0;background:
-  radial-gradient(125% 92% at 50% 50%,rgba(247,242,233,.40) 0%,rgba(247,242,233,.66) 44%,rgba(247,242,233,.9) 80%,var(--paper) 100%),
-  linear-gradient(180deg,var(--paper) 0%,rgba(247,242,233,.5) 15%,rgba(247,242,233,.42) 50%,rgba(247,242,233,.74) 85%,var(--paper) 100%)}
+  radial-gradient(125% 92% at 50% 50%,rgba(247,242,233,.10) 0%,rgba(247,242,233,.38) 52%,rgba(247,242,233,.82) 82%,var(--paper) 100%),
+  linear-gradient(180deg,var(--paper) 0%,rgba(247,242,233,.26) 16%,rgba(247,242,233,.20) 50%,rgba(247,242,233,.6) 86%,var(--paper) 100%)}
 footer.bigfoot .ffinner{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:132px 26px 88px}
 footer.bigfoot .eyebrow{color:var(--ember)}
 footer.bigfoot h2{font-size:clamp(30px,4.8vw,50px);margin:0 0 14px;text-shadow:0 2px 18px rgba(247,242,233,.95),0 1px 3px rgba(247,242,233,1)}
@@ -239,7 +253,7 @@ footer.bigfoot .fflead{color:var(--ink);font-size:clamp(16px,2vw,19px);line-heig
 footer.bigfoot .brand{font:600 12px/1.5 var(--mono);letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin:36px 0 0;display:block}
 footer.bigfoot .fine{font:400 13px/1.6 var(--mono);letter-spacing:.03em;color:var(--ink-2);margin-top:10px;display:block}
 footer.bigfoot .foot-care{max-width:var(--read);margin:18px auto 0;font:400 13px/1.6 var(--body);color:var(--ink-2)}
-footer.bigfoot .foot-care strong{color:var(--gold-deep)} footer.bigfoot .foot-care a{color:var(--ember)}
+footer.bigfoot .foot-care strong{color:#7A4F12} footer.bigfoot .foot-care a{color:var(--ember)}
 @media(max-width:560px){footer.bigfoot .ffinner{padding:86px 22px 62px}}
 
 /* ===== richer, clearly-visible motion ===== */

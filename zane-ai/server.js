@@ -38,6 +38,13 @@ const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
 
 const app = express();
 app.set("trust proxy", 1);
+app.disable("x-powered-by");
+app.use((req, res, next) => {
+  res.set("X-Content-Type-Options", "nosniff");
+  res.set("X-Frame-Options", "SAMEORIGIN");
+  res.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  next();
+});
 app.use(express.json({ limit: "64kb" }));
 
 // --- per-IP rate limit (cost + abuse guard) -----------------------------------
@@ -110,6 +117,7 @@ app.get("/api/result/:id", async (req, res) => {
 // --- the note from Zane -------------------------------------------------------
 app.post("/api/note", async (req, res) => {
   if (!originAllowed(req)) return res.status(403).json({ error: "Not allowed." });
+  if (rateLimited(req.ip || "anon")) return res.status(429).json({ error: "Slow down a moment — try again shortly." });
   const b = req.body || {};
   const ctx = {
     name: clampInput(String(b.name || "")),
@@ -229,9 +237,46 @@ app.use(express.static(DOCS_DIR, { index: "index-light.html" }));
 // (so site-assets aren't duplicated), then serves the page itself from public/.
 app.use("/zane/site-assets", express.static(path.join(DOCS_DIR, "site-assets")));
 app.use("/zane", express.static(PUBLIC_DIR, { index: "index-light.html" }));
-// shareable result link — redirect to the quiz with ?r=<id> so the page's relative
-// assets (css, stories-data.js, illustrations) always resolve from the site root.
-app.get("/r/:id", (req, res) => res.redirect(302, "/scarred-truth-quiz-light.html?r=" + encodeURIComponent(req.params.id)));
+// shareable result link — serve a tiny HTML shell with PER-RESULT Open Graph tags
+// (so the most-shared link previews as her archetype), then redirect humans to the
+// interactive result at ?r=<id> (assets resolve from the site root there).
+const PROFILE_KEYS = ["invisible", "lost", "never", "pleaser", "behind", "critic", "impostor", "steady"];
+function escHtml(s) {
+  return String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+app.get("/r/:id", async (req, res) => {
+  const id = String(req.params.id || "");
+  const target = "/scarred-truth-quiz-light.html?r=" + encodeURIComponent(id);
+  let rec = null;
+  try { rec = await store.getResult(id); } catch (_) {}
+  const key = rec && PROFILE_KEYS.includes(String(rec.primary)) ? rec.primary : null;
+  const name = (rec && rec.primaryName) ? rec.primaryName : "Your result";
+  const title = rec ? `${name} — Scarred Truth` : "Scarred Truth — your result";
+  const desc = (rec && rec.coreFear)
+    ? rec.coreFear
+    : "Take the free quiz and find the one quiet thing still keeping your heart stuck.";
+  const img = key
+    ? `https://scarredtruth.com/site-assets/illustrations/${key}.webp`
+    : "https://scarredtruth.com/site-assets/og-image.png";
+  res.set("Content-Type", "text/html; charset=utf-8");
+  res.send(`<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${escHtml(title)}</title>
+<meta name="description" content="${escHtml(desc)}">
+<link rel="canonical" href="https://scarredtruth.com/scarred-truth-quiz-light.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${escHtml(title)}">
+<meta property="og:description" content="${escHtml(desc)}">
+<meta property="og:image" content="${escHtml(img)}">
+<meta property="og:url" content="https://scarredtruth.com/r/${escHtml(id)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${escHtml(img)}">
+<meta http-equiv="refresh" content="0;url=${escHtml(target)}">
+<script>location.replace(${JSON.stringify(target)});</script>
+</head><body style="font:400 18px/1.6 Georgia,serif;background:#F7F2E9;color:#5C5045;margin:0">
+<p style="padding:28px">Opening your result… <a href="${escHtml(target)}" style="color:#A8512F">continue&nbsp;&rarr;</a></p>
+</body></html>`);
+});
 // each profile on its own page (clean preview of one result)
 app.get("/profile/:key", (req, res) => res.redirect(302, "/scarred-truth-quiz-light.html?profile=" + encodeURIComponent(req.params.key)));
 
