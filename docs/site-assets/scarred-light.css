@@ -17,7 +17,7 @@
   --line:#E7DCC9;         /* hairline on cream */
   --line-soft:#efe7d8;
   --gold:#C9A05A;         /* decorative accent / the seam */
-  --gold-deep:#9A6A1E;    /* gold used as TEXT on light */
+  --gold-deep:#7A4F12;    /* gold used as TEXT on light (darkened for AA contrast) */
   --ember:#A8512F;        /* terracotta — eyebrows, emphasis, primary button (darkened for AA) */
   --oxblood:#9a443c;
   /* family color-coding + soft illustration grounds (warm only, no green) */
@@ -254,7 +254,14 @@ footer.bigfoot .brand{font:600 12px/1.5 var(--mono);letter-spacing:.28em;text-tr
 footer.bigfoot .fine{font:400 13px/1.6 var(--mono);letter-spacing:.03em;color:var(--ink-2);margin-top:10px;display:block}
 footer.bigfoot .foot-care{max-width:var(--read);margin:18px auto 0;font:400 13px/1.6 var(--body);color:var(--ink-2)}
 footer.bigfoot .foot-care strong{color:#7A4F12} footer.bigfoot .foot-care a{color:var(--ember)}
-@media(max-width:560px){footer.bigfoot .ffinner{padding:86px 22px 62px}}
+/* mobile: show the WHOLE journey (both women) as a contained banner, text below — not a cropped backdrop */
+@media(max-width:640px){
+  footer.bigfoot{display:flex;flex-direction:column}
+  footer.bigfoot .ffmedia{position:relative;inset:auto;width:100%;aspect-ratio:16/9}
+  footer.bigfoot .ffmedia img{object-fit:contain;object-position:center}
+  footer.bigfoot .ffmedia::after{background:linear-gradient(180deg,rgba(247,242,233,0) 74%,var(--paper) 100%)}
+  footer.bigfoot .ffinner{padding:24px 22px 58px}
+}
 
 /* ===== richer, clearly-visible motion ===== */
 /* ambient float on hero illustrations (always on, no scroll needed) */
