@@ -280,4 +280,11 @@ footer.bigfoot .foot-care strong{color:#7A4F12} footer.bigfoot .foot-care a{colo
 /* card hover gets a touch more life */
 .tcard,.qcard,.gcard{will-change:transform}
 
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto;animation:none!important}.reveal,.reveal > *{opacity:1!important;transform:none!important;transition:none!important}.seam .bar{transform:scaleX(1);transition:none}.in .bar .fill{transition:none}}
+/* Reduce-motion: keep instant scroll + guarantee content is visible without JS, but allow the
+   gentle, on-brand AMBIENT motion (slow marquee, scar-line draw, soft float) — these are
+   continuous decorative loops, not the jarring entrance/parallax motion the spec targets. */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1!important;transform:none!important}
+  .types.reveal > *,.eight.reveal > *,.quotes.reveal > *,.fams.reveal > *,.statrow.reveal > *,.goodies.reveal > *,.mirrors.reveal > *,.mcards.reveal > *,.inher.reveal > *{opacity:1!important;transform:none!important}
+}

@@ -27,6 +27,7 @@
   portrait zane.png. Dark index-v4.html is left untouched.
 -->
 <link rel="stylesheet" href="site-assets/scarred-light.css">
+<script defer src="site-assets/img-resilience.js"></script>
 <style>
   /* page-specific bits not covered by the shared light system */
 
@@ -152,7 +153,6 @@
   .marquee .track span{font-family:var(--display);font-style:italic;font-size:28px;color:var(--gold-deep);opacity:.55;padding:0 22px}
   .marquee .track .star{color:var(--ember);opacity:.85;font-style:normal;font-size:16px}
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  @media(prefers-reduced-motion:reduce){.marquee .track{animation:none}}
   .rebuild-combo{display:grid;grid-template-columns:.9fr 1.1fr;align-items:stretch;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lift);margin:26px 0}
   @media(max-width:860px){.rebuild-combo{grid-template-columns:1fr}}
   .rebuild-combo .rc-media{position:relative;min-height:380px}

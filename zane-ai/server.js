@@ -231,12 +231,18 @@ app.post("/api/chat", async (req, res) => {
 });
 
 // --- static pages -------------------------------------------------------------
+// Cache assets hard (7d) so once an image loads on a device it sticks and is never re-fetched
+// from a (possibly cold/sleeping) server; revalidate HTML every 5 min so edits still show.
+function staticCache(res, fp) {
+  if (/\.(webp|png|jpe?g|gif|svg|ico|woff2?|mp3|mp4)$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=604800");
+  else if (/\.html?$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=300, must-revalidate");
+}
 // docs/ at root: index-light.html is the homepage, plus quiz, stories, /site-assets, etc.
-app.use(express.static(DOCS_DIR, { index: "index-light.html" }));
+app.use(express.static(DOCS_DIR, { index: "index-light.html", setHeaders: staticCache }));
 // standalone Talk-to-Zane app under /zane — shares the site's images/css from docs/
 // (so site-assets aren't duplicated), then serves the page itself from public/.
-app.use("/zane/site-assets", express.static(path.join(DOCS_DIR, "site-assets")));
-app.use("/zane", express.static(PUBLIC_DIR, { index: "index-light.html" }));
+app.use("/zane/site-assets", express.static(path.join(DOCS_DIR, "site-assets"), { setHeaders: staticCache }));
+app.use("/zane", express.static(PUBLIC_DIR, { index: "index-light.html", setHeaders: staticCache }));
 // shareable result link — serve a tiny HTML shell with PER-RESULT Open Graph tags
 // (so the most-shared link previews as her archetype), then redirect humans to the
 // interactive result at ?r=<id> (assets resolve from the site root there).
