@@ -10,7 +10,7 @@ services:
   - type: web
     name: scarred-truth
     runtime: node
-    plan: free            # free tier sleeps after 15 min idle; bump to "starter" ($7/mo) for always-on
+    plan: starter         # always-on ($7/mo). Matches the live service — do NOT set back to "free" (free sleeps after 15 min idle and causes intermittent broken images on first load).
     rootDir: zane-ai
     buildCommand: npm install
     startCommand: node server.js
