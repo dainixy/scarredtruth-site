@@ -68,6 +68,20 @@ async function saveResult(data) {
   const now = Date.now();
   const id = newId();
   const rec = { id, createdAt: now, expiresAt: now + TTL_MS, ...data };
+
+  // Raw capture FIRST. What she typed is the whole point of this site; the results insert
+  // can fail (bad schema, outage) and until now that left no trace at all — the words were
+  // simply gone. events.payload is jsonb, so there's no length limit. Best-effort: if this
+  // throws we still try the real insert.
+  await logEvent({
+    type: "submission_raw",
+    resultId: id,
+    person: data.person || null,
+    answers: data.answers || null,
+    primary: data.primary || null,
+    source: data.source || null,
+  });
+
   const { error } = await db.from("results").insert(toRow(rec));
   if (error) throw new Error("supabase saveResult: " + error.message);
   await logEvent({
@@ -77,6 +91,7 @@ async function saveResult(data) {
     secondary: data.secondary || null,
     tertiary: data.tertiary || null,
     pcts: data.pcts || null,
+    source: data.source || null,
     hasEmail: !!(data.person && data.person.email),
     open1Len: data.person && data.person.open1 ? data.person.open1.length : 0,
     open2Len: data.person && data.person.open2 ? data.person.open2.length : 0,

@@ -29,6 +29,14 @@ services:
         value: deepseek/deepseek-v3.2
       - key: OPENROUTER_REFERER
         value: https://scarredtruth.com
+      - key: SITE_ORIGIN
+        value: https://scarredtruth.com
+      # MailerLite: quiz completers are upserted into a group; a "joins group" automation
+      # emails her the result. Both must be set or the push is skipped (site still works).
+      - key: MAILERLITE_GROUP_ID
+        value: "192864332519834709"   # "Quiz completions"
+      - key: MAILERLITE_API_KEY
+        sync: false
       - key: OPENROUTER_API_KEY
         sync: false
       - key: OPENROUTER_NOTE_MODEL

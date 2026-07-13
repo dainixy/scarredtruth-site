@@ -23,6 +23,7 @@ const {
 const ai = require("./lib/ai");
 const store = require("./lib/store");
 const { generateNote } = require("./lib/note");
+const mailerlite = require("./lib/mailerlite");
 
 const PORT = process.env.PORT || 5178;
 const MAX_TOKENS = 400;
@@ -35,6 +36,23 @@ const QUIZ_FILE = path.join(DOCS_DIR, "scarred-truth-quiz-light.html");
 
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
   .split(",").map((s) => s.trim()).filter(Boolean);
+const SITE_ORIGIN = process.env.SITE_ORIGIN || "https://scarredtruth.com";
+
+// Where she came from. Referrer is useless for this — Instagram and Threads both strip it
+// in their in-app browsers and land as "direct" — so the UTM tags on the bio/post links are
+// the only signal that survives the tap. We keep the referrer anyway as a weak cross-check.
+function sourceOf(s) {
+  if (!s || typeof s !== "object") return null;
+  const pick = (v) => (v ? String(v).slice(0, 120) : null);
+  const out = {
+    utmSource: pick(s.utmSource),
+    utmMedium: pick(s.utmMedium),
+    utmCampaign: pick(s.utmCampaign),
+    referrer: pick(s.referrer),
+    landing: pick(s.landing),
+  };
+  return Object.values(out).some(Boolean) ? out : null;
+}
 
 const app = express();
 app.set("trust proxy", 1);
@@ -45,7 +63,9 @@ app.use((req, res, next) => {
   res.set("Referrer-Policy", "strict-origin-when-cross-origin");
   next();
 });
-app.use(express.json({ limit: "64kb" }));
+// 256kb, not 64kb: a woman pouring out her whole story is the point of this site, and a
+// body over the limit used to be a silent total loss (no error middleware, empty .catch).
+app.use(express.json({ limit: "256kb" }));
 
 // --- per-IP rate limit (cost + abuse guard) -----------------------------------
 const hits = new Map();
@@ -88,15 +108,36 @@ app.post("/api/result", async (req, res) => {
     rebuilding: !!b.rebuilding,
     person: {
       name: clampInput(String(person.name || "")).slice(0, 80),
-      open1: clampInput(String(person.open1 || "")),
-      open2: clampInput(String(person.open2 || "")),
+      // What she writes is stored whole — never clamped. clampInput is a model-prompt
+      // cost guard, not a storage cap; using it here silently deleted the tail of a
+      // 4000+ char answer (13 Jul 2026). The 256kb express.json limit is the abuse guard.
+      open1: String(person.open1 || ""),
+      open2: String(person.open2 || ""),
       email: clampInput(String(person.email || "")).slice(0, 160),
     },
+    source: sourceOf(b.source),
   };
   if (!rec.primary) return res.status(400).json({ error: "missing primary" });
   try {
     const id = await store.saveResult(rec);
     res.json({ id, shareUrl: `/r/${id}` });
+
+    // After the response — she never waits on MailerLite, and MailerLite can never
+    // fail her submission. Fire-and-forget, but always logged either way.
+    if (rec.person.email && mailerlite.enabled()) {
+      mailerlite
+        .syncSubscriber({
+          email: rec.person.email,
+          name: rec.person.name,
+          profile: rec.primaryName,
+          resultUrl: `${SITE_ORIGIN}/r/${id}`,
+        })
+        .then(() => store.logEvent({ type: "mailerlite_synced", resultId: id }))
+        .catch((err) => {
+          console.error("[zane-ai] mailerlite sync failed:", err.message);
+          store.logEvent({ type: "mailerlite_failed", resultId: id, error: err.message });
+        });
+    }
   } catch (err) {
     if (process.env.NODE_ENV !== "test") console.error("[zane-ai] saveResult error:", err.message);
     res.status(500).json({ error: "could not save" });

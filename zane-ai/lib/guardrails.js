@@ -116,7 +116,12 @@ function findBannedFragments(text) {
 }
 
 // Clamp absurd input lengths before they reach the model (cost + abuse guard).
-const MAX_INPUT_CHARS = 4000;
+// NOTE: this is a *prompt* guard only — never use it on the storage path. Quiz answers
+// are stored whole (server.js /api/result); clamping there silently truncated a real
+// user mid-sentence. Raised 4000 -> 12000 so Zane's note actually reads the long,
+// pour-it-all-out answers, which are exactly the ones that matter. ~3k tokens on
+// DeepSeek = fractions of a cent, and rate-limiting + the 64kb body cap bound abuse.
+const MAX_INPUT_CHARS = 12000;
 function clampInput(text) {
   if (typeof text !== "string") return "";
   return text.slice(0, MAX_INPUT_CHARS);

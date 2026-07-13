@@ -15,6 +15,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://scarredtruth.com/site-assets/og-image.png">
 <link rel="stylesheet" href="site-assets/scarred-light.css">
+<style>/* Caveat lives here, not in the shared stylesheet: only this page and the quiz use it.
+  Keeping it shared cost every other page a fourth family in the render-blocking chain. */
+@font-face{font-family:'Caveat';font-style:normal;font-weight:500 700;font-display:swap;
+  src:url('site-assets/fonts/caveat.woff2') format('woff2')}</style>
 <script defer src="site-assets/img-resilience.js"></script>
 <style>
   /* page-specific bits not covered by the shared light system */
@@ -126,9 +130,49 @@
   .personal .why{border-left:2px solid var(--ember);padding-left:18px;color:var(--ink-2);font-style:italic;font-size:18px;margin:0 0 6px}
   textarea,input[type=text]{width:100%;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:400 17px/1.5 var(--body);padding:14px 16px;resize:vertical}
   textarea{min-height:104px;margin-bottom:6px} input[type=text]{margin-bottom:4px}
-  textarea:focus,input:focus{outline:none;border-color:var(--ember)}
+  /* :not(.bad) — a field that's invalid must READ as invalid, focused or not. Without this the
+     focus tint paints the bad field button-orange, which is the one colour an error may never be. */
+  textarea:focus,input:focus:not(.bad){outline:none;border-color:var(--ember)}
   textarea::placeholder,input::placeholder{color:var(--dim)}
   .fieldlbl{display:block;font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);margin:22px 0 8px}
+  /* keyboard focus: the rule above kills the outline and only tints the border. Too weak. */
+  textarea:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+
+  /* ===== states she was never shown =====
+     --ember is the primary BUTTON colour, so a failure must not use it or it reads as a CTA.
+     One dedicated error red: 6.48:1 on cream (AA floor is 4.5). Colour never carries the
+     meaning alone — every state below has an icon and words too. */
+  :root{--error:#A32A1E; --error-wash:rgba(163,42,30,.055);}
+
+  /* her words are being kept as she types. quiet — never a popup. no character counter,
+     on purpose: a counter tells her she's written "a lot" and invites her to stop. */
+  .savednote{display:flex;align-items:center;gap:6px;font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--dim);margin:2px 0 0;opacity:0;transition:opacity .25s}
+  .savednote.on{opacity:1}
+  .savednote svg{width:13px;height:13px;flex:none}
+
+  /* she came back to a half-finished quiz */
+  .resume{background:var(--paper-2);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 12px 12px 0;padding:20px 22px;margin:0 auto 34px;max-width:var(--read)}
+  .resume p{margin:0 0 4px;font-size:18px;color:var(--ink)}
+  .resume .sub{color:var(--ink-2);font-size:16px;font-style:italic;margin-bottom:16px}
+  .resume .row{display:flex;flex-wrap:wrap;gap:10px}
+
+  /* the save failed. what broke, why, that nothing is lost, and the fix — right here. */
+  .errbox{background:var(--error-wash);border-left:2px solid var(--error);border-radius:0 12px 12px 0;padding:20px 22px;margin:26px auto;max-width:var(--read)}
+  .errbox .top{display:flex;align-items:flex-start;gap:10px}
+  .errbox svg{width:19px;height:19px;flex:none;margin-top:3px;color:var(--error)}
+  .errbox .what{font-size:19px;color:var(--error);margin:0 0 2px;font-weight:560}
+  .errbox .cause{font-size:17px;color:var(--ink);margin:0 0 2px}
+  .errbox .safe{font-size:16px;color:var(--ink-2);font-style:italic;margin:0 0 16px}
+  .errbox .btn{box-shadow:none}
+  .savingnote{font:500 12px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:center;margin:26px auto;max-width:var(--read)}
+
+  /* a typo in her email means she waits for a letter that can never come.
+     (the .bad border itself lives further down — it has to sit after input[type=email]:focus
+     or the focus tint wins and the field turns button-orange instead of error-red) */
+  .fielderr{display:flex;align-items:flex-start;gap:6px;color:var(--error);font:400 15px/1.45 var(--body);margin:6px 0 0}
+  .fielderr svg{width:15px;height:15px;flex:none;margin-top:3px}
+  .btn[disabled]{opacity:.55;cursor:not-allowed;box-shadow:none}
+  .btn[disabled]:hover{filter:none}
 
   /* result */
   .rwrap{padding:60px 0 80px}
@@ -207,7 +251,11 @@
 
   /* === quiz upgrade: %match · blend (top 3) · featured story · share link · embedded chat === */
   input[type=email]{width:100%;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:400 17px/1.5 var(--body);padding:14px 16px;margin-bottom:4px}
-  input[type=email]:focus{outline:none;border-color:var(--ember)}
+  input[type=email]:focus:not(.bad){outline:none;border-color:var(--ember)}
+  /* An invalid field stays marked — focused or not. Specificity is deliberate: the rule above
+     sets the `border` shorthand at the same weight as a bare `input.bad`, so a source-order tie
+     is too fragile to trust. Matching the attribute selector too makes this win outright. */
+  input[type=email].bad,input[type=email].bad:focus,textarea.bad,input[type=text].bad{border-color:var(--error)}
   .matchpct{display:flex;align-items:baseline;gap:8px;margin:4px 0 16px;font-family:var(--display);font-style:italic;font-weight:560;font-size:38px;line-height:1;color:var(--fc,var(--gold-deep))}
   .matchpct span{font:500 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-style:normal}
   .blend{max-width:var(--read);margin:30px auto 0}
@@ -294,6 +342,49 @@ window.CP={score:score,C:C,ORDER:ORDER};
 /* ===== backend wiring + scoring extras (quiz upgrade) ===== */
 var API=''; var RESULT_ID=null; var LOADED=null;
 function api(p,o){return fetch(API+p,o||{});}
+
+/* ===== nothing she types is ever lost =====
+   Her answers live only in memory until she submits. A refresh, a crash, or Instagram's
+   in-app browser killing a backgrounded tab used to wipe the lot and dump her back on the
+   front page. Now every keystroke is kept on her own device until the save is confirmed. */
+var DRAFT_KEY='st_draft_v1';
+var DRAFT_ON=(function(){try{localStorage.setItem('st_t','1');localStorage.removeItem('st_t');return true;}catch(_){return false;}})();
+function saveDraft(){
+  if(!DRAFT_ON) return;
+  try{ localStorage.setItem(DRAFT_KEY, JSON.stringify({answers:answers,qi:qi,person:person,at:Date.now()})); }catch(_){}
+}
+function loadDraft(){
+  if(!DRAFT_ON) return null;
+  try{
+    var d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');
+    if(!d||!d.at||(Date.now()-d.at)>7*24*3600*1000) return null;   // a week, then let it go
+    if(!Array.isArray(d.answers)||!d.answers.length) return null;   // nothing worth resuming
+    return d;
+  }catch(_){ return null; }
+}
+function clearDraft(){ if(DRAFT_ON){ try{ localStorage.removeItem(DRAFT_KEY); }catch(_){} } }
+function flagSaved(){
+  var el=document.getElementById('savednote');
+  if(el) el.classList.add('on');
+}
+var draftTimer=null;
+function draftSoon(){ clearTimeout(draftTimer); draftTimer=setTimeout(function(){ readPersonal(); saveDraft(); flagSaved(); },300); }
+
+/* ===== where she came from =====
+   Referrer is useless here: Instagram and Threads both strip it in their in-app browsers and
+   arrive as "direct". The UTM tags on the bio/post links are the only thing that survives the
+   tap, so we grab them on landing and carry them through the whole quiz. */
+var SRC_KEY='st_src_v1';
+function captureSource(){
+  try{
+    var q=new URLSearchParams(location.search);
+    var s={utmSource:q.get('utm_source'),utmMedium:q.get('utm_medium'),utmCampaign:q.get('utm_campaign'),
+           referrer:document.referrer||null,landing:location.pathname+location.search};
+    var had=sessionStorage.getItem(SRC_KEY);
+    if(!had || s.utmSource) sessionStorage.setItem(SRC_KEY, JSON.stringify(s));
+  }catch(_){}
+}
+function getSource(){ try{ return JSON.parse(sessionStorage.getItem(SRC_KEY)||'null'); }catch(_){ return null; } }
 /* a profile's max reachable weighted points — for an independent % read (primary can be 82%, not always 100%) */
 var MAXPOSS=(function(){var m={};ORDER.forEach(function(k){m[k]=0;});
   C.quizScenes.forEach(function(s){var w=s.anchor?2:1;var hit={};
@@ -350,9 +441,16 @@ function renderDemoProfile(key){
 }
 
 /* ===== after the result paints: unique note, share link, live chat ===== */
+/* THE NOTE BUG. This used to call fetchNote() here on every fresh submit — which runs
+   synchronously during paint, before the save request has even been SENT. So resultId was
+   always null and the note she read was filed against nothing and thrown away. It only ever
+   got kept if she came back later and it regenerated (a *different* note). Now the fresh path
+   waits: submitResult() calls fetchNote() the moment it has her id. */
 function afterResult(){
+  var fresh=FRESH_SUBMIT; FRESH_SUBMIT=false;
   if(LOADED&&LOADED.id){ RESULT_ID=LOADED.id; }
-  if(LOADED&&LOADED.note){ fillNote(LOADED.note); } else { fetchNote(); }
+  if(LOADED&&LOADED.note){ fillNote(LOADED.note); }
+  else if(!fresh){ fetchNote(); }
   if(RESULT_ID){ showShare(RESULT_ID); }
   wireResultChat();
 }
@@ -592,44 +690,134 @@ function renderQuiz(){
   '</div></div>';
 }
 function pick(idx){answers[qi]=C.quizScenes[qi].options[idx].maps;
-  if(qi<C.quizScenes.length-1){qi++;paint();window.scrollTo(0,0);}else{go('personal');}}
-function qback(){if(qi>0){qi--;paint();window.scrollTo(0,0);}}
+  /* save AFTER qi moves on, or resuming puts her back on the question she just answered */
+  if(qi<C.quizScenes.length-1){qi++;saveDraft();paint();window.scrollTo(0,0);}else{saveDraft();go('personal');}}
+function qback(){if(qi>0){qi--;saveDraft();paint();window.scrollTo(0,0);}}
 
 /* ===== PERSONAL ===== */
+var ICON_WARN='<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 6v5"/><path d="M10 14h.01"/></svg>';
+var ICON_WARN_SM='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.4"/><path d="M8 5v3.4"/><path d="M8 11h.01"/></svg>';
+var ICON_CHECK='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 4.5L6 12L2.5 8.5"/></svg>';
+
 function renderPersonal(){
+  var v=function(s){return esc(s||'');};
   return topbar()+'<div class="personal"><div class="wrap"><div class="read reveal">'+
     '<span class="eyebrow">One last thing — the important one</span>'+
     '<h2>This is where it stops being generic.</h2>'+
     '<p class="why">The quiz found your pattern. But I can only speak to <em>your</em> life if you tell me about it — the more you put here, the more what comes next is about you, not a type.</p>'+
-    '<label class="fieldlbl">Where does this show up most right now — and what’s it costing you?</label>'+
-    '<textarea id="open1" placeholder="Tell me like you’d tell a friend. A few real sentences."></textarea>'+
-    '<label class="fieldlbl">And what would lighter look like for you?</label>'+
-    '<textarea id="open2" placeholder="Even one line. What changes when this lifts?"></textarea>'+
-    '<label class="fieldlbl">What should I call you?</label>'+
-    '<input type="text" id="pname" placeholder="First name">'+
-    '<label class="fieldlbl">Want your result + Zane’s note emailed to you? (optional)</label>'+
-    '<input type="email" id="pemail" placeholder="you@email.com — optional, never spammed">'+
-    '<div style="margin-top:24px"><button class="btn" onclick="savePersonal()">Show me my result →</button></div>'+
+    '<label class="fieldlbl" for="open1">Where does this show up most right now — and what’s it costing you?</label>'+
+    '<textarea id="open1" oninput="draftSoon()" placeholder="Tell me like you’d tell a friend. A few real sentences.">'+v(person.open1)+'</textarea>'+
+    '<label class="fieldlbl" for="open2">And what would lighter look like for you?</label>'+
+    '<textarea id="open2" oninput="draftSoon()" placeholder="Even one line. What changes when this lifts?">'+v(person.open2)+'</textarea>'+
+    '<p class="savednote" id="savednote" aria-live="polite">'+ICON_CHECK+' Saved on this device</p>'+
+    '<label class="fieldlbl" for="pname">What should I call you?</label>'+
+    '<input type="text" id="pname" oninput="draftSoon()" placeholder="First name" value="'+v(person.name)+'">'+
+    '<label class="fieldlbl" for="pemail">Want your result + Zane’s note emailed to you? (optional)</label>'+
+    '<input type="email" id="pemail" oninput="draftSoon()" onblur="checkEmail()" placeholder="you@email.com — optional, never spammed" value="'+v(person.email)+'">'+
+    '<div id="emailerr"></div>'+
+    '<div style="margin-top:24px"><button class="btn" id="gobtn" onclick="savePersonal()">Show me my result →</button></div>'+
     '<p class="meta">No email needed to see your result. The women who write a few honest lines get the most out of what comes next.</p>'+
   '</div></div></div>';
 }
-function savePersonal(){
+
+function readPersonal(){
   var g=function(id){var e=document.getElementById(id);return e?e.value:'';};
-  person.open1=g('open1');person.open2=g('open2');person.name=g('pname');person.email=g('pemail');
-  LOADED=null; RESULT_ID=null;
-  go('result'); // render immediately; the saved id + share link arrive a beat later
+  person.open1=g('open1'); person.open2=g('open2'); person.name=g('pname'); person.email=g('pemail');
+}
+
+/* Checked when she leaves the field, never while she is still typing (nobody should be told
+   they're wrong mid-word). Empty is fine — it's optional. But a broken address means she waits
+   for a letter that can never arrive, so that one we do stop. */
+function emailLooksReal(s){ return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test((s||'').trim()); }
+function checkEmail(){
+  var el=document.getElementById('pemail'), slot=document.getElementById('emailerr');
+  if(!el||!slot) return true;
+  var val=el.value.trim();
+  if(!val || emailLooksReal(val)){ el.classList.remove('bad'); el.removeAttribute('aria-invalid'); slot.innerHTML=''; return true; }
+  el.classList.add('bad'); el.setAttribute('aria-invalid','true');
+  slot.innerHTML='<p class="fielderr">'+ICON_WARN_SM+'<span>That address looks unfinished — it should look like <em>name@email.com</em>. Or leave it empty and just read your result here.</span></p>';
+  return false;
+}
+
+var SAVING=false;          // she can tap twice; that used to make two of her
+var PAYLOAD=null;          // kept so [Try again] can re-send exactly what she wrote
+var FRESH_SUBMIT=false;    // tells afterResult() to leave the note to submitResult()
+
+function savePersonal(){
+  if(SAVING) return;
+  readPersonal();
+  if(!checkEmail()){ var e=document.getElementById('pemail'); if(e) e.focus(); return; }
+  saveDraft();
+
+  LOADED=null; RESULT_ID=null; FRESH_SUBMIT=true;
   var res=score(answers); var ranked=rankedKeys(res.tally); var p=P[res.primary];
   var top3={}; ranked.slice(0,3).forEach(function(k){ if(res.tally[k]>0) top3[k]=pctOf(k,res.tally); });
-  var payload={answers:answers, primary:res.primary,
+  PAYLOAD={answers:answers, primary:res.primary,
     secondary:(res.primary!=='steady'&&res.secondary)?res.secondary:null,
     tertiary:(res.primary!=='steady'&&ranked[2]&&res.tally[ranked[2]]>0&&ranked[2]!==res.secondary)?ranked[2]:null,
     primaryName:p?p.name:'', coreFear:p?p.coreFear:'',
     pcts:top3, profileTallies:res.tally, rebuilding:res.rebuilding,
+    source:getSource(),
     person:{name:person.name,open1:person.open1,open2:person.open2,email:person.email}};
-  api('/api/result',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-    .then(function(r){return r.json();})
-    .then(function(j){ if(j&&j.id){ RESULT_ID=j.id; try{history.replaceState(null,'','/r/'+j.id);}catch(_){ } showShare(j.id); } })
-    .catch(function(){});
+
+  go('result'); // her result shows at once — she never waits on the network to read it
+  submitResult();
+}
+
+/* Three quiet tries before we ever bother her. Only if all three fail does she hear about it. */
+function submitResult(attempt){
+  attempt=attempt||1;
+  SAVING=true;
+  var slow=setTimeout(function(){ showSaving(); }, 1000);  // no indicator for a sub-second wait
+
+  api('/api/result',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(PAYLOAD)})
+    .then(function(r){
+      if(!r.ok) throw new Error('http '+r.status);          // a 500 used to be fed straight to .json()
+      return r.json();
+    })
+    .then(function(j){
+      if(!j||!j.id) throw new Error('no id');
+      clearTimeout(slow);
+      SAVING=false;
+      RESULT_ID=j.id;
+      clearDraft();                                          // safe now: it's on the server
+      try{ history.replaceState(null,'','/r/'+j.id); }catch(_){ }
+      showShare(j.id);
+      fetchNote();                                           // NOW — with her id, so it actually gets kept
+    })
+    .catch(function(err){
+      clearTimeout(slow);
+      if(attempt<3){ setTimeout(function(){ submitResult(attempt+1); }, attempt*700); return; }
+      SAVING=false;
+      console.error('[quiz] save failed after 3 tries:', err && err.message);
+      showSaveError();
+      fetchNote();                                           // she still gets her note, id or no id
+    });
+}
+
+function showSaving(){
+  var slot=document.getElementById('sharebox-slot');
+  if(slot && !RESULT_ID) slot.innerHTML='<p class="savingnote">Saving your result…</p>';
+}
+
+/* What broke · why · that nothing is lost · and the fix, right here in the same box. */
+function showSaveError(){
+  var slot=document.getElementById('sharebox-slot');
+  if(!slot) return;
+  var safe = DRAFT_ON
+    ? 'Nothing you wrote is lost — it’s still here on your device.'
+    : 'Your words are still on this page. Don’t close it until this goes through.';
+  slot.innerHTML='<div class="errbox" role="alert"><div class="top">'+ICON_WARN+'<div>'+
+    '<p class="what">Your answers didn’t save.</p>'+
+    '<p class="cause">We couldn’t reach the server just now.</p>'+
+    '<p class="safe">'+safe+'</p>'+
+    '<button class="btn" id="retrybtn" onclick="retrySave()">Try again</button>'+
+  '</div></div></div>';
+}
+function retrySave(){
+  var b=document.getElementById('retrybtn');
+  if(b){ b.disabled=true; b.textContent='Trying…'; }
+  submitResult();
 }
 
 /* ===== ZANE NOTE (deterministic, offline, faith-aware, responds to her words) ===== */
@@ -779,27 +967,55 @@ function renderResult(){
       '</div>'+
     '</footer>';
 }
-function restart(){answers=[];qi=0;person={name:'',open1:'',open2:''};go('quiz');}
+function restart(){answers=[];qi=0;person={name:'',open1:'',open2:'',email:''};clearDraft();go('quiz');}
+
+/* ===== she came back to a half-finished quiz =====
+   Offered, never forced — she can always start clean. */
+var RESUMABLE=null;
+function renderResume(){
+  if(!RESUMABLE) return '';
+  var done=RESUMABLE.answers.length, total=C.quizScenes.length;
+  return '<div class="wrap"><div class="resume">'+
+    '<p>You started this before.</p>'+
+    '<p class="sub">'+done+' of '+total+' answered. Everything you wrote is still here.</p>'+
+    '<div class="row">'+
+      '<button class="btn" onclick="resumeDraft()">Pick up where I left off</button>'+
+      '<button class="btn ghost" onclick="dropDraft()">Start over</button>'+
+    '</div>'+
+  '</div></div>';
+}
+function resumeDraft(){
+  if(!RESUMABLE) return;
+  answers=RESUMABLE.answers.slice();
+  qi=Math.min(RESUMABLE.qi||0, C.quizScenes.length-1);
+  person=Object.assign({name:'',open1:'',open2:'',email:''}, RESUMABLE.person||{});
+  RESUMABLE=null;
+  go(answers.length>=C.quizScenes.length ? 'personal' : 'quiz');
+}
+function dropDraft(){ RESUMABLE=null; clearDraft(); paint(); }
 
 /* ===== ROUTER ===== */
 var stage='entry';
 function paint(){
   var app=document.getElementById('app');
-  if(stage==='entry') app.innerHTML=renderEntry();
+  if(stage==='entry') app.innerHTML=renderResume()+renderEntry();
   else if(stage==='quiz') app.innerHTML=renderQuiz();
   else if(stage==='personal') app.innerHTML=renderPersonal();
   else app.innerHTML=renderResult();
   wireReveal();
+  if(stage==='personal'){ readPersonal(); }
   if(stage==='result') afterResult();
 }
 function go(s){stage=s; if(s==='quiz'&&qi>=C.quizScenes.length){qi=0;answers=[];} paint(); window.scrollTo(0,0);}
 function scrollToTypes(){var t=document.getElementById('types'); if(t) t.scrollIntoView({behavior:'smooth'});}
 (function init(){
+  captureSource();                       // grab the UTM tag before anything can navigate away
   var prof=(location.search.match(/[?&]profile=([a-z]+)/)||[])[1];
   if(prof && P[prof]){ renderDemoProfile(prof); return; }
   var pm=location.pathname.match(/\/r\/([A-Za-z0-9_-]{4,})/);
   var qm=location.search.match(/[?&]r=([A-Za-z0-9_-]{4,})/);
   var id=(pm&&pm[1])||(qm&&qm[1]);
+  if(!id) RESUMABLE=loadDraft();         // she may have been here before
   if(id){ stage='result';
     api('/api/result/'+id).then(function(r){return r.ok?r.json():null;}).then(function(rec){
       if(rec){ LOADED=rec; RESULT_ID=rec.id; var pr=rec.person||{}; person={name:pr.name||'',open1:pr.open1||'',open2:pr.open2||'',email:pr.email||''}; }

@@ -41,6 +41,15 @@ function saveResult(data) {
   let id = newId();
   while (results[id]) id = newId();
   const now = Date.now();
+  // raw capture before the write — mirrors store-supabase.js
+  logEvent({
+    type: "submission_raw",
+    resultId: id,
+    person: data.person || null,
+    answers: data.answers || null,
+    primary: data.primary || null,
+    source: data.source || null,
+  });
   results[id] = { id, createdAt: now, expiresAt: now + TTL_MS, chatCount: 0, ...data };
   persist();
   logEvent({
@@ -50,6 +59,7 @@ function saveResult(data) {
     secondary: data.secondary || null,
     tertiary: data.tertiary || null,
     pcts: data.pcts || null,
+    source: data.source || null,
     hasEmail: !!(data.person && data.person.email),
     open1Len: data.person && data.person.open1 ? data.person.open1.length : 0,
     open2Len: data.person && data.person.open2 ? data.person.open2.length : 0,
