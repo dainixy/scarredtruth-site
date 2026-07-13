@@ -32,7 +32,7 @@ const RISK_WINDOW = 6;
 const FREE_CHAT_CAP = Number(process.env.FREE_CHAT_CAP || 50); // free messages per result
 const DOCS_DIR = path.join(__dirname, "..", "docs");
 const PUBLIC_DIR = path.join(__dirname, "public");
-const QUIZ_FILE = path.join(DOCS_DIR, "scarred-truth-quiz-light.html");
+const QUIZ_FILE = path.join(DOCS_DIR, "her-own-woman-quiz.html");
 
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
   .split(",").map((s) => s.trim()).filter(Boolean);
@@ -278,18 +278,37 @@ function staticCache(res, fp) {
   if (/\.(webp|png|jpe?g|gif|svg|ico|woff2?|mp3|mp4)$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=604800");
   else if (/\.html?$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=300, must-revalidate");
 }
-// The homepage is "/", not "/index-light.html". Both used to answer 200, which is the same page
-// living at two URLs — search engines split it, and shared links looked like a raw filename.
-// 301 the file URL into the canonical one. Must sit BEFORE express.static, or static answers first.
-// (Only the root one. /zane/index-light.html is a different app and is left alone.)
-app.get("/index-light.html", (_req, res) => res.redirect(301, "/"));
+// ---- MOVED URLS (renamed 2026-07-13: dropped "-light", clearer names) ---------------
+// Every old URL answers a permanent redirect, so inbound links, Google results and
+// anything already shared keep working — and the ranking equity transfers to the new URL.
+// A rename WITHOUT these is how a site silently loses its search traffic.
+// Must sit BEFORE express.static, or static answers first.
+const MOVED = {
+  "/index-light.html":                 "/",
+  "/scarred-truth-quiz-light.html":    "/her-own-woman-quiz.html",
+  "/all-profiles.html":                "/quiz-all-profiles.html",
+  "/zane-story-light.html":            "/zane-story.html",
+  "/scarred-truth-stories-light.html": "/scarred-truth-stories.html",
+  "/zane/index-light.html":            "/talk-to-zane-ai.html",
+  "/zane":                             "/talk-to-zane-ai.html",
+  "/zane/":                            "/talk-to-zane-ai.html",
+};
+for (const [from, to] of Object.entries(MOVED)) {
+  app.get(from, (_req, res) => res.redirect(301, to));
+}
 
-// docs/ at root: index-light.html is the homepage file, plus quiz, stories, /site-assets, etc.
-app.use(express.static(DOCS_DIR, { index: "index-light.html", setHeaders: staticCache }));
-// standalone Talk-to-Zane app under /zane — shares the site's images/css from docs/
-// (so site-assets aren't duplicated), then serves the page itself from public/.
+// Talk to Zane now lives at the SITE ROOT (it used to be /zane/index-light.html). The page
+// itself is still served out of public/; only its assets stay under /zane (see below), which
+// is why the page loads /zane/chat.js absolutely rather than ./chat.js.
+app.get("/talk-to-zane-ai.html", (_req, res) =>
+  res.sendFile(path.join(PUBLIC_DIR, "talk-to-zane-ai.html")));
+
+// docs/ at root: index.html is the homepage, plus the quiz, the story, /site-assets, etc.
+app.use(express.static(DOCS_DIR, { index: "index.html", setHeaders: staticCache }));
+// The chat app's own assets (chat.js) stay under /zane so they aren't duplicated. No `index`
+// here any more — bare /zane and /zane/ are 301'd to the new URL above.
 app.use("/zane/site-assets", express.static(path.join(DOCS_DIR, "site-assets"), { setHeaders: staticCache }));
-app.use("/zane", express.static(PUBLIC_DIR, { index: "index-light.html", setHeaders: staticCache }));
+app.use("/zane", express.static(PUBLIC_DIR, { setHeaders: staticCache }));
 // shareable result link — serve a tiny HTML shell with PER-RESULT Open Graph tags
 // (so the most-shared link previews as her archetype), then redirect humans to the
 // interactive result at ?r=<id> (assets resolve from the site root there).
@@ -299,7 +318,7 @@ function escHtml(s) {
 }
 app.get("/r/:id", async (req, res) => {
   const id = String(req.params.id || "");
-  const target = "/scarred-truth-quiz-light.html?r=" + encodeURIComponent(id);
+  const target = "/her-own-woman-quiz.html?r=" + encodeURIComponent(id);
   let rec = null;
   try { rec = await store.getResult(id); } catch (_) {}
   const key = rec && PROFILE_KEYS.includes(String(rec.primary)) ? rec.primary : null;
@@ -316,7 +335,7 @@ app.get("/r/:id", async (req, res) => {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escHtml(title)}</title>
 <meta name="description" content="${escHtml(desc)}">
-<link rel="canonical" href="https://scarredtruth.com/scarred-truth-quiz-light.html">
+<link rel="canonical" href="https://scarredtruth.com/her-own-woman-quiz.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${escHtml(title)}">
 <meta property="og:description" content="${escHtml(desc)}">
@@ -331,15 +350,15 @@ app.get("/r/:id", async (req, res) => {
 </body></html>`);
 });
 // each profile on its own page (clean preview of one result)
-app.get("/profile/:key", (req, res) => res.redirect(302, "/scarred-truth-quiz-light.html?profile=" + encodeURIComponent(req.params.key)));
+app.get("/profile/:key", (req, res) => res.redirect(302, "/her-own-woman-quiz.html?profile=" + encodeURIComponent(req.params.key)));
 
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`[zane-ai] http://localhost:${PORT}  (mode: ${ai.MOCK ? "mock" : "live — " + ai.CHAT_MODEL})`);
     console.log(`         home:    http://localhost:${PORT}/`);
-    console.log(`         quiz:    http://localhost:${PORT}/scarred-truth-quiz-light.html`);
-    console.log(`         stories: http://localhost:${PORT}/scarred-truth-stories-light.html`);
-    console.log(`         zane:    http://localhost:${PORT}/zane/index-light.html`);
+    console.log(`         quiz:    http://localhost:${PORT}/her-own-woman-quiz.html`);
+    console.log(`         stories: http://localhost:${PORT}/scarred-truth-stories.html`);
+    console.log(`         zane:    http://localhost:${PORT}/talk-to-zane-ai.html`);
   });
 }
 

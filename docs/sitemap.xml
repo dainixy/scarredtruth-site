@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://scarredtruth.com/</loc></url>
-  <url><loc>https://scarredtruth.com/scarred-truth-quiz-light.html</loc></url>
-  <url><loc>https://scarredtruth.com/zane-story-light.html</loc></url>
-  <url><loc>https://scarredtruth.com/all-profiles.html</loc></url>
-  <url><loc>https://scarredtruth.com/scarred-truth-stories-light.html</loc></url>
-  <url><loc>https://scarredtruth.com/zane/index-light.html</loc></url>
+  <url><loc>https://scarredtruth.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://scarredtruth.com/her-own-woman-quiz.html</loc><priority>0.9</priority></url>
+  <url><loc>https://scarredtruth.com/zane-story.html</loc><priority>0.9</priority></url>
+  <url><loc>https://scarredtruth.com/talk-to-zane-ai.html</loc><priority>0.8</priority></url>
+  <url><loc>https://scarredtruth.com/quiz-all-profiles.html</loc><priority>0.7</priority></url>
+  <url><loc>https://scarredtruth.com/scarred-truth-stories.html</loc><priority>0.7</priority></url>
 </urlset>
