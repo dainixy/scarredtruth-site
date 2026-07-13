@@ -156,15 +156,10 @@
   .resume .sub{color:var(--ink-2);font-size:16px;font-style:italic;margin-bottom:16px}
   .resume .row{display:flex;flex-wrap:wrap;gap:10px}
 
-  /* the save failed. what broke, why, that nothing is lost, and the fix — right here. */
-  .errbox{background:var(--error-wash);border-left:2px solid var(--error);border-radius:0 12px 12px 0;padding:20px 22px;margin:26px auto;max-width:var(--read)}
-  .errbox .top{display:flex;align-items:flex-start;gap:10px}
-  .errbox svg{width:19px;height:19px;flex:none;margin-top:3px;color:var(--error)}
-  .errbox .what{font-size:19px;color:var(--error);margin:0 0 2px;font-weight:560}
-  .errbox .cause{font-size:17px;color:var(--ink);margin:0 0 2px}
-  .errbox .safe{font-size:16px;color:var(--ink-2);font-style:italic;margin:0 0 16px}
-  .errbox .btn{box-shadow:none}
-  .savingnote{font:500 12px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:center;margin:26px auto;max-width:var(--read)}
+  /* NO error box here, on purpose. A failed save is OUR problem, not hers — telling her it broke
+     and handing her a "Try again" button just makes our problem her problem. The save now keeps
+     retrying by itself (and finishes on her next visit if it has to), so she never sees an alarm.
+     Her share link simply appears when the save lands. */
 
   /* a typo in her email means she waits for a letter that can never come.
      (the .bad border itself lives further down — it has to sit after input[type=email]:focus
@@ -695,7 +690,6 @@ function pick(idx){answers[qi]=C.quizScenes[qi].options[idx].maps;
 function qback(){if(qi>0){qi--;saveDraft();paint();window.scrollTo(0,0);}}
 
 /* ===== PERSONAL ===== */
-var ICON_WARN='<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 6v5"/><path d="M10 14h.01"/></svg>';
 var ICON_WARN_SM='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.4"/><path d="M8 5v3.4"/><path d="M8 11h.01"/></svg>';
 var ICON_CHECK='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 4.5L6 12L2.5 8.5"/></svg>';
 
@@ -760,64 +754,74 @@ function savePersonal(){
     source:getSource(),
     person:{name:person.name,open1:person.open1,open2:person.open2,email:person.email}};
 
-  go('result'); // her result shows at once — she never waits on the network to read it
+  setPending(PAYLOAD);   // queued the moment she taps — survives a dead tab, a dead phone, a dead server
+  go('result');          // her result shows at once — she never waits on the network to read it
   submitResult();
 }
 
-/* Three quiet tries before we ever bother her. Only if all three fail does she hear about it. */
+/* ===== a failed save is OUR problem, not hers =====
+   She is never shown an error and never asked to press anything. The save just keeps trying:
+   backing off while she's on the page, retrying the instant her signal comes back, and — if the
+   tab died mid-request — finishing itself the next time she opens the site. Her result reads
+   normally the whole time; only the share link waits.
+
+   Deliberately NOT using fetch(keepalive:true) to survive tab-close: keepalive caps the request
+   body at 64KB, which would silently break exactly the long answers this is all here to protect.
+   The pending queue below covers tab-close without that trap. */
+var PENDING_KEY='st_pending_v1';
+function setPending(p){ if(!DRAFT_ON) return; try{ localStorage.setItem(PENDING_KEY,JSON.stringify({payload:p,at:Date.now()})); }catch(_){} }
+function clearPending(){ if(!DRAFT_ON) return; try{ localStorage.removeItem(PENDING_KEY); }catch(_){} }
+function getPending(){
+  if(!DRAFT_ON) return null;
+  try{
+    var d=JSON.parse(localStorage.getItem(PENDING_KEY)||'null');
+    if(!d||!d.payload) return null;
+    if(Date.now()-d.at > 7*24*3600*1000){ clearPending(); return null; }  // a week, then let it go
+    return d.payload;
+  }catch(_){ return null; }
+}
+
+var RETRY_TIMER=null;
 function submitResult(attempt){
   attempt=attempt||1;
   SAVING=true;
-  var slow=setTimeout(function(){ showSaving(); }, 1000);  // no indicator for a sub-second wait
+  clearTimeout(RETRY_TIMER);
 
   api('/api/result',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(PAYLOAD)})
     .then(function(r){
-      if(!r.ok) throw new Error('http '+r.status);          // a 500 used to be fed straight to .json()
+      if(!r.ok) throw new Error('http '+r.status);   // a 500 used to be fed straight into .json()
       return r.json();
     })
     .then(function(j){
       if(!j||!j.id) throw new Error('no id');
-      clearTimeout(slow);
       SAVING=false;
       RESULT_ID=j.id;
-      clearDraft();                                          // safe now: it's on the server
+      clearPending(); clearDraft();                  // safe now — it's on the server
       try{ history.replaceState(null,'','/r/'+j.id); }catch(_){ }
       showShare(j.id);
-      fetchNote();                                           // NOW — with her id, so it actually gets kept
+      fetchNote();                                   // now, with her id, so the note is actually kept
     })
     .catch(function(err){
-      clearTimeout(slow);
-      if(attempt<3){ setTimeout(function(){ submitResult(attempt+1); }, attempt*700); return; }
-      SAVING=false;
-      console.error('[quiz] save failed after 3 tries:', err && err.message);
-      showSaveError();
-      fetchNote();                                           // she still gets her note, id or no id
+      console.error('[quiz] save attempt '+attempt+' failed:', err && err.message);
+      var wait=Math.min(60000, 800*Math.pow(2, attempt-1));   // 0.8s, 1.6s, 3.2s … capped at a minute
+      RETRY_TIMER=setTimeout(function(){ submitResult(attempt+1); }, wait);
     });
 }
 
-function showSaving(){
-  var slot=document.getElementById('sharebox-slot');
-  if(slot && !RESULT_ID) slot.innerHTML='<p class="savingnote">Saving your result…</p>';
-}
+/* her signal came back — don't sit on a backoff timer */
+window.addEventListener('online', function(){
+  if(SAVING && PAYLOAD){ clearTimeout(RETRY_TIMER); submitResult(1); }
+});
 
-/* What broke · why · that nothing is lost · and the fix, right here in the same box. */
-function showSaveError(){
-  var slot=document.getElementById('sharebox-slot');
-  if(!slot) return;
-  var safe = DRAFT_ON
-    ? 'Nothing you wrote is lost — it’s still here on your device.'
-    : 'Your words are still on this page. Don’t close it until this goes through.';
-  slot.innerHTML='<div class="errbox" role="alert"><div class="top">'+ICON_WARN+'<div>'+
-    '<p class="what">Your answers didn’t save.</p>'+
-    '<p class="cause">We couldn’t reach the server just now.</p>'+
-    '<p class="safe">'+safe+'</p>'+
-    '<button class="btn" id="retrybtn" onclick="retrySave()">Try again</button>'+
-  '</div></div></div>';
-}
-function retrySave(){
-  var b=document.getElementById('retrybtn');
-  if(b){ b.disabled=true; b.textContent='Trying…'; }
-  submitResult();
+/* the tab died mid-save, or the server was down the whole time she was here.
+   Finish it quietly on her next visit; she never knows it happened. */
+function flushPending(){
+  var p=getPending();
+  if(!p) return;
+  api('/api/result',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)})
+    .then(function(r){ if(!r.ok) throw new Error('http '+r.status); return r.json(); })
+    .then(function(j){ if(j&&j.id){ clearPending(); clearDraft(); console.log('[quiz] recovered an unsaved submission:', j.id); } })
+    .catch(function(){ /* leave it queued — we'll try again next time she's here */ });
 }
 
 /* ===== ZANE NOTE (deterministic, offline, faith-aware, responds to her words) ===== */
@@ -1010,6 +1014,7 @@ function go(s){stage=s; if(s==='quiz'&&qi>=C.quizScenes.length){qi=0;answers=[];
 function scrollToTypes(){var t=document.getElementById('types'); if(t) t.scrollIntoView({behavior:'smooth'});}
 (function init(){
   captureSource();                       // grab the UTM tag before anything can navigate away
+  flushPending();                        // anything that never made it to the server, finish it now
   var prof=(location.search.match(/[?&]profile=([a-z]+)/)||[])[1];
   if(prof && P[prof]){ renderDemoProfile(prof); return; }
   var pm=location.pathname.match(/\/r\/([A-Za-z0-9_-]{4,})/);
