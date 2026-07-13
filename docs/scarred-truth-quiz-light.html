@@ -147,6 +147,7 @@
 
   /* her words are being kept as she types. quiet — never a popup. no character counter,
      on purpose: a counter tells her she's written "a lot" and invites her to stop. */
+  .mailhint{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
   .savednote{display:flex;align-items:center;gap:6px;font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--dim);margin:2px 0 0;opacity:0;transition:opacity .25s}
   .savednote.on{opacity:1}
   .savednote svg{width:13px;height:13px;flex:none}
@@ -469,9 +470,17 @@ function fetchNote(){
 function showShare(id){
   var slot=document.getElementById('sharebox-slot'); if(!slot||slot.dataset.done) return; slot.dataset.done='1';
   var url=(location.origin&&location.origin.indexOf('http')===0?location.origin:'https://scarredtruth.com')+'/r/'+id;
+  /* She only sees this if she asked for the email. New sending domain = the first ones can land
+     in spam; if she knows who it's from and drags it out once, every one after that arrives. */
+  var mail = person.email
+    ? '<p class="hint mailhint">Zane’s note is on its way to <strong>'+esc(person.email)+'</strong>, from '+
+      '<strong>zane@scarredtruth.com</strong>. If it’s not in your inbox shortly, check your spam folder — '+
+      'and drag it out, so the next one comes straight to you.</p>'
+    : '';
   slot.innerHTML='<div class="sharebox reveal"><span class="eyebrow">Your result is saved for 30 days</span>'+
     '<div class="row"><input id="shareurl" readonly value="'+esc(url)+'"><button class="btn" type="button" onclick="copyShare()">Copy link</button></div>'+
-    '<p class="hint">Keep this link to come back to your result anytime — or paste it to Zane so he has the full picture of where you are.</p></div>';
+    '<p class="hint">Keep this link to come back to your result anytime — or paste it to Zane so he has the full picture of where you are.</p>'+
+    mail+'</div>';
 }
 function copyShare(){var i=document.getElementById('shareurl'); if(!i) return; i.select();
   try{navigator.clipboard.writeText(i.value);}catch(_){ try{document.execCommand('copy');}catch(e){} } }
@@ -710,6 +719,9 @@ function renderPersonal(){
     '<label class="fieldlbl" for="pemail">Want your result + Zane’s note emailed to you? (optional)</label>'+
     '<input type="email" id="pemail" oninput="draftSoon()" onblur="checkEmail()" placeholder="you@email.com — optional, never spammed" value="'+v(person.email)+'">'+
     '<div id="emailerr"></div>'+
+    /* the domain has never sent mail before, so it has no reputation yet and the first few can
+       land in spam. Telling her where to look — and to drag it out — is what fixes it for good. */
+    '<p class="hint">It comes from <strong>zane@scarredtruth.com</strong>. If it’s not there in a few minutes, look in your spam folder — and drag it out, so the next one comes straight to you.</p>'+
     '<div style="margin-top:24px"><button class="btn" id="gobtn" onclick="savePersonal()">Show me my result →</button></div>'+
     '<p class="meta">No email needed to see your result. The women who write a few honest lines get the most out of what comes next.</p>'+
   '</div></div></div>';
