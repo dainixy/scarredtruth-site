@@ -60,11 +60,21 @@ check() { c=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$SITE$1"); \
           [ "$c" = "$2" ] && printf '    ok   %-44s %s\n' "$1" "$c" \
                           || { printf '    FAIL %-44s %s (want %s)\n' "$1" "$c" "$2"; fail=1; }; }
 check "/"                                            200
-check "/zane-story-light.html"                       200
-check "/scarred-truth-quiz-light.html"               200
-check "/zane/index-light.html"                       200
+check "/zane-story.html"                             200
+check "/her-own-woman-quiz.html"                     200
+check "/talk-to-zane-ai.html"                        200
+check "/quiz-all-profiles.html"                      200
+check "/scarred-truth-stories.html"                  200
+check "/zane/chat.js"                                200
 check "/site-assets/zane-story-narration.mp3"        200
 check "/site-assets/fonts/newsreader-roman.woff2"    200
+# the old URLs must keep answering a 301 — that's what protects the search traffic
+check "/zane-story-light.html"                       301
+check "/scarred-truth-quiz-light.html"               301
+check "/all-profiles.html"                           301
+check "/scarred-truth-stories-light.html"            301
+check "/zane/index-light.html"                       301
+check "/index-light.html"                            301
 # a 7:59 track is unseekable without Range support
 r=$(curl -s -o /dev/null -w '%{http_code}' -H "Range: bytes=0-1" --max-time 20 "$SITE/site-assets/zane-story-narration.mp3")
 [ "$r" = "206" ] && printf '    ok   %-44s 206\n' "audio HTTP Range (seeking)" \
