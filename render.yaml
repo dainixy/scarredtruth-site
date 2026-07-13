@@ -1,7 +1,13 @@
 # Render Blueprint — Scarred Truth site (single Node web service).
 # One service serves the quiz/stories/result pages, the 30-day share links, the AI
-# "note from Zane", and the streaming Zane chat. rootDir points Render at zane-ai;
-# the whole repo is checked out, so server.js can serve ../docs as the site root.
+# "note from Zane", and the streaming Zane chat.
+#
+# DO NOT re-add `rootDir: zane-ai`. It was set until 2026-07-13 and it silently broke
+# auto-deploy for the entire website: Render only auto-deploys when files INSIDE rootDir
+# change, and every page, style and asset lives in docs/ — outside it. So content commits
+# never deployed. `git push` looked like it worked and the site kept serving the old
+# commit. Instead we run from the repo root and cd into zane-ai in the commands below
+# (server.js resolves ../docs via __dirname, so the working directory doesn't matter).
 #
 # Secrets are marked `sync: false` -> Render prompts for them in the dashboard and
 # they are NEVER committed. Set them once at deploy time:
@@ -11,9 +17,9 @@ services:
     name: scarred-truth
     runtime: node
     plan: starter         # always-on ($7/mo). Matches the live service — do NOT set back to "free" (free sleeps after 15 min idle and causes intermittent broken images on first load).
-    rootDir: zane-ai
-    buildCommand: npm install
-    startCommand: node server.js
+    # No rootDir — see the header. Changes anywhere in the repo must trigger a deploy.
+    buildCommand: cd zane-ai && npm install
+    startCommand: cd zane-ai && node server.js
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
