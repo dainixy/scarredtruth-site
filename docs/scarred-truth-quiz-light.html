@@ -499,7 +499,7 @@ function wireResultChat(){
   function updateLeft(){ if(left) left.textContent=Math.max(0,CAP-sent)+' free messages left'; }
   function wall(){ walled=true; form.style.display='none';
     var w=document.createElement('div'); w.className='chatwall';
-    w.innerHTML='<div class="row"><a class="btn" href="index-light.html">Get the free 7-Day Reset</a><a class="btn ghost" href="/zane/index-light.html">Join the waitlist</a></div>';
+    w.innerHTML='<div class="row"><a class="btn" href="/">Get the free 7-Day Reset</a><a class="btn ghost" href="/zane/index-light.html">Join the waitlist</a></div>';
     form.parentNode.appendChild(w); }
   add('zane',intro); updateLeft();
   form.addEventListener('submit',function(e){e.preventDefault(); if(busy||walled) return;
@@ -536,11 +536,11 @@ function wireReveal(){
 function topbar(){
   return '<a class="skip" href="#main">Skip to content</a>'+
     '<div class="topbar"><div class="row">'+
-    '<a class="brandmark" href="/index-light.html"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a>'+
+    '<a class="brandmark" href="/"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a>'+
     '<input id="navtog" type="checkbox" tabindex="-1" aria-hidden="true">'+
     '<label class="navtoggle" for="navtog" aria-label="Open menu"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>'+
     '<nav class="nav" aria-label="Primary">'+
-      '<a class="lnk" href="/index-light.html">Home</a>'+
+      '<a class="lnk" href="/">Home</a>'+
       '<a class="lnk" href="#" onclick="go(\'entry\');return false;">The&nbsp;Quiz</a>'+
       '<a class="lnk" href="/zane-story-light.html">My&nbsp;Story</a>'+
       '<a class="lnk" href="/all-profiles.html">All&nbsp;Profiles</a>'+
@@ -967,7 +967,7 @@ function renderResult(){
       '<div class="resultband"><img src="site-assets/illustrations/group.webp" alt="Women, each carrying a different weight, together at dawn"><p class="rcap" style="margin-top:10px">You’re in good company.</p></div></div>'+
 
     '<div class="firststep reveal"><div class="card cta-card"><img class="bgmark" src="site-assets/marks/peak.webp" alt="" aria-hidden="true"><span class="eyebrow">Your first step — today</span><h3>Start this small</h3><p class="step">'+esc(p.firstStep)+'</p>'+
-      '<a class="btn" href="index-light.html">Send me the free 7-Day Reset →</a></div></div>'+
+      '<a class="btn" href="/">Send me the free 7-Day Reset →</a></div></div>'+
   '</div>'+
 
     /* UNIFIED FOOTER — result variant (they took the quiz → soft cross-sell to Zane) */

@@ -278,7 +278,13 @@ function staticCache(res, fp) {
   if (/\.(webp|png|jpe?g|gif|svg|ico|woff2?|mp3|mp4)$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=604800");
   else if (/\.html?$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=300, must-revalidate");
 }
-// docs/ at root: index-light.html is the homepage, plus quiz, stories, /site-assets, etc.
+// The homepage is "/", not "/index-light.html". Both used to answer 200, which is the same page
+// living at two URLs — search engines split it, and shared links looked like a raw filename.
+// 301 the file URL into the canonical one. Must sit BEFORE express.static, or static answers first.
+// (Only the root one. /zane/index-light.html is a different app and is left alone.)
+app.get("/index-light.html", (_req, res) => res.redirect(301, "/"));
+
+// docs/ at root: index-light.html is the homepage file, plus quiz, stories, /site-assets, etc.
 app.use(express.static(DOCS_DIR, { index: "index-light.html", setHeaders: staticCache }));
 // standalone Talk-to-Zane app under /zane — shares the site's images/css from docs/
 // (so site-assets aren't duplicated), then serves the page itself from public/.
