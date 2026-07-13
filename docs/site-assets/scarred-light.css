@@ -6,7 +6,29 @@
    The light half of the brand's own arc: dark 2am  ->  dawn, weight set down.
    Keep the soul: Fraunces / Newsreader / Spline Sans Mono + the seam + the tear.
    ========================================================================= */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,400;1,9..144,560&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap');
+/* FONTS — self-hosted, subsetted, same-origin. See DESIGN.md §9.
+   The @import that used to live here pulled 371.8 KB across TWO extra origin handshakes
+   (HTML -> this CSS -> fonts.googleapis.com CSS -> fonts.gstatic.com woff2) and blocked
+   first paint. It was the cause of both the LCP and the CLS failures. Now: 138 KB, one
+   origin, no blocking chain.
+   Newsreader is served wght 400..700 — it used to be 400;500 while every <strong> in the
+   prose asks for 700, so the browser SYNTHESIZED every bold word in the essay (faux bold).
+   Caveat is NOT here: it is used by 2 of 6 pages and is declared on those pages. */
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400 640;font-display:swap;
+  src:url('fonts/fraunces-roman.woff2') format('woff2')}
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:400 640;font-display:swap;
+  src:url('fonts/fraunces-italic.woff2') format('woff2')}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:400 700;font-display:swap;
+  src:url('fonts/newsreader-roman.woff2') format('woff2')}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400 700;font-display:swap;
+  src:url('fonts/newsreader-italic.woff2') format('woff2')}
+@font-face{font-family:'Spline Sans Mono';font-style:normal;font-weight:400 600;font-display:swap;
+  src:url('fonts/splinesansmono.woff2') format('woff2')}
+/* Metric-matched Georgia stand-in: with font-display:swap the essay first paints in the
+   fallback, and Georgia's metrics differ enough from Newsreader's to reflow 3,000 words
+   when the real font lands. These overrides make the swap geometrically invisible. */
+@font-face{font-family:'Newsreader-fallback';src:local('Georgia'),local('Times New Roman');
+  size-adjust:88.5%;ascent-override:83.1%;descent-override:29.9%;line-gap-override:0%}
 
 :root{
   --paper:#F7F2E9;        /* warm cream canvas */
@@ -25,7 +47,7 @@
   --fam-rest:#8A6212;     --bg-rest:#F6ECD3;     /* never, critic, impostor — ochre (darkened for AA text) */
   --fam-measure:#515F77;  --bg-measure:#E4E8EE;  /* pleaser, behind — dusty blue (darkened for AA text) */
   --fam-dream:#93701A;    --bg-dream:#F7EDD2;    /* steady — gold (darkened for AA text) */
-  --display:'Fraunces',Georgia,serif; --body:'Newsreader',Georgia,serif;
+  --display:'Fraunces',Georgia,serif; --body:'Newsreader','Newsreader-fallback',Georgia,serif;
   --mono:'Spline Sans Mono',ui-monospace,Menlo,monospace;
   --maxw:1140px; --read:680px; --radius:16px;
   --shadow:0 1px 2px rgba(70,45,20,.04),0 16px 40px rgba(120,80,40,.07);
@@ -244,9 +266,12 @@ footer.bigfoot .ffmedia{position:absolute;inset:0;z-index:0;overflow:hidden}
 footer.bigfoot .ffmedia img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;animation:none}
 footer.bigfoot .ffmedia::after{content:"";position:absolute;inset:0;background:
   radial-gradient(125% 92% at 50% 50%,rgba(247,242,233,.10) 0%,rgba(247,242,233,.38) 52%,rgba(247,242,233,.82) 82%,var(--paper) 100%),
-  linear-gradient(180deg,var(--paper) 0%,rgba(247,242,233,.26) 16%,rgba(247,242,233,.20) 50%,rgba(247,242,233,.6) 86%,var(--paper) 100%)}
+  linear-gradient(180deg,var(--paper) 0%,rgba(247,242,233,.26) 16%,rgba(247,242,233,.20) 50%,rgba(247,242,233,.75) 86%,var(--paper) 100%)}
 footer.bigfoot .ffinner{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:132px 26px 88px}
-footer.bigfoot .eyebrow{color:var(--ember)}
+/* WCAG 1.4.3 — ember over journey.webp measured 4.33:1 (worst pixel 3.71:1). It fails, on
+   all six pages. Ember has only 0.35 of headroom on flat paper and none at all over an
+   image (DESIGN.md §3). --ink-2 is 7.00:1. */
+footer.bigfoot .eyebrow{color:var(--ink-2)}
 footer.bigfoot h2{font-size:clamp(30px,4.8vw,50px);margin:0 0 14px;text-shadow:0 2px 18px rgba(247,242,233,.95),0 1px 3px rgba(247,242,233,1)}
 footer.bigfoot h2 em{color:var(--gold-deep);font-style:italic}
 footer.bigfoot .fflead{color:var(--ink);font-size:clamp(16px,2vw,19px);line-height:1.5;margin:0 auto 30px;max-width:46ch;text-shadow:0 1px 12px rgba(247,242,233,1)}
@@ -263,13 +288,16 @@ footer.bigfoot .foot-care strong{color:#7A4F12} footer.bigfoot .foot-care a{colo
   footer.bigfoot .ffinner{padding:24px 22px 58px}
 }
 
-/* ===== richer, clearly-visible motion ===== */
-/* ambient float on hero illustrations (always on, no scroll needed) */
+/* ===== motion ===== (DESIGN.md §7) */
+/* ambient float on hero illustrations */
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 .heroband img,.heroimg img,.cband img{animation:floaty 7s ease-in-out infinite}
-/* page-load entrance for the hero block */
+/* riseIn is GONE from the hero. It started .hero .wrap / .hero-grid at opacity:0, and
+   Chrome does not count an opacity:0 paint toward LCP — so the page was animating its own
+   LCP element and losing ~900ms for a fade nobody asked for. §7: never animate the LCP
+   element, never animate above the fold. Kept only for .hero-card (not an LCP candidate). */
 @keyframes riseIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
-.hero .wrap,.hero-grid,.hero-card{animation:riseIn .9s cubic-bezier(.2,.7,.2,1) both}
+.hero-card{animation:riseIn .7s cubic-bezier(.2,.7,.2,1) both}
 /* staggered cascade: grid containers already carry .reveal, so children fan in one-by-one */
 .types.reveal > *,.eight.reveal > *,.quotes.reveal > *,.fams.reveal > *,.statrow.reveal > *,.goodies.reveal > *,.mirrors.reveal > *,.mcards.reveal > *,.inher.reveal > *{
   opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
@@ -280,11 +308,17 @@ footer.bigfoot .foot-care strong{color:#7A4F12} footer.bigfoot .foot-care a{colo
 /* card hover gets a touch more life */
 .tcard,.qcard,.gcard{will-change:transform}
 
-/* Reduce-motion: keep instant scroll + guarantee content is visible without JS, but allow the
-   gentle, on-brand AMBIENT motion (slow marquee, scar-line draw, soft float) — these are
-   continuous decorative loops, not the jarring entrance/parallax motion the spec targets. */
+/* Reduce-motion: EVERYTHING off. The previous rule here deliberately kept the ambient
+   looping motion and argued for it in a comment ("continuous decorative loops, not the
+   jarring entrance motion the spec targets"). That argument is wrong: a 7s infinite float
+   is exactly what triggers vestibular symptoms, and "decorative" is the reason to remove
+   it, not to keep it. The ratified reveal exception (DESIGN.md §7) buys the scroll fade.
+   It does not buy ambient motion. Reduced-motion users get a still page. */
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .reveal{opacity:1!important;transform:none!important}
   .types.reveal > *,.eight.reveal > *,.quotes.reveal > *,.fams.reveal > *,.statrow.reveal > *,.goodies.reveal > *,.mirrors.reveal > *,.mcards.reveal > *,.inher.reveal > *{opacity:1!important;transform:none!important}
+  .heroband img,.heroimg img,.cband img,.hero-card{animation:none!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
 }

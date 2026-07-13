@@ -27,6 +27,10 @@
   portrait zane.png. Dark index-v4.html is left untouched.
 -->
 <link rel="stylesheet" href="site-assets/scarred-light.css">
+<style>/* Caveat lives here, not in the shared stylesheet: only this page and the quiz use it.
+  Keeping it shared cost every other page a fourth family in the render-blocking chain. */
+@font-face{font-family:'Caveat';font-style:normal;font-weight:500 700;font-display:swap;
+  src:url('site-assets/fonts/caveat.woff2') format('woff2')}</style>
 <script defer src="site-assets/img-resilience.js"></script>
 <style>
   /* page-specific bits not covered by the shared light system */
@@ -246,15 +250,21 @@
       <div class="reveal">
         <span class="eyebrow">Why listen to me</span>
         <h2>I didn't read about this. I lived it.</h2>
-        <p class="confess">When she left in 2019, I kept her last voicemail. I'd play it at 2am to prove
-          I'd earned the right to be angry. Then the world locked down — and it was just me, an empty
-          apartment, and her voice on a phone.</p>
-        <p>Alone in that long quiet, it finally landed: I wasn't keeping it as evidence. I was waiting for
-          an apology that was never coming. The silence was the answer. So I deleted it — not because she
-          earned it, but because I was done paying every morning for a crime I didn't commit.</p>
-        <p>That's the part nobody tells you: <em>you can set it down and still keep the door locked.</em></p>
-        <p class="pull">Forgiveness was never a gift I gave her. It was the weight I finally set down for myself.</p>
-        <div class="sig-mark reveal"><img src="site-assets/zane-signature.png" alt="Zane — signed"></div>
+        <!-- v3 (2026-07-13): must not contradict zane-story-light.html. Four things this block
+             used to get wrong: (1) she did NOT leave — he ended it the day he found out;
+             (2) he replayed it for LONGING, not anger; (3) it said he DELETED the voicemail,
+             which kills the story page's title, hook and closing sidenote; (4) it revealed the
+             message was a non-apology — the whole point is that what's on it is never told. -->
+        <p class="confess">In 2019 I found out — by accident — that the woman I was going to marry had
+          already built a life that didn't include me. I ended it that day. Then I erased her. Every
+          photo. Every message. Gone in a week.</p>
+        <p>Except one voicemail. Twenty-six seconds. I could never make myself delete it. All through
+          the lockdown I'd lie awake at two in the morning and press play. Not because I wanted her
+          back. Because I wanted my story back — the one where she'd loved me.</p>
+        <p>It took me years to see what I was really carrying. It was never her. It was the voice she
+          left in my head. The one that said I had to earn love.</p>
+        <p class="pull">Forgiveness wasn't something I gave her. It was something I gave myself.</p>
+        <div class="sig-mark reveal"><img src="site-assets/zane-signature.webp" width="564" height="318" alt="Zane — signed"></div>
         <a class="btn ghost" href="zane-story-light.html" style="margin-top:4px">Read the whole story →</a>
       </div>
     </div>
@@ -289,7 +299,7 @@
       <li>
         <span class="num">3</span>
         <div class="scnt">
-          <h3><a href="../zane-ai/public/index-light.html">Talk to Zane, anytime</a></h3>
+          <h3><a href="/zane/index-light.html">Talk to Zane, anytime</a></h3>
           <p>Tell me what's sitting on you at 2am. I'll help you see what's really going on underneath it.</p>
         </div>
       </li>
@@ -454,8 +464,9 @@
         <span class="gbadge">Free</span>
         <p class="glabel">The 7-Day Reset</p>
         <h3>Seven mornings to set it down</h3>
+        <!-- v3: he NEVER deleted the voicemail. That's the story page's whole spine. -->
         <p>One short word, one scripture, one honest question a day — the ex, the voicemail, and the
-          morning he finally deleted it. It starts the moment you finish the quiz.</p>
+          morning he stopped pressing play. It starts the moment you finish the quiz.</p>
         <a class="btn" href="scarred-truth-quiz-light.html">Start free</a>
       </div>
     </div>
@@ -477,7 +488,7 @@
         <li><b>His voice</b>not a bot script</li>
         <li><b>Day or night</b>for the 2am moments</li>
       </ul>
-      <a class="btn" href="../zane-ai/public/index-light.html">Talk to Zane</a>
+      <a class="btn" href="/zane/index-light.html">Talk to Zane</a>
     </div>
     <div class="ai-phonewrap">
       <img class="ai-portrait" src="site-assets/illustrations/zane.webp" alt="Zane">
