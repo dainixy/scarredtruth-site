@@ -322,3 +322,26 @@ footer.bigfoot .foot-care strong{color:#7A4F12} footer.bigfoot .foot-care a{colo
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
     transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* ---- back to top ----------------------------------------------------------
+   A utility, not a call to action — so it never uses --ember (that colour is
+   reserved for the one thing we want pressed). Quiet by default, darkens on
+   hover. Injected by site-assets/backtotop.js; it lifts itself above the story
+   page's sticky player. 46px so it's a real tap target. */
+.totop{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:55;
+  width:46px;height:46px;display:grid;place-items:center;padding:0;
+  background:var(--paper-2);border:1px solid var(--line);border-radius:50%;
+  color:var(--ink-2);cursor:pointer;box-shadow:var(--shadow);
+  opacity:0;transform:translateY(8px);pointer-events:none;visibility:hidden;
+  transition:opacity .2s ease,transform .2s ease,color .2s ease,border-color .2s ease,
+             visibility 0s linear .2s}
+.totop.up{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition-delay:0s}
+.totop:hover{color:var(--ink);border-color:var(--ink-2);box-shadow:var(--shadow-lift)}
+.totop:active{transform:translateY(1px)}
+.totop:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.totop svg{width:19px;height:19px}
+@media(max-width:560px){.totop{right:14px;width:44px;height:44px}}
+@media(prefers-reduced-motion:reduce){
+  .totop{transition:opacity .01ms,visibility 0s}
+  .totop.up{transform:none}
+}
