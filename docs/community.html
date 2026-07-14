@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rebuild — start over with women who get it | Scarred Truth</title>
+<meta name="description" content="On August 1, 2026, a group of women start over together. Seven days to reset, thirty-one days to rebuild. One small thing a day — and Zane answers you every day.">
+
+<link rel="icon" type="image/svg+xml" href="site-assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="site-assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="site-assets/apple-touch-icon.png">
+<meta name="theme-color" content="#F7F2E9">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Rebuild — start over with women who get it.">
+<meta property="og:description" content="We begin on August 1, 2026. One small thing a day, women who started the same day you did, and a real person who answers.">
+<meta property="og:image" content="https://scarredtruth.com/site-assets/og-image.png">
+<meta property="og:url" content="https://scarredtruth.com/community.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://scarredtruth.com/site-assets/og-image.png">
+
+<!--
+  THE REBUILD — community sales page, v1 (2026-07-14).
+  Skeleton per the approved community-funnel plan §3 (Kimi conversion research +
+  copywriting doctrine + Mel Robbins gap-mining). Copy laws: zane-simple-language.md
+  (8 laws), grade-5 register, no hype, no countdown widgets, no invented numbers.
+  All audience quotes on this page are VERBATIM:
+   - Reddit lines: research/data/kimi/kimi-parsed.json (threads-zane), ids noted inline.
+   - Instagram comments: yt-zane/docs/audience-data/ig_comments.json, reel IDs noted inline.
+  CHECKOUT: the two .btn[data-checkout] hrefs are placeholders — create the Stripe
+  Payment Link ($27, qty-capped at 100) and replace before deploy. Page must not
+  deploy with href="#".
+  VIDEO SLOT: §why-block will later carry the 45–90s Zane video above the letter;
+  the letter stays as the no-play fallback (evidence: page must convert unwatched).
+-->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="site-assets/fonts/fraunces-roman.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="site-assets/fonts/newsreader-roman.woff2">
+<link rel="stylesheet" href="site-assets/scarred-light.css">
+<script defer src="site-assets/img-resilience.js"></script>
+<script defer src="site-assets/backtotop.js"></script>
+<style>
+  /* page-specific bits — values from the Daybreak scale only */
+
+  /* HERO — text-first on paper; no image, nothing above it to slow the first line */
+  .chero{padding:96px 0 64px;text-align:center}
+  @media(max-width:600px){.chero{padding:64px 0 48px}}
+  .chero h1{max-width:17ch;margin:0 auto}
+  .chero .lead{max-width:52ch;margin:24px auto 32px}
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
+  .chero .meta{margin-top:16px}
+
+  /* VIDEO PLACEHOLDER — poster + play + "coming soon"; swaps for the real player later */
+  .vslot{position:relative;max-width:640px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--paper)}
+  .vslot img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;object-position:50% 22%}
+  .vslot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(42,35,29,.08),rgba(42,35,29,.22))}
+  .vplay{position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;background:var(--ink);z-index:2;display:flex;align-items:center;justify-content:center}
+  .vplay::before{content:"";width:16px;height:18px;margin-left:4px;background:var(--paper);clip-path:polygon(0 0,100% 50%,0 100%)}
+  .vtag{position:absolute;z-index:2;left:16px;bottom:16px;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:8px 12px}
+
+  /* real-quote pull (verbatim audience lines inside prose) */
+  .rq{border-left:2px solid var(--gold);padding-left:24px;margin:24px 0;font-style:italic;font-size:19px;line-height:1.7;color:var(--ink)}
+  .rq .who{display:block;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-style:normal;margin-top:8px}
+
+  /* THE PLAN — numbered path (pattern from index.html) */
+  .plan{list-style:none;max-width:740px;margin:48px auto 0;padding:0;position:relative}
+  .plan::before{content:"";position:absolute;left:24px;top:24px;bottom:32px;width:2px;background:repeating-linear-gradient(var(--gold) 0 8px,transparent 8px 16px);opacity:.55}
+  @media(max-width:560px){.plan::before{left:16px}}
+  .plan li{position:relative;display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;padding:0 0 32px}
+  @media(max-width:560px){.plan li{grid-template-columns:32px 1fr;gap:16px;padding-bottom:24px}}
+  .plan li:last-child{padding-bottom:0}
+  .plan .num{position:relative;z-index:1;width:48px;height:48px;border-radius:50%;background:var(--paper);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-style:italic;font-weight:560;font-size:22px;color:var(--gold-deep)}
+  @media(max-width:560px){.plan .num{width:32px;height:32px;font-size:15px}}
+  .plan h3{font-size:22px;color:var(--ink);margin:4px 0 8px}
+  .plan p{margin:0;font-size:17px;line-height:1.7;color:var(--ink-2)}
+
+  /* WHY — portrait + letter (pattern from index.html origin block) */
+  .origin-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:center}
+  @media(max-width:860px){.origin-grid{grid-template-columns:1fr;gap:32px}}
+  .portraitframe{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lift);background:var(--paper)}
+  .portraitframe img{width:100%;height:auto;display:block}
+  .portraitframe .tag{position:absolute;z-index:2;top:16px;left:16px;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);padding:8px 12px;border-radius:4px}
+
+  /* WHAT'S INSIDE list */
+  .feat{list-style:none;padding:0;margin:24px 0 0}
+  .feat li{font-size:17px;line-height:1.7;color:var(--ink);padding-left:24px;position:relative;margin-bottom:12px}
+  .feat li::before{content:"";position:absolute;left:0;top:12px;width:12px;height:2px;background:var(--gold)}
+
+  /* PRICE card */
+  .pricecard{text-align:center;padding:64px 48px}
+  @media(max-width:560px){.pricecard{padding:48px 24px}}
+  .pricecard .big{font-family:var(--display);font-style:italic;font-weight:560;font-size:68px;line-height:1;color:var(--gold-deep);margin:16px 0 8px}
+  .pricecard .after{font-size:17px;color:var(--ink-2);margin:0 0 24px}
+
+  /* WAITLIST POPUP — quiz-register form in a paper card */
+  .pop{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(42,35,29,.55);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);padding:24px}
+  .pop.show{display:flex}
+  .popcard{position:relative;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;border:1px solid var(--gold);border-radius:16px;background:var(--paper-2);box-shadow:var(--shadow-lift);padding:32px}
+  .popcard .x{position:absolute;top:12px;right:14px;cursor:pointer;color:var(--ink);font:400 22px/1 var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:4px;width:34px;height:34px}
+  .popcard h3{font-size:26px;color:var(--ink);margin:8px 0 12px}
+  .popcard .plead{font-size:16px;color:var(--ink-2);margin:0 0 24px}
+  .popcard label{display:block;font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);margin:16px 0 8px}
+  .popcard input,.popcard textarea{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:12px;font:500 15px/1.5 var(--body);color:var(--ink)}
+  .popcard textarea{min-height:96px;resize:vertical}
+  .popcard input:focus,.popcard textarea:focus{outline:2px solid var(--ink);outline-offset:2px}
+  .popcard .btn{margin-top:24px;width:100%}
+  .popcard .fine2{font:500 12px/1.6 var(--mono);color:var(--dim);text-align:center;margin:12px 0 0}
+  .popcard .err{color:var(--ember);font-size:15px;margin:12px 0 0;display:none}
+  .pop-done{text-align:center;padding:24px 8px;display:none}
+  .pop-done h3{font-size:26px}
+  .pop-done p{font-size:17px;color:var(--ink-2)}
+
+  /* PROOF — real comments */
+  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+  @media(max-width:760px){.quotes{grid-template-columns:1fr}}
+  .qcard{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:32px}
+  .qcard p{margin:0;font-size:17px;line-height:1.7;color:var(--ink)}
+  .qcard .who{display:block;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:16px}
+</style>
+<link rel="canonical" href="https://scarredtruth.com/community.html">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- TOP BAR -->
+<div class="topbar"><div class="row"><a class="brandmark" href="/"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a><input id="navtog" type="checkbox" aria-label="Menu">
+<label class="navtoggle" for="navtog" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
+<nav class="nav" aria-label="Primary"><a class="lnk" href="/">Home</a><a class="lnk" href="/her-own-woman-quiz.html">The&nbsp;Quiz</a><a class="lnk" href="/zane-story.html">My&nbsp;Story</a><a class="lnk" href="/quiz-all-profiles.html">All&nbsp;Profiles</a><a class="lnk" href="/talk-to-zane-ai.html">Talk&nbsp;to&nbsp;Zane</a><a class="navcta" href="/community.html">The&nbsp;Rebuild</a></nav></div></div>
+<a id="main" tabindex="-1"></a>
+
+<!-- HERO — variant A ("the quiet house"). B and C in community-heroes.html -->
+<header class="chero">
+  <div class="wrap">
+    <span class="eyebrow">The Rebuild · we begin on August 1, 2026</span>
+    <h1>“I just want to feel like myself again.”</h1>
+    <p class="lead">On August 1, 2026, a group of women start over — together. Seven days to reset.
+      Thirty-one days to rebuild. One small thing a day. And I answer you every day.</p>
+    <div class="cta-row">
+      <a class="btn" href="#join">Save my seat</a>
+      <a class="btn ghost" href="#how">How it works</a>
+    </div>
+    <p class="meta">One payment of $27 for the first 100 women · nothing renews · full refund any day of the 38</p>
+  </div>
+</header>
+
+<!-- VIDEO: placeholder until the 45–90s intro is rendered (script:
+     threads-zane/zane-rebuild-video-script-2026-07-14.html). The real embed replaces
+     .vslot — click-to-play, captioned, hardcoded duration, preload="none".
+     The letter in #why is the no-play fallback. -->
+<section style="padding:0 0 16px">
+  <div class="wrap">
+    <div class="vslot reveal">
+      <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" alt="Zane — a word before you read on">
+      <span class="vplay" aria-hidden="true"></span>
+      <span class="vtag">A word from Zane · video coming soon</span>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM — her words, no product yet -->
+<section class="band">
+  <div class="wrap"><div class="read reveal">
+    <span class="eyebrow">If this is you</span>
+    <h2>You did the hard thing. Nobody told you what comes after.</h2>
+    <p style="margin-top:24px">You forgave. Or you left. Or you finally said no.
+      The people around you called it strength and went back to their lives.</p>
+    <p>And now it's Tuesday. The house is quiet. You're the one who held everyone
+      else up, and there's nobody holding you.</p>
+    <p class="rq">"The weekends are brutal — quiet, empty… I just feel like I'm slowly vanishing."
+      <span class="who">written by a woman in a forum for women over 40 · 1,440 upvotes</span></p>
+    <p class="rq">"I don't even know who I am without him. Where do I even begin?"
+      <span class="who">another woman, same place · 112 wrote back</span></p>
+    <p>Here's the part nobody says out loud. You already know the words. You've read
+      the books. Knowing was never the problem.</p>
+    <p>The problem is doing it — alone, on an ordinary Tuesday, with nobody watching
+      and nobody asking how it went.</p>
+    <!-- Bridge earned by the book data: the most-highlighted line in The Let Them
+         Theory (~4,980 Kindle highlights) is "The problem with waiting is no one is
+         coming." She already believes this. Our answer: true — but not alone. -->
+    <p>And you already know nobody is coming to fix it for you. That part is true.</p>
+    <p>But nobody said you had to do it alone.</p>
+  </div></div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- THE MECHANISM -->
+<section id="how">
+  <div class="wrap">
+    <div class="read reveal" style="text-align:center">
+      <span class="eyebrow">How it works</span>
+      <h2>One small thing a day. Never alone.</h2>
+      <!-- verbatim, kimi-parsed.json id 409, r/AskWomenOver40, 440 upvotes · loneliness/
+           friendship is the #1 life-area readers say the Mel Robbins book helped (34
+           mentions) — the room itself is the relief, and this line proves it -->
+      <p class="rq" style="text-align:left;max-width:52ch;margin:32px auto 0">"First I am so
+        happy to have found this forum because I am very alone in my situation."
+        <span class="who">written by a woman over 40, the day she found a place to say it · 440 upvotes</span></p>
+    </div>
+    <ol class="plan reveal">
+      <li>
+        <span class="num">1</span>
+        <div>
+          <h3>We all start on August 1, 2026</h3>
+          <p>Every woman here begins the same morning you do. Nobody is the new person.
+            Nobody is behind. That one choice — starting together — is what keeps you
+            going on the days you'd otherwise quit alone.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <div>
+          <h3>Days 1–7 · the Reset</h3>
+          <p>One short word from me each morning, and one small thing to do. Ten minutes.
+            It clears the ground before we build anything.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <div>
+          <h3>Days 8–38 · the Rebuild</h3>
+          <p>One task a day, and four weeks with four jobs: the mornings, the mirror,
+            the no, and — her own woman. You post how it went, and the women who
+            started with you answer.</p>
+        </div>
+      </li>
+      <li>
+        <span class="num">4</span>
+        <div>
+          <h3>And I answer you. Every day.</h3>
+          <p>When you write, I read it, and I answer you myself — all 38 days.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- WHY I BUILT THIS — the letter (video's no-play fallback) -->
+<section id="why">
+  <div class="wrap">
+    <div class="origin-grid">
+      <div class="portraitframe reveal">
+        <img src="site-assets/illustrations/zane.webp" width="800" height="1000" loading="lazy" decoding="async" alt="Zane">
+        <span class="tag">Why I built this</span>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Why I built this</span>
+        <h2>I've been listening to women carry things my whole life.</h2>
+        <!-- Compressed 3-beat arc from the full life story (yt-zane/temp/zane-story-script-v2.html,
+             owner's real story): the kitchen (credential) → the betrayal + her pattern lived
+             (kinship) → the mother (proof). Full telling stays on the story page; the 45–90s
+             video uses these same three beats. -->
+        <p style="margin-top:24px">I was the quiet kid in the corner with two
+          different-colored eyes and a stack of books. My mother's friends would sit in
+          our kitchen with their problems — a job they wanted, a man they were scared of,
+          a life that felt stuck. I listened. Then I'd say what I saw. And somehow, it
+          helped. I've been that person ever since.</p>
+        <p>Years later, I learned the other side of it. I built a whole life for a woman
+          I loved — the house, the future, all of it — and found out by accident she was
+          building one without me. And before that, I spent years disappearing little by
+          little to keep someone else happy. So when you tell me you don't recognize
+          yourself anymore — I'm not nodding politely. I've been her.</p>
+        <p>Then, after 35 years of marriage, my father told my mother to leave. She
+          called me. For the first time I heard everything she'd swallowed for years so
+          we wouldn't have to. I quit my job and went to her.</p>
+        <p>And I watched a woman who had lost her light get it back. Younger. Funnier.
+          Louder when she laughed. She didn't become someone new. She came back to
+          herself.</p>
+        <p>But she didn't do it alone. Nobody does.</p>
+        <p>That's why this exists. The first hundred women start on August 1, 2026.</p>
+        <div class="sig-mark reveal"><img src="site-assets/zane-signature.webp" width="564" height="318" loading="lazy" decoding="async" alt="Zane — signed"></div>
+        <a class="btn ghost" href="/zane-story.html" style="margin-top:8px">My whole story →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- WHAT'S INSIDE — plain list, no dollar-stack -->
+<section>
+  <div class="wrap"><div class="card reveal" style="max-width:740px;margin:0 auto;padding:48px">
+    <span class="eyebrow">What's inside</span>
+    <h2 style="font-size:32px">Everything the 38 days hold.</h2>
+    <ul class="feat">
+      <li>Every morning: a short note from me. Two minutes, like a voice memo from a
+        friend. If faith is your floor, there's a verse under it — take it or leave it.</li>
+      <li>One small task a day, finishable before lunch. Week one clears the ground.
+        Then the mornings, the mirror, the no — and her own woman.</li>
+      <li>Week four is scripts week: the exact words for when he calls, when family
+        pushes, when someone asks for what you don't have. Practiced once, out loud,
+        before you need them.</li>
+      <li>A private room of women who started the same morning you did — and I
+        introduce you by hand. The woman who wrote almost your exact sentence? She's
+        in here. You'll meet her.</li>
+      <li>I read what you write and answer you by name — every one of the 38 days.</li>
+      <li>Fridays we put the week's small wins in one place. Sundays are rest, on
+        purpose. There is no behind.</li>
+      <li>No video calls, ever. Nothing to install — it opens in your browser, like
+        email. And when it ends, everything stays yours.</li>
+    </ul>
+  </div></div>
+</section>
+
+<!-- OBJECTIONS -->
+<section>
+  <div class="wrap"><div class="read reveal">
+    <h2 style="text-align:center;margin-bottom:32px">The honest questions</h2>
+    <!-- Each question is a REAL fear with a source, not a category FAQ:
+         #1 her verbatim pattern ("I don't put back into myself what I give to others…
+            fear of investing in myself" — Reddit corpus); #2 non-writer fear; #3 the
+            "too late" theme (corpus); #4 women-judging-women + privacy; #5 demographic
+            tech/camera research; #6 crisis scope + 988 (invariant); #7 church-adjacent
+            law; #8 the no-behind + Sunday design; #9 the day-38 edge; #10 the economic
+            argument (free-groups counter-evidence: Worthy's 9k free FB group). -->
+    <div class="faq"><h3>"I can't spend money on myself."</h3>
+      <p>I know. You've spent years putting everything into everyone else — that's
+        part of what broke. One woman wrote: "I don't put back into myself what I give
+        to others." So here's the truth about the $27: it's lunch out, once. And it's
+        the first small thing you've put back in a long time. That's not the price of
+        the room. That's day one of the work.</p></div>
+    <div class="faq"><h3>"I wouldn't know what to write."</h3>
+      <p>One line is enough. The day's question does the asking — you just answer it,
+        like a text to a friend. And some women only read for the first week. That's
+        allowed. Nobody performs here.</p></div>
+    <div class="faq"><h3>"Isn't it too late for me?"</h3>
+      <p>My mother rebuilt her whole life after 35 years of marriage. It wasn't too
+        late. It was right on time. There's no age where coming back to yourself stops
+        working — but there's also no reason to give it another year.</p></div>
+    <div class="faq"><h3>"Will the other women judge me?"</h3>
+      <p>Every woman in the room paid to do the same thing you're doing, starting the
+        same morning. Nobody's watching from the bleachers. First names only, the room
+        is locked, and the rules are posted: what's said here stays here — and no
+        advice unless you ask for it.</p></div>
+    <div class="faq"><h3>"Do I have to be on camera? I'm not good with computers."</h3>
+      <p>No cameras, no video calls, no photos — ever. And if you can read an email
+        and click a link, you have every skill this needs. You get one link. You click
+        it. You're in.</p></div>
+    <div class="faq"><h3>"Is this therapy?"</h3>
+      <p>No. I'm not a therapist, and this doesn't replace one. It's a daily practice
+        with people beside you. And if you're in real crisis, you deserve more than any
+        program — in the US, call or text 988, anytime.</p></div>
+    <div class="faq"><h3>"Is this a church thing?"</h3>
+      <p>No. Faith runs quiet through what I write, because it runs through me. But
+        nobody here preaches at you, and you don't have to believe anything to belong.</p></div>
+    <div class="faq"><h3>"What if I fall behind?"</h3>
+      <p>There is no behind. Sundays are rest days on purpose, the tasks don't expire,
+        and nobody keeps score. A missed day is just a missed day. You cannot do this
+        wrong.</p></div>
+    <div class="faq"><h3>"What happens when the 38 days end?"</h3>
+      <p>The daily rhythm ends — and so do my daily replies. That's a promise with an
+        edge on purpose: you won't need me every day forever. You keep everything you
+        wrote and everything I sent. And the room stays open — your seat in it stays
+        yours.</p></div>
+    <div class="faq"><h3>"Why does it cost money when Facebook groups are free?"</h3>
+      <p>Two reasons. Because I answer you every day, myself, for 38 days. And because
+        a room where every woman chose to be there is a different room. Free groups are
+        where you scroll. This is where you show up.</p></div>
+  </div></div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- PRICE -->
+<section id="join">
+  <div class="wrap"><div class="card cta-card pricecard reveal">
+    <span class="eyebrow">Your seat</span>
+    <h2>One payment. Nothing renews.</h2>
+    <p class="big">$27</p>
+    <p class="after">The founding price, for the first 100 women.<br>After the first
+      hundred, a seat is $47.</p>
+    <a class="btn" href="#" data-waitlist>Save my seat — $27</a>
+    <p class="meta">First 100 women hold the $27 price · we begin on August 1, 2026</p>
+    <p style="max-width:44ch;margin:32px auto 0;font-size:17px;color:var(--ink-2)">
+      Everything above is included. There is no upsell waiting behind the door.
+      If this doesn't help you, email me — any day of the 38, even the last one —
+      and I'll send every dollar back. No forms. No questions.</p>
+  </div></div>
+</section>
+
+<!-- PROOF — real comments, verbatim -->
+<section>
+  <div class="wrap">
+    <div class="read reveal" style="text-align:center">
+      <span class="eyebrow">From under my reels</span>
+      <h2>This is who you'd be writing to.</h2>
+      <p class="dim" style="margin-top:12px">Real comments from Instagram. Spelling untouched.</p>
+    </div>
+    <div class="quotes reveal">
+      <div class="qcard"><p>"My goodness, I so relate to what you're saying. I just didn't
+        know what it was called until listening to you."</p><span class="who">Debra</span></div>
+      <div class="qcard"><p>"I have just found you. And love listening to you and thinking
+        my god that's me! Have started and said no for the first time and it felt good.
+        Small steps I know but let's see"</p><span class="who">Debra S.</span></div>
+      <div class="qcard"><p>"So true. Been divorced for 3 years, people always telling I'm
+        isolated to much....I'm at peace. Gardening, taking care of my house and children.
+        Enjoying my work and growing as an individual."</p><span class="who">A mother, divorced 3 years</span></div>
+      <div class="qcard"><p>"Needed this today! Thank you"</p><span class="who">Cindy</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- FINAL CTA -->
+<section>
+  <div class="wrap"><div class="card cta-card reveal" style="text-align:center;padding:56px 40px">
+    <span class="eyebrow">August 1, 2026</span>
+    <h2>Start over — with women who get it,<br>and someone who answers.</h2>
+    <a class="btn" href="#" data-waitlist style="margin-top:24px">Save my seat — $27</a>
+    <p class="meta">First 100 women · $47 after · full refund any day of the 38</p>
+    <p style="margin-top:24px;font-size:17px"><a href="her-own-woman-quiz.html" style="color:var(--ink-2)">Not sure yet? Take the free quiz first — see what you're carrying.</a></p>
+  </div></div>
+</section>
+
+<!-- UNIFIED FOOTER -->
+<footer class="bigfoot">
+  <div class="ffmedia"><img src="site-assets/illustrations/journey.webp" width="1088" height="608" loading="lazy" decoding="async" alt="A woman's journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>
+  <div class="ffinner reveal">
+    <span class="eyebrow">Where this goes</span>
+    <h2>You weren’t meant to carry this <em>forever</em>.</h2>
+    <p class="fflead">Thirty-eight days. Women beside you. Someone who answers.</p>
+    <a class="btn" href="#join">Save my seat</a>
+    <p class="brand">Scarred Truth · Zane</p>
+    <p class="fine">© Scarred Truth · You can forgive, and still keep your peace. · <a href="/terms.html" style="color:inherit">Terms</a> · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="/refund.html" style="color:inherit">Refunds</a></p>
+  </div>
+</footer>
+
+<!-- WAITLIST POPUP -->
+<div class="pop" id="joinPop" role="dialog" aria-modal="true" aria-labelledby="jpTitle">
+  <div class="popcard">
+    <button class="x" id="jpClose" aria-label="Close">×</button>
+    <form id="jpForm">
+      <span class="eyebrow">The Rebuild · first 100 women</span>
+      <h3 id="jpTitle">Put your name on the list.</h3>
+      <p class="plead">The doors aren't open just yet. Leave your email and your founding
+        seat — $27, first 100 women — is held until they are. I'll write to you before
+        we begin on August 1, 2026.</p>
+      <label for="jpName">What should I call you?</label>
+      <input id="jpName" name="name" type="text" autocomplete="given-name" maxlength="80" placeholder="First name">
+      <label for="jpEmail">Your email</label>
+      <input id="jpEmail" name="email" type="email" required autocomplete="email" placeholder="you@email.com — never spammed">
+      <label for="jpDream">What does success look like for you in 6 months? Let’s be delusional, you and me — what would be your dream? Where would you be?</label>
+      <textarea id="jpDream" name="dream" placeholder="Sleeping 6 hours? Define your own happy ending."></textarea>
+      <label for="jpBecome">What kind of person do you want to become? A self-confident person? A person who doesn’t need other people’s approval? A person who loves what she sees in the mirror?</label>
+      <textarea id="jpBecome" name="become"></textarea>
+      <label for="jpTech">What do you think could help you fall in love with yourself again?</label>
+      <textarea id="jpTech" name="technique"></textarea>
+      <p class="err" id="jpErr"></p>
+      <button class="btn" type="submit" id="jpGo">Hold my seat</button>
+      <p class="fine2">No card, no charge — just your place in line.</p>
+    </form>
+    <div class="pop-done" id="jpDone">
+      <h3>You’re on the list.</h3>
+      <p>I’ll write to you before the doors open.<br>— Zane</p>
+    </div>
+  </div>
+</div>
+
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
+  document.querySelectorAll('.reveal,.seam').forEach(function(el){io.observe(el);});
+
+  // waitlist popup
+  var pop=document.getElementById('joinPop'),form=document.getElementById('jpForm'),
+      done=document.getElementById('jpDone'),err=document.getElementById('jpErr'),
+      go=document.getElementById('jpGo');
+  function openPop(e){e.preventDefault();pop.classList.add('show');document.getElementById('jpEmail').focus();}
+  function closePop(){pop.classList.remove('show');}
+  document.querySelectorAll('[data-waitlist]').forEach(function(b){b.addEventListener('click',openPop);});
+  document.getElementById('jpClose').addEventListener('click',closePop);
+  pop.addEventListener('click',function(e){if(e.target===pop)closePop();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closePop();});
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    err.style.display='none';go.disabled=true;go.textContent='One moment…';
+    fetch('/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:document.getElementById('jpEmail').value.trim(),
+        name:document.getElementById('jpName').value.trim(),
+        dream:document.getElementById('jpDream').value,
+        become:document.getElementById('jpBecome').value,
+        technique:document.getElementById('jpTech').value,
+        source:'community'})})
+      .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
+      .then(function(x){
+        if(x.ok){form.style.display='none';done.style.display='block';}
+        else{throw new Error((x.j&&x.j.error)||'Something went wrong — try once more?');}
+      })
+      .catch(function(ex){
+        err.textContent=ex.message==='Failed to fetch'?'Something went wrong — try once more?':ex.message;
+        err.style.display='block';go.disabled=false;go.textContent='Hold my seat';
+      });
+  });
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4174d8e5224f4696a8c281220e7e06fa"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

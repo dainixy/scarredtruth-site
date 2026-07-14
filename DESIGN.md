@@ -475,6 +475,13 @@ Tracked honestly rather than quietly omitted.
 
 | | Debt | Where |
 |---|---|---|
+| §12 | **The seam is drawn in `--ember`, not `--gold`** — a direct violation of §3/§11/§12, on every page that uses `.seam` (found 2026-07-14 in the community-page audit). Fix: the stitch gradient becomes `var(--gold)`. | `scarred-light.css` `.seam .bar` |
+| §7 | Motion drift: `.reveal` runs 800ms/`ease`, the stagger 700ms, the seam 1200ms — three durations, wrong curve. Law: one duration (`--t-narr` 700ms), one curve (`--ease`). | `scarred-light.css` `.reveal`, stagger, `.seam .bar` |
+| §5 | `--read` is 680px; the law says the reading column is **640px, not 680**. | `scarred-light.css` `--read` |
+| §1 | `.btn` carries a third shadow — an ember-tinted glow in retired `#BC6A43`. | `scarred-light.css` `.btn` |
+| §6 | The sticky ember `.navcta` puts a second accent in every viewport region on every page (two ember hotspots in every hero). | `scarred-light.css` `.navcta` + shared topbar markup |
+| §3 | `.eyebrow` is unconditionally ember, so non-CTA section labels spend the accent (ember-creep past the 2% target). | `scarred-light.css` `.eyebrow` |
+| §4 | Shared heading `clamp()` bounds off the type scale (h1 44/80, h2 30/46, `.lead` 20, footer h2 30/50, `.fflead` 16, h3 23, `.faq h3` 20). | `scarred-light.css` |
 | A11y | `--fam-dream` `#93701A` is **3.94:1 — a live AA failure**, rendered at 9.5px. Fix is `#7E6010` (5.04:1). | `scarred-light.css` `--fam-dream`, `.tfam` |
 | Type | ~30 distinct font sizes, 33 spacing values, 11 radii in the shared CSS | `scarred-light.css` |
 | Perf | ~46 images across the other 5 pages: none lazy, none dimensioned | all pages |
