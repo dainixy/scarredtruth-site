@@ -1,5 +1,15 @@
 // note.js — the genuinely-unique "note from Zane", built from her quiz result and
-// the two open-ended things she wrote. Replaces the old fill-in-the-blanks template.
+// the three things she wrote at the end.
+//
+// The three questions CHANGED on 14 Jul 2026. They used to ask about her pain
+// ("where does this show up most, what's it costing you" / "what would lighter look
+// like"). They now ask about her ENDING — where she wants to be in six months, who
+// she wants to be proud of in the mirror, and what she thinks would help her fall in
+// love with herself again. Her answers are the raw material for the book, so the note
+// must answer the ending she named, not the old pain question.
+//
+// Rows written before 14 Jul carry open1/open2 instead; the callers map those in as
+// `dream`/`become` so an old result page still gets a real note.
 //
 // In mock mode (no OpenRouter key) it returns a deterministic, on-voice fallback so
 // the local result page always shows a real, personalized note.
@@ -10,14 +20,18 @@ function mentionsFaith(s) {
   return /\b(god|jesus|christ|faith|pray(?:er|ing|ed)?|church|lord|bible|scripture|blessed|grace)\b/i.test(s || "");
 }
 function firstName(s) { return (s || "").trim().split(/\s+/)[0] || ""; }
+function herFaith(ctx) {
+  return mentionsFaith(ctx.dream) || mentionsFaith(ctx.become) || mentionsFaith(ctx.technique);
+}
 
 function buildPrompt(ctx) {
-  const { name, primary, secondary, open1, open2 } = ctx;
-  const faith = mentionsFaith(open1) || mentionsFaith(open2);
+  const { name, primary, secondary, dream, become, technique } = ctx;
+  const faith = herFaith(ctx);
   const system = [
     "You are Zane — a real man (never mention being an AI or a model) who helps women rebuild their confidence at Scarred Truth.",
     "Write a SHORT, personal note (3–5 short paragraphs, about 120–190 words) to one woman who just took your confidence quiz.",
     "VOICE: plain words, short sentences, one idea per line, warm and real — a man who has been there talking to her in the same kitchen. Not a therapist. Not a motivational poster.",
+    "She has just told you the ending SHE wants — in her own words. That is the point of the note. Say her ending back to her as something reachable, not a fantasy, and make your one small step point straight at it.",
     "Quote HER OWN words back to her once, inside quotation marks, so she knows you actually read what she wrote.",
     "BANNED words/phrases (never use): resentment, closure, boundaries, self-worth, healing journey, process your emotions, trauma, triggered, toxic, narcissist, codependent, attachment style, inner child, reframe, release, journey, manifest, 'just forgive', 'everything happens for a reason', 'time heals', 'find yourself', 'love yourself first', 'just be confident', 'what doesn't kill you'.",
     faith
@@ -30,8 +44,9 @@ function buildPrompt(ctx) {
     `Her main pattern is ${primary?.name}: "${primary?.coreFear}".`,
     secondary ? `There's some ${secondary.name} in her too.` : "",
     name ? `Her name is ${firstName(name)} — use it once, naturally.` : "She didn't give her name.",
-    open1 ? `Asked where this shows up most and what it's costing her, she wrote: "${open1}"` : "",
-    open2 ? `Asked what 'lighter' would look like for her, she wrote: "${open2}"` : "",
+    dream ? `Asked where she wants to be in six months — and told not to be realistic — she wrote: "${dream}"` : "",
+    become ? `Asked who she'd be proud to see looking back at her in the mirror, she wrote: "${become}"` : "",
+    technique ? `Asked what she thinks would help her fall in love with herself again, she wrote: "${technique}"` : "",
     "Write the note now. Speak to HER directly — not about her.",
   ].filter(Boolean).join("\n");
 
@@ -42,17 +57,18 @@ function buildPrompt(ctx) {
 function fallbackNote(ctx) {
   const nm = firstName(ctx.name);
   const trimEnd = (s) => (s || "").trim().replace(/[\s.!?,;:]+$/, "");
-  const o1 = trimEnd(ctx.open1);
-  const o2 = trimEnd(ctx.open2);
-  const faith = mentionsFaith(ctx.open1) || mentionsFaith(ctx.open2);
+  const dream = trimEnd(ctx.dream);
+  const become = trimEnd(ctx.become);
+  const technique = trimEnd(ctx.technique);
   const p = [];
   p.push((nm ? nm + ", here" : "Here") + "’s what I want you to know.");
-  if (o1) p.push(`You told me: “${o1}.” I read that twice. That’s not a small thing to carry, and you’ve been carrying it quietly — which is exactly why nobody handed you the words for it before now.`);
+  if (dream) p.push(`You told me where you want to be: “${dream}.” I read that twice. That isn’t a fantasy. That’s a direction — and you just said it out loud, which most people never do.`);
   p.push(ctx.primary && ctx.primary.whatsTrue
     ? ctx.primary.whatsTrue
     : "What you scored isn’t a verdict. It’s the one weight you’ve carried longest — and weights can be set down.");
-  if (o2) p.push(`You said lighter would feel like “${o2}.” That’s not a far-off someday. That’s the door this opens — closer than it feels from where you’re standing.`);
-  if (faith) p.push("And you don’t have to do it on your own strength. You were already held before you ever found these words.");
+  if (become) p.push(`And the woman you want to be proud of in the mirror — “${become}” — you don’t have to build her from scratch. She’s who you were before you started making yourself smaller.`);
+  if (technique) p.push(`You already know what would help. You said it yourself: “${technique}.” That’s further than most people get.`);
+  if (herFaith(ctx)) p.push("And you don’t have to do it on your own strength. You were already held before you ever found these words.");
   p.push((ctx.primary && ctx.primary.firstStep
     ? "Here’s where I’d start" + (nm ? ", " + nm : "") + ": " + ctx.primary.firstStep
     : "Start small tonight: one honest sentence, to yourself or to me.") + "\n\n— Zane");

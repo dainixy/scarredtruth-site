@@ -114,6 +114,14 @@ app.post("/api/result", async (req, res) => {
       // What she writes is stored whole — never clamped. clampInput is a model-prompt
       // cost guard, not a storage cap; using it here silently deleted the tail of a
       // 4000+ char answer (13 Jul 2026). The 256kb express.json limit is the abuse guard.
+      //
+      // The three end-of-quiz questions changed on 14 Jul 2026 (pain -> the ending she
+      // wants). open1/open2 are still accepted because a woman who loaded the OLD page
+      // before the deploy will post the OLD field names, and dropping them here would
+      // throw her words away at the one moment she finally wrote something down.
+      dream: String(person.dream || ""),
+      become: String(person.become || ""),
+      technique: String(person.technique || ""),
       open1: String(person.open1 || ""),
       open2: String(person.open2 || ""),
       email: clampInput(String(person.email || "")).slice(0, 160),
@@ -171,16 +179,18 @@ app.post("/api/waitlist", async (req, res) => {
     await store.logEvent({
       type: "waitlist_signup",
       email,
-      age: String(b.age || "").slice(0, 8),
+      name: String(b.name || "").slice(0, 80),
       // stored whole, like the quiz answers — what she writes is the point
-      situation: String(b.situation || ""),
+      dream: String(b.dream || ""),
+      become: String(b.become || ""),
+      technique: String(b.technique || ""),
       source: sourceOf(b.source),
     });
     res.json({ ok: true });
     // fire-and-forget, same pattern as /api/result — she never waits on MailerLite
     if (mailerlite.enabled()) {
       mailerlite
-        .syncSubscriber({ email, profile: "Rebuild waitlist" })
+        .syncSubscriber({ email, name: String(b.name || "").slice(0, 80), profile: "Rebuild waitlist" })
         .then(() => store.logEvent({ type: "mailerlite_synced", email }))
         .catch((err) => {
           console.error("[zane-ai] waitlist mailerlite failed:", err.message);
@@ -198,12 +208,15 @@ app.post("/api/note", async (req, res) => {
   if (!originAllowed(req)) return res.status(403).json({ error: "Not allowed." });
   if (rateLimited(req.ip || "anon")) return res.status(429).json({ error: "Slow down a moment — try again shortly." });
   const b = req.body || {};
+  // Old pages (and old rows) send open1/open2; map them onto the first two slots so a
+  // result page from before 14 Jul 2026 still gets a real note instead of a blank one.
   const ctx = {
     name: clampInput(String(b.name || "")),
     primary: b.primary || null,
     secondary: b.secondary || null,
-    open1: clampInput(String(b.open1 || "")),
-    open2: clampInput(String(b.open2 || "")),
+    dream: clampInput(String(b.dream || b.open1 || "")),
+    become: clampInput(String(b.become || b.open2 || "")),
+    technique: clampInput(String(b.technique || "")),
   };
   const { note, source } = await generateNote(ctx);
   if (b.resultId) { try { await store.updateResult(String(b.resultId), { note, noteSource: source }); } catch (_) {} }
@@ -279,8 +292,15 @@ app.post("/api/chat", async (req, res) => {
     let system = buildSystemPrompt();
     if (rec) {
       const c = [`CONTEXT: She just took your confidence quiz. Her main pattern is ${rec.primaryName || rec.primary} ("${rec.coreFear || ""}").`];
-      if (rec.person?.open1) c.push(`She wrote about where it shows up: "${rec.person.open1}"`);
-      if (rec.person?.open2) c.push(`She wrote what lighter would look like: "${rec.person.open2}"`);
+      // Rows from before 14 Jul 2026 answered the two OLD pain questions; newer rows
+      // answered the three questions about the ending she wants. Both are real things
+      // she told us, so Zane gets whichever she actually wrote.
+      const pp = rec.person || {};
+      if (pp.dream) c.push(`Asked where she wants to be in six months, she wrote: "${pp.dream}"`);
+      if (pp.become) c.push(`Asked who she'd be proud to see in the mirror, she wrote: "${pp.become}"`);
+      if (pp.technique) c.push(`Asked what would help her fall in love with herself again, she wrote: "${pp.technique}"`);
+      if (pp.open1) c.push(`She wrote about where it shows up: "${pp.open1}"`);
+      if (pp.open2) c.push(`She wrote what lighter would look like: "${pp.open2}"`);
       c.push("Speak straight to that. Don't re-introduce yourself.");
       system += "\n\n" + c.join("\n");
     }

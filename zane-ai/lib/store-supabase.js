@@ -9,6 +9,15 @@
 const crypto = require("crypto");
 const { createClient } = require("@supabase/supabase-js");
 
+// Length of each thing she wrote, by question. Never the text itself — the text goes in
+// the row and in submission_raw; this is only so we can see at a glance whether people
+// are actually writing. Covers the questions as they are now (dream/become/technique)
+// and as they were before 14 Jul 2026 (open1/open2).
+function wroteLens(p) {
+  const n = (k) => (p && p[k] ? String(p[k]).length : 0);
+  return { dream: n("dream"), become: n("become"), technique: n("technique"), open1: n("open1"), open2: n("open2") };
+}
+
 const URL = process.env.SUPABASE_URL;
 const KEY = process.env.SUPABASE_SERVICE_KEY;
 if (!URL || !KEY) {
@@ -93,8 +102,10 @@ async function saveResult(data) {
     pcts: data.pcts || null,
     source: data.source || null,
     hasEmail: !!(data.person && data.person.email),
-    open1Len: data.person && data.person.open1 ? data.person.open1.length : 0,
-    open2Len: data.person && data.person.open2 ? data.person.open2.length : 0,
+    // How many characters she wrote per question — the clearest signal of whether the
+    // last screen is working. The questions changed on 14 Jul 2026; rows before that
+    // logged open1Len/open2Len, which is why both sets are here.
+    wrote: wroteLens(data.person),
   });
   return id;
 }

@@ -12,6 +12,13 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
+// Same helper as store-supabase.js — length only, never her words. Covers the questions
+// as they are now (dream/become/technique) and as they were before 14 Jul 2026.
+function wroteLens(p) {
+  const n = (k) => (p && p[k] ? String(p[k]).length : 0);
+  return { dream: n("dream"), become: n("become"), technique: n("technique"), open1: n("open1"), open2: n("open2") };
+}
+
 const DATA_DIR = process.env.ZANE_DATA_DIR || path.join(__dirname, "..", ".data");
 const RESULTS_FILE = path.join(DATA_DIR, "results.json");
 const MESSAGES_FILE = path.join(DATA_DIR, "messages.jsonl");
@@ -61,8 +68,9 @@ function saveResult(data) {
     pcts: data.pcts || null,
     source: data.source || null,
     hasEmail: !!(data.person && data.person.email),
-    open1Len: data.person && data.person.open1 ? data.person.open1.length : 0,
-    open2Len: data.person && data.person.open2 ? data.person.open2.length : 0,
+    // How many characters she wrote per question — see store-supabase.js for why both
+    // the new and the old (pre-14-Jul-2026) question names are counted here.
+    wrote: wroteLens(data.person),
   });
   return id;
 }
