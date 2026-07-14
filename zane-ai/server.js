@@ -158,6 +158,41 @@ app.get("/api/result/:id", async (req, res) => {
   }
 });
 
+// --- Rebuild waiting list -------------------------------------------------------
+// No schema change: rows land in `events` (type=waitlist_signup, payload jsonb).
+// Pull the list: select * from events where type='waitlist_signup' order by ts;
+app.post("/api/waitlist", async (req, res) => {
+  if (!originAllowed(req)) return res.status(403).json({ error: "Not allowed." });
+  if (rateLimited(req.ip || "anon")) return res.status(429).json({ error: "Slow down a moment — try again shortly." });
+  const b = req.body || {};
+  const email = String(b.email || "").trim().slice(0, 160);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: "That email doesn't look right — check it once more?" });
+  try {
+    await store.logEvent({
+      type: "waitlist_signup",
+      email,
+      age: String(b.age || "").slice(0, 8),
+      // stored whole, like the quiz answers — what she writes is the point
+      situation: String(b.situation || ""),
+      source: sourceOf(b.source),
+    });
+    res.json({ ok: true });
+    // fire-and-forget, same pattern as /api/result — she never waits on MailerLite
+    if (mailerlite.enabled()) {
+      mailerlite
+        .syncSubscriber({ email, profile: "Rebuild waitlist" })
+        .then(() => store.logEvent({ type: "mailerlite_synced", email }))
+        .catch((err) => {
+          console.error("[zane-ai] waitlist mailerlite failed:", err.message);
+          store.logEvent({ type: "mailerlite_failed", email, error: err.message });
+        });
+    }
+  } catch (err) {
+    if (process.env.NODE_ENV !== "test") console.error("[zane-ai] waitlist error:", err.message);
+    res.status(500).json({ error: "could not save" });
+  }
+});
+
 // --- the note from Zane -------------------------------------------------------
 app.post("/api/note", async (req, res) => {
   if (!originAllowed(req)) return res.status(403).json({ error: "Not allowed." });
@@ -291,7 +326,11 @@ const MOVED = {
   "/scarred-truth-quiz-light.html":    "/her-own-woman-quiz.html",
   "/all-profiles.html":                "/quiz-all-profiles.html",
   "/zane-story-light.html":            "/zane-story.html",
-  "/scarred-truth-stories-light.html": "/scarred-truth-stories.html",
+  // The stories page was internal-only and was deleted 2026-07-14. Both of its URLs now land on the
+  // profiles page — the closest thing that still exists. A 404 would be worse for anything already
+  // indexed, bookmarked, or shared.
+  "/scarred-truth-stories-light.html": "/quiz-all-profiles.html",
+  "/scarred-truth-stories.html":       "/quiz-all-profiles.html",
   "/zane/index-light.html":            "/talk-to-zane-ai.html",
   "/zane":                             "/talk-to-zane-ai.html",
   "/zane/":                            "/talk-to-zane-ai.html",
@@ -360,7 +399,6 @@ if (require.main === module) {
     console.log(`[zane-ai] http://localhost:${PORT}  (mode: ${ai.MOCK ? "mock" : "live — " + ai.CHAT_MODEL})`);
     console.log(`         home:    http://localhost:${PORT}/`);
     console.log(`         quiz:    http://localhost:${PORT}/her-own-woman-quiz.html`);
-    console.log(`         stories: http://localhost:${PORT}/scarred-truth-stories.html`);
     console.log(`         zane:    http://localhost:${PORT}/talk-to-zane-ai.html`);
   });
 }
