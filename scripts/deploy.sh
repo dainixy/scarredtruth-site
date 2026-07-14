@@ -35,9 +35,15 @@ if [ "${1:-}" != "--no-push" ]; then
   git push origin "$(git branch --show-current)"
 fi
 
-echo "==> triggering deploy (a push alone will NOT do this — see header)"
+# ALWAYS name the commit. Without `commitId`, Render deploys whatever HEAD it happens to
+# know about — and right after a push, that is usually the PREVIOUS commit. On 2026-07-14
+# this shipped a deploy that reported "live" while silently serving the commit before the
+# one we had just pushed: five new pages 404'd in production and the verify step passed
+# anyway, because it only checked pages that already existed. Name the SHA; verify the SHA.
+SHA=$(cd "$ROOT" && git rev-parse HEAD)
+echo "==> triggering deploy of $SHA (a push alone will NOT do this — see header)"
 DID=$(curl -fsS -X POST "${AUTH[@]}" -H "Content-Type: application/json" \
-        -d '{"clearCache":"do_not_clear"}' "$API/deploys" \
+        -d "{\"clearCache\":\"do_not_clear\",\"commitId\":\"$SHA\"}" "$API/deploys" \
       | python3 -c 'import json,sys; print(json.load(sys.stdin)["id"])')
 
 echo "==> deploy $DID"
@@ -54,17 +60,28 @@ for i in $(seq 1 60); do
 done
 [ "$S" = "live" ] || { echo "timed out waiting for deploy"; exit 1; }
 
+# The deploy can say "live" and still be serving a different commit — check.
+GOT=$(curl -fsS "${AUTH[@]}" "$API/deploys/$DID" \
+      | python3 -c 'import json,sys; print((json.load(sys.stdin).get("commit") or {}).get("id",""))')
+[ "$GOT" = "$SHA" ] || { echo "WRONG COMMIT LIVE: wanted $SHA, got $GOT"; exit 1; }
+echo "==> live commit confirmed $SHA"
+
 echo "==> verifying production"
 fail=0
 check() { c=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$SITE$1"); \
           [ "$c" = "$2" ] && printf '    ok   %-44s %s\n' "$1" "$c" \
                           || { printf '    FAIL %-44s %s (want %s)\n' "$1" "$c" "$2"; fail=1; }; }
 check "/"                                            200
+check "/community.html"                              200
 check "/zane-story.html"                             200
 check "/her-own-woman-quiz.html"                     200
 check "/talk-to-zane-ai.html"                        200
 check "/quiz-all-profiles.html"                      200
-check "/scarred-truth-stories.html"                  200
+check "/terms.html"                                  200
+check "/privacy.html"                                200
+check "/refund.html"                                 200
+# stories page deleted 2026-07-14 — it must now 301, not 200 (see MOVED in server.js)
+check "/scarred-truth-stories.html"                  301
 check "/zane/chat.js"                                200
 check "/site-assets/zane-story-narration.mp3"        200
 check "/site-assets/fonts/newsreader-roman.woff2"    200
