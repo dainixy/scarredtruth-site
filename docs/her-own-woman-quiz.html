@@ -152,6 +152,21 @@
   .savednote{display:flex;align-items:center;gap:6px;font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--dim);margin:2px 0 0;opacity:0;transition:opacity .25s}
   .savednote.on{opacity:1}
   .savednote svg{width:13px;height:13px;flex:none}
+  /* The three open questions, one per card — same rhythm as the 15 tap questions before them.
+     They used to sit stacked on one screen, which read as an essay exam at the exact moment
+     she was owed her result. .qprompt caps at 20ch (built for short prompts); these are real
+     sentences, so they get a wider, slightly smaller prompt that still stays the loudest thing
+     on the card. */
+  .openwrap{max-width:620px;margin:0 auto;width:100%}
+  .oprompt{font-family:var(--display);font-weight:560;font-size:clamp(23px,3.5vw,33px);text-align:center;max-width:26ch;margin:0 auto 12px;line-height:1.18;color:var(--ink)}
+  .ohint{text-align:center;color:var(--dim);font-size:15px;line-height:1.5;margin:0 auto 24px;max-width:46ch}
+  .openwrap textarea{min-height:132px}
+  .openacts{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:20px}
+  .openacts .btn{min-width:200px}
+  /* Skip is a real, reachable choice — but it must never out-shout Next. Text link, muted, no box. */
+  .linkbtn{background:none;border:0;color:var(--dim);cursor:pointer;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:12px 14px;border-radius:8px}
+  .linkbtn:hover{color:var(--ink-2)}
+  .linkbtn:focus-visible,.qback:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 
   /* she came back to a half-finished quiz */
   .resume{background:var(--paper-2);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 12px 12px 0;padding:20px 22px;margin:0 auto 34px;max-width:var(--read)}
@@ -353,7 +368,7 @@ var DRAFT_KEY='st_draft_v1';
 var DRAFT_ON=(function(){try{localStorage.setItem('st_t','1');localStorage.removeItem('st_t');return true;}catch(_){return false;}})();
 function saveDraft(){
   if(!DRAFT_ON) return;
-  try{ localStorage.setItem(DRAFT_KEY, JSON.stringify({answers:answers,qi:qi,person:person,at:Date.now()})); }catch(_){}
+  try{ localStorage.setItem(DRAFT_KEY, JSON.stringify({answers:answers,qi:qi,oi:oi,person:person,at:Date.now()})); }catch(_){}
 }
 function loadDraft(){
   if(!DRAFT_ON) return null;
@@ -767,30 +782,66 @@ function renderQuiz(){
 }
 function pick(idx){answers[qi]=C.quizScenes[qi].options[idx].maps;
   /* save AFTER qi moves on, or resuming puts her back on the question she just answered */
-  if(qi<C.quizScenes.length-1){qi++;saveDraft();paint();window.scrollTo(0,0);}else{saveDraft();go('personal');}}
+  if(qi<C.quizScenes.length-1){qi++;saveDraft();paint();window.scrollTo(0,0);}else{oi=0;saveDraft();go('open');}}
 function qback(){if(qi>0){qi--;saveDraft();paint();window.scrollTo(0,0);}}
 
 /* ===== PERSONAL ===== */
 var ICON_WARN_SM='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.4"/><path d="M8 5v3.4"/><path d="M8 11h.01"/></svg>';
 var ICON_CHECK='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 4.5L6 12L2.5 8.5"/></svg>';
 
+/* The three open questions, in the owner's own words (14 Jul 2026). They replaced two questions
+   about her pain — she has just spent fifteen questions on what's wrong, so the last thing we
+   ask is the ending SHE wants. Her answers here are the raw material for the book, which is why
+   they get their own cards instead of being crammed under the ones she must answer. */
+var OPENQ=[
+  {id:'dream',    q:'What does success look like for you in 6 months? Let’s be delusional, you and me.',
+                  ph:'Sleeping 6 hours? Where would you be? Define your own happy ending.'},
+  {id:'become',   q:'What kind of person do you want to become?',
+                  ph:'A self-confident person? A person who doesn’t need other people’s approval? A person who loves what she sees in the mirror?'},
+  {id:'technique',q:'What do you think could help you fall in love with yourself again?',
+                  ph:'Even if it sounds small. There’s no wrong answer here.'}
+];
+var oi=0;
+
+function renderOpen(){
+  var v=function(s){return esc(s||'');};
+  var it=OPENQ[oi];
+  var dots=OPENQ.map(function(_,i){var cls=i<oi?'dot done':(i===oi?'dot now':'dot');return '<div class="'+cls+'"></div>';}).join('');
+  var last=(oi===OPENQ.length-1);
+  var hint=oi===0
+    ? 'Three questions, and they’re the ones that matter. Answer what you want — skip what you don’t.'
+    : '';
+  var back=oi>0?'<button class="qback" onclick="oback()">← back</button>':'';
+  return topbar()+'<div class="quizstage"><div class="wrap"><div class="openwrap">'+
+    '<div class="progress">'+dots+'</div>'+
+    '<div class="qcount eyebrow" style="display:block;text-align:center">One last thing · '+(oi+1)+' of '+OPENQ.length+'</div>'+
+    '<h1 class="oprompt" id="oq-'+it.id+'">'+esc(it.q)+'</h1>'+
+    (hint?'<p class="ohint">'+esc(hint)+'</p>':'')+
+    /* the question IS the label — point the box at it rather than repeating it for screen readers */
+    '<textarea id="'+it.id+'" aria-labelledby="oq-'+it.id+'" oninput="draftSoon(event)" placeholder="'+v(it.ph)+'">'+v(person[it.id])+'</textarea>'+
+    '<p class="savednote" id="savednote" aria-live="polite">'+ICON_CHECK+' Saved on this device</p>'+
+    '<div class="openacts">'+
+      '<button class="btn" id="onextbtn" onclick="onext()">'+(last?'Last step →':'Next →')+'</button>'+
+      '<button class="linkbtn" type="button" onclick="oskip()">Skip this one</button>'+
+    '</div>'+
+    back+
+  '</div></div></div>';
+}
+function onext(){ readPersonal(); saveDraft();
+  if(oi<OPENQ.length-1){ oi++; paint(); window.scrollTo(0,0); } else { go('personal'); } }
+function oskip(){ onext(); }                       /* skipping just leaves the box empty — nothing to undo */
+function oback(){ readPersonal(); saveDraft();
+  if(oi>0){ oi--; paint(); window.scrollTo(0,0); } else { go('quiz'); } }
+/* back from the name/email card returns to the LAST question, not to wherever oi happened to be */
+function pback(){ readPersonal(); saveDraft(); oi=OPENQ.length-1; go('open'); }
+
 function renderPersonal(){
   var v=function(s){return esc(s||'');};
-  return topbar()+'<div class="personal"><div class="wrap"><div class="read reveal">'+
-    '<span class="eyebrow">One last thing — the important one</span>'+
-    '<h2>Now the part that’s yours.</h2>'+
-    '<p class="why">The quiz found your pattern. That’s where you’ve <em>been</em>. These three are about where you’re <em>going</em> — and they only work in your own words, not mine.</p>'+
-    /* These three replaced two questions about her PAIN ("where does this show up most and
-       what's it costing you" / "what would lighter look like") on 14 Jul 2026. She has just
-       spent fifteen questions on what's wrong; the last screen asks for the ending SHE wants,
-       in HER words — which is the whole point, and the raw material for the book. */
-    '<label class="fieldlbl" for="dream">Six months from now. Don’t be realistic — where are you?</label>'+
-    '<textarea id="dream" oninput="draftSoon(event)" placeholder="This is your happy ending, so make it yours. Sleeping through the night? Laughing again?">'+v(person.dream)+'</textarea>'+
-    '<label class="fieldlbl" for="become">You look in the mirror and you’re proud of who’s looking back. Who is she?</label>'+
-    '<textarea id="become" oninput="draftSoon(event)" placeholder="Someone who doesn’t need anyone’s approval? Someone who likes herself? Say it your way.">'+v(person.become)+'</textarea>'+
-    '<label class="fieldlbl" for="technique">What do you think would help you fall in love with yourself again?</label>'+
-    '<textarea id="technique" oninput="draftSoon(event)" placeholder="Even if it sounds small. Or silly. There’s no wrong answer here.">'+v(person.technique)+'</textarea>'+
-    '<p class="savednote" id="savednote" aria-live="polite">'+ICON_CHECK+' Saved on this device</p>'+
+  var wrote=OPENQ.some(function(it){ return (person[it.id]||'').trim(); });
+  return topbar()+'<div class="quizstage"><div class="wrap"><div class="openwrap">'+
+    '<div class="qcount eyebrow" style="display:block;text-align:center">Last step</div>'+
+    '<h1 class="oprompt">'+(wrote?'Thank you. That was the honest part.':'Your result is ready.')+'</h1>'+
+    '<p class="ohint">Tell me your name so I’m not writing to a stranger.</p>'+
     '<label class="fieldlbl" for="pname">What should I call you?</label>'+
     '<input type="text" id="pname" oninput="draftSoon(event)" placeholder="First name" value="'+v(person.name)+'">'+
     /* Never promise "we won't spam you" here. Saying the word plants the idea that we might —
@@ -799,15 +850,22 @@ function renderPersonal(){
     '<label class="fieldlbl" for="pemail">Where should I send it?</label>'+
     '<input type="email" id="pemail" oninput="draftSoon(event)" onblur="checkEmail()" placeholder="you@email.com" value="'+v(person.email)+'">'+
     '<div id="emailerr"></div>'+
-    '<div style="margin-top:24px"><button class="btn" id="gobtn" onclick="savePersonal()">Show me my result →</button></div>'+
-    '<p class="meta">No email needed to see your result. The women who write a few honest lines get the most out of what comes next.</p>'+
+    '<div class="openacts">'+
+      '<button class="btn" id="gobtn" onclick="savePersonal()">Show me my result →</button>'+
+    '</div>'+
+    '<p class="meta" style="text-align:center">No email needed to see your result.</p>'+
+    '<button class="qback" onclick="pback()">← back</button>'+
   '</div></div></div>';
 }
 
+/* Only reads the fields that are ON SCREEN. The three questions each live on their own card
+   now, so a missing box means "not this card" — never "she cleared it". Reading a missing id
+   as '' would wipe what she wrote the moment she tapped Next. */
 function readPersonal(){
-  var g=function(id){var e=document.getElementById(id);return e?e.value:'';};
-  person.dream=g('dream'); person.become=g('become'); person.technique=g('technique');
-  person.name=g('pname'); person.email=g('pemail');
+  var g=function(id){var e=document.getElementById(id);return e?e.value:null;};
+  var set=function(k,val){ if(val!==null) person[k]=val; };
+  set('dream',g('dream')); set('become',g('become')); set('technique',g('technique'));
+  set('name',g('pname')); set('email',g('pemail'));
 }
 
 /* Checked when she leaves the field, never while she is still typing (nobody should be told
@@ -1075,7 +1133,7 @@ function renderResult(){
       '</div>'+
     '</footer>';
 }
-function restart(){answers=[];qi=0;person={name:'',dream:'',become:'',technique:'',email:''};clearDraft();go('quiz');}
+function restart(){answers=[];qi=0;oi=0;person={name:'',dream:'',become:'',technique:'',email:''};clearDraft();go('quiz');}
 
 /* ===== she came back to a half-finished quiz =====
    Offered, never forced — she can always start clean. */
@@ -1096,9 +1154,10 @@ function resumeDraft(){
   if(!RESUMABLE) return;
   answers=RESUMABLE.answers.slice();
   qi=Math.min(RESUMABLE.qi||0, C.quizScenes.length-1);
+  oi=Math.min(RESUMABLE.oi||0, OPENQ.length-1);
   person=Object.assign({name:'',dream:'',become:'',technique:'',email:''}, RESUMABLE.person||{});
   RESUMABLE=null;
-  go(answers.length>=C.quizScenes.length ? 'personal' : 'quiz');
+  go(answers.length>=C.quizScenes.length ? 'open' : 'quiz');
 }
 function dropDraft(){ RESUMABLE=null; clearDraft(); paint(); }
 
@@ -1108,10 +1167,11 @@ function paint(){
   var app=document.getElementById('app');
   if(stage==='entry') app.innerHTML=renderResume()+renderEntry();
   else if(stage==='quiz') app.innerHTML=renderQuiz();
+  else if(stage==='open') app.innerHTML=renderOpen();
   else if(stage==='personal') app.innerHTML=renderPersonal();
   else app.innerHTML=renderResult();
   wireReveal();
-  if(stage==='personal'){ readPersonal(); growAll(); }
+  if(stage==='open'||stage==='personal'){ growAll(); }
   if(stage==='result') afterResult();
 }
 function go(s){stage=s; if(s==='quiz'&&qi>=C.quizScenes.length){qi=0;answers=[];} paint(); window.scrollTo(0,0);}
