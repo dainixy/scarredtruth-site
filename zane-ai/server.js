@@ -38,9 +38,12 @@ const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
   .split(",").map((s) => s.trim()).filter(Boolean);
 const SITE_ORIGIN = process.env.SITE_ORIGIN || "https://scarredtruth.com";
 
-// Where she came from. Referrer is useless for this — Instagram and Threads both strip it
-// in their in-app browsers and land as "direct" — so the UTM tags on the bio/post links are
-// the only signal that survives the tap. We keep the referrer anyway as a weak cross-check.
+// Where she came from.
+// CORRECTION (2026-07-14): an earlier comment here claimed Meta strips the referrer and that UTMs
+// were the only signal that survives the tap. That was WRONG — the live Cloudflare data plainly
+// shows l.instagram.com and l.threads.com. The referrer works.
+// UTMs are still worth capturing because the referrer cannot tell bio from story from post, and
+// that distinction is what tells us which placement actually earns its keep.
 function sourceOf(s) {
   if (!s || typeof s !== "object") return null;
   const pick = (v) => (v ? String(v).slice(0, 120) : null);
