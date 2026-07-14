@@ -167,6 +167,10 @@
   .linkbtn{background:none;border:0;color:var(--dim);cursor:pointer;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:12px 14px;border-radius:8px}
   .linkbtn:hover{color:var(--ink-2)}
   .linkbtn:focus-visible,.qback:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+  /* The way out. Always there, never loud — it must not compete with Next (rule 22). */
+  .bail{text-align:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+  .bailbtn{font-size:11px;color:var(--dim)}
+  .bailbtn:hover{color:var(--ember)}
 
   /* she came back to a half-finished quiz */
   .resume{background:var(--paper-2);border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 12px 12px 0;padding:20px 22px;margin:0 auto 34px;max-width:var(--read)}
@@ -485,15 +489,20 @@ function profileMixCard(k,tally,roleLabel){
 function renderFeaturedStory(key){
   var s=storyFor(key); if(!s) return '';
   var ps=(s.story||'').split(/\n{2,}/).map(function(x){return '<p>'+esc(x.trim())+'</p>';}).join('');
-  var who=s.pov==='zane'?'Zane’s own story':'A woman Zane sat with · name changed';
+  var mine=s.pov==='zane';
+  var who=mine?'Zane’s own story':'A woman Zane sat with · name changed';
+  /* Two of the eight are Zane's own (deliberately — they're the patterns he lived). The captions
+     have to follow the storyteller, or the page says "a real woman" and then a man speaks. */
+  var lessonLbl=mine?'What it taught me':'What it taught her';
+  var transLbl =mine?'Who I am now':'Who she is now';
   return '<div class="featstory reveal" style="'+famVars(key)+'">'+
     '<span class="eyebrow">'+who+'</span>'+
     '<h2 class="fs-title">'+esc(s.title)+'</h2>'+
     '<p class="fs-recog">“'+esc(s.recognition)+'”</p>'+
     '<div class="fs-img"><img src="site-assets/illustrations/'+key+'.webp" alt=""></div>'+
     '<div class="fs-body">'+ps+'</div>'+
-    '<div class="fs-lesson"><span class="eyebrow">What it taught her</span><p>'+esc(s.lesson)+'</p></div>'+
-    '<div class="fs-trans"><span class="eyebrow">Who she is now</span><p>'+esc(s.transformation)+'</p></div>'+
+    '<div class="fs-lesson"><span class="eyebrow">'+lessonLbl+'</span><p>'+esc(s.lesson)+'</p></div>'+
+    '<div class="fs-trans"><span class="eyebrow">'+transLbl+'</span><p>'+esc(s.transformation)+'</p></div>'+
     '<p class="fs-cta">'+esc(s.cta)+'</p></div>';
 }
 function renderChatWidget(){
@@ -523,7 +532,7 @@ function afterResult(){
   var fresh=FRESH_SUBMIT; FRESH_SUBMIT=false;
   if(LOADED&&LOADED.id){ RESULT_ID=LOADED.id; }
   if(LOADED&&LOADED.note){ fillNote(LOADED.note); }
-  else if(!fresh){ fetchNote(); }
+  else if(!fresh){ fetchNote(); }   /* fetchNote() itself is a no-op if she wrote nothing */
   if(RESULT_ID){ showShare(RESULT_ID); }
   wireResultChat();
   growAll();
@@ -536,6 +545,7 @@ function fillNote(text){
     '<div class="sig-mark"><img src="site-assets/zane-signature.png" alt="Zane — signed"></div></div></div>';
 }
 function fetchNote(){
+  if(!hasWords()) return;          /* she told us nothing, so there is nothing personal to say */
   var res=currentRes(); var p=P[res.primary]; if(!p) return;
   api('/api/note',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
     resultId:RESULT_ID||null, name:person.name,
@@ -623,8 +633,8 @@ function topbar(){
   return '<a class="skip" href="#main">Skip to content</a>'+
     '<div class="topbar"><div class="row">'+
     '<a class="brandmark" href="/"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a>'+
-    '<input id="navtog" type="checkbox" tabindex="-1" aria-hidden="true">'+
-    '<label class="navtoggle" for="navtog" aria-label="Open menu"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>'+
+    '<input id="navtog" type="checkbox" aria-label="Menu">'+
+    '<label class="navtoggle" for="navtog" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>'+
     '<nav class="nav" aria-label="Primary">'+
       '<a class="lnk" href="/">Home</a>'+
       '<a class="lnk" href="#" onclick="go(\'entry\');return false;">The&nbsp;Quiz</a>'+
@@ -808,8 +818,10 @@ function renderOpen(){
   var it=OPENQ[oi];
   var dots=OPENQ.map(function(_,i){var cls=i<oi?'dot done':(i===oi?'dot now':'dot');return '<div class="'+cls+'"></div>';}).join('');
   var last=(oi===OPENQ.length-1);
+  /* The trade, said out loud. Answering is how Zane can write to HER instead of to a type —
+     so she should know that's what she's choosing, and know she can walk straight past it. */
   var hint=oi===0
-    ? 'Three questions, and they’re the ones that matter. Answer what you want — skip what you don’t.'
+    ? 'Answer these and I’ll write you a note about your result — in your words, not a type. Skip them and you’ll still get your result.'
     : '';
   var back=oi>0?'<button class="qback" onclick="oback()">← back</button>':'';
   return topbar()+'<div class="quizstage"><div class="wrap"><div class="openwrap">'+
@@ -822,14 +834,23 @@ function renderOpen(){
     '<p class="savednote" id="savednote" aria-live="polite">'+ICON_CHECK+' Saved on this device</p>'+
     '<div class="openacts">'+
       '<button class="btn" id="onextbtn" onclick="onext()">'+(last?'Last step →':'Next →')+'</button>'+
-      '<button class="linkbtn" type="button" onclick="oskip()">Skip this one</button>'+
+      '<button class="linkbtn" type="button" id="oskipbtn" onclick="oskip()">Skip this one</button>'+
     '</div>'+
+    /* No dead ends and no hostage-taking: she can go straight to her result from any question,
+       with no name and no email asked. She loses the personal note — nothing else. */
+    '<div class="bail"><button class="linkbtn bailbtn" type="button" id="bailbtn" onclick="skipAll()">Just show me my results →</button></div>'+
     back+
   '</div></div></div>';
 }
 function onext(){ readPersonal(); saveDraft();
   if(oi<OPENQ.length-1){ oi++; paint(); window.scrollTo(0,0); } else { go('personal'); } }
 function oskip(){ onext(); }                       /* skipping just leaves the box empty — nothing to undo */
+/* Straight to her result. Whatever she has already typed is kept (we never throw her words away),
+   but nothing more is asked of her — no remaining questions, no name, no email. */
+function skipAll(){ readPersonal(); saveDraft(); savePersonal(); }
+/* The note is the thing she gets for telling me something. No words, no note — otherwise the
+   "personal note" is a form letter and she can tell. */
+function hasWords(){ return OPENQ.some(function(it){ return (person[it.id]||'').trim().length>0; }); }
 function oback(){ readPersonal(); saveDraft();
   if(oi>0){ oi--; paint(); window.scrollTo(0,0); } else { go('quiz'); } }
 /* back from the name/email card returns to the LAST question, not to wherever oi happened to be */
@@ -1088,7 +1109,7 @@ function renderResult(){
     blk('What it’s costing you','<p>'+esc(p.cost)+'</p>','carry')+
     '<div class="strength-card card reveal"><div class="in"><img class="bgmark" src="site-assets/marks/heart.webp" alt="" aria-hidden="true"><span class="eyebrow">The strength hiding underneath</span><p>'+esc(p.strength)+'</p></div></div>'+
 
-    '<div id="zane-note-slot">'+zaneNote(p)+'</div>'+
+    '<div id="zane-note-slot">'+(hasWords()?zaneNote(p):'')+'</div>'+
     renderChatWidget()+
 
     seam()+
@@ -1109,7 +1130,10 @@ function renderResult(){
       '</div>'+
     '</div>'+
 
-    '<div class="block reveal"><span class="eyebrow" style="color:var(--gold-deep)">A real woman who stood where you are</span>'+renderFeaturedStory(res.primary)+'</div>'+
+    /* No hardcoded "A real woman who stood where you are" here — two of the eight stories are
+       Zane's own, and this header announced a woman and then handed the page to a man.
+       renderFeaturedStory() prints the honest label for whichever it is. */
+    '<div class="block reveal">'+renderFeaturedStory(res.primary)+'</div>'+
 
     '<div class="echo reveal"><span class="eyebrow" style="color:var(--gold-deep);display:block;margin-bottom:14px">Women who’ve stood where you are</span>'+echoHtml+
       '<div class="resultband"><img src="site-assets/illustrations/group.webp" alt="Women, each carrying a different weight, together at dawn"><p class="rcap" style="margin-top:10px">You’re in good company.</p></div></div>'+
