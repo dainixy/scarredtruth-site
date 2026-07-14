@@ -33,11 +33,17 @@
   src:url('site-assets/fonts/caveat.woff2') format('woff2')}</style>
 <script defer src="site-assets/img-resilience.js"></script>
 <script defer src="site-assets/backtotop.js"></script>
+<script defer src="site-assets/reveal.js"></script>
 <style>
   /* page-specific bits not covered by the shared light system */
 
   /* HERO — full-bleed immersive illustration + floating glass card */
-  .hero{position:relative;min-height:clamp(660px,92vh,940px);display:flex;align-items:center;padding:0;overflow:hidden;background:var(--paper)}
+  .hero{position:relative;min-height:clamp(660px,92vh,940px);min-height:clamp(560px,92svh,940px);display:flex;align-items:center;padding:0;overflow:hidden;background:var(--paper)}
+  /* svh = the SMALL viewport height: the screen as it really is once Instagram's own header
+     and toolbar are eating ~100-180px of it. vh pretends they aren't there, which is exactly
+     why the quiz button was landing at 643px on a 664px screen and getting sliced by the edge.
+     The vh line above stays as a fallback for browsers that don't know svh. The 660px floor
+     also had to drop to 560 — it was forcing the hero TALLER than a small phone's screen. */
   .heropic{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:78% 42%;display:block;transform-origin:64% 50%;animation:heroDrift 32s ease-in-out infinite alternate}
   @keyframes heroDrift{from{transform:scale(1.05)}to{transform:scale(1.12) translate(-1.4%,-0.6%)}}
   .hero-scrim{position:absolute;inset:0;pointer-events:none;background:
@@ -45,7 +51,44 @@
     linear-gradient(180deg,rgba(247,242,233,0) 55%,rgba(247,242,233,.5) 82%,rgba(247,242,233,.95) 96%,var(--paper) 100%)}
   .hero .wrap{position:relative;z-index:2;width:100%}
   .hero-card{max-width:560px;background:rgba(255,253,248,.62);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);border:1px solid rgba(255,255,255,.65);border-radius:24px;box-shadow:0 34px 80px rgba(120,80,40,.24),inset 0 1px 0 rgba(255,255,255,.6);padding:46px 44px}
-  @media(max-width:600px){.hero-card{padding:30px 24px;background:rgba(255,253,248,.85)}}
+  @media(max-width:600px){
+    .hero-card{padding:18px 20px;background:rgba(255,253,248,.85)}
+    /* Every saving below is geometry, not copy. The headline, the italic line and all three
+       bullets survive intact — they are the only place the site says what it is FOR, and that is
+       the trust step she needs before she taps. We buy the space from air instead. */
+    .hero h1{font-size:37px;line-height:1.08;letter-spacing:-.015em}  /* 4 lines -> 3, same words */
+    .hero .lead{margin:10px 0 10px;font-size:17px}
+    .bullets{margin:0 0 12px}
+    .bullets li{margin:0 0 6px;font-size:16px;line-height:1.4}
+    .cta-free{margin:0 0 9px;font-size:13.5px}
+    .cta-row{gap:8px}
+  }
+  /* SHORT screens, not just narrow ones. An iPhone inside Instagram is ~664px tall; an older or
+     smaller one is ~560px. Width alone never told us that — which is why the button sat at exactly
+     the same pixel on every phone and fell off the bottom of the small ones. This is the only
+     breakpoint on the site that asks how much screen she actually HAS. Copy is untouched; only the
+     type scale and the air move. */
+  @media(max-width:600px) and (max-height:700px){
+    .hero-card{padding:14px 18px}
+    .hero h1{font-size:32px;line-height:1.06}
+    .hero .lead{font-size:16px;margin:8px 0 8px}
+    .bullets li{font-size:15px;line-height:1.36;margin:0 0 5px}
+    .bullets{margin:0 0 10px}
+    .cta-free{font-size:13px;margin:0 0 8px}
+  }
+  /* The smallest screens still in real use (an older iPhone inside Instagram, ~560px of height).
+     Squeeze the scale, never the words. Below this there is simply not enough glass to hold a
+     headline, three bullets and a button at once — and I would rather she scroll six pixels than
+     lose the only lines that tell her what this is for. */
+  @media(max-width:600px) and (max-height:600px){
+    .hero-card{padding:12px 16px}
+    .hero h1{font-size:28px;line-height:1.05}
+    .hero .lead{font-size:15px;margin:6px 0 6px}
+    .bullets li{font-size:14.5px;line-height:1.32;margin:0 0 4px}
+    .bullets{margin:0 0 8px}
+    .cta-free{font-size:12.5px;margin:0 0 7px;max-width:34ch}
+    .cta-row .btn{padding-top:14px;padding-bottom:14px}
+  }
   .hero h1 .ink{color:var(--gold-deep);font-style:italic;font-weight:560}
   .hero .lead{margin:20px 0 16px}
   .hero-cap{position:absolute;right:18px;bottom:18px;z-index:2;font:500 9px/1.4 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#5e4029;background:rgba(255,253,248,.5);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);padding:8px 13px;border-radius:30px;border:1px solid rgba(255,255,255,.5)}
@@ -56,6 +99,21 @@
   .bullets li::before{content:"";position:absolute;left:0;top:9px;width:13px;height:2px;background:var(--gold)}
   .bullets li::after{content:"";position:absolute;left:5px;top:3px;width:2px;height:13px;background:var(--ember)}
   .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  /* "See what you're carrying" overflowed its box by ~1px and wrapped onto two ragged lines, which
+     read as a rendering bug. The fix is to take the air OUT of the label, not to make the type
+     bigger — bigger type is wider type and wraps harder. 24 chars x 1.62px of tracking = 39px of
+     pure air; halving it is invisible and buys back the line. */
+  .cta-row .btn{letter-spacing:.06em;padding-left:22px;padding-right:22px;white-space:nowrap}
+  /* One dominant action. "Watch my story" was a second full-size button competing with the only
+     button that leads to the quiz — and it cost ~60px of vertical space on the exact screen we are
+     fighting for. It becomes a quiet text link underneath: still there, no longer shouting. */
+  .cta-row .btn.ghost{background:none;border:0;box-shadow:none;padding:6px 2px;color:var(--ink-2);
+    text-decoration:underline;text-underline-offset:4px;letter-spacing:.04em;font-size:12.5px}
+  .cta-row .btn.ghost:hover{background:none;color:var(--ink)}
+  /* The strongest objection-killer we own, said BEFORE she has to decide. Above the button, not
+     below it — below lands off the bottom of the very screen this is all for. */
+  .cta-free{font:400 14px/1.45 var(--body);color:var(--ink-2);margin:0 0 12px;max-width:38ch}
+  .cta-free strong{color:var(--gold-deep);font-weight:560}
   .stats{display:flex;gap:28px;margin-top:30px;flex-wrap:wrap}
   .stat{position:relative;padding-right:26px}
   .stat:not(:last-child)::after{content:"";position:absolute;right:0;top:4px;bottom:4px;width:1px;background:var(--line)}
@@ -189,15 +247,7 @@
   .proof .big{font-family:var(--display);font-style:italic;font-size:clamp(30px,5vw,46px);color:var(--gold-deep);line-height:1.08}
   .proof .lbl{font:500 12px/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);margin-top:14px}
 
-  /* popup */
-  .pop{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(42,35,29,.55);backdrop-filter:blur(5px);padding:24px}
-  .pop.show{display:flex;animation:fadein .3s ease}@keyframes fadein{from{opacity:0}to{opacity:1}}
-  .popcard{position:relative;max-width:720px;width:100%;border:1px solid var(--gold);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 40px 90px rgba(120,80,40,.3);background:var(--paper-2)}
-  @media(max-width:620px){.popcard{grid-template-columns:1fr}.popimg{display:none}}
-  .popimg{position:relative;overflow:hidden;min-height:360px;background:var(--paper)}
-  .popimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
-  .poptext{padding:38px 34px}
-  .popcard .x{position:absolute;top:12px;right:14px;cursor:pointer;color:var(--ink);font:400 22px/1 var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:3px;width:34px;height:34px;z-index:3}
+  /* popup CSS removed with the popup — see the note where the markup was. */
 </style>
 <link rel="canonical" href="https://scarredtruth.com/">
 </head>
@@ -224,6 +274,7 @@
         <li>Put down the weight that was never yours — even the voice that says you're not enough.</li>
         <li>Rebuild stronger than the version that broke.</li>
       </ul>
+      <p class="cta-free">Fifteen gentle questions, no wrong answers — and <strong>no email needed</strong> to see your result.</p>
       <div class="cta-row">
         <a class="btn" href="her-own-woman-quiz.html">See what you're carrying</a>
         <a class="btn ghost" href="#origin">Watch my story</a>
@@ -231,7 +282,7 @@
       <div class="stats">
         <div class="stat"><b>1M+</b><span>find these words / month</span></div>
         <div class="stat"><b>Eight</b><span>hearts — one is yours</span></div>
-        <div class="stat"><b>Free</b><span>quiz + 7-day reset</span></div>
+        <div class="stat"><b>Free</b><span>quiz · 4 minutes</span></div>
       </div>
     </div>
   </div>
@@ -295,36 +346,23 @@
       <li>
         <span class="num">1</span>
         <div class="scnt">
-          <h3><a href="zane-story.html">Read my story</a></h3>
-          <p>See why I get it. I didn't learn this from a book — I lived every word of it.</p>
-        </div>
-      </li>
-      <li>
-        <span class="num">2</span>
-        <div class="scnt">
           <h3><a href="her-own-woman-quiz.html">Take the quiz</a></h3>
           <p>Find the heart you've been carrying it with — and the one quiet thing that's keeping you stuck.</p>
         </div>
       </li>
       <li>
+        <span class="num">2</span>
+        <div class="scnt">
+          <h3><a href="zane-story.html">Read my story</a></h3>
+          <p>See why I get it. I didn't learn this from a book — I lived every word of it.</p>
+        </div>
+      </li>
+      <li>
         <span class="num">3</span>
         <div class="scnt">
-          <h3><a href="/talk-to-zane-ai.html">Talk to Zane, anytime</a></h3>
-          <p>Tell me what's sitting on you at 2am. I'll help you see what's really going on underneath it.</p>
-        </div>
-      </li>
-      <li>
-        <span class="num">4</span>
-        <div class="scnt">
-          <h3>Walk the free 7-Day Reset <span class="soon">Free</span></h3>
-          <p>Seven mornings. One short word, one scripture, one honest question — and we set the weight down together.</p>
-        </div>
-      </li>
-      <li>
-        <span class="num">5</span>
-        <div class="scnt">
-          <h3>Keep building — the 31-Day Rebuild</h3>
-          <p>Find your feet, rebuild your worth, walk forward. On your terms, never pushed.</p>
+          <h3><a href="community.html">Join the Rebuild — we begin August 1</a></h3>
+          <p>Thirty-eight days with women who started the same morning you did. One small
+            thing a day. And I answer you every day.</p>
         </div>
       </li>
     </ol>
@@ -337,22 +375,25 @@
 <section>
   <div class="wrap">
     <div class="marquee reveal" aria-hidden="true"><div class="track">
-      <span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span>
-      <span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span>
+      <span>The Rebuild · August 1</span><span class="star">✦</span><span>The Rebuild · August 1</span><span class="star">✦</span><span>The Rebuild · August 1</span><span class="star">✦</span>
+      <span>The Rebuild · August 1</span><span class="star">✦</span><span>The Rebuild · August 1</span><span class="star">✦</span><span>The Rebuild · August 1</span><span class="star">✦</span>
     </div></div>
     <div class="rebuild-combo reveal">
       <div class="rc-media">
         <img src="site-assets/illustrations/steady.webp" alt="A woman sitting tall and free on her own throne at dawn">
-        <span class="rc-tag">The Daily Rebuild · free</span>
+        <span class="rc-tag">The Rebuild · begins August 1</span>
       </div>
       <div class="rc-body">
-        <span class="eyebrow">From the dark toward the door</span>
+        <span class="eyebrow">Not alone this time</span>
         <h2>You're not broken.<br>You're being <em>rebuilt</em>.</h2>
-        <p class="lead-line">One short piece from me every day — the text version of the videos. No fluff, no jargon.</p>
+        <p class="lead-line">On August 1, a group of women start over — together. Seven days
+          to reset. Thirty-one days to rebuild. One small thing a day.</p>
         <ul class="feat">
-          <li>The day's video</li><li>The same words, in text</li><li>One small thing to do today</li>
+          <li>Everyone starts the same morning — nobody is the new person</li>
+          <li>A short word from me every day, and one small thing to do</li>
+          <li>I read what you write and answer you myself — all 38 days</li>
         </ul>
-        <a class="btn" href="#" data-substack style="margin-bottom:22px">Subscribe on Substack</a>
+        <a class="btn" href="community.html" style="margin-bottom:22px">See the Rebuild</a>
         <div class="acc">
           <details open><summary>Set it down — not because they earned it</summary>
             <div class="a">Why putting the weight down is repossession, not surrender — and the door can stay locked the whole time.</div></details>
@@ -364,8 +405,8 @@
       </div>
     </div>
     <div class="marquee rev reveal" aria-hidden="true"><div class="track">
-      <span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span>
-      <span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span><span>The Daily Rebuild</span><span class="star">✦</span>
+      <span>The Rebuild · August 1</span><span class="star">✦</span><span>The Rebuild · August 1</span><span class="star">✦</span><span>The Rebuild · August 1</span><span class="star">✦</span>
+      <span>The Rebuild · August 1</span><span class="star">✦</span><span>The Rebuild · August 1</span><span class="star">✦</span><span>The Rebuild · August 1</span><span class="star">✦</span>
     </div></div>
   </div>
 </section>
@@ -416,7 +457,7 @@
   </div>
 </section>
 
-<!-- (the "you're being rebuilt" beat now leads the Daily Rebuild section lower down) -->
+<!-- (the "you're being rebuilt" beat now leads the Rebuild community section lower down) -->
 <div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
 
 <!-- THE WHOLE IDEA, IN ONE PICTURE — annotated insight diagram -->
@@ -450,37 +491,8 @@
       heart stuck — the ex, the parent, the loss, the person who drained you — and the first step to set
       it down. No wrong answers.</p>
     <a class="btn" href="her-own-woman-quiz.html">See what you're carrying</a>
-    <p class="meta">Free · your result opens day one of the 7-Day Reset</p>
+    <p class="meta">Free · no email needed to see your result</p>
   </div></div>
-</section>
-
-<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
-
-<!-- GOODIES -->
-<section>
-  <div class="wrap">
-    <div class="read reveal" style="text-align:center"><span class="eyebrow">More from Zane</span>
-      <h2 style="margin-bottom:34px">A few more ways in.</h2></div>
-    <div class="goodies reveal">
-      <div class="card gcard">
-        <span class="gbadge">Coming</span>
-        <p class="glabel">The Book</p>
-        <h3>The Weight You Were Never Meant to Carry</h3>
-        <p>The deepest version of everything here — the whole story, all eight hearts, and the way down to
-          setting it all down. Audiobook in Zane's own voice.</p>
-        <a class="btn ghost" href="her-own-woman-quiz.html">Get on the list</a>
-      </div>
-      <div class="card gcard feature">
-        <span class="gbadge">Free</span>
-        <p class="glabel">The 7-Day Reset</p>
-        <h3>Seven mornings to set it down</h3>
-        <!-- v3: he NEVER deleted the voicemail. That's the story page's whole spine. -->
-        <p>One short word, one scripture, one honest question a day — the ex, the voicemail, and the
-          morning he stopped pressing play. It starts the moment you finish the quiz.</p>
-        <a class="btn" href="her-own-woman-quiz.html">Start free</a>
-      </div>
-    </div>
-  </div>
 </section>
 
 <div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
@@ -535,11 +547,12 @@
     <div class="faq"><h3>Do I have to be religious for this?</h3>
       <p>No. Faith is woven through what I share because it's woven through me — but the quiz, the reset,
         and the daily meet you wherever you are.</p></div>
-    <div class="faq"><h3>What's the daily, and is it free?</h3>
-      <p>The Daily Rebuild is a short message from me each day — video, text, and one small action.
-        It's free, it lives on Substack, and you can leave anytime.</p></div>
+    <div class="faq"><h3>What's the Rebuild?</h3>
+      <p>Thirty-eight days, starting August 1, with a group of women who begin the same
+        morning you do. One small thing a day, and I answer you every day.
+        <a href="community.html">Everything about it is here.</a></p></div>
     <div class="faq"><h3>Will you flood my inbox?</h3>
-      <p>Only what you choose. Your quiz result, the seven-day reset, and the daily if you want it.
+      <p>Only what you choose. Your quiz result if you ask for it — that's all.
         Unsubscribe anytime; your information is never shared.</p></div>
   </div></div>
 </section>
@@ -553,36 +566,21 @@
     <p class="fflead">See the one weight you’re really carrying — then let’s set it down, together.</p>
     <a class="btn" href="her-own-woman-quiz.html">Find what you’re still carrying</a>
     <p class="brand">Scarred Truth · Zane</p>
-    <p class="fine">© Scarred Truth · You can forgive, and still keep your peace.</p>
+    <p class="fine">© Scarred Truth · You can forgive, and still keep your peace. · <a href="/terms.html" style="color:inherit">Terms</a> · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="/refund.html" style="color:inherit">Refunds</a></p>
   </div>
 </footer>
 
-<!-- QUIZ POPUP -->
-<div class="pop" id="quizPop">
-  <div class="popcard">
-    <button class="x" id="popClose" aria-label="Close">×</button>
-    <div class="popimg"><img src="site-assets/illustrations/hero-pair.webp" alt="A woman carrying a man up a mountain at sunset" style="object-position:52% 40%"></div>
-    <div class="poptext">
-      <span class="eyebrow">Not sure where to start?</span>
-      <h2 style="font-size:30px;margin:0 0 14px">Which heart are you carrying it with?</h2>
-      <p class="dim" style="margin-bottom:26px">Fifteen gentle questions, no wrong answers — and the
-        one quiet thing that's keeping you stuck.</p>
-      <a class="btn" href="her-own-woman-quiz.html">Find out yours</a>
-    </div>
-  </div>
-</div>
+<!-- The 8-second popup lived here. It dropped a full-screen overlay on a woman who was
+     mid-paragraph, with no scroll and no click from her — the exact "handled and sold to"
+     feeling the brief says to avoid. Its words were the best on the site, so they were not
+     thrown away: "Fifteen gentle questions, no wrong answers" now lives in the hero, above
+     the button, where she reads it before she has to decide anything. -->
 
 <script>
 (function(){
   var io=new IntersectionObserver(function(es){es.forEach(function(e){
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
   document.querySelectorAll('.reveal,.seam').forEach(function(el){io.observe(el);});
-  var KEY='st_quiz_popup_light',pop=document.getElementById('quizPop');
-  function done(){pop.classList.remove('show');try{sessionStorage.setItem(KEY,'1');}catch(e){}}
-  try{if(!sessionStorage.getItem(KEY)){setTimeout(function(){pop.classList.add('show');},8000);}}catch(e){setTimeout(function(){pop.classList.add('show');},8000);}
-  document.getElementById('popClose').addEventListener('click',done);
-  pop.addEventListener('click',function(e){if(e.target===pop)done();});
-  pop.querySelector('a.btn').addEventListener('click',done);
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4174d8e5224f4696a8c281220e7e06fa"}'></script><!-- End Cloudflare Web Analytics -->

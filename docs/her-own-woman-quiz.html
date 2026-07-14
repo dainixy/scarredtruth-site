@@ -21,6 +21,7 @@
   src:url('site-assets/fonts/caveat.woff2') format('woff2')}</style>
 <script defer src="site-assets/img-resilience.js"></script>
 <script defer src="site-assets/backtotop.js"></script>
+<script defer src="site-assets/reveal.js"></script>
 <style>
   /* page-specific bits not covered by the shared light system */
 
@@ -130,7 +131,7 @@
   .personal{padding:72px 0 90px}
   .personal .why{border-left:2px solid var(--ember);padding-left:18px;color:var(--ink-2);font-style:italic;font-size:18px;margin:0 0 6px}
   textarea,input[type=text]{width:100%;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:400 17px/1.5 var(--body);padding:14px 16px;resize:vertical}
-  textarea{min-height:104px;margin-bottom:6px} input[type=text]{margin-bottom:4px}
+  textarea{min-height:160px;max-height:52vh;margin-bottom:6px;box-sizing:border-box;overflow-y:auto} input[type=text]{margin-bottom:4px}
   /* :not(.bad) — a field that's invalid must READ as invalid, focused or not. Without this the
      focus tint paints the bad field button-orange, which is the one colour an error may never be. */
   textarea:focus,input:focus:not(.bad){outline:none;border-color:var(--ember)}
@@ -281,16 +282,17 @@
   .sharebox .hint{font-size:13px;color:var(--dim);margin:10px 0 0}
   .chatwrap{max-width:var(--read);margin:38px auto 0}
   .chatcard{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
-  .chathead{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .chathead{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
   .chathead .eyebrow{margin:0;color:var(--gold-deep)}
-  .chathead .left{font:500 10px/1 var(--mono);letter-spacing:.08em;color:var(--dim);margin-left:auto}
-  .chatthread{padding:18px 20px;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
-  .cmsg{max-width:88%;padding:12px 15px;border-radius:14px;font-size:16px;line-height:1.55}
+  .chathead .left{font:400 12px/1.3 var(--body);color:var(--dim);margin-left:auto;text-align:right;flex:none}
+  .chatthread{padding:24px 22px;max-height:520px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+  .cmsg{max-width:88%;padding:15px 18px;border-radius:16px;font-size:16px;line-height:1.6}
   .cmsg.zane{background:var(--paper);border:1px solid var(--line);color:var(--ink);align-self:flex-start}
   .cmsg.her{background:var(--gold-deep);color:#fff;align-self:flex-end}
   .cmsg p{margin:0 0 8px}.cmsg p:last-child{margin:0}
-  .chatform{display:flex;gap:8px;padding:14px 16px;border-top:1px solid var(--line)}
-  .chatform textarea{flex:1;min-height:46px;max-height:120px;margin:0}
+  .chatform{display:flex;gap:10px;padding:18px;border-top:1px solid var(--line);align-items:flex-end}
+  .chatform textarea{flex:1;min-height:82px;max-height:200px;margin:0;overflow-y:auto}
+  .chatform .btn{align-self:stretch;max-height:82px}
   .chatwall{padding:22px;text-align:center;border-top:1px solid var(--line);background:var(--paper)}
   .chatwall p{font-size:16px;color:var(--ink);margin:0 0 14px}
   .chatwall .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
@@ -325,9 +327,12 @@ function score(answers){
     if(m==='healthy') healthy+=w; else if(tally.hasOwnProperty(m)) tally[m]+=w;
   }
   var woundTotal=0; ORDER.forEach(function(k){woundTotal+=tally[k];});
-  var ranked=ORDER.map(function(k){return {k:k,v:tally[k]};});
-  ranked.sort(function(a,b){return b.v-a.v || ORDER.indexOf(a.k)-ORDER.indexOf(b.k);});
-  var maxWound=ranked[0].v;
+  /* Ranked by the SHARE of each pattern she matched (rankedKeys), not by raw points — see the
+     note on rankedKeys. The "rebuilding" gate below still uses RAW points on purpose: that asks
+     "is she mostly healthy?", which is a question about volume, not about fit. */
+  var order=rankedKeys(tally);
+  var ranked=order.map(function(k){return {k:k,v:tally[k]};});
+  var maxWound=Math.max.apply(null,ORDER.map(function(k){return tally[k]||0;}));
   var rebuilding=(healthy>=woundTotal)&&(maxWound<=4);
   var primary,secondary;
   if(rebuilding){ primary='steady'; secondary=(maxWound>0)?ranked[0].k:null; }
@@ -364,8 +369,29 @@ function flagSaved(){
   var el=document.getElementById('savednote');
   if(el) el.classList.add('on');
 }
+/* ===== boxes that grow with her =====
+   The two writing boxes were a fixed 104px — about three visible lines. A woman wrote 5,000
+   characters about her son's death into one of them and could see roughly 3% of her own words at
+   a time. The chat box was worse: 46px, too short to even show its own placeholder, which
+   rendered sliced in half by the bottom border.
+   Three things this must get right or it breaks:
+     - measure with borders included (box-sizing:border-box, else it overflows by 2px forever),
+     - run on RENDER too, not just on typing (or a returning woman's restored draft still lands
+       in a three-line slot),
+     - never let it grow past its max, so the button below it can't be pushed off the screen. */
+function autoGrow(el){
+  if(!el) return;
+  var max=parseInt(getComputedStyle(el).maxHeight,10);
+  if(!max || isNaN(max)) max=Infinity;
+  el.style.height='auto';
+  el.style.height=Math.min(el.scrollHeight, max)+'px';
+}
+function growAll(){
+  ['open1','open2','chat-input'].forEach(function(id){ autoGrow(document.getElementById(id)); });
+}
 var draftTimer=null;
-function draftSoon(){ clearTimeout(draftTimer); draftTimer=setTimeout(function(){ readPersonal(); saveDraft(); flagSaved(); },300); }
+function draftSoon(ev){ if(ev&&ev.target) autoGrow(ev.target);
+  clearTimeout(draftTimer); draftTimer=setTimeout(function(){ readPersonal(); saveDraft(); flagSaved(); },300); }
 
 /* ===== where she came from =====
    Referrer is useless here: Instagram and Threads both strip it in their in-app browsers and
@@ -389,7 +415,21 @@ var MAXPOSS=(function(){var m={};ORDER.forEach(function(k){m[k]=0;});
     Object.keys(hit).forEach(function(k){if(m[k]!=null)m[k]+=w;});});
   return m;})();
 function pctOf(k,tally){var mx=MAXPOSS[k]||1;return Math.max(0,Math.min(100,Math.round(((tally[k]||0)/mx)*100)));}
-function rankedKeys(tally){return ORDER.slice().sort(function(a,b){return (tally[b]||0)-(tally[a]||0)||ORDER.indexOf(a)-ORDER.indexOf(b);});}
+
+/* Rank by the SHARE of a pattern she matched, not by raw points.
+   Raw points were unfair: a pattern that appears in 11 questions had 11 chances to score while
+   one that appears in 7 had 7 — so the wider pattern won on volume, not on fit. Worse, the top
+   two tied on raw points often, and the tie was broken by position in a list, not by anything she
+   answered. The percentage already normalises for that; now it decides the order too, so the
+   verdict, the number and the bar can never disagree. Ties still fall back to raw points, then
+   to list order, so the function is always deterministic. */
+function rankedKeys(tally){
+  return ORDER.slice().sort(function(a,b){
+    return pctOf(b,tally)-pctOf(a,tally)
+        || (tally[b]||0)-(tally[a]||0)
+        || ORDER.indexOf(a)-ORDER.indexOf(b);
+  });
+}
 function storyFor(key){return (window.STORIES||{})[key]||null;}
 function currentRes(){
   if(LOADED){var L=LOADED;return {primary:L.primary,secondary:L.secondary||null,tertiary:L.tertiary||null,tally:L.profileTallies||{},rebuilding:!!L.rebuilding};}
@@ -424,7 +464,7 @@ function renderChatWidget(){
   return '<div class="chatwrap reveal"><div class="chatcard">'+
     '<div class="chathead"><span class="eyebrow">Talk to Zane about this</span><span class="left" id="chat-left"></span></div>'+
     '<div class="chatthread" id="chat-thread"></div>'+
-    '<form class="chatform" id="chat-form"><textarea id="chat-input" rows="1" placeholder="Tell him what landed… one line is enough."></textarea><button class="btn" type="submit">Send</button></form>'+
+    '<form class="chatform" id="chat-form"><textarea id="chat-input" rows="1" oninput="autoGrow(this)" placeholder="Tell him what landed."></textarea><button class="btn" type="submit">Send</button></form>'+
     '</div></div>';
 }
 
@@ -450,6 +490,7 @@ function afterResult(){
   else if(!fresh){ fetchNote(); }
   if(RESULT_ID){ showShare(RESULT_ID); }
   wireResultChat();
+  growAll();
 }
 function fillNote(text){
   var slot=document.getElementById('zane-note-slot'); if(!slot||!text) return;
@@ -496,10 +537,19 @@ function wireResultChat(){
   function add(role,text){var m=document.createElement('div');m.className='cmsg '+(role==='her'?'her':'zane');
     setParas(m,text); thread.appendChild(m); thread.scrollTop=thread.scrollHeight; return m;}
   function setParas(node,text){node.innerHTML=''; String(text).split(/\n{2,}/).forEach(function(t){if(!t.trim())return;var q=document.createElement('p');q.textContent=t.trim();node.appendChild(q);});}
-  function updateLeft(){ if(left) left.textContent=Math.max(0,CAP-sent)+' free messages left'; }
+  /* No counter until she is actually near the end. It used to read "50 free messages left" the
+     moment the page loaded — a meter ticking directly under the note that just quoted her own
+     words about her dead mother back to her. It read like a receipt. Say nothing until there is
+     genuinely something to say, and then say it once, quietly. */
+  function updateLeft(){
+    if(!left) return;
+    var rem=Math.max(0,CAP-sent);
+    left.textContent = rem<=5 ? (rem===1 ? 'one message left for now' : rem+' messages left for now') : '';
+  }
   function wall(){ walled=true; form.style.display='none';
     var w=document.createElement('div'); w.className='chatwall';
-    w.innerHTML='<div class="row"><a class="btn" href="/">Get the free 7-Day Reset</a><a class="btn ghost" href="/talk-to-zane-ai.html">Join the waitlist</a></div>';
+    w.innerHTML='<p>We’ve gone a good way tonight. The free door is at its limit for now — but if you don’t want to keep doing this alone, come walk the 38 days with us. We begin August 1.</p>'+
+      '<div class="row"><a class="btn" href="/community.html">See the Rebuild</a></div>';
     form.parentNode.appendChild(w); }
   add('zane',intro); updateLeft();
   form.addEventListener('submit',function(e){e.preventDefault(); if(busy||walled) return;
@@ -710,14 +760,14 @@ function renderPersonal(){
     '<h2>This is where it stops being generic.</h2>'+
     '<p class="why">The quiz found your pattern. But I can only speak to <em>your</em> life if you tell me about it — the more you put here, the more what comes next is about you, not a type.</p>'+
     '<label class="fieldlbl" for="open1">Where does this show up most right now — and what’s it costing you?</label>'+
-    '<textarea id="open1" oninput="draftSoon()" placeholder="Tell me like you’d tell a friend. A few real sentences.">'+v(person.open1)+'</textarea>'+
+    '<textarea id="open1" oninput="draftSoon(event)" placeholder="Tell me like you’d tell a friend. A few real sentences.">'+v(person.open1)+'</textarea>'+
     '<label class="fieldlbl" for="open2">And what would lighter look like for you?</label>'+
-    '<textarea id="open2" oninput="draftSoon()" placeholder="Even one line. What changes when this lifts?">'+v(person.open2)+'</textarea>'+
+    '<textarea id="open2" oninput="draftSoon(event)" placeholder="Even one line. What changes when this lifts?">'+v(person.open2)+'</textarea>'+
     '<p class="savednote" id="savednote" aria-live="polite">'+ICON_CHECK+' Saved on this device</p>'+
     '<label class="fieldlbl" for="pname">What should I call you?</label>'+
-    '<input type="text" id="pname" oninput="draftSoon()" placeholder="First name" value="'+v(person.name)+'">'+
+    '<input type="text" id="pname" oninput="draftSoon(event)" placeholder="First name" value="'+v(person.name)+'">'+
     '<label class="fieldlbl" for="pemail">Want your result + Zane’s note emailed to you? (optional)</label>'+
-    '<input type="email" id="pemail" oninput="draftSoon()" onblur="checkEmail()" placeholder="you@email.com — optional, never spammed" value="'+v(person.email)+'">'+
+    '<input type="email" id="pemail" oninput="draftSoon(event)" onblur="checkEmail()" placeholder="you@email.com — optional, never spammed" value="'+v(person.email)+'">'+
     '<div id="emailerr"></div>'+
     /* the domain has never sent mail before, so it has no reputation yet and the first few can
        land in spam. Telling her where to look — and to drag it out — is what fixes it for good. */
@@ -877,14 +927,16 @@ function zaneNote(p){
     '<div class="sig-mark"><img src="site-assets/zane-signature.png" alt="Zane — signed"></div></div></div>';
 }
 
-/* ===== SCORE BARS — TOP 3 only, light ===== */
+/* ===== SCORE BARS — TOP 3 only, light =====
+   The bar IS the percentage now. It used to be (her points ÷ the TOP profile's points) while the
+   number beside it was (her points ÷ THAT profile's own maximum) — two different scales. So the
+   bars contradicted their own labels: on a real result, 38% and 27% drew as identical lengths.
+   One scale: bar width = the number shown. */
 function renderScores(res){
-  var maxV=Math.max(1,Math.max.apply(null,ORDER.map(function(k){return res.tally[k];})));
-  var ranked=ORDER.slice().sort(function(a,b){return res.tally[b]-res.tally[a]||ORDER.indexOf(a)-ORDER.indexOf(b);});
+  var ranked=rankedKeys(res.tally);
   var top3=ranked.slice(0,3);
-  var lab=['strongest','also you','a little'];
   var bars=top3.map(function(k,i){
-    var w=(res.tally[k]/maxV);
+    var w=pctOf(k,res.tally)/100;
     var fc=(k===res.primary&&res.primary!=='steady')?('var('+FAM[k].fc+')'):'var(--fam-rest)';
     if(i===1) fc='var(--fam-measure)'; if(i===2) fc='var(--dim)';
     if(k===res.primary&&res.primary!=='steady') fc='var('+FAM[k].fc+')';
@@ -908,7 +960,10 @@ function renderResult(){
   var lead=isSteady
     ? 'You’re not waiting to be okay anymore. You already are — you just don’t say it out loud.'
     : '“'+esc(p.coreFear)+'”';
-  var matchHtml=isSteady?'':'<div class="matchpct">'+pctOf(res.primary,res.tally)+'% <span>this is you</span></div>';
+  /* "40% — this is you" invited the obvious retort: "so I'm 60% NOT this?" The median result is
+     ~40% and most land under 50%, so that reading was the common one. Same number, a claim it can
+     actually carry. */
+  var matchHtml=isSteady?'':'<div class="matchpct">'+pctOf(res.primary,res.tally)+'% <span>your strongest pattern</span></div>';
   var blendHtml=(secKey||terKey)?('<div class="blend reveal"><span class="eyebrow">Your blend — the top three</span>'+
     profileMixCard(res.primary,res.tally,'Strongest')+
     (secKey?profileMixCard(secKey,res.tally,'Also strong in you'):'')+
@@ -967,7 +1022,8 @@ function renderResult(){
       '<div class="resultband"><img src="site-assets/illustrations/group.webp" alt="Women, each carrying a different weight, together at dawn"><p class="rcap" style="margin-top:10px">You’re in good company.</p></div></div>'+
 
     '<div class="firststep reveal"><div class="card cta-card"><img class="bgmark" src="site-assets/marks/peak.webp" alt="" aria-hidden="true"><span class="eyebrow">Your first step — today</span><h3>Start this small</h3><p class="step">'+esc(p.firstStep)+'</p>'+
-      '<a class="btn" href="/">Send me the free 7-Day Reset →</a></div></div>'+
+      '<p style="margin:18px auto 14px;max-width:46ch;font-size:16px;color:var(--ink-2)">And if you don’t want to do the rest alone: on August 1, a group of women start over together — one small thing a day, and I answer you every day.</p>'+
+      '<a class="btn" href="/community.html">See the Rebuild — we begin August 1</a></div></div>'+
   '</div>'+
 
     /* UNIFIED FOOTER — result variant (they took the quiz → soft cross-sell to Zane) */
@@ -1020,7 +1076,7 @@ function paint(){
   else if(stage==='personal') app.innerHTML=renderPersonal();
   else app.innerHTML=renderResult();
   wireReveal();
-  if(stage==='personal'){ readPersonal(); }
+  if(stage==='personal'){ readPersonal(); growAll(); }
   if(stage==='result') afterResult();
 }
 function go(s){stage=s; if(s==='quiz'&&qi>=C.quizScenes.length){qi=0;answers=[];} paint(); window.scrollTo(0,0);}
