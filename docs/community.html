@@ -75,12 +75,43 @@
   .dl-num::after{right:0}
   .dl-sub{font:500 11px/1.5 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
 
-  /* HERO — text-first on paper; no image, nothing above it to slow the first line */
-  .chero{padding:96px 0 64px;text-align:center}
-  @media(max-width:600px){.chero{padding:64px 0 48px}}
-  .chero h1{max-width:17ch;margin:0 auto}
-  .chero .forline{max-width:44ch;margin:24px auto 0;font-size:19px;line-height:1.7;color:var(--ink)}
-  .chero .lead{max-width:52ch;margin:16px auto 32px;color:var(--ink-2)}
+  /* HERO — the journey illustration sits behind the words at EVERY width, on the
+     footer's wash (values copied verbatim from footer.bigfoot, not re-eyeballed):
+     light through the middle so the picture reads at full strength, heavy at the
+     edges so it dissolves into the paper. */
+  .chero{position:relative;overflow:hidden;text-align:center}
+  .chero .cmedia{position:absolute;inset:0;z-index:0;overflow:hidden}
+  .chero .cmedia img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;animation:none}
+  .chero .cmedia::after{content:"";position:absolute;inset:0;background:
+    radial-gradient(125% 92% at 50% 50%,rgba(247,242,233,.10) 0%,rgba(247,242,233,.38) 52%,rgba(247,242,233,.82) 82%,var(--paper) 100%),
+    linear-gradient(180deg,var(--paper) 0%,rgba(247,242,233,.26) 16%,rgba(247,242,233,.20) 50%,rgba(247,242,233,.75) 86%,var(--paper) 100%)}
+  .chero > .wrap{position:relative;z-index:2;padding-top:96px;padding-bottom:64px}
+  /* ember measures 3.71:1 at the worst pixel over journey.webp — it fails, and the
+     footer already carries this same fix. Do not restore the gold/ember eyebrow. */
+  .chero .eyebrow{color:var(--ink-2)}
+  .chero h1{max-width:17ch;margin:0 auto;
+    text-shadow:0 2px 18px rgba(247,242,233,.95),0 1px 3px rgba(247,242,233,1)}
+  .chero .forline{max-width:44ch;margin:24px auto 0;font-size:19px;line-height:1.7;color:var(--ink);
+    text-shadow:0 1px 12px rgba(247,242,233,1)}
+  .chero .lead{max-width:52ch;margin:16px auto 32px;color:var(--ink);
+    text-shadow:0 1px 12px rgba(247,242,233,1)}
+  .chero .dl-num,.chero .dl-sub,.chero .under-btn{text-shadow:0 1px 12px rgba(247,242,233,1)}
+  @media(max-width:860px){
+    /* The picture STAYS behind on phones (owner's call) and shows at full width so
+       BOTH women survive — any crop that fills the height throws away the left and
+       right edges, which is exactly where they are.
+       The container takes the picture's own aspect ratio and parks in the vertical
+       middle. This is load-bearing: with object-fit:contain the <img> box still spans
+       the whole hero, so a mask on it fades empty letterbox and never touches the
+       picture's edges. Matching box to band is what makes the ramp land. */
+    .chero > .wrap{padding-top:56px;padding-bottom:48px}
+    .chero .cmedia{top:50%;bottom:auto;height:auto;aspect-ratio:1088/608;transform:translateY(-50%)}
+    .chero .cmedia img{object-position:center;
+      -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.12) 10%,rgba(0,0,0,.42) 22%,rgba(0,0,0,.78) 34%,#000 46%,#000 56%,rgba(0,0,0,.78) 68%,rgba(0,0,0,.42) 80%,rgba(0,0,0,.12) 91%,rgba(0,0,0,0) 100%);
+      mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.12) 10%,rgba(0,0,0,.42) 22%,rgba(0,0,0,.78) 34%,#000 46%,#000 56%,rgba(0,0,0,.78) 68%,rgba(0,0,0,.42) 80%,rgba(0,0,0,.12) 91%,rgba(0,0,0,0) 100%)}
+    .chero .cmedia::after{background:
+      radial-gradient(135% 62% at 50% 50%,rgba(247,242,233,.18) 0%,rgba(247,242,233,.44) 52%,rgba(247,242,233,.80) 84%,var(--paper) 100%)}
+  }
   .cta-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
   .chero .meta{margin-top:16px}
   .under-btn{font-size:15px;color:var(--ink-2);max-width:44ch;margin:16px auto 0}
@@ -313,6 +344,11 @@
 
 <!-- HERO -->
 <header class="chero">
+  <div class="cmedia">
+    <img src="site-assets/illustrations/journey.webp" width="1088" height="608"
+         fetchpriority="high" decoding="async"
+         alt="A woman bent under a heavy burden, then sitting tall and free on her own chair">
+  </div>
   <div class="wrap">
     <span class="eyebrow">Myself Again · the one-month rebuild</span>
     <h1>“I just want to feel like myself again.”</h1>
@@ -338,7 +374,9 @@
 <section style="padding:16px 0">
   <div class="wrap">
     <div class="vslot reveal">
-      <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" fetchpriority="high" alt="Zane — a word before you read on">
+      <!-- fetchpriority moved to the hero image 2026-07-19: that is now the LCP
+           element, and DESIGN.md §9 allows the flag on exactly one image. -->
+      <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" alt="Zane — a word before you read on">
       <span class="vplay" aria-hidden="true"></span>
       <span class="vtag">75 seconds · every word on screen, sound on or off</span>
     </div>
