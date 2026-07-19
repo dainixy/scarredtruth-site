@@ -105,7 +105,11 @@
        the whole hero, so a mask on it fades empty letterbox and never touches the
        picture's edges. Matching box to band is what makes the ramp land. */
     .chero > .wrap{padding-top:56px;padding-bottom:48px}
-    .chero .cmedia{top:50%;bottom:auto;height:auto;aspect-ratio:1088/608;transform:translateY(-50%)}
+    /* Anchored to the lower third, NOT centred. The hero is ~1100px tall on a phone
+       once the lead paragraph wraps, so a centred band lands behind the densest
+       block of text and both women disappear. At 70% it sits in the open air around
+       the date lockup, and the path in the picture reads as leading to 08.08. */
+    .chero .cmedia{top:70%;bottom:auto;height:auto;aspect-ratio:1088/608;transform:translateY(-50%)}
     .chero .cmedia img{object-position:center;
       -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.12) 10%,rgba(0,0,0,.42) 22%,rgba(0,0,0,.78) 34%,#000 46%,#000 56%,rgba(0,0,0,.78) 68%,rgba(0,0,0,.42) 80%,rgba(0,0,0,.12) 91%,rgba(0,0,0,0) 100%);
       mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.12) 10%,rgba(0,0,0,.42) 22%,rgba(0,0,0,.78) 34%,#000 46%,#000 56%,rgba(0,0,0,.78) 68%,rgba(0,0,0,.42) 80%,rgba(0,0,0,.12) 91%,rgba(0,0,0,0) 100%)}
