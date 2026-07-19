@@ -59,11 +59,34 @@
   .topline{position:sticky;top:0;z-index:60;background:var(--paper-2);border-bottom:1px solid var(--line-soft);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 16px;text-align:center}
   .topline p{margin:0;font:500 12px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
   .topline strong{color:var(--gold-deep);font-weight:600}
-  .topline .tlclock b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
   .topline .btn{min-height:48px;padding:8px 16px;font-size:11px;display:inline-flex;align-items:center;flex:none}
   .topline .tl8{width:13px;height:21px;flex:none;opacity:.9}
+  /* THE CLOCK — its own instrument, not more words in the sentence.
+     Every segment is a fixed-width tabular cell so nothing shifts as the digits
+     roll; the old row jittered because days were unpadded while h/m were not. */
+  .topline .tlclock{display:inline-flex;align-items:baseline;gap:8px;flex:none;
+    padding-left:16px;margin-left:8px;border-left:1px solid var(--line)}
+  .topline .tlk{font:500 12px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim)}
+  .topline .tseg{display:inline-flex;align-items:baseline;gap:2px}
+  .topline .tseg b{font:600 13px/1.4 var(--mono);color:var(--ink);
+    font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
+    min-width:2ch;text-align:right;display:inline-block}
+  .topline .tseg i{font:500 11px/1.4 var(--mono);font-style:normal;color:var(--dim);
+    letter-spacing:.06em}
   @media(max-width:860px){.topline .tlmore{display:none}}
-  @media(max-width:560px){.topline{gap:12px;padding:8px 12px}.topline p{font-size:11px;letter-spacing:.04em}.topline .tl8{display:none}}
+  @media(max-width:560px){
+    /* One line or nothing. The sentence wrapped to three lines under the button,
+       so on a phone the clock and the price are all that survive — everything
+       else here is repeated in the hero two inches below. */
+    .topline{gap:10px;padding:8px 12px;justify-content:space-between}
+    .topline .tl8{display:none}
+    .topline p{font-size:11px;letter-spacing:.04em}
+    .topline .tllong{display:none}
+    .topline .tlclock{padding-left:0;margin-left:0;border-left:0;gap:6px}
+    .topline .tlk{font-size:11px;letter-spacing:.08em}
+    .topline .btn{padding:8px 12px}
+  }
 
   /* THE STITCHED EIGHT + the 08.08 date lockup — the date, infinity, a suture */
   .stitch8 path{fill:none;stroke:var(--gold);stroke-width:5;stroke-linecap:round;stroke-dasharray:10 7}
@@ -121,14 +144,12 @@
   .under-btn{font-size:15px;color:var(--ink-2);max-width:44ch;margin:16px auto 0}
   .seatline{font:500 12px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-top:12px}
 
-  /* VIDEO PLACEHOLDER — poster + play + "coming soon"; swaps for the real player later */
-  .vslot{position:relative;max-width:640px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--paper)}
-  .vslot img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;object-position:50% 22%}
-  .vslot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(42,35,29,.08),rgba(42,35,29,.22))}
-  .vplay{position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;background:var(--ink);z-index:2;display:flex;align-items:center;justify-content:center}
-  .vplay::before{content:"";width:16px;height:18px;margin-left:4px;background:var(--paper);clip-path:polygon(0 0,100% 50%,0 100%)}
-  .vtag{position:absolute;z-index:2;left:16px;bottom:16px;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:8px 12px}
-  .under-video{text-align:center;font-size:15px;color:var(--dim);margin:12px 0 0}
+  /* PORTRAIT — was .vslot/.vplay/.vtag, a play button with no player behind it.
+     Removed 2026-07-19 with the fake video; these are its honest replacements. */
+  .pslot{position:relative;max-width:640px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--paper)}
+  .pslot img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;object-position:50% 22%}
+  .under-portrait{text-align:center;font-size:15px;color:var(--ink-2);margin:12px auto 0;max-width:44ch}
+  .under-portrait a{color:var(--ember)}
 
   /* mirror quotes — her verbatim lines */
   .mirror{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
@@ -341,7 +362,7 @@
 <main id="main" tabindex="-1">
 
 <!-- TOPLINE — the facts, before anything asks for attention -->
-<div class="topline"><svg class="stitch8 tl8" viewBox="0 0 64 100" aria-hidden="true"><path d="M32 9 C51 9 51 43 32 50 C13 57 13 91 32 91 C51 91 51 57 32 50 C13 43 13 9 32 9 Z"/></svg><p><strong>The First Hundred join at $97</strong><span class="tlmore"> · then the door climbs — $127, then $147</span> · Day 1 is 08.08<span class="tlclock" id="tlClock" hidden> · closes in <b id="tlD">–</b>d <b id="tlH">–</b>h <b id="tlM">–</b>m</span></p><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat</a></div>
+<div class="topline"><svg class="stitch8 tl8" viewBox="0 0 64 100" aria-hidden="true"><path d="M32 9 C51 9 51 43 32 50 C13 57 13 91 32 91 C51 91 51 57 32 50 C13 43 13 9 32 9 Z"/></svg><p class="tlsent"><strong><span class="tllong">The First Hundred join at </span>$97</strong><span class="tlmore"> · then the door climbs — $127, then $147</span><span class="tllong"> · Day 1 is 08.08</span></p><span class="tlclock" id="tlClock" hidden><span class="tlk">Closes in</span><span class="tseg"><b id="tlD">––</b><i>d</i></span><span class="tseg"><b id="tlH">––</b><i>h</i></span><span class="tseg"><b id="tlM">––</b><i>m</i></span><span class="tseg"><b id="tlS">––</b><i>s</i></span></span><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat</a></div>
 
 <aside class="fn"><h4>Why the page looks this way — course logic</h4>
 <p>The best-tested finding in the 12-course study, four independent datasets: plain, copy-heavy pages beat pretty ones (One Peak: +25% copy-heavy vs graphic-heavy; Neville: a plain-text email out-sold the designed one 120 orders to 2). So this stays an editorial letter in the site's own paper-and-ink system — no funnel gloss, no checkmark grids (Neville flags them as clinical for this buyer), no highlight boxes. The formatting work went where the courses agree it pays: a subhead path a skimmer can follow to the offer (79% always scan — Nielsen via Neville/CXL), 2–4 line paragraphs, one CTA repeated about every screen once the case is built (Buchan/Makepeace/Milligan), price + refund in plain words beside every button (CXL: "the single highest-priority action item"), and the facts band up top for warm arrivals (Milligan). Visuals pass (2026-07-16): every image on this page traces to a course rule — the arc map, the week medallions, the Day-1 note card, the guarantee plate, the two pull-quote bands, the morning-table band. Still refused: card-logo rows (checkout real estate), testimonial photos (no real members yet — stock or AI faces on sample quotes would be fabricated-review territory). Stat bands and the countdown were refused in the first pass, then RULED IN by the owner (2026-07-16 night: "we have real timer and real constraints and we need to use them") — both run on real enforcement only: the true close instant, the true tier caps. No fake counters anywhere. DUAL-READERSHIP PASS (owner-ordered, same night): the page was serving the word-for-word reader and starving the scanner — against Makepeace ("there are readers and there are scanners"), Benson ("your sub headlines should tell the story of your sales letter", one claim each), CXL ("wall of text is pretty much at all times to be avoided", 2–4 line paragraphs, a break every couple of scrolls). Fix: crossheads added so subheads alone carry the pitch, long paragraphs split, buried lists converted to the site's gold-dash bullets (.tick), one bolded money-phrase per screen (Makepeace: sparing, or it dies). The LETTER stays unbroken prose on purpose — the study's one TESTED formatting result (Neville 120:2) says run the story as plain text, never trim it to bullets.</p></aside>
@@ -374,17 +395,18 @@
 <aside class="fn"><h4>The hero — course logic</h4>
 <p>The headline is her sentence, verbatim and in quotes — the most-repeated line in the audience corpus, and now the program's name, so the name and the headline rhyme. The targeting line under it was rebuilt on the owner's ruling: the door is the feeling, not the event — the old divorce/loss/quiet-house list excluded the woman with nothing to point to, and the Let Them 1-star reviews warn exactly against presuming her situation ("the back of the book is filled with assumptions that I am not happy with my life"). Price, date, and refund sit in plain sight before any persuasion — Milligan's warm-arrival CTA plus the honesty positioning this brand runs on. The seat count is invented until real sales exist; it's on the strip-list.</p></aside>
 
-<!-- VIDEO SLOT — Script A (75s) goes here; the letter below is the no-play fallback -->
+<!-- PORTRAIT. This was a video placeholder: a play button with no player behind it and
+     a "75 seconds" caption, on the page that takes the money. Removed 2026-07-19 — a
+     dead play button on a checkout page is a broken promise, not a coming-soon. The
+     portrait stays because her seeing his face still does work; the only media that
+     actually exists is the story narration, which is linked honestly below. -->
 <section style="padding:16px 0">
   <div class="wrap">
-    <div class="vslot reveal">
-      <!-- fetchpriority moved to the hero image 2026-07-19: that is now the LCP
-           element, and DESIGN.md §9 allows the flag on exactly one image. -->
-      <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" alt="Zane — a word before you read on">
-      <span class="vplay" aria-hidden="true"></span>
-      <span class="vtag">75 seconds · every word on screen, sound on or off</span>
-    </div>
-    <p class="under-video">Rather read? Everything in the video is written below.</p>
+    <figure class="pslot reveal">
+      <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" loading="lazy" alt="Zane">
+    </figure>
+    <p class="under-portrait">That's me. If you'd rather hear it than read it,
+      <a href="/zane-story.html">my whole story is narrated here</a>.</p>
   </div>
 </section>
 
@@ -1067,7 +1089,7 @@
     var cD=document.getElementById('ckD'),cH=document.getElementById('ckH'),
         cM=document.getElementById('ckM'),cS=document.getElementById('ckS'),
         tD=document.getElementById('tlD'),tH=document.getElementById('tlH'),
-        tM=document.getElementById('tlM');
+        tM=document.getElementById('tlM'),tS=document.getElementById('tlS');
     var two=function(n){return n<10?'0'+n:''+n};
     var tick=function(){
       var ms=end-Date.now();
@@ -1083,7 +1105,9 @@
       var d=Math.floor(ms/86400000),h=Math.floor(ms/3600000)%24,
           m=Math.floor(ms/60000)%60,s=Math.floor(ms/1000)%60;
       if(ck){cD.textContent=two(d);cH.textContent=two(h);cM.textContent=two(m);cS.textContent=two(s);}
-      if(tl){tD.textContent=d;tH.textContent=two(h);tM.textContent=two(m);}
+      /* days padded too — an unpadded day beside padded h/m made the whole row
+         shift a character wide every time it rolled over */
+      if(tl){tD.textContent=two(d);tH.textContent=two(h);tM.textContent=two(m);tS.textContent=two(s);}
       setTimeout(tick,1000);
     };
     if(ck)ck.hidden=false;
