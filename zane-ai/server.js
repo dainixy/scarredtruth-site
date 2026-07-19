@@ -351,19 +351,26 @@ const MOVED = {
   // indexed, bookmarked, or shared.
   "/scarred-truth-stories-light.html": "/quiz-all-profiles.html",
   "/scarred-truth-stories.html":       "/quiz-all-profiles.html",
-  "/zane/index-light.html":            "/talk-to-zane-ai.html",
-  "/zane":                             "/talk-to-zane-ai.html",
-  "/zane/":                            "/talk-to-zane-ai.html",
+  // Talk to Zane retired 2026-07-16 (owner: "remove this page from everywhere").
+  // Everything that pointed at it lands on the homepage.
+  "/talk-to-zane-ai.html":             "/",
+  "/zane/index-light.html":            "/",
+  "/zane":                             "/",
+  "/zane/":                            "/",
+  // The sales page's clean permalink (2026-07-16). The file stays docs/community.html;
+  // the old URL 301s so every link already shared keeps working.
+  "/community.html":                   "/join-myself-again-cohort",
+  "/join-myself-again-cohort.html":    "/join-myself-again-cohort",
 };
 for (const [from, to] of Object.entries(MOVED)) {
   app.get(from, (_req, res) => res.redirect(301, to));
 }
 
-// Talk to Zane now lives at the SITE ROOT (it used to be /zane/index-light.html). The page
-// itself is still served out of public/; only its assets stay under /zane (see below), which
-// is why the page loads /zane/chat.js absolutely rather than ./chat.js.
-app.get("/talk-to-zane-ai.html", (_req, res) =>
-  res.sendFile(path.join(PUBLIC_DIR, "talk-to-zane-ai.html")));
+// Myself Again — served at the clean permalink. Must sit BEFORE express.static.
+app.get("/join-myself-again-cohort", (_req, res) => {
+  res.set("Cache-Control", "public, max-age=300, must-revalidate");
+  res.sendFile(path.join(DOCS_DIR, "community.html"));
+});
 
 // docs/ at root: index.html is the homepage, plus the quiz, the story, /site-assets, etc.
 app.use(express.static(DOCS_DIR, { index: "index.html", setHeaders: staticCache }));

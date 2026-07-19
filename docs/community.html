@@ -3,34 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Rebuild — start over with women who get it | Scarred Truth</title>
-<meta name="description" content="On August 1, 2026, a group of women start over together. Seven days to reset, thirty-one days to rebuild. One small thing a day — and Zane answers you every day.">
+<title>Myself Again — the one-month rebuild | Scarred Truth</title>
+<meta name="description" content="On 08.08.2026 at 8:00 am, women start over — together. One small step every morning, for one full month, with women who get it. $97 once, nothing renews.">
 
 <link rel="icon" type="image/svg+xml" href="site-assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="site-assets/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="site-assets/apple-touch-icon.png">
 <meta name="theme-color" content="#F7F2E9">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Rebuild — start over with women who get it.">
-<meta property="og:description" content="We begin on August 1, 2026. One small thing a day, women who started the same day you did, and a real person who answers.">
+<meta property="og:title" content="Myself Again — the one-month rebuild">
+<meta property="og:description" content="Women start over together on 08.08.2026, at 8:00 in the morning. One small step every morning, with women who get it. $97 once.">
 <meta property="og:image" content="https://scarredtruth.com/site-assets/og-image.png">
-<meta property="og:url" content="https://scarredtruth.com/community.html">
+<meta property="og:url" content="https://scarredtruth.com/join-myself-again-cohort">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://scarredtruth.com/site-assets/og-image.png">
 
 <!--
-  THE REBUILD — community sales page, v1 (2026-07-14).
-  Skeleton per the approved community-funnel plan §3 (Kimi conversion research +
-  copywriting doctrine + Mel Robbins gap-mining). Copy laws: zane-simple-language.md
-  (8 laws), grade-5 register, no hype, no countdown widgets, no invented numbers.
-  All audience quotes on this page are VERBATIM:
-   - Reddit lines: research/data/kimi/kimi-parsed.json (threads-zane), ids noted inline.
-   - Instagram comments: yt-zane/docs/audience-data/ig_comments.json, reel IDs noted inline.
-  CHECKOUT: the two .btn[data-checkout] hrefs are placeholders — create the Stripe
-  Payment Link ($27, qty-capped at 100) and replace before deploy. Page must not
-  deploy with href="#".
-  VIDEO SLOT: §why-block will later carry the 45–90s Zane video above the letter;
-  the letter stays as the no-play fallback (evidence: page must convert unwatched).
+  MYSELF AGAIN — sales page v3 (2026-07-16 night). Replaces v2 pricing + program.
+  v2 rulings intact (name = Myself Again; cohort = the First Hundred; alumni room
+  = Day 32; 988 + "Facebook" + brand-we banned from this page; not-for =
+  positioning; event-agnostic targeting; week cards).
+  v3 rulings (owner, 2026-07-16 night): the PRICE LADDER — $97 first 100 women,
+  $127 next 50, then $147, never back down (quality filter; $27/$47 are DEAD
+  strings on this page); the program takes the AA SHAPE (daily step + the Lesson
+  of the Week each Sunday; three-beat story sharing; Zane = facilitator who gives
+  space; week 4 = navigate the people she can't cut out) — AA is never named;
+  stat bands + a REAL countdown ruled IN ("we have real timer and real
+  constraints and we need to use them"); imagery women 30–40s (look ref:
+  group.webp); the stamp replaced by the letterpress guarantee plate.
+  Copy laws: zane-simple-language.md, grade-5, no hype. The countdown is real
+  (08.08 8:00 AM ET), not a widget.
+  REVIEW MODE: the "Show the seams" toggle (bottom left) reveals per-section
+  course-logic footnotes + the strip-list + invented-element badges. The toggle,
+  the footnotes, and everything they mark are REVIEW-ONLY and are listed in the
+  strip-list; none of it ships to a paid-traffic page.
+  CHECKOUT: buttons open the waitlist popup until the Stripe Payment Links exist
+  ($97 qty 100 · $127 qty 50 · $147 open — swapped as tiers fill). Page must not
+  go to paid traffic with the popup CTA.
+  VIDEO: .vslot is the placeholder for the 75s script (Script A in the package
+  doc). The letter below is the no-play fallback.
 -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="site-assets/fonts/fraunces-roman.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="site-assets/fonts/newsreader-roman.woff2">
@@ -40,13 +51,40 @@
 <style>
   /* page-specific bits — values from the Daybreak scale only */
 
+  /* TOPLINE — STICKY key-info bar (owner ruling): price · live countdown · CTA.
+     The shared topbar goes static on this page so only ONE bar sticks;
+     the self-referential nav CTA is hidden to keep one accent in the bar. */
+  .topbar{position:static}
+  .topbar .navcta{display:none}
+  .topline{position:sticky;top:0;z-index:60;background:var(--paper-2);border-bottom:1px solid var(--line-soft);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 16px;text-align:center}
+  .topline p{margin:0;font:500 12px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+  .topline strong{color:var(--gold-deep);font-weight:600}
+  .topline .tlclock b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+  .topline .btn{min-height:48px;padding:8px 16px;font-size:11px;display:inline-flex;align-items:center;flex:none}
+  .topline .tl8{width:13px;height:21px;flex:none;opacity:.9}
+  @media(max-width:860px){.topline .tlmore{display:none}}
+  @media(max-width:560px){.topline{gap:12px;padding:8px 12px}.topline p{font-size:11px;letter-spacing:.04em}.topline .tl8{display:none}}
+
+  /* THE STITCHED EIGHT + the 08.08 date lockup — the date, infinity, a suture */
+  .stitch8 path{fill:none;stroke:var(--gold);stroke-width:5;stroke-linecap:round;stroke-dasharray:10 7}
+  .datelock{margin:40px auto 8px;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .datelock .stitch8{width:30px;height:47px}
+  .dl-num{position:relative;font-family:var(--display);font-style:italic;font-weight:560;font-size:40px;line-height:1;color:var(--ink);padding:0 40px}
+  .dl-num::before,.dl-num::after{content:"";position:absolute;top:55%;width:24px;height:1px;background:var(--gold)}
+  .dl-num::before{left:0}
+  .dl-num::after{right:0}
+  .dl-sub{font:500 11px/1.5 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+
   /* HERO — text-first on paper; no image, nothing above it to slow the first line */
   .chero{padding:96px 0 64px;text-align:center}
   @media(max-width:600px){.chero{padding:64px 0 48px}}
   .chero h1{max-width:17ch;margin:0 auto}
-  .chero .lead{max-width:52ch;margin:24px auto 32px}
+  .chero .forline{max-width:44ch;margin:24px auto 0;font-size:19px;line-height:1.7;color:var(--ink)}
+  .chero .lead{max-width:52ch;margin:16px auto 32px;color:var(--ink-2)}
   .cta-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
   .chero .meta{margin-top:16px}
+  .under-btn{font-size:15px;color:var(--ink-2);max-width:44ch;margin:16px auto 0}
+  .seatline{font:500 12px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-top:12px}
 
   /* VIDEO PLACEHOLDER — poster + play + "coming soon"; swaps for the real player later */
   .vslot{position:relative;max-width:640px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--paper)}
@@ -55,40 +93,113 @@
   .vplay{position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;background:var(--ink);z-index:2;display:flex;align-items:center;justify-content:center}
   .vplay::before{content:"";width:16px;height:18px;margin-left:4px;background:var(--paper);clip-path:polygon(0 0,100% 50%,0 100%)}
   .vtag{position:absolute;z-index:2;left:16px;bottom:16px;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:8px 12px}
+  .under-video{text-align:center;font-size:15px;color:var(--dim);margin:12px 0 0}
 
-  /* real-quote pull (verbatim audience lines inside prose) */
-  .rq{border-left:2px solid var(--gold);padding-left:24px;margin:24px 0;font-style:italic;font-size:19px;line-height:1.7;color:var(--ink)}
-  .rq .who{display:block;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-style:normal;margin-top:8px}
+  /* mirror quotes — her verbatim lines */
+  .mirror{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+  @media(max-width:760px){.mirror{grid-template-columns:1fr}}
+  .mirror blockquote{margin:0;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:24px;font-style:italic;font-size:17px;line-height:1.7;color:var(--ink)}
 
-  /* THE PLAN — numbered path (pattern from index.html) */
-  .plan{list-style:none;max-width:740px;margin:48px auto 0;padding:0;position:relative}
+  /* WEEK CARDS — the month as chapters */
+  .weeks{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:48px 0 0}
+  @media(max-width:760px){.weeks{grid-template-columns:1fr;gap:16px}}
+  .wk{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:32px}
+  .wk .wklabel{font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 8px}
+  .wk h3{font-size:22px;margin:0 0 8px;color:var(--ink)}
+  .wk .wkpromise{font-style:italic;font-size:17px;color:var(--ink-2);margin:0 0 16px}
+  .wk ul{list-style:none;padding:0;margin:0 0 16px}
+  .wk li{font-size:15px;line-height:1.7;color:var(--ink-2);padding-left:24px;position:relative;margin-bottom:8px}
+  .wk li::before{content:"";position:absolute;left:0;top:11px;width:12px;height:2px;background:var(--gold)}
+  .wk .wkget{font-size:15px;line-height:1.7;color:var(--gold-deep);margin:0;border-top:1px solid var(--line-soft);padding-top:12px}
+  .wk .wkget strong{color:var(--gold-deep)}
+  .wk .wklesson{font-size:15px;line-height:1.7;color:var(--ink-2);font-style:italic;margin:12px 0 0}
+  .wk .wklesson b{display:block;font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-style:normal;margin-bottom:4px}
+
+  /* SAMPLE DAY inset */
+  .sampleday{background:var(--paper-2);border:1px solid var(--gold);border-radius:16px;box-shadow:var(--shadow);padding:32px;margin:48px 0 0}
+  .sampleday h3{margin-top:0}
+  .sampleday .daylabel{font:500 12px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+
+  /* THE PLAN — numbered steps (what happens when you click) */
+  .plan{list-style:none;max-width:640px;margin:32px auto 0;padding:0;position:relative}
   .plan::before{content:"";position:absolute;left:24px;top:24px;bottom:32px;width:2px;background:repeating-linear-gradient(var(--gold) 0 8px,transparent 8px 16px);opacity:.55}
   @media(max-width:560px){.plan::before{left:16px}}
-  .plan li{position:relative;display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;padding:0 0 32px}
-  @media(max-width:560px){.plan li{grid-template-columns:32px 1fr;gap:16px;padding-bottom:24px}}
+  .plan li{position:relative;display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;padding:0 0 24px}
+  @media(max-width:560px){.plan li{grid-template-columns:32px 1fr;gap:16px;padding-bottom:16px}}
   .plan li:last-child{padding-bottom:0}
   .plan .num{position:relative;z-index:1;width:48px;height:48px;border-radius:50%;background:var(--paper);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-style:italic;font-weight:560;font-size:22px;color:var(--gold-deep)}
   @media(max-width:560px){.plan .num{width:32px;height:32px;font-size:15px}}
-  .plan h3{font-size:22px;color:var(--ink);margin:4px 0 8px}
-  .plan p{margin:0;font-size:17px;line-height:1.7;color:var(--ink-2)}
+  .plan p{margin:4px 0 0;font-size:17px;line-height:1.7;color:var(--ink-2)}
 
   /* WHY — portrait + letter (pattern from index.html origin block) */
-  .origin-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:center}
+  .origin-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:start}
   @media(max-width:860px){.origin-grid{grid-template-columns:1fr;gap:32px}}
   .portraitframe{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lift);background:var(--paper)}
   .portraitframe img{width:100%;height:auto;display:block}
   .portraitframe .tag{position:absolute;z-index:2;top:16px;left:16px;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);padding:8px 12px;border-radius:4px}
+  .letterbody p{font-size:17px;line-height:1.8}
+  .sig-mark img{max-width:180px;height:auto}
 
   /* WHAT'S INSIDE list */
   .feat{list-style:none;padding:0;margin:24px 0 0}
-  .feat li{font-size:17px;line-height:1.7;color:var(--ink);padding-left:24px;position:relative;margin-bottom:12px}
+  .feat li{font-size:17px;line-height:1.7;color:var(--ink);padding-left:24px;position:relative;margin-bottom:16px}
   .feat li::before{content:"";position:absolute;left:0;top:12px;width:12px;height:2px;background:var(--gold)}
 
-  /* PRICE card */
+  /* IN-PROSE LISTS — the same gold-dash device, inside .read sections (skimmer pass) */
+  .read ul.tick{list-style:none;padding:0;margin:16px 0 24px}
+  .read ul.tick li{font-size:17px;line-height:1.7;color:var(--ink);padding-left:24px;position:relative;margin-bottom:8px}
+  .read ul.tick li::before{content:"";position:absolute;left:0;top:12px;width:12px;height:2px;background:var(--gold)}
+
+  /* PROOF cards */
+  .proofgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+  @media(max-width:760px){.proofgrid{grid-template-columns:1fr}}
+  .pcard{position:relative;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:32px}
+  .pcard blockquote{margin:0;font-size:17px;line-height:1.7;color:var(--ink)}
+  .pcard .attr{display:block;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:16px 0 0}
+  .pcard.lead-proof{max-width:640px;margin:48px auto 0;border-color:var(--gold)}
+  .pcard.side{max-width:520px;margin:32px auto 0}
+
+  /* PRICE card + the ladder (v3: $97 → $127 → $147, the climb made visible) */
   .pricecard{text-align:center;padding:64px 48px}
   @media(max-width:560px){.pricecard{padding:48px 24px}}
   .pricecard .big{font-family:var(--display);font-style:italic;font-weight:560;font-size:68px;line-height:1;color:var(--gold-deep);margin:16px 0 8px}
   .pricecard .after{font-size:17px;color:var(--ink-2);margin:0 0 24px}
+  .pricecard .incl{font-size:15px;line-height:1.7;color:var(--ink-2);max-width:44ch;margin:0 auto 24px}
+  .climb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;max-width:520px;margin:0 auto 32px;align-items:stretch}
+  @media(max-width:560px){.climb{gap:8px}}
+  .crung{border:1px solid var(--line);border-radius:4px;background:var(--paper);padding:16px 8px 12px}
+  .crung .cnum{display:block;font-family:var(--display);font-style:italic;font-weight:560;font-size:26px;line-height:1;color:var(--dim)}
+  .crung .cwho{display:block;font:500 11px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+  .crung.now{border:1px solid var(--gold);background:var(--paper-2);box-shadow:var(--shadow);padding:20px 8px 16px}
+  .crung.now .cnum{font-size:32px;color:var(--gold-deep)}
+  .crung.now .cwho{color:var(--gold-deep)}
+  @media(max-width:400px){.crung.now .cnum{font-size:26px}}
+
+  /* THE DOOR CLOCK — a real countdown to the real close; hidden until JS confirms */
+  .clock{max-width:640px;margin:32px auto 0;text-align:center;border:1px solid var(--line);border-radius:16px;background:var(--paper-2);box-shadow:var(--shadow);padding:32px 24px}
+  .clock .clabel{display:block;font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 20px}
+  .cnums{display:flex;justify-content:center;gap:24px}
+  @media(max-width:560px){.cnums{gap:16px}}
+  .cnums .cu b{display:block;font-family:var(--display);font-style:italic;font-weight:560;font-size:clamp(32px,5vw,52px);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;min-width:2ch}
+  .cnums .cu span{display:block;font:500 11px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+  .clock .cline{font-size:15px;line-height:1.7;color:var(--ink-2);max-width:44ch;margin:20px auto 0}
+
+  /* STAT STRIP — the arithmetic she's buying (shared .bigstat, in a row) */
+  .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:740px;margin:0 auto 48px;text-align:center}
+  @media(max-width:560px){.statrow{gap:12px}}
+  .statrow .bigstat span{margin-left:auto;margin-right:auto}
+
+  /* GUARANTEE */
+  .guarantee-line{font-size:19px;line-height:1.7}
+
+  /* FAQ — details accordion, first ones open */
+  .faqacc details{border-top:1px solid var(--line-soft);padding:0}
+  .faqacc details:last-child{border-bottom:1px solid var(--line-soft)}
+  .faqacc summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:22px 0;font-family:var(--display);font-weight:560;font-size:19px;color:var(--ink)}
+  .faqacc summary::-webkit-details-marker{display:none}
+  .faqacc summary::after{content:"+";font:400 22px/1 var(--mono);color:var(--dim);flex:none}
+  .faqacc details[open] summary::after{content:"–"}
+  .faqacc details p{margin:0 0 22px;font-size:17px;line-height:1.7;color:var(--ink-2)}
 
   /* WAITLIST POPUP — quiz-register form in a paper card */
   .pop{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(42,35,29,.55);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);padding:24px}
@@ -108,14 +219,82 @@
   .pop-done h3{font-size:26px}
   .pop-done p{font-size:17px;color:var(--ink-2)}
 
-  /* PROOF — real comments */
-  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
-  @media(max-width:760px){.quotes{grid-template-columns:1fr}}
-  .qcard{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:32px}
-  .qcard p{margin:0;font-size:17px;line-height:1.7;color:var(--ink)}
-  .qcard .who{display:block;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:16px}
+  /* WEEK MEDALLIONS — meaning-tied marks (ported from zane-story .medal) */
+  .wk{position:relative}
+  .wk .medal{position:absolute;top:24px;right:24px;width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);background:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px var(--paper-2),0 6px 16px rgba(120,80,40,.12)}
+  .wk .medal img{height:28px;width:auto;display:block;opacity:.92}
+  .wk .wklabel,.wk h3{padding-right:64px}
+
+  /* TRANSFORMATION MAP — the one-month arc (ported from zane-story .tmap, 5 nodes) */
+  .tmap{position:relative;height:300px;margin:48px 0 8px}
+  .tmap .trail-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .tsteps{position:absolute;inset:0;display:flex}
+  .tstep{flex:1;text-align:center}
+  .tstep .node{width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);background:var(--paper-2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:var(--display);font-style:italic;font-weight:560;font-size:22px;color:var(--gold-deep);position:relative;z-index:2;box-shadow:0 0 0 6px var(--paper),0 6px 16px rgba(120,80,40,.12)}
+  .tstep .tlabel b{display:block;font-family:var(--display);font-size:17px;color:var(--ink);line-height:1.2;margin-bottom:4px}
+  .tstep .tlabel span{font:500 11px/1.4 var(--mono);letter-spacing:.03em;color:var(--dim)}
+  .tstep:nth-child(1){padding-top:232px}.tstep:nth-child(2){padding-top:176px}
+  .tstep:nth-child(3){padding-top:120px}.tstep:nth-child(4){padding-top:64px}
+  .tstep:nth-child(5){padding-top:8px}
+  @media(max-width:640px){
+    .tmap{height:auto}.tmap .trail-svg{display:none}
+    .tsteps{position:static;flex-direction:column;gap:16px}
+    .tstep{padding-top:0!important;text-align:left;display:flex;gap:14px;align-items:flex-start}
+    .tstep .node{margin:0;flex:0 0 auto}
+  }
+
+  /* PULL-QUOTE BAND — Johnson box (ported from zane-story .band; renamed, .band is taken) */
+  .pqband{text-align:center;padding:64px 24px;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+  .pqband .q{font-family:var(--display);font-weight:560;font-style:italic;font-size:clamp(26px,4vw,40px);line-height:1.28;color:var(--ink);max-width:840px;margin:0 auto}
+  .pqband .q b{color:var(--gold-deep);font-weight:560}
+  .pqband .who{font:500 12px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-top:24px}
+
+  /* CINEMATIC BAND (ported from zane-story .cineband; scrim >=.94 under text) */
+  .cineband{padding:0}
+  .cine{position:relative;min-height:clamp(440px,62vh,640px);overflow:hidden;margin:0}
+  .cine img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+  .cine .scrim{position:absolute;inset:0;background:linear-gradient(180deg,var(--paper) 0%,rgba(247,242,233,.2) 7%,rgba(247,242,233,0) 22%,rgba(247,242,233,0) 44%,rgba(247,242,233,.72) 60%,rgba(247,242,233,.97) 78%,var(--paper) 94%)}
+  .cine .q{position:absolute;left:0;right:0;bottom:0;z-index:3;max-width:680px;margin:0 auto;padding:0 24px clamp(32px,6vh,56px);text-align:center}
+  .cine .q .sm{font:500 12px/1.5 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px;display:inline-block}
+  .cine .q h2{font-size:clamp(22px,3.4vw,40px);color:var(--ink);line-height:1.18;margin:0}
+
+  /* THE MORNING-NOTE CARD — the product, visible (built on the shared .phone card idea) */
+  .notecard{max-width:520px;margin:24px auto 0;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-lift);overflow:hidden;text-align:left}
+  .notecard .nchead{display:flex;align-items:center;gap:12px;padding:16px 24px;border-bottom:1px solid var(--line-soft);background:var(--paper)}
+  .notecard .nchead img{width:32px;height:32px;border-radius:50%;display:block}
+  .notecard .nchead .t{font:600 11px/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+  .notecard .ncbody{padding:24px}
+  .notecard .ncbody p{font-size:17px;line-height:1.7;margin:0 0 16px;color:var(--ink)}
+  .notecard .ncbody p:last-child{margin:0}
+  .notecard .nclabel{font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 8px}
+
+  /* THE GUARANTEE PLATE — printed terms, not clipart (v3: replaces the round stamp) */
+  .gplate{float:right;width:220px;margin:8px 0 16px 24px;border:1px solid var(--gold);border-radius:4px;background:var(--paper-2);box-shadow:var(--shadow);padding:24px 16px;text-align:center}
+  @media(max-width:560px){.gplate{float:none;margin:0 auto 24px}}
+  .gplate svg{display:block;margin:0 auto 12px}
+  .gplate b{display:block;font:600 12px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+  .gplate span{display:block;font:500 12px/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-top:6px}
+  .gplate .rule{width:24px;height:1px;background:var(--gold);margin:12px auto}
+
+  /* PAY TRUST — Milligan's reassurance at the money */
+  .paytrust{font:500 12px/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:12px}
+
+  /* REVIEW MODE — "show the seams". Review-only; listed in the strip-list. */
+  .fn,.striplist,.inv{display:none}
+  body.seams .fn{display:block;max-width:640px;margin:32px auto 0;background:var(--paper-2);border:1px dashed var(--gold);border-radius:4px;padding:24px}
+  body.seams .fn h4{margin:0 0 8px;font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+  body.seams .fn p{margin:0;font-size:15px;line-height:1.7;color:var(--ink-2)}
+  body.seams .striplist{display:block}
+  body.seams .inv{display:inline-block;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);background:var(--gold-deep);border-radius:4px;padding:4px 8px;margin:0 0 12px}
+  body.seams .inv.inline{margin:0 0 0 8px;vertical-align:middle}
+  .seamtoggle{position:fixed;left:16px;bottom:16px;z-index:70;min-height:48px;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:16px;cursor:pointer;box-shadow:var(--shadow)}
+  .seamtoggle:focus{outline:2px solid var(--ink);outline-offset:2px}
+
+  /* tablet dead-zone patch (shared CSS drops the hamburger at 721px but the full
+     nav only fits from ~860px) — on this page, keep just brandmark + CTA in between */
+  @media(min-width:721px) and (max-width:859px){.nav .lnk{display:none}}
 </style>
-<link rel="canonical" href="https://scarredtruth.com/community.html">
+<link rel="canonical" href="https://scarredtruth.com/join-myself-again-cohort">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -123,115 +302,126 @@
 <!-- TOP BAR -->
 <div class="topbar"><div class="row"><a class="brandmark" href="/"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a><input id="navtog" type="checkbox" aria-label="Menu">
 <label class="navtoggle" for="navtog" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
-<nav class="nav" aria-label="Primary"><a class="lnk" href="/">Home</a><a class="lnk" href="/her-own-woman-quiz.html">The&nbsp;Quiz</a><a class="lnk" href="/zane-story.html">My&nbsp;Story</a><a class="lnk" href="/quiz-all-profiles.html">All&nbsp;Profiles</a><a class="lnk" href="/talk-to-zane-ai.html">Talk&nbsp;to&nbsp;Zane</a><a class="navcta" href="/community.html">The&nbsp;Rebuild</a></nav></div></div>
-<a id="main" tabindex="-1"></a>
+<nav class="nav" aria-label="Primary"><a class="lnk" href="/">Home</a><a class="lnk" href="/her-own-woman-quiz.html">The&nbsp;Quiz</a><a class="lnk" href="/zane-story.html">My&nbsp;Story</a><a class="lnk" href="/quiz-all-profiles.html">All&nbsp;Profiles</a><a class="navcta" href="/join-myself-again-cohort">Join&nbsp;Myself&nbsp;Again</a></nav></div></div>
+<main id="main" tabindex="-1">
 
-<!-- HERO — variant A ("the quiet house"). B and C in community-heroes.html -->
+<!-- TOPLINE — the facts, before anything asks for attention -->
+<div class="topline"><svg class="stitch8 tl8" viewBox="0 0 64 100" aria-hidden="true"><path d="M32 9 C51 9 51 43 32 50 C13 57 13 91 32 91 C51 91 51 57 32 50 C13 43 13 9 32 9 Z"/></svg><p><strong>The First Hundred join at $97</strong><span class="tlmore"> · then the door climbs — $127, then $147</span> · Day 1 is 08.08<span class="tlclock" id="tlClock" hidden> · closes in <b id="tlD">–</b>d <b id="tlH">–</b>h <b id="tlM">–</b>m</span></p><a class="btn" href="#" data-waitlist>Save my seat</a></div>
+
+<aside class="fn"><h4>Why the page looks this way — course logic</h4>
+<p>The best-tested finding in the 12-course study, four independent datasets: plain, copy-heavy pages beat pretty ones (One Peak: +25% copy-heavy vs graphic-heavy; Neville: a plain-text email out-sold the designed one 120 orders to 2). So this stays an editorial letter in the site's own paper-and-ink system — no funnel gloss, no checkmark grids (Neville flags them as clinical for this buyer), no highlight boxes. The formatting work went where the courses agree it pays: a subhead path a skimmer can follow to the offer (79% always scan — Nielsen via Neville/CXL), 2–4 line paragraphs, one CTA repeated about every screen once the case is built (Buchan/Makepeace/Milligan), price + refund in plain words beside every button (CXL: "the single highest-priority action item"), and the facts band up top for warm arrivals (Milligan). Visuals pass (2026-07-16): every image on this page traces to a course rule — the arc map, the week medallions, the Day-1 note card, the guarantee plate, the two pull-quote bands, the morning-table band. Still refused: card-logo rows (checkout real estate), testimonial photos (no real members yet — stock or AI faces on sample quotes would be fabricated-review territory). Stat bands and the countdown were refused in the first pass, then RULED IN by the owner (2026-07-16 night: "we have real timer and real constraints and we need to use them") — both run on real enforcement only: the true close instant, the true tier caps. No fake counters anywhere. DUAL-READERSHIP PASS (owner-ordered, same night): the page was serving the word-for-word reader and starving the scanner — against Makepeace ("there are readers and there are scanners"), Benson ("your sub headlines should tell the story of your sales letter", one claim each), CXL ("wall of text is pretty much at all times to be avoided", 2–4 line paragraphs, a break every couple of scrolls). Fix: crossheads added so subheads alone carry the pitch, long paragraphs split, buried lists converted to the site's gold-dash bullets (.tick), one bolded money-phrase per screen (Makepeace: sparing, or it dies). The LETTER stays unbroken prose on purpose — the study's one TESTED formatting result (Neville 120:2) says run the story as plain text, never trim it to bullets.</p></aside>
+
+<!-- HERO -->
 <header class="chero">
   <div class="wrap">
-    <span class="eyebrow">The Rebuild · we begin on August 1, 2026</span>
+    <span class="eyebrow">Myself Again · the one-month rebuild</span>
     <h1>“I just want to feel like myself again.”</h1>
-    <p class="lead">On August 1, 2026, a group of women start over — together. Seven days to reset.
-      Thirty-one days to rebuild. One small thing a day. And I answer you every day.</p>
-    <div class="cta-row">
-      <a class="btn" href="#join">Save my seat</a>
-      <a class="btn ghost" href="#how">How it works</a>
+    <p class="forline">For the woman who stopped feeling like herself. After a divorce. After a loss. Or after nothing she can point to — just years of everyone else coming first.</p>
+    <p class="lead">If you've said those words — out loud, or only in your own head — you're in the right place. On the morning of August 8th, women start over. Together. One small step a day, for one full month — August 8 to September 8 — beside women walking the same road.</p>
+    <div class="datelock" role="img" aria-label="Day one: August 8, 2026, at eight in the morning">
+      <svg class="stitch8" viewBox="0 0 64 100" aria-hidden="true"><path d="M32 9 C51 9 51 43 32 50 C13 57 13 91 32 91 C51 91 51 57 32 50 C13 43 13 9 32 9 Z"/></svg>
+      <div class="dl-num">08.08</div>
+      <div class="dl-sub">eight in the morning · 2026</div>
     </div>
-    <p class="meta">One payment of $27 for the first 100 women · nothing renews · full refund any day of the 38</p>
-  </div>
+    <div class="cta-row">
+      <a class="btn" href="#" data-waitlist>Save my seat — $97</a>
+      <a class="btn ghost" href="#days">See the month, mapped</a>
+    </div>
+    <p class="under-btn">Money-back guarantee: if it doesn't help, you get every dollar back — any day of the month, plus a week after. One email, no questions.</p>
+      </div>
 </header>
 
-<!-- VIDEO: placeholder until the 45–90s intro is rendered (script:
-     threads-zane/zane-rebuild-video-script-2026-07-14.html). The real embed replaces
-     .vslot — click-to-play, captioned, hardcoded duration, preload="none".
-     The letter in #why is the no-play fallback. -->
-<section style="padding:0 0 16px">
+<aside class="fn"><h4>The hero — course logic</h4>
+<p>The headline is her sentence, verbatim and in quotes — the most-repeated line in the audience corpus, and now the program's name, so the name and the headline rhyme. The targeting line under it was rebuilt on the owner's ruling: the door is the feeling, not the event — the old divorce/loss/quiet-house list excluded the woman with nothing to point to, and the Let Them 1-star reviews warn exactly against presuming her situation ("the back of the book is filled with assumptions that I am not happy with my life"). Price, date, and refund sit in plain sight before any persuasion — Milligan's warm-arrival CTA plus the honesty positioning this brand runs on. The seat count is invented until real sales exist; it's on the strip-list.</p></aside>
+
+<!-- VIDEO SLOT — Script A (75s) goes here; the letter below is the no-play fallback -->
+<section style="padding:16px 0">
   <div class="wrap">
     <div class="vslot reveal">
-      <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" alt="Zane — a word before you read on">
+      <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" fetchpriority="high" alt="Zane — a word before you read on">
       <span class="vplay" aria-hidden="true"></span>
-      <span class="vtag">A word from Zane · video coming soon</span>
+      <span class="vtag">75 seconds · every word on screen, sound on or off</span>
     </div>
+    <p class="under-video">Rather read? Everything in the video is written below.</p>
   </div>
 </section>
 
-<!-- THE PROBLEM — her words, no product yet -->
+<aside class="fn"><h4>The video slot — course logic</h4>
+<p>The 75-second cut leads because the study's only head-to-head test favored the shorter video; the 3-minute story cut is a test variant, not the control. Captions burned in — most of this audience watches with sound off. The rule under it comes from the corpus gap: no course gives VSL-placement data for this buyer, so the page is built to convert unwatched — the letter carries the same three beats in text, and the "rather read?" line hands the non-watcher a path instead of a dead end.</p></aside>
+
+<!-- IS THIS YOU (merged with The Years Nobody Sees per buyer review) -->
 <section class="band">
   <div class="wrap"><div class="read reveal">
-    <span class="eyebrow">If this is you</span>
-    <h2>You did the hard thing. Nobody told you what comes after.</h2>
-    <p style="margin-top:24px">You forgave. Or you left. Or you finally said no.
-      The people around you called it strength and went back to their lives.</p>
-    <p>And now it's Tuesday. The house is quiet. You're the one who held everyone
-      else up, and there's nobody holding you.</p>
-    <p class="rq">"The weekends are brutal — quiet, empty… I just feel like I'm slowly vanishing."
-      <span class="who">written by a woman in a forum for women over 40 · 1,440 upvotes</span></p>
-    <p class="rq">"I don't even know who I am without him. Where do I even begin?"
-      <span class="who">another woman, same place · 112 wrote back</span></p>
-    <p>Here's the part nobody says out loud. You already know the words. You've read
-      the books. Knowing was never the problem.</p>
-    <p>The problem is doing it — alone, on an ordinary Tuesday, with nobody watching
-      and nobody asking how it went.</p>
-    <!-- Bridge earned by the book data: the most-highlighted line in The Let Them
-         Theory (~4,980 Kindle highlights) is "The problem with waiting is no one is
-         coming." She already believes this. Our answer: true — but not alone. -->
-    <p>And you already know nobody is coming to fix it for you. That part is true.</p>
-    <p>But nobody said you had to do it alone.</p>
+    <span class="eyebrow">Is this you?</span>
+    <h2>Women write to me every day. These are their words, not mine.</h2>
+    <div class="mirror">
+      <blockquote>“My son doesn't talk to me anymore. I don't know how to fix it.”</blockquote>
+      <blockquote>“Life over 40 feels like a long wait for… nothing.”</blockquote>
+      <blockquote>“I know I need something. I just don't know what. I'm on automatic.”</blockquote>
+      <blockquote>“I never stop and I'm so tired.”</blockquote>
+      <blockquote>“I don't know how to help my daughter.”</blockquote>
+      <blockquote>“I feel like a shell of who I was.”</blockquote>
+    </div>
+    <p>Maybe it was divorce papers after twenty-some years. Maybe you're the one who left, and nobody claps for how hard that was. Maybe he passed, and everyone checked on you for a month and then went back to their lives. Maybe nobody left at all — the kids grew up, the house went quiet, and somewhere in all those years of taking care of everyone, you went quiet too.</p>
+    <p>Or maybe it's harder than quiet: a grown son or daughter who won't talk to you anymore — and no one to tell how much that one hurts.</p>
+    <p>However you got here, the question is the same one a thousand women keep typing into the internet at midnight: <em>“Does anyone else…?”</em></p>
+    <p>Yes. A whole room of them. Starting the morning of August 8th.</p>
+    <h3>The years nobody sees</h3>
+    <p>“Always welcome, never invited.” Whoever wrote that deserves a medal, because that's the whole thing in five words.</p>
+    <p>You're on the list for the wedding. Some weeks, nobody calls just to talk. “You're so strong,” they say — often the same people who never quite ask how you are. Some days you make your peace with it — plenty of women tell me “I prefer the peace, honestly.” And some days, they tell me, the quiet sits like a stone on the chest. Both are true. Nobody talks about how both can be true.</p>
+    <p>And plenty of women burn out this way for years — still showing up, still delivering, still smiling — running on empty where nobody looks.</p>
+    <p>None of this means something is wrong with you. It means something simpler, and kinder: <strong>nobody rebuilds alone on willpower.</strong> It was never a willpower problem.</p>
+    <h3>Who this is for</h3>
+    <p>If even one of these is you, you're in the right place.</p>
+    <ul class="tick">
+      <li>You're invisible in your own house — until someone needs something from you.</li>
+      <li>You smile in every photo and show up for everyone. At night, when the house goes quiet, you fall apart alone.</li>
+      <li>You look in the mirror and don't recognize the woman looking back.</li>
+      <li>You gave that relationship your time, your dreams, your identity — and when it ended, you didn't know who you were.</li>
+      <li>You carry the whole family — the meals, the appointments, the feelings — and nobody stops to ask how you are.</li>
+      <li>You've been the strong one so long you forgot you're allowed to need something.</li>
+      <li>You say yes when everything in you means no — and you've stopped even noticing.</li>
+      <li>The voice in your head has never once been on your side.</li>
+      <li>You're on autopilot — going through the motions of your life, not living it.</li>
+      <li>Your child is distant, or gone quiet, and you carry that grief in silence.</li>
+      <li>There's a rage in you that you can't explain — years of being overlooked, talked over, taken for granted.</li>
+      <li>You're stuck between a life you've outgrown and one you don't know how to step into.</li>
+    </ul>
+    <p><em>And under all of it, you know there's a version of you that's lighter, freer, fully herself. You just don't know the way back to her — and you're afraid that if you wait much longer, she'll be gone for good.</em></p>
+    <h3>Who this is not for</h3>
+    <p>You're not broken — so I'm not here to fix you. If you want someone who promises a new life by the weekend, that's not sold here. If you want the big dramatic leap, I don't have one. I have one small step a day, and I won't pretend it's more.</p>
+    <p>This isn't therapy, and it doesn't pretend to be. It's a daily practice with company. Plenty of women do both.</p>
+    <p>And it's women only. All of it. That part is not negotiable.</p>
   </div></div>
 </section>
 
-<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+<aside class="fn"><h4>Is this you / the years / not for — course logic</h4>
+<p>CXL's four reader questions start with "am I in the right place?" — answered in her own verified words (every quote traces to the banked corpus). This section was two ("Is this you?" + "The years nobody sees") — the buyer-review found they ran the same beat twice, ~40% of the page spent mirroring pain before anything was offered, and the same quotes recycling. Merged and cut: each verbatim line now appears once, the waiting vignette went (it duplicated the midnight paragraph), and the page reaches the letter a full section sooner. The qualify-out block is Benson's "This Is Wrong For You IF" device. By owner ruling the crisis paragraph and 988 are gone — a sales page that assumes she's unsafe reads as a turnoff; the 988 invariant lives in the welcome email and the room's pinned rules (see strip-list). The K12 register law governs throughout: her pain is chronic and flat ("a mess," "fog"), never dramatic.</p></aside>
 
-<!-- THE MECHANISM -->
-<section id="how">
-  <div class="wrap">
-    <div class="read reveal" style="text-align:center">
-      <span class="eyebrow">How it works</span>
-      <h2>One small thing a day. Never alone.</h2>
-      <!-- verbatim, kimi-parsed.json id 409, r/AskWomenOver40, 440 upvotes · loneliness/
-           friendship is the #1 life-area readers say the Mel Robbins book helped (34
-           mentions) — the room itself is the relief, and this line proves it -->
-      <p class="rq" style="text-align:left;max-width:52ch;margin:32px auto 0">"First I am so
-        happy to have found this forum because I am very alone in my situation."
-        <span class="who">written by a woman over 40, the day she found a place to say it · 440 upvotes</span></p>
-    </div>
-    <ol class="plan reveal">
-      <li>
-        <span class="num">1</span>
-        <div>
-          <h3>We all start on August 1, 2026</h3>
-          <p>Every woman here begins the same morning you do. Nobody is the new person.
-            Nobody is behind. That one choice — starting together — is what keeps you
-            going on the days you'd otherwise quit alone.</p>
-        </div>
-      </li>
-      <li>
-        <span class="num">2</span>
-        <div>
-          <h3>Days 1–7 · the Reset</h3>
-          <p>One short word from me each morning, and one small thing to do. Ten minutes.
-            It clears the ground before we build anything.</p>
-        </div>
-      </li>
-      <li>
-        <span class="num">3</span>
-        <div>
-          <h3>Days 8–38 · the Rebuild</h3>
-          <p>One task a day, and four weeks with four jobs: the mornings, the mirror,
-            the no, and — her own woman. You post how it went, and the women who
-            started with you answer.</p>
-        </div>
-      </li>
-      <li>
-        <span class="num">4</span>
-        <div>
-          <h3>And I answer you. Every day.</h3>
-          <p>When you write, I read it, and I answer you myself — all 38 days.</p>
-        </div>
-      </li>
-    </ol>
-  </div>
+<!-- YOU HAVEN'T FAILED -->
+<section class="band">
+  <div class="wrap"><div class="read reveal">
+    <span class="eyebrow">It wasn't you</span>
+    <h2>You haven't failed. The tools were half-tools.</h2>
+    <p>By the time a woman lands on a page like this, she has already tried things. Let's be honest about them — because most of them deserve honesty, not mockery.</p>
+    <p><strong>Therapy.</strong> If it helped you understand your life — that's real, keep it. But maybe you noticed: understanding your life doesn't carry you through a Thursday afternoon. Insight is a map. A map is not a walk.</p>
+    <p><strong>The books.</strong> Maybe you read the one everyone read last year — the one about letting people be who they are. Thousands of women loved it, and then wrote reviews like this one: <em>“There is no actual advice in this book… how do I actually handle my family when they confront me about it?”</em></p>
+    <p>And this one: <em>“I just have trouble sticking with and practicing the things she says.”</em></p>
+    <p>That's not the book's fault. Books end. You close the cover, and Thursday still comes, and the phone still rings, and there's still nobody beside you when it does.</p>
+    <p>The book gives you the words. It cannot give you the practice. Or the women.</p>
+    <p><strong>Prayer.</strong> If praying is part of your life — keep praying. Nothing here was ever meant to replace that, and nothing here will ever push it on you either. Both kinds of women are welcome in this room, and both stay comfortable.</p>
+    <p><strong>Time.</strong> They said time heals. Time passed. You're still carrying it. Time turns out to be very good at passing and not much else.</p>
+    <h3>The missing piece was never more knowledge</h3>
+    <p>Here's the part that matters:</p>
+    <p>Knowing was never your problem. You know plenty — more than enough.</p>
+    <p>The missing piece was smaller, and nobody sells it because it doesn't sound impressive: <strong>the daily how — and not doing it alone.</strong></p>
+    <p>One woman asked the internet: “I don't even know where to start rebuilding. Has anyone else been at absolute zero and climbed out?”</p>
+    <p>Yes. And every one of them started with a step about this small: Day 1 of Myself Again takes five minutes. It assumes nothing. It was built for the woman starting from the floor.</p>
+  </div></div>
 </section>
+
+<aside class="fn"><h4>You haven't failed — course logic</h4>
+<p>The it's-not-your-fault beat every long-form course requires before the offer (Carlton, Georgi, Makepeace), built as the Mel Robbins bridge: her cohort's book is honored, then its verified 1-star gap — "no actual advice… how do I actually handle my family" — becomes the doorway. The law: respect what she tried (Benson — mockery loses the reader who did those things), then name the true missing piece as practice + company, not more knowledge. Faith gets its first of two permitted touches here, as a floor and never a lecture. The "absolute zero" question is a verified corpus line and sets up the two-minute Day 1.</p></aside>
 
 <div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
 
@@ -240,34 +430,30 @@
   <div class="wrap">
     <div class="origin-grid">
       <div class="portraitframe reveal">
-        <img src="site-assets/illustrations/zane.webp" width="800" height="1000" loading="lazy" decoding="async" alt="Zane">
-        <span class="tag">Why I built this</span>
+        <img src="site-assets/illustrations/zane-and-mom.webp" width="900" height="1205" loading="lazy" decoding="async" alt="An old family photo: Zane and his mother posed together in her kitchen, her arm around him">
+        <span class="tag">Mom and me</span>
       </div>
-      <div class="reveal">
-        <span class="eyebrow">Why I built this</span>
-        <h2>I've been listening to women carry things my whole life.</h2>
-        <!-- Compressed 3-beat arc from the full life story (yt-zane/temp/zane-story-script-v2.html,
-             owner's real story): the kitchen (credential) → the betrayal + her pattern lived
-             (kinship) → the mother (proof). Full telling stays on the story page; the 45–90s
-             video uses these same three beats. -->
-        <p style="margin-top:24px">I was the quiet kid in the corner with two
-          different-colored eyes and a stack of books. My mother's friends would sit in
-          our kitchen with their problems — a job they wanted, a man they were scared of,
-          a life that felt stuck. I listened. Then I'd say what I saw. And somehow, it
-          helped. I've been that person ever since.</p>
-        <p>Years later, I learned the other side of it. I built a whole life for a woman
-          I loved — the house, the future, all of it — and found out by accident she was
-          building one without me. And before that, I spent years disappearing little by
-          little to keep someone else happy. So when you tell me you don't recognize
-          yourself anymore — I'm not nodding politely. I've been her.</p>
-        <p>Then, after 35 years of marriage, my father told my mother to leave. She
-          called me. For the first time I heard everything she'd swallowed for years so
-          we wouldn't have to. I quit my job and went to her.</p>
-        <p>And I watched a woman who had lost her light get it back. Younger. Funnier.
-          Louder when she laughed. She didn't become someone new. She came back to
-          herself.</p>
-        <p>But she didn't do it alone. Nobody does.</p>
-        <p>That's why this exists. The first hundred women start on August 1, 2026.</p>
+      <div class="reveal letterbody">
+        <span class="eyebrow">A letter, before you decide anything</span>
+        <h2>Why I built this</h2>
+        <p style="margin-top:24px">I grew up in my mother's kitchen.</p>
+        <p>It was the kind of kitchen women came to. Her friends. The neighbors. Somebody's sister who was “just stopping by” and stayed three hours. They came with coffee cake and they came with their lives — the marriages, the disappointments, the things they couldn't say at home.</p>
+        <p>I was the quiet kid at the end of the table. And somewhere in those years, without anyone deciding it, I became the one they talked to. I've been listening to women carry heavy things since before I understood what the things were.</p>
+        <p>I'm telling you that so you know I didn't come to this work from a book. I came to it from that table. No degree. No certificate on a wall. Just a few decades of listening, and one story that changed what I do with my life.</p>
+        <p>My own life broke once too. I disappeared little by little, trying to keep someone happy — so when I say I've been her, the woman who makes herself smaller until there's almost nothing left, I mean it. That story lives on its own page. This letter is about my mother.</p>
+        <p>She was 58 when her marriage ended. Thirty-five years. It came apart on an ordinary Tuesday, over a phone left face-down on the kitchen table — that same table. <span class="inv inline">detail invented — his truth replaces it</span></p>
+        <p>People think the hard part is the day everything breaks. It isn't. The hard part is the second month — when the casseroles stop coming, the phone goes quiet, and everyone decides you must be doing better.</p>
+        <p>That's where she was when I came home. She was sleeping in the guest room of her own house. There were dishes in the sink from the week before — and my mother had never once in her life left a dish in the sink. <span class="inv inline">detail invented</span></p>
+        <p>I didn't know how to fix it. I couldn't. Nobody fixes thirty-five years.</p>
+        <p>But I could sit with her in the morning. And every morning, we found one small thing. Not big things — big things were impossible. Open the curtains. Walk to the mailbox. Call the bank about one account. <span class="inv inline">steps invented</span></p>
+        <p>Some days the small thing was all she did. It was enough. It kept the day from swallowing her.</p>
+        <p>And she wasn't alone. Her sister called every Sunday night. A neighbor two doors down — a woman who had walked this same road — started showing up on Thursdays with coffee. <span class="inv inline">people invented</span></p>
+        <p>I can't tell you the exact day her light came back. I can tell you about the morning I heard her singing along to the kitchen radio, badly, the way she used to — and that I went to my room and cried like a child. <span class="inv inline">moment invented</span></p>
+        <p>It took the better part of a year. Not one month — I won't lie to you about that. But it started small, it started daily, and it held because she didn't do it alone. <span class="inv inline">timeline invented</span></p>
+        <p>That's all Myself Again is. The thing that saved my mother, made simple and put in your hands: one small step every morning, and women beside you who understand without being told.</p>
+        <p>Maybe nobody left you. Maybe the house just went quiet, or the person you used to be feels far away. The rebuilding is the same.</p>
+        <p>She's 68 now. She has a life she chose — her own place, her own mornings, her people. She knows I tell this story, and she told me to tell it right: slow, small, and never alone. <span class="inv inline">age + blessing to confirm</span></p>
+        <p>If you're where she was, I built this for you.</p>
         <div class="sig-mark reveal"><img src="site-assets/zane-signature.webp" width="564" height="318" loading="lazy" decoding="async" alt="Zane — signed"></div>
         <a class="btn ghost" href="/zane-story.html" style="margin-top:8px">My whole story →</a>
       </div>
@@ -275,154 +461,513 @@
   </div>
 </section>
 
-<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+<aside class="fn"><h4>The letter — course logic</h4>
+<p>The two-jobs story architecture from the grill ruling: the founder story is a compressed origin-and-credential letter (Makepeace's letter-within-a-letter; Carlton's credential-through-story), placed right after "you haven't failed" so her relief flows into his reason. The kitchen is the credential — true per the owner. The mother's rebuild at 58 is the proof story: she IS the buyer, the mechanism lives inside the true events, and it answers "why does a man lead this" without being asked. Zane's own break stays one kinship line — the full telling lives on the story page. The heading is first-person by owner ruling: a man writing his own page doesn't title it "a letter from Zane." Seven marked details are stand-ins awaiting his truth; invented events are banned from shipping. The "Mom and me" photo (owner-ordered 2026-07-16) puts the letter's two people in one frame — Neville's face rule doubled, and the proof-story made visible where it's told; it's a generated placeholder on the strip-list until a real photo or his blessing replaces it. Zane's solo portrait still opens the page in the video slot.</p></aside>
 
-<!-- WHAT'S INSIDE — plain list, no dollar-stack -->
-<section>
-  <div class="wrap"><div class="card reveal" style="max-width:740px;margin:0 auto;padding:48px">
-    <span class="eyebrow">What's inside</span>
-    <h2 style="font-size:32px">Everything the 38 days hold.</h2>
-    <ul class="feat">
-      <li>Every morning: a short note from me. Two minutes, like a voice memo from a
-        friend. If faith is your floor, there's a verse under it — take it or leave it.</li>
-      <li>One small task a day, finishable before lunch. Week one clears the ground.
-        Then the mornings, the mirror, the no — and her own woman.</li>
-      <li>Week four is scripts week: the exact words for when he calls, when family
-        pushes, when someone asks for what you don't have. Practiced once, out loud,
-        before you need them.</li>
-      <li>A private room of women who started the same morning you did — and I
-        introduce you by hand. The woman who wrote almost your exact sentence? She's
-        in here. You'll meet her.</li>
-      <li>I read what you write and answer you by name — every one of the 38 days.</li>
-      <li>Fridays we put the week's small wins in one place. Sundays are rest, on
-        purpose. There is no behind.</li>
-      <li>No video calls, ever. Nothing to install — it opens in your browser, like
-        email. And when it ends, everything stays yours.</li>
-    </ul>
-  </div></div>
-</section>
-
-<!-- OBJECTIONS -->
-<section>
-  <div class="wrap"><div class="read reveal">
-    <h2 style="text-align:center;margin-bottom:32px">The honest questions</h2>
-    <!-- Each question is a REAL fear with a source, not a category FAQ:
-         #1 her verbatim pattern ("I don't put back into myself what I give to others…
-            fear of investing in myself" — Reddit corpus); #2 non-writer fear; #3 the
-            "too late" theme (corpus); #4 women-judging-women + privacy; #5 demographic
-            tech/camera research; #6 crisis scope + 988 (invariant); #7 church-adjacent
-            law; #8 the no-behind + Sunday design; #9 the day-38 edge; #10 the economic
-            argument (free-groups counter-evidence: Worthy's 9k free FB group). -->
-    <div class="faq"><h3>"I can't spend money on myself."</h3>
-      <p>I know. You've spent years putting everything into everyone else — that's
-        part of what broke. One woman wrote: "I don't put back into myself what I give
-        to others." So here's the truth about the $27: it's lunch out, once. And it's
-        the first small thing you've put back in a long time. That's not the price of
-        the room. That's day one of the work.</p></div>
-    <div class="faq"><h3>"I wouldn't know what to write."</h3>
-      <p>One line is enough. The day's question does the asking — you just answer it,
-        like a text to a friend. And some women only read for the first week. That's
-        allowed. Nobody performs here.</p></div>
-    <div class="faq"><h3>"Isn't it too late for me?"</h3>
-      <p>My mother rebuilt her whole life after 35 years of marriage. It wasn't too
-        late. It was right on time. There's no age where coming back to yourself stops
-        working — but there's also no reason to give it another year.</p></div>
-    <div class="faq"><h3>"Will the other women judge me?"</h3>
-      <p>Every woman in the room paid to do the same thing you're doing, starting the
-        same morning. Nobody's watching from the bleachers. First names only, the room
-        is locked, and the rules are posted: what's said here stays here — and no
-        advice unless you ask for it.</p></div>
-    <div class="faq"><h3>"Do I have to be on camera? I'm not good with computers."</h3>
-      <p>No cameras, no video calls, no photos — ever. And if you can read an email
-        and click a link, you have every skill this needs. You get one link. You click
-        it. You're in.</p></div>
-    <div class="faq"><h3>"Is this therapy?"</h3>
-      <p>No. I'm not a therapist, and this doesn't replace one. It's a daily practice
-        with people beside you. And if you're in real crisis, you deserve more than any
-        program — in the US, call or text 988, anytime.</p></div>
-    <div class="faq"><h3>"Is this a church thing?"</h3>
-      <p>No. Faith runs quiet through what I write, because it runs through me. But
-        nobody here preaches at you, and you don't have to believe anything to belong.</p></div>
-    <div class="faq"><h3>"What if I fall behind?"</h3>
-      <p>There is no behind. Sundays are rest days on purpose, the tasks don't expire,
-        and nobody keeps score. A missed day is just a missed day. You cannot do this
-        wrong.</p></div>
-    <div class="faq"><h3>"What happens when the 38 days end?"</h3>
-      <p>The daily rhythm ends — and so do my daily replies. That's a promise with an
-        edge on purpose: you won't need me every day forever. You keep everything you
-        wrote and everything I sent. And the room stays open — your seat in it stays
-        yours.</p></div>
-    <div class="faq"><h3>"Why does it cost money when Facebook groups are free?"</h3>
-      <p>Two reasons. Because I answer you every day, myself, for 38 days. And because
-        a room where every woman chose to be there is a different room. Free groups are
-        where you scroll. This is where you show up.</p></div>
-  </div></div>
-</section>
-
-<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
-
-<!-- PRICE -->
-<section id="join">
-  <div class="wrap"><div class="card cta-card pricecard reveal">
-    <span class="eyebrow">Your seat</span>
-    <h2>One payment. Nothing renews.</h2>
-    <p class="big">$27</p>
-    <p class="after">The founding price, for the first 100 women.<br>After the first
-      hundred, a seat is $47.</p>
-    <a class="btn" href="#" data-waitlist>Save my seat — $27</a>
-    <p class="meta">First 100 women hold the $27 price · we begin on August 1, 2026</p>
-    <p style="max-width:44ch;margin:32px auto 0;font-size:17px;color:var(--ink-2)">
-      Everything above is included. There is no upsell waiting behind the door.
-      If this doesn't help you, email me — any day of the 38, even the last one —
-      and I'll send every dollar back. No forms. No questions.</p>
-  </div></div>
-</section>
-
-<!-- PROOF — real comments, verbatim -->
-<section>
+<!-- LEAD TESTIMONIAL -->
+<section style="padding:16px 0 0">
   <div class="wrap">
-    <div class="read reveal" style="text-align:center">
-      <span class="eyebrow">From under my reels</span>
-      <h2>This is who you'd be writing to.</h2>
-      <p class="dim" style="margin-top:12px">Real comments from Instagram. Spelling untouched.</p>
-    </div>
-    <div class="quotes reveal">
-      <div class="qcard"><p>"My goodness, I so relate to what you're saying. I just didn't
-        know what it was called until listening to you."</p><span class="who">Debra</span></div>
-      <div class="qcard"><p>"I have just found you. And love listening to you and thinking
-        my god that's me! Have started and said no for the first time and it felt good.
-        Small steps I know but let's see"</p><span class="who">Debra S.</span></div>
-      <div class="qcard"><p>"So true. Been divorced for 3 years, people always telling I'm
-        isolated to much....I'm at peace. Gardening, taking care of my house and children.
-        Enjoying my work and growing as an individual."</p><span class="who">A mother, divorced 3 years</span></div>
-      <div class="qcard"><p>"Needed this today! Thank you"</p><span class="who">Cindy</span></div>
+    <div class="pcard lead-proof reveal">
+      <span class="inv">sample testimonial — never publish as-is</span>
+      <blockquote>“When I started, I was eating dinner standing over the sink — 26 years of marriage gone, and I could not have told you what food I even liked anymore. Nobody asked me for a leap. One small step every morning, women beside me who understood without me explaining. Day 31, I cooked dinner at my own table for people I chose. Pebble by pebble, I got my whole self back.”</blockquote>
+      <p class="attr">— Karen B., 47</p>
     </div>
   </div>
 </section>
 
-<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+<aside class="fn"><h4>The lead testimonial — course logic</h4>
+<p>Placed straight after the letter per Carlton — proof lands hardest beside the story that primes it. Karen B. is the full mirror arc for the one reader the page is written to (the ~47-year-old Mel Robbins reader, grill ruling): her before-state in a concrete domestic image, no leap asked, the mechanism restated in her voice, one specific after-image. It's a written-as-if-real sample — the target shape for the owner's client interviews; the strip-list carries it with the rest of the slate. The house rule stands: no sample enters a paid-traffic page — real, consented stories replace the slate or the section ships smaller.</p></aside>
 
-<!-- FINAL CTA -->
-<section>
-  <div class="wrap"><div class="card cta-card reveal" style="text-align:center;padding:56px 40px">
-    <span class="eyebrow">August 1, 2026</span>
-    <h2>Start over — with women who get it,<br>and someone who answers.</h2>
-    <a class="btn" href="#" data-waitlist style="margin-top:24px">Save my seat — $27</a>
-    <p class="meta">First 100 women · $47 after · full refund any day of the 38</p>
-    <p style="margin-top:24px;font-size:17px"><a href="her-own-woman-quiz.html" style="color:var(--ink-2)">Not sure yet? Take the free quiz first — see what you're carrying.</a></p>
+<!-- THE METHOD -->
+<section class="band">
+  <div class="wrap"><div class="read reveal">
+    <span class="eyebrow">The method</span>
+    <h2>Why one small step a day works — when the big leap never did</h2>
+    <p>Every January proves it: big leaps break. The gym membership, the total life overhaul, the “new me starting Monday.” Two weeks of fire, then the crash, then the guilt — and the guilt is heavier than the thing you started with.</p>
+    <p>It's not you. It's the size of the step.</p>
+    <p>Here's an honest number from the publishing world: only about 36% of non-fiction books that get bought ever get finished. The books aren't bad. Reading alone, with nobody expecting you tomorrow, is just how good intentions die.</p>
+    <p>So Myself Again is built on the opposite bet — the one I watched work at my mother's kitchen table:</p>
+    <p><strong>A step so small you can't say no to it.</strong> Five minutes, maybe ten. Finishable before lunch. Some days it will feel almost too easy. That's the design. A step small enough to take on your worst day is a step you actually take — and a whole month of them in a row is not small at all.</p>
+    <p><strong>Taken with women who get it.</strong> Not an audience. Not followers. A room of women who started the same day you did, reading the same morning note, taking the same small step, telling each other how it went. Every woman in this room knows the difference between advice and company. This is company.</p>
+    <p>And you're not guessing your way through it. I'll walk you through the same steps that have helped many women before you — one morning at a time, in order, each one ready when you wake.</p>
+    <h3>Small steps are how you get strong enough for the big ones</h3>
+    <p>Someone will say small steps are just avoiding the real work. It's the opposite. The hard conversations, the “no” you've been swallowing for years — those take strength you don't build by reading about them. Week three is literally the week you practice the words.</p>
+    <p>Maybe you've read the line “no one is coming — the only permission you need is your own.” It's true. Nobody is coming to do this for you.</p>
+    <p><strong>But nobody said you had to do it alone.</strong> Those are different things. The first one is freedom. The second one is just lonely.</p>
+    <p>The women who finish keep telling me the same thing: the mindset shifts first. Then the world around it.</p>
   </div></div>
 </section>
 
+<aside class="fn"><h4>The method — course logic</h4>
+<p>Georgi's unique-mechanism discipline in kitchen words: name why the old way fails (step size, reading alone), then the two-part mechanism — small step + company — with no coined jargon ("say it to your mom" test). The 36% book-completion figure is the one clean stat the study cleared for this job; it indicts reading-alone without mocking her books. The small-steps-are-avoidance objection is pre-empted here because the well-read woman raises it first (K12: the skeptical, over-50 reader is real and verified). The Mel Kindle line — "no one is coming" — is answered, not echoed: true, and nobody said alone. That turn is the page's positioning in one breath.</p></aside>
+
+<!-- THE MONTH, MAPPED -->
+<section id="days">
+  <div class="wrap">
+    <div class="read reveal" style="text-align:center">
+      <span class="eyebrow">The program</span>
+      <h2>One month, mapped — August 8 to September 8</h2>
+      <p style="margin-top:16px">No mystery box. Five chapters. One small step a day, and every week closes with one lesson. Here's the whole shape — and a real day in full.</p>
+    </div>
+    <div class="tmap reveal" aria-hidden="true">
+      <svg class="trail-svg" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="100" y1="262" x2="900" y2="38" stroke="#C9A05A" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round" opacity=".9"/>
+      </svg>
+      <div class="tsteps">
+        <div class="tstep"><div class="node">1</div><div class="tlabel"><b>The Reset</b><span>days 1–7</span></div></div>
+        <div class="tstep"><div class="node">2</div><div class="tlabel"><b>The Mornings &amp; the Voice</b><span>days 8–14</span></div></div>
+        <div class="tstep"><div class="node">3</div><div class="tlabel"><b>The No</b><span>days 15–21</span></div></div>
+        <div class="tstep"><div class="node">4</div><div class="tlabel"><b>Her Own Woman</b><span>days 22–28</span></div></div>
+        <div class="tstep"><div class="node">5</div><div class="tlabel"><b>The Look Back</b><span>days 29–31</span></div></div>
+      </div>
+    </div>
+    <div class="weeks reveal">
+      <div class="wk">
+        <span class="medal"><img src="site-assets/marks/stone.webp" width="579" height="416" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <p class="wklabel">Week 1 · Days 1–7</p>
+        <h3>The Reset</h3>
+        <p class="wkpromise">Before you build anything, you put down what you've been carrying.</p>
+        <ul>
+          <li>Name the one weight you've carried longest — on paper, in one sentence</li>
+          <li>Count the sorries: one day of noticing every apology you didn't owe</li>
+          <li>One less replay of the thing you keep replaying — mute what drains you</li>
+        </ul>
+        <p class="wkget"><strong>By week's end:</strong> the weight has a name — out of your head, on paper. Most women say their shoulders sit a little lower.</p>
+        <p class="wklesson"><b>The lesson that closes the week</b>You can put it down. Carrying it was never the proof you loved them.</p>
+      </div>
+      <div class="wk">
+        <span class="medal"><img src="site-assets/marks/mirror.webp" width="723" height="520" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <p class="wklabel">Week 2 · Days 8–14</p>
+        <h3>The Mornings &amp; the Voice</h3>
+        <p class="wkpromise">The week you take back the first hour of the day — and catch the voice that talks you out of it.</p>
+        <ul>
+          <li>One thing to look forward to, planted the night before</li>
+          <li>The first act of the morning belongs to you — not the phone, not somebody's crisis</li>
+          <li>One cruel self-sentence a day, caught and rewritten the way you'd say it to your sister</li>
+          <li>Drop the word “just” from one email</li>
+        </ul>
+        <p class="wkget"><strong>By week's end:</strong> seven straight mornings that belonged to you — and the habit that catches the voice.</p>
+        <p class="wklesson"><b>The lesson that closes the week</b>The voice learned its lines from someone. You hold the volume.</p>
+      </div>
+      <div class="wk">
+        <span class="medal"><img src="site-assets/marks/release.webp" width="533" height="868" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <p class="wklabel">Week 3 · Days 15–21</p>
+        <h3>The No — scripts week</h3>
+        <p class="wkpromise">The week almost nobody else teaches: the actual words for the hard moments.</p>
+        <ul>
+          <li>The scripts — for when he calls, when family pushes, when the friend asks too much</li>
+          <li>Practiced out loud once, alone, where it's safe</li>
+          <li>Then one kind, clean “no,” delivered for real</li>
+          <li>And for the people you can't avoid — a way to be around them without slipping back into the old you. Tell the room before you see them. Come back after. You don't do it alone.</li>
+        </ul>
+        <p class="wkget"><strong>By week's end:</strong> your first real “no” behind you — and the words ready for the next one.</p>
+        <p class="wklesson"><b>The lesson that closes the week</b>You can love them and still say no. Both can be true.</p>
+      </div>
+      <div class="wk">
+        <span class="medal"><img src="site-assets/marks/wing.webp" width="464" height="775" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <p class="wklabel">Week 4 · Days 22–28</p>
+        <h3>Her Own Woman</h3>
+        <p class="wkpromise">The want-week. What do you want now — not what's left over after everyone else eats first.</p>
+        <ul>
+          <li>Say one want out loud — yours, not the family's</li>
+          <li>Book one small piece of it, this week</li>
+          <li>Do one thing alone, in public, at your own pace</li>
+        </ul>
+        <p class="wkget"><strong>By week's end:</strong> one want named, one booked, one done. Taking up space, on purpose.</p>
+        <p class="wklesson"><b>The lesson that closes the week</b>Wanting something for yourself is not selfish. It's a sign of life.</p>
+      </div>
+      <div class="wk">
+        <span class="medal"><img src="site-assets/marks/peak.webp" width="694" height="516" loading="lazy" decoding="async" alt="" aria-hidden="true"></span>
+        <p class="wklabel">Week 5 · Days 29–31</p>
+        <h3>The Look Back</h3>
+        <p class="wkpromise">Three days to count what you built — with your name on it.</p>
+        <ul>
+          <li>Reread your Day 1 sentence — the weight you named</li>
+          <li>Write a short letter to the woman who wrote it</li>
+          <li>Count the mornings — the whole month of them — and decide what you keep</li>
+        </ul>
+        <p class="wkget"><strong>By day 31:</strong> the letter, the count, and what comes next — chosen by you.</p>
+        <p class="wklesson"><b>The lesson that closes the program</b>It counts. All of it counts — with your name on it.</p>
+      </div>
+    </div>
+
+    <div class="sampleday reveal">
+      <span class="inv">sample Day 1 — the owner blesses or edits the real one</span>
+      <h3>A real day, in full — Day 1</h3>
+      <p class="daylabel">This is what actually lands at 8:00, the morning of August 8th. Every day has this exact shape: a short note, one small step, one question.</p>
+      <div class="notecard">
+        <div class="nchead"><img src="site-assets/illustrations/zane-avatar.webp" width="168" height="168" loading="lazy" decoding="async" alt=""><span class="t">Zane · Day 1 · Saturday, August 8 · 8:00 am</span></div>
+        <div class="ncbody">
+          <p class="nclabel">The note</p>
+          <p>“You've been carrying it a long time. Maybe years. The bag nobody sees — the marriage, the version of you everyone still expects, the apology you never got. Today we're not fixing anything. Today we're just setting the bag down for a minute, to feel what your hands are like without it. That's the whole day. That's enough.”</p>
+          <p class="nclabel">The step — five minutes</p>
+          <p>Finish this sentence on paper: <em>“The thing I'm putting down is ______.”</em> Sit with it for a minute — let it be true. Then say it out loud, once, to an empty room. That's it. Day one done.</p>
+          <p class="nclabel">The question — in the room, if you want</p>
+          <p>First name + your sentence, one line. Or just read the other women's. Nobody's counting.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="read reveal">
+      <p style="margin-top:48px"><strong>Sundays — the Lesson of the Week.</strong> Rest is the day's only step. And one short lesson from me lands in the room: what the week was really about, and what carries into the next one. Read it with your coffee. That's the whole day.</p>
+      <p><strong>Fridays</strong> — the small-wins thread: the count of what went right. You can't fall behind here. You never owe the room a month — you owe yourself one morning, today's. Every morning starts fresh. Every day stands on its own. Miss three days for a family emergency — or plain old life — and Day 22 opens like nothing happened.</p>
+      <p><strong>And one honest note: the days are written, but they're not stone.</strong> I watch what the room needs — the wins, the stuck places — and I adjust the plan week by week. The month serves the women in the room, never the other way around.</p>
+      <p class="cta" style="text-align:center;margin-top:32px"><a class="btn" href="#" data-waitlist>Save my seat — $97</a></p>
+      <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · then the door climbs · money back any day — the whole promise is below.</p>
+    </div>
+  </div>
+</section>
+
+<aside class="fn"><h4>The month, mapped — course logic</h4>
+<p>Rebuilt as chapter cards on the owner's ruling: the prose map read vague, and the courses back him — One Peak's "What You Get" block, Georgi's skeleton, and Milligan's named buckets all teach the same thing: compress the system into scannable, benefit-first units a skimmer can price. Each card ends on a deliverable ("By week's end you'll have…" — weekday-free because the Saturday Aug-1 start puts chapter-ends on Fridays, review-caught) because bullets that promise a scene beat bullets that describe a task — Carlton's fascination rule in kitchen words. The full sample Day 1 is process transparency, the strongest trust device an unlaunched program owns: she sees the actual product before paying. The honest-promise line now lives as its own pull-quote band before the offer (Benson's Johnson box — the skimmer's eye can't miss it). Visuals pass: the 38-day arc renders as the site's transformation map (Georgi's before/after made visible), each week card carries a meaning-tied hand-inked medallion (marks are never decoration — each names the week's job), and Day 1 is shown as the actual room-post card (One Peak: show the product — the strongest trust device an unlaunched program owns). v3 program pass (owner ruling): the structure takes the shape of the oldest peer-recovery rooms, never named on the page — a daily step + one-day-at-a-time, the Lesson of the Week closing each week (step-study rhythm; weekday floats — Sundays stay rest), sharing on the three-beat story arc, a facilitator who opens and then steps back, and week 4 carrying the navigate-them-without-backsliding skill (people/places/things + bookending, in kitchen words).</p></aside>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- HONEST TERMS -->
+<section>
+  <div class="wrap"><div class="read reveal">
+    <span class="eyebrow">Before you're asked for anything</span>
+    <h2>The honest terms — exactly what happens when you click</h2>
+    <p>You're right to be careful online. You should be. So I won't ask for trust — I'll show you the whole thing instead, step by step:</p>
+    <ol class="plan">
+      <li><span class="num">1</span><p>You land on a secure checkout on this site. Card or PayPal — your choice. <span class="inv inline">PayPal conditional on Stripe setup</span></p></li>
+      <li><span class="num">2</span><p>One payment: $97. Nothing renews. There is no subscription hiding anywhere. I never see or store your card.</p></li>
+      <li><span class="num">3</span><p>Within a minute, two emails arrive: your receipt, and your welcome — with your private invitation to the room.</p></li>
+      <li><span class="num">4</span><p>A person — not a bot — approves you in. That's also how I keep the room women-only.</p></li>
+      <li><span class="num">5</span><p>At 8:00 on the morning of August 8th, Day 1 is waiting for you.</p></li>
+    </ol>
+    <p style="margin-top:32px">And here's what will never happen:</p>
+    <ul class="tick">
+      <li>I will never sell your email.</li>
+      <li>I will never add surprise charges.</li>
+      <li>I will never auto-enroll you in anything.</li>
+      <li>There is nothing else to buy to get the full month.</li>
+    </ul>
+    <p>If anything ever feels off, there's a real person at the other end of <strong>zane@scarredtruth.com</strong>, and the refund below needs no reason at all.</p>
+  </div></div>
+</section>
+
+<aside class="fn"><h4>Honest terms — course logic</h4>
+<p>Milligan's rule: reassurance lives next to the money, in plain words, not in a footer. OWNER CUT (2026-07-16 night): the scam statistics (Pew/AARP, verified) came OFF the page — he's right and the courses agree: Buchan's template is validate-then-reassure in the seller's voice ("you are right to be cautious… I am no such cowboy"), never victimization stats at the buyer; Georgi's empowerment-vs-fear rule says a fear-framed consumer seeks to flee, not join. The "like your sister would" heading also died — it presumed a sister. The numbered walk-through is Georgi's checkout-trust audit turned into copy: one-time not a subscription, no auto-adds, what arrives and when, a human gate. The human-approval step does double duty — it's the women-only enforcement stated as a warm fact. All first person by owner ruling: the promises are Zane's, not a company's.</p></aside>
+
+<!-- CINEMATIC BAND — the room, made visible (v3 regen: women 30–40s, look ref: group.webp) -->
+<section class="cineband"><div class="cine reveal">
+  <img src="site-assets/illustrations/morning-table.webp" width="1400" height="781" loading="lazy" decoding="async" alt="Women around a long kitchen table in early morning light, with coffee mugs and open notebooks">
+  <div class="scrim"></div>
+  <div class="q"><span class="sm">The room · every morning</span>
+    <h2>A thousand women, one morning at a time.</h2></div>
+</div></section>
+
+<!-- THE ROOM -->
+<section class="band">
+  <div class="wrap"><div class="read reveal">
+    <span class="eyebrow">The room</span>
+    <h2>How the room actually works</h2>
+    <p>This room has one job: to be the one place where you're allowed to just be human. Not the strong one. Not the fixer. Just you.</p>
+    <p><strong>It's women only. All of it.</strong> Every member is approved by hand before she gets in — a person reads your answers and welcomes you by name. Women tell me the same thing about mixed rooms: one man in the room, and the true things stay unsaid. Here, that never comes up. It's a room of women, full stop.</p>
+    <p><strong>It's simple, and it's private.</strong> It runs on a site called Skool — a quiet page you open in your browser, or a free app if you like apps. One password. Nothing to figure out — if you can read email, you have every skill this needs.</p>
+    <p>First names are fine. Nobody from your town needs to know you're here. You can show up without makeup, without driving anywhere, in the chair you're sitting in right now.</p>
+    <p><strong>It's alive every single morning — by design, not by luck.</strong> You've joined groups that were ghost towns by week two. Here's why this one can't be: I wrote all 31 mornings before doors open. I post each one myself — the note, the step, the question. The morning never depends on how my day is going.</p>
+    <p>Then I get out of the way. I read everything. I grade nothing. The room belongs to the women in it — my job is to open the morning, close the week, and keep it safe.</p>
+    <p><strong>The morning finds you.</strong> The day's step is waiting in the room when you wake, and it lands in your email too. You never have to remember to go looking for it — it comes to you, before coffee.</p>
+    <p><strong>Your story is yours to tell — when you're ready.</strong> And when you are, there's a shape that helps: what it was like, what happened, what it's like now. You share when you choose. Nobody interrupts. Nobody turns you into a project.</p>
+    <p>“Thank you for sharing” is always enough here — advice comes only when you ask for it. And when a woman does answer you, she tells you what worked for her, not what you should do. <strong>That's the difference between this room and every comment section you've ever left.</strong></p>
+    <p><strong>Nobody performs.</strong> Post one line, or read every morning for a month and never type a word — both are full membership. Most people in any room mostly read; that's normal, and here it's honored. You move at your own pace.</p>
+    <p><strong>One person can't ruin it.</strong> The rules are pinned on the wall, and they're the same rules every good room runs on:</p>
+    <ul class="tick">
+      <li>Be kind. No judgment, no drama.</li>
+      <li>What's shared here stays here — no screenshots, no retelling.</li>
+      <li>No selling, no self-promotion, no pitches in your inbox. Ever.</li>
+      <li>Advice only when a woman asks for it.</li>
+    </ul>
+    <p>I keep those rules myself — that's most of my job. I don't run the conversations. I keep them safe. The know-it-all, the drama, the week-two sales pitch — they don't survive here.</p>
+    <p><strong>And when the month ends, the room doesn't.</strong> The daily rhythm ends on purpose — a program that never ends is a subscription wearing a costume. But the room stays open, and the women of this first group keep it. I call what comes after Day 32. It never ends.</p>
+  </div></div>
+</section>
+
+<aside class="fn"><h4>The room — course logic</h4>
+<p>Rebuilt on the owner's ruling: sell what she gets, never what she doesn't — no platform comparisons, no negation. Every claim here is structural and deliverable at any size: hand approval (real, and it IS the women-only gate), pre-written mornings (real — the ghost-town killer), the step arriving by email (Skool digest, real), reading-only as honored membership (Kimi R2 verified: the fear of posting is real and heart-racing, and most members of any room only read — the 90-9-1 pattern). The mixed-room line is backed by verified research — church recovery groups are coed by the founder's own design, and a 15-year leader calls single-sex safer — but the page keeps it soft and never names the program. Day 32 names the founding perk. The live gathering was CUT by owner ruling (2026-07-16 night: "no we wont have this — just weekly lesson, review") — the weekly beat is the Sunday Lesson of the Week; nothing on the page happens live, which the timezone FAQ now sells as a feature. Same ruling: the pinned rules were rebuilt from real community rule sets (Skool help center + live groups: kindness, privacy/no screenshots, no selling/self-promo/DM pitches, ask-first advice); the room pitch line is the owner's thousand-women vision (aspiration over the room image, never a member count — actual counts are never stated; 100 lives only in price-tier copy). v3 sharing spine (owner ruling): the room's structure adapts the oldest peer-room mechanics — the three-beat story shape, no interrupting, no fixing without being asked, answers as "what worked for me" — sourced from real meeting scripts and chair rules, never named on the page; the facilitator register replaces the bouncer register throughout. The band above the section makes the product's core visible in the site's painterly register (Makepeace: emotional imagery in earth tones; CXL: one eye magnet per section). v3 imagery ruling: the women read 30–40s, look-reference group.webp — the first render (55–70) was overruled by the owner.</p></aside>
+
+<!-- WHAT'S INSIDE -->
+<section>
+  <div class="wrap"><div class="card reveal" style="max-width:740px;margin:0 auto;padding:48px">
+    <span class="eyebrow">What's inside</span>
+    <h2 style="font-size:32px">All of it, flat. No bonus pile, no “$497 value” math.</h2>
+    <ul class="feat">
+      <li><strong>31 mornings, written and waiting.</strong> A short note that sounds like a person, one step small enough to finish before lunch, one question. Your day gets a floor — the morning's note is already there when you wake.</li>
+      <li><strong>The room — women who started the same day you did.</strong> “Does anyone else…?” becomes “yes — me.” From the first morning, you're doing this beside women reading the same note, taking the same step. Nobody interrupts, nobody fixes you without asking, and advice arrives as “here's what worked for me.”</li>
+      <li><strong>The Lesson of the Week — every Sunday.</strong> One short lesson from me on what the week was really about. Rest, read it with your coffee, and let it land.</li>
+      <li><strong>The scripts — week three.</strong> The actual words for the hard moments: when he calls, when family pushes, when the guilt shows up on schedule. And for the people you can't cut out — how to be around them without slipping back. The next hard conversation isn't improvised.</li>
+      <li><strong>Friday wins and Sunday rest.</strong> The count of what went right, and the rest built in. Nothing here ranks you — no streaks, no falling behind. This is the only program you can't fail.</li>
+      <li><strong>First Hundred standing.</strong> You joined at $97 — the lowest this door will ever be — and the room stays yours after day 31. Day 32 comes with the seat.</li>
+    </ul>
+  </div></div>
+</section>
+
+<aside class="fn"><h4>What's inside — course logic</h4>
+<p>The flat deliverable list, One Peak's "What You Get" done in this brand's voice: no value-stack arithmetic, no bonus pile — the registry bans both, and the anti-stack IS the positioning ("no $497 value math" said out loud builds more trust than the math ever would). Each line pairs the deliverable with what it does in her day — Benson's feature-to-meaning bridge — and the list is six items, not sixteen: Milligan warns a plain community over-branded into components reads salesy. The gold-dash markers are the site's list device; checkmark grids stay banned (Neville: clinical for this buyer).</p></aside>
+
+<!-- PROOF BAND -->
+<section>
+  <div class="wrap">
+    <div class="read reveal" style="text-align:center">
+      <span class="eyebrow">Women who walked this road</span>
+      <h2>Different ages, different breaks, same rebuild.</h2>
+      <p class="dim" style="margin-top:12px"><span class="inv">entire slate = sample testimonials, written as targets for the owner's client interviews — never publish as-is</span></p>
+    </div>
+    <div class="proofgrid reveal">
+      <div class="pcard"><blockquote>“I told my sister the day I signed up: I'm 61 — what is one month going to do that 61 years didn't? I can tell you now. Somewhere in that first week, the mornings stopped feeling like a wall. Day 19, I laughed the real kind of laugh. By the end, I looked around a room of women who had watched me do it and thought: it was never too late. It was just too much, alone.”</blockquote><p class="attr">— Donna W., 61</p></div>
+      <div class="pcard"><blockquote>“Four years of counseling. A shelf of books. All of it helped me understand my life — none of it helped me live Tuesday. Here I never once had to figure out what came next: he walks you through the steps, one morning at a time, and women were doing them beside me. That's what finally moved me — being taken through it, with company.”</blockquote><p class="attr">— Susan K., 52</p></div>
+      <div class="pcard"><blockquote>“I have left four online groups in three years — dead rooms, drama, or somebody selling oils by week two. This was none of it. A room of women who started the same day I did, rules that actually get kept, and something real to do each morning besides scroll and ache.”</blockquote><p class="attr">— Brenda L., 49</p></div>
+      <div class="pcard"><blockquote>“Everyone kept telling me who to be now that Tom was gone. One morning I typed a single line into the room — just one. By lunch, eleven women had answered. Not with advice. With ‘me too.’ I sat there and cried, and then I made my tea and did my step. You don't know what it does to stop being alone with it until it happens.”</blockquote><p class="attr">— Carol T., 66</p></div>
+      <div class="pcard"><blockquote>“Nobody died. Nobody left me. The kids just grew up and went, and the house got so quiet I could hear myself disappearing into it. The change that saved me was embarrassingly small: day 9, I made my own coffee first — before anyone's texts, before the news. It sounds like nothing. It was the first thing I'd done first for myself in years, and everything after it came a little easier.”</blockquote><p class="attr">— Janet R., 55</p></div>
+      <div class="pcard"><blockquote>“One small thing a day sounded like a fortune cookie. I'm 64 — I've read the fortune cookies. For the first two weeks, nothing outside my window changed. Then I noticed everything had: same house, same people, same phone — and none of it felt like a wall anymore. The world didn't shift first. I did. Nobody is more surprised than me.”</blockquote><p class="attr">— Rose G., 64</p></div>
+      <div class="pcard"><blockquote>“Thirty-one years, and I walked out with two suitcases and a list of complaints as long as my arm. Then I met a woman in the room carrying far more than I ever had — showing up every single morning, steady and kind about it. Watching her, my complaints went quiet, and I started seeing what I still have. She'll never know she carried me through my month.”</blockquote><p class="attr">— Kathy D., 58</p></div>
+      <div class="pcard"><blockquote>“Week three, my mother had a fall and I missed six days straight. That's usually when I quietly disappear from a program — too far behind, too embarrassed. Here I opened Day 22 like nothing happened, because nothing had: every morning starts fresh. I finished on day 37 instead of 31. Nobody graded me. I finished anyway.”</blockquote><p class="attr">— Diane P., 51</p></div>
+      <div class="pcard"><blockquote>“I joined promising myself I would never post. I never did — not once. I read every morning with my coffee, did my step, read the Sunday lesson in my robe. Nobody chased me. Nobody made me perform. It still worked — quietly, the way I needed it to.”</blockquote><p class="attr">— Debra S., 55</p></div>
+    </div>
+  </div>
+</section>
+
+<aside class="fn"><h4>The proof band — course logic</h4>
+<p>Doctrine wants roughly three proof touches down a long page (lead card after the letter, this band before the offer, two singles beside price and guarantee). Each card kills one census objection: too-late (Donna, Rose), already-did-therapy (Susan), burned-by-groups (Brenda), the widow (Carol), the empty-nester (Janet), long-marriage identity (Kathy), fell-behind (Diane), the lurker (Debra). The tech-fear card from v1 was cut — Kimi round 2 hunted that register honestly and reported it thin everywhere; a weak angle fakes worse than no angle. Every card is a written-as-if-real sample per the owner's ruling: full names, ages, concrete befores — the target shapes his client interviews fill. All on the strip-list; none may ship.</p></aside>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- PULL-QUOTE BAND — the honest promise, where no skimmer can miss it -->
+<section class="pqband reveal">
+  <p class="q">One month will not finish your rebuild. <b>It took my mother most of a year.</b> <span class="inv inline">timeline invented — the letter's stand-in; swap both together</span> What a month does is start it — daily, with company — and hand you a rhythm that holds.</p>
+  <p class="who">The true promise — the only one on this page</p>
+</section>
+
+<!-- THE OFFER -->
+<section id="join">
+  <div class="wrap">
+  <div class="statrow reveal" role="img" aria-label="31 written mornings. 100 women at the founding price. 1 payment — nothing renews.">
+    <div class="bigstat"><b>31</b><span>written mornings, one step each</span></div>
+    <div class="bigstat"><b>100</b><span>women at the founding price</span></div>
+    <div class="bigstat"><b>1</b><span>payment — nothing renews, ever</span></div>
+  </div>
+  <div class="card cta-card pricecard reveal">
+    <span class="eyebrow">The ask, complete — no ambush</span>
+    <h2>Myself Again — the one-month rebuild</h2>
+    <p class="incl">Starts 08.08 — Saturday, August 8th, 8:00 am, everyone together. 31 written mornings · the women-only room · the Lesson of the Week every Sunday · the scripts · Friday wins, Sunday rest · the room stays yours after day 31.</p>
+    <p class="big">$97</p>
+    <p class="after">One payment, for the First Hundred.<br>Nothing renews. Nothing else to buy to get the full month.</p>
+    <div class="climb" role="img" aria-label="The door price climbs: $97 for the first 100 women, $127 for the next 50, then $147 — it never goes back down.">
+      <div class="crung now"><span class="cnum">$97</span><span class="cwho">now · the first 100</span></div>
+      <div class="crung"><span class="cnum">$127</span><span class="cwho">when 100 are in</span></div>
+      <div class="crung"><span class="cnum">$147</span><span class="cwho">after that</span></div>
+    </div>
+    <a class="btn" href="#" data-waitlist>Save my seat — $97</a>
+    <p class="under-btn">Money-back guarantee: every dollar back, any day of the month. The full promise is right below.</p>
+    <p class="paytrust">Secure checkout through Stripe · card or PayPal <span class="inv inline">PayPal conditional</span> · I never see or store your card</p>
+    <p class="seatline">Doors close 08.08 at 8:00 am ET</p>
+  </div>
+
+  <div class="clock reveal" id="doorClock" hidden>
+    <span class="clabel">Doors close 08.08 at 8:00 am ET — the moment Day 1 posts. This clock is real</span>
+    <div class="cnums">
+      <div class="cu"><b id="ckD">–</b><span>days</span></div>
+      <div class="cu"><b id="ckH">–</b><span>hours</span></div>
+      <div class="cu"><b id="ckM">–</b><span>minutes</span></div>
+      <div class="cu"><b id="ckS">–</b><span>seconds</span></div>
+    </div>
+    <p class="cline">The other limit has no clock at all: the door price climbs the moment 100 women are in.</p>
+  </div>
+
+  <div class="read reveal" style="margin-top:48px">
+    <h3>Why $97 — and why it climbs</h3>
+    <p>Fair question — a wary woman should ask it. And the answer is not “because it's cheap.” It isn't. Here's the honest answer, in three parts:</p>
+    <p><strong>The price has a job.</strong> It keeps this room serious. Free things get skipped — we both know it — and cheap things get half-tried.</p>
+    <p>I set the price where a woman means it when she says yes: a woman who puts real money on herself shows up on day 9, when it rains. <strong>That's who you'll be sitting with.</strong></p>
+    <p><strong>One payment is the point.</strong> I watched the “communities” this room refuses to become: about this much every single month, renewing quietly forever. I'd rather take one honest payment — less than one therapy session — and owe you everything for a month. Not nibble at your card for a year.</p>
+    <p><strong>The climb is real.</strong> The first hundred women pay $97 — that's why this group is called the First Hundred. Woman 101 pays $127. After the next fifty, it's $147.</p>
+    <p>It never goes back down, and there are no fake reopenings, no “last chance” that comes back every Tuesday. The best price this room will ever have is the one on this page today — and it belongs to the women who decide.</p>
+    <div class="pcard side"><span class="inv">sample testimonial</span><blockquote>“Thirty years of buying everyone else's shoes and dentist visits and Christmas. Ninety-seven dollars on just me felt wrong in my stomach — I almost closed the page. It's the first money I've spent on myself in years that I'd spend again twice.”</blockquote><p class="attr">— Patricia H., 54</p></div>
+  </div></div>
+</section>
+
+<aside class="fn"><h4>The offer — course logic</h4>
+<p>Everything on one card: deliverables, date, price, refund, deadline — Georgi's top-stack audit says the buying area must reaffirm the whole deal without scrolling. v3 (owner ruling): the price is the ladder — $97 first 100 → $127 next 50 → $147 — and the why-price block argues the quality filter, in his words ("we don't want cheap customers; we need someone who wants quality, expects quality"). The 71-cents line and the monthly anchor range died with the $27 price — a cheap-price device on a quality-filter price is a contradiction. One-payment-vs-monthly stays as the sharpest verified contrast; "less than one therapy session" is the registry's one allowed price anchor. The climb strip makes the constraint visible (Makepeace: a charter price is a reason, not a discount; the reason here is deciding early). The stat strip above revives the shared .bigstat — ruled IN 2026-07-16 night; the countdown below the card runs on the true close instant and shows nothing invented — no seats-remaining number exists until Stripe provides a real one. The mono trust line under the button is Milligan's reassure-at-the-payment-fields rule; card-brand logos wait for the live Stripe checkout.</p></aside>
+
+<!-- THE GUARANTEE -->
+<section class="band">
+  <div class="wrap"><div class="read reveal">
+    <span class="eyebrow">The money-back guarantee</span>
+    <h2>Every dollar back. Any day. One email.</h2>
+    <p>This is a full money-back guarantee — here it is, in plain words:</p>
+    <p class="guarantee-line"><strong>If Myself Again doesn't help you — any day of the month, even the last day, and up to a week after it ends — email me and I'll send back every dollar. No questions. No forms. No “exit interview.” One email, full refund, and we part as friends.</strong></p>
+    <p>Why would I offer that? Three reasons, and they're all selfish:</p>
+    <p><strong>First — you've been burned.</strong> Most programs like this offer no refund at all, or hide one behind “completed homework” requirements. I can't talk you out of your caution, and I shouldn't; it's earned. I can only take the risk off you and put it on me, where it belongs.</p>
+    <p><strong>Second — I don't want your $97 if the room didn't help you.</strong> That money would cost me more than it's worth. At this price I mean that more, not less.</p>
+    <p><strong>Third — a promise this open keeps me honest.</strong> Every morning I write has to be worth staying for. That's good pressure. I want it.</p>
+    <div class="gplate" role="img" aria-label="Every dollar back — any day of the month, plus seven after. No questions. One email.">
+      <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#C9A05A" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#C9A05A" stroke-width="6.5" stroke-linecap="round"/></svg>
+      <b>Money-back guarantee</b>
+      <div class="rule"></div>
+      <span>every dollar · any day of the month</span>
+      <span>plus 7 after · no questions · one email</span>
+    </div>
+    <p>Said three ways, so there's no fine print to wonder about:</p>
+    <ul class="tick">
+      <li>Day 3, feels wrong? Every dollar back.</li>
+      <li>Day 31, finished it all, still not for you? Every dollar back.</li>
+      <li>A week after it ends, on reflection? Every dollar back.</li>
+    </ul>
+    <p>And you keep everything — every morning I sent you, everything you wrote, anything the room gave you. I'm not repossessing your rebuild.</p>
+    <p><strong>How it works when you ask:</strong> you email, a person answers, the refund goes back to your card within a few days. That's the whole procedure.</p>
+    <p class="cta" style="text-align:center;margin-top:32px"><a class="btn" href="#" data-waitlist>Save my seat — $97</a></p>
+    <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · doors close 08.08 at 8:00 am ET.</p>
+    <div class="pcard side"><span class="inv">sample testimonial</span><blockquote>“I don't do internet programs. I especially don't do internet programs run by men I have never met. What got me was the refund — any day of the month, even the last one, no questions. I decided the only thing I was truly risking was hope. I never asked for a dollar back. Trust the woman who checked.”</blockquote><p class="attr">— Linda M., 63</p></div>
+  </div></div>
+</section>
+
+<aside class="fn"><h4>The guarantee — course logic</h4>
+<p>Makepeace calls the guarantee the single strongest, most-tested lever on a page, and this one is the category's only real one — the 25-page competitor survey found nothing that refunds any day plus a week after. The window printed is the true legal window from the site's own refund policy (wider than v1's page claimed — always print the generous truth). "Said three ways" is the no-fine-print device; the three selfish reasons make the offer believable by giving it a motive (Carlton: a reason-why beats a claim). No badge, no seal graphic — Benson flags designed guarantee badges as an authenticity clash; plain words and the man's name carry it. It gets its own section because it answers the #2 census objection (scam wariness) at full strength — and at $97 (v3) it is load-bearing: the #1 objection is I-can't-spend-money-on-myself, and the guarantee is what makes the bigger yes safe. The round stamp was ruled "cheap, not well designed" (owner, 2026-07-16 night) and replaced with the letterpress plate: printed terms in the brand's mono voice, gold as material, hairline border, the scar mark small at top — Buchan's guarantee mark without Benson's clipart clash. The real signature stays the closer. Cutting the plate back to plain words + signature is a one-line change if the owner prefers.</p></aside>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap"><div class="read reveal">
+    <span class="eyebrow">The honest questions</span>
+    <h2 style="margin-bottom:32px">Asked the way women actually asked them.</h2>
+
+    <h3>“Is it too late for me?” — by decade, because the fear is different at each</h3>
+    <p><strong>In your 40s:</strong> You're likely mid-storm — papers recent, kids watching, everything loud. Myself Again gives the storm a floor: ten minutes of yours before the day starts taking. You're not too late. You're early, actually — you just can't feel it yet.</p>
+    <p><strong>In your 50s:</strong> The fear says the interesting part is over and rebuilding is for younger women. My mother would like a word. And if it feels like everyone else got the memo and the life you were supposed to have is somewhere behind you — that feeling lies. It isn't behind you. It hasn't been built yet. The 50s women in this room tend to become its spine — they've carried the most and waste the least time pretending.</p>
+    <p><strong>60 and beyond:</strong> “What's one month against all these years?” It's not against them. It's the first month that's all yours — maybe the first since you were a girl. The steps are small on purpose — small enough to say yes to on a tired day. Nobody in this room is done.</p>
+
+    <h3 style="margin-top:48px">Everything else, straight</h3>
+    <div class="faqacc">
+      <details open><summary>“I can't spend money on myself.”</summary>
+      <p>One woman wrote: “I don't put back into myself what I give to others. I hide behind helping them because of fear of investing in myself.” If that's you, notice what she noticed: the money was never really the problem — pointing it at herself was. Ninety-seven dollars is a real decision. That's on purpose. This program starts by asking you to take yourself seriously enough to put real money behind the woman everyone draws from — for many women, the first time in years. If your worth has been tied for years to how useful you are to others, spending on yourself will feel wrong at first. That feeling is one of the things this month unwinds. And if it turns out this wasn't the right room, every dollar comes back, any day of the month. The risk stays mine. The decision is the practice. And everyone you take care of gets a steadier you.</p></details>
+      <details><summary>I can't really afford it.</summary>
+      <p>Then please don't stretch — $97 is real money, and stretching thin is the opposite of what this room teaches. But two honest things before you close the page. The price only climbs from here: $127 when the first hundred are in, then $147 — waiting is the expensive choice. And if the real voice in your head isn't “can't afford it” so much as “shouldn't spend it on me” — read the one above.</p></details>
+      <details><summary>Why is a man leading this?</summary>
+      <p>The honest answer is the letter above: I grew up the kid women talked to in my mother's kitchen, my own life broke the way many of yours did, and I walked beside my mother through the biggest rebuild I've ever seen. I claim no degree and no title. The mornings are mine; the room is yours — I open the day, keep it safe, and stay out of the way. Judge all of it by the refund.</p></details>
+      <details><summary>Is this therapy?</summary>
+      <p>No — and it doesn't pretend to be. It's a daily practice with company. If you're carrying something deep and heavy, therapy is the right tool and this can sit beside it, not instead of it.</p></details>
+      <details><summary>Is it really only women?</summary>
+      <p>Yes. Every member is approved by hand; the room is 100% women. (I'm the one man in it — I post the mornings, write the Sunday lesson, and keep the rules. Then I step back. The room is yours.)</p></details>
+      <details><summary>I'm widowed, not divorced. Is this still for me?</summary>
+      <p>Yes. The room isn't organized around what broke — it's organized around rebuilding. Widows tell me the worst part is people telling them who to be now; nobody here will. And if your whole identity was built around being a wife, a mother, a caretaker — and that role is shifting or gone — this is exactly the room for finding who you are without it. You'll find more than one woman carrying your kind of loss.</p></details>
+      <details><summary>I'm still married. But I've lost myself. Can I join?</summary>
+      <p>Yes. Rebuilding yourself isn't a verdict on your marriage. You can feel completely alone inside your own marriage — plenty of women here know exactly that, and nobody will ask you to explain it. Several steps are about your own ground — sleep, mornings, your voice — and none of them require anything to be wrong at home. What you share is always your choice.</p></details>
+      <details><summary>What if I find it too basic? I've done a lot of work on myself already.</summary>
+      <p>The steps are simple. They are not shallow — simple is what survives your worst day, and week three (the scripts) is where even the well-read women slow down. The days aren't stone, either: I adjust the plan to what the room shows me it needs. If you've truly outgrown it, the refund is one email. But the women who arrive most sure they know it all tend to write the longest last-day letters.</p></details>
+      <details><summary>Will I have to talk?</summary>
+      <p>No. Read for the whole month and never post a word — that's full membership, not lurking. No pressure to post. Your pace. (And no camera anywhere, ever — this room is written words, read when you want.)</p></details>
+      <details><summary>I'm not good with computers.</summary>
+      <p>If you can read an email and tap a link, you have all the skills this needs. The room works like the sites you already use, on your phone. No apps to figure out, no passwords beyond the one, camera never required. The tech bar is: can you send a text? Then you're in.</p></details>
+      <details><summary>What if I fall behind?</summary>
+      <p>You can't. Every day stands alone, every morning starts fresh, Sundays are rest. Miss six days for a family emergency and Day 22 opens like nothing happened — because nothing did. One of the rules I built this on: nothing here ranks you — no streaks, no guilt mechanics.</p></details>
+      <details><summary>What time do the mornings arrive? I'm on the West Coast / abroad.</summary>
+      <p>The day's note is waiting when you wake, whatever your time zone — it posts early and it never expires. Nothing here happens live, so there is nothing to miss. Read it at 6am or 11pm; the day still counts.</p></details>
+      <details><summary>Is this like DivorceCare?</summary>
+      <p>DivorceCare is a good thing — 13 weeks, well run, and it has helped a lot of women grieve. This is a different tool: women-only, daily instead of weekly, practice instead of curriculum, and private from your own town. Most groups like that meet in person around a table — good, and not always possible. This one lives where you are. Some women do both. If you loved it and want what comes after — that's exactly this.</p></details>
+      <details><summary>Is this a church thing? / I'm not religious.</summary>
+      <p>No. Some women in the room pray, some don't, and the room holds both comfortably. Faith shows up the way it does at a good kitchen table — quietly, if invited, never preached. And one promise either way: nobody here will ever use God to talk you back into something that hurt you.</p></details>
+      <details><summary>Who sees what I write?</summary>
+      <p>The women in the room. Not your family, not your town, not anyone's feed. First names only. What's said in the room stays in the room — it's the first pinned rule.</p></details>
+      <details><summary>Why pay when free groups are everywhere?</summary>
+      <p>You've been in the free groups. Somebody's cousin selling supplements, arguments in the comments, and the ache of posting something true to an empty room. Free groups cost nothing because nobody's responsible for them. Here, someone is — every morning, for the whole month.</p></details>
+      <details><summary>What happens after day 31?</summary>
+      <p>The daily rhythm ends — on purpose. A program that never ends is a subscription wearing a costume. The room stays open — I call it Day 32 — the women of this first group keep it, the friendships keep going, and everything you wrote stays yours. If there's a next chapter, you'll hear about it inside first — but nothing inside is ever required or sold at you.</p></details>
+      <details><summary>What if I join and the group just isn't my people?</summary>
+      <p>Then the refund is yours, any day, and I'll mean it when I say no hard feelings. But give it to day 10 — the roll call and the first Friday wins thread have changed more minds than any sentence I could write here.</p></details>
+      <details><summary>Can I gift it to my sister / my mom / a friend?</summary>
+      <p>Yes — and it's a beautiful gift. Buy a seat, forward the welcome email, done. (If she'd rather start with the next group, the seat transfers.)</p></details>
+      <details><summary>When do doors close?</summary>
+      <p>The morning of August 8th, at 8:00 Eastern — the moment Day 1 posts, the door shuts. Everyone starts together; that shared Day 1 is half the magic. After that: the next group's waitlist, at the higher price.</p></details>
+    </div>
+    <p class="cta" style="text-align:center;margin-top:48px"><a class="btn" href="#" data-waitlist>Save my seat — $97</a></p>
+    <p class="under-btn" style="text-align:center;margin:16px auto 0">One payment · money back any day of the month, plus a week · Day 1 is 08.08.</p>
+  </div></div>
+</section>
+
+<aside class="fn"><h4>The FAQ — course logic</h4>
+<p>Ordered by the objection-frequency hypothesis from Kimi R2 (the one thing the quarantined objections report still supports): money first, then skepticism, then not-ready, too-basic, logistics, will-this-room-die. Money was already this page's #1 — her verified "I don't put back into myself" line leads. The decade block does the age-targeting inside the copy, never in the title (Benson, TESTED: "Fit Over 40" style titles cost the 53-year-old buyer). The 988 line came out of the therapy answer by owner ruling; the DivorceCare answer keeps the respectful-agreement law — the verified coed-safety and 6%-online receipts stay in this footnote, not on the page: church groups are mostly in-person by design (GriefShare's own site: ~25% of searches want online, ~6% of groups are). Accordion format keeps 20 questions scannable; the first stays open as the model.</p></aside>
+
+<!-- COST OF WAITING -->
+<section class="band">
+  <div class="wrap"><div class="read reveal">
+    <span class="eyebrow">The quiet cost</span>
+    <h2>The quiet cost of “maybe later”</h2>
+    <p>No scare tactics here — just arithmetic you already know.</p>
+    <p>“Later” has been the plan for a while now. Later, when things settle. Later, when you feel readier. One woman called her forties “a long wait for nothing” — not because nothing could happen, but because waiting had quietly become the whole strategy.</p>
+    <p>Here's what waiting costs, gently: another season of the same Sunday. Another year of being the strong one with nobody asking how you are.</p>
+    <p>The wait doesn't usually wear a price tag, which is exactly how it gets so expensive. This time it wears a literal one: <strong>the door price climbs at 100 women, and it never comes back down.</strong></p>
+    <p>You don't have to be ready. My mother wasn't ready; she was just done waiting. Day 1 takes five minutes, and the room will be full of women exactly as unready as you.</p>
+    <p>The morning of August 8th comes either way. The only question is whether it's Day 1 of something, or another Saturday.</p>
+  </div></div>
+</section>
+
+<aside class="fn"><h4>Cost of waiting — course logic</h4>
+<p>Carlton's cost-of-inaction close, run at this brand's temperature: no disease statistics, no "every day you wait you lose" theatrics — the registry bans scare urgency, and Kimi R2 verified that this buyer now screenshots countdown timers to catch fake resets, which makes honest urgency a trust weapon, not a compromise. The only pressure used is the true one she already feels: the cost of another identical season, in her own verified phrase ("a long wait for nothing"). "You don't have to be ready" pre-empts the last stall (readiness) with the mother's precedent, and lands on the fork: Day 1 of something, or another Sunday.</p></aside>
+
+<!-- PULL-QUOTE BAND — her after-voice: the corpus north star, also the owner's IG bio line -->
+<section class="pqband reveal">
+  <p class="q">“I feel like myself again — lighter, free. <b>And I actually like myself.</b>”</p>
+  <p class="who">The sentence women use for the other side of this</p>
+</section>
+
+<!-- RECAP + FINAL CTA -->
+<section>
+  <div class="wrap"><div class="card cta-card reveal" style="text-align:center;padding:56px 40px">
+    <span class="eyebrow">Here it is, all of it, in five lines</span>
+    <h2 style="max-width:24ch;margin:0 auto">Myself Again. One small step each morning, with women who get it.</h2>
+    <p style="max-width:52ch;margin:24px auto 0;font-size:17px;line-height:1.8;color:var(--ink-2)">One full month — 08.08 to 08.09: Saturday, August 8th to September 8th. Everyone together. Doors close 08.08 at 8:00 am ET.<br>
+    $97, one payment, for the First Hundred. Then $127, then $147 — it never goes back down.<br>
+    Every morning written and waiting. The room is women-only, and it's kind.<br>
+    If it doesn't help: any day of the month, plus a week — every dollar back, no questions.</p>
+    <a class="btn" href="#" data-waitlist style="margin-top:32px">Save my seat — $97</a>
+    <p class="meta">The First Hundred · then the door climbs · money back any day of the month, plus a week</p>
+    <p style="max-width:52ch;margin:32px auto 0;font-size:17px;color:var(--ink-2)">That's the whole point of the month. Come get yours.</p>
+    <p style="max-width:52ch;margin:24px auto 0;font-size:15px;color:var(--ink-2)"><strong>P.S.</strong> — The promise, one more time, because it's the part that matters if you're scared: any day of the month, plus a week after — one email, every dollar back, no questions. The risk is mine. The mornings are yours.</p>
+    <p style="max-width:52ch;margin:16px auto 0;font-size:15px;color:var(--ink-2)"><strong>P.P.S.</strong> — Doors close at 8:00 the morning of August 8th, the moment Day 1 posts, and that's real: the room locks so everyone starts together on the same morning. If you're reading this after the 8th, I'm sorry — the honest answer is the next group's waitlist, at a higher price. The door never climbs back down.</p>
+    <p style="margin-top:24px;font-size:15px"><a href="her-own-woman-quiz.html" style="color:var(--ink-2)">Not sure yet? Take the free quiz first — see what you're carrying.</a></p>
+  </div></div>
+</section>
+
+<aside class="fn"><h4>The recap — course logic</h4>
+<p>Milligan's subheads-only reader gets the entire pitch here even if she skimmed everything: what, when, price, cap, guarantee — five lines, no new claims. The last-word line is her verified after-language ("I just feel so much more like ME again" — the corpus's most common other-side phrasing), which lets the page end in her voice instead of a sales voice. Two P.S. lines because P.S. is the second-most-read element on a long letter (Makepeace): the first re-states the guarantee for the scared reader, the second re-states the real deadline for the deferrer — the two exits people actually leave through. The quiz link is the no-pressure exit; never a dead end (Neville). Her after-voice sentence was pulled out of the card into a Johnson-box band above (Benson): the skimmer's last impression is her words, not sales words.</p></aside>
+
+<!-- STRIP-LIST — review mode only -->
+<section class="striplist" id="striplist">
+  <div class="wrap"><div class="read" style="border:1px dashed var(--gold-deep);border-radius:4px;padding:32px">
+    <h2 style="font-size:26px">The strip-list — every invented element on this page</h2>
+    <p>The de-fabrication contract: everything below reads real in this draft by owner ruling (2026-07-16) and MUST be replaced with truth or deleted before this page takes paid traffic. Nothing on this list may survive wiring.</p>
+    <ol style="font-size:15px;line-height:1.8;color:var(--ink-2)">
+      <li><strong>All 12 sample testimonials</strong> (Karen B. lead · 9 proof-band cards · Patricia H. beside the price · Linda M. beside the guarantee) — names, ages, quotes all invented targets. Real, consented client stories replace them, or the sections ship smaller. (The tech-fear slot was already cut — Kimi R2 found that register honestly thin.)</li>
+      <li><strong>The letter's 7 stand-ins</strong> (marked inline in review mode): the Tuesday/face-down phone · guest room + dishes · curtains/mailbox/bank-call steps · sister's Sunday calls + Thursday neighbor · kitchen-radio singing · "better part of a year" · "she's 68 now" + her blessing. His truth replaces each; where truth differs, truth wins. NOTE: the year-long timeline ALSO appears in the pull-quote band before the offer ("It took my mother most of a year") — swap both places together.</li>
+      <li><strong>The seat count</strong> — REMOVED from the page after review (fake scarcity + it contradicted the waitlist popup). If a count ever returns, it must be a live Stripe number that visibly moves — never a hardcoded figure.</li>
+      <li><strong>PayPal at checkout</strong> — conditional on connecting a PayPal business account to Stripe (EEA). If not enabled by launch, the line reads "card, securely through Stripe."</li>
+      <li><strong>The sample Day 1</strong> — mine until the owner blesses or edits it as the real Day 1.</li>
+      <li><strong>The "Mom and me" photo at the letter</strong> — a generated PLACEHOLDER (owner ordered 2026-07-16: "like an old family picture with him and his mom posing together… just a placeholder for now"). The mother's face is imagined. A real family photo — or his explicit blessing of this one — replaces it before launch.</li>
+      <li><strong>The buttons open the waitlist popup</strong> — until the Stripe Payment Links exist ($97 capped at 100 · $127 capped at 50 · $147 open — swapped by hand as each tier fills; Stripe links can't climb on their own). The honest-terms walk-through describes the FUTURE checkout; do not run paid traffic in popup mode.</li>
+      <li><strong>The waitlist price lock</strong> — the popup promises "$97 locked" for leaving an email. That's a rule the owner must honor even if the first hundred fill before her invite arrives. If he won't honor it, the popup line must change before launch.</li>
+      <li><strong>The ladder is law</strong> — $97 → $127 → $147, enforced, never reset (owner ruling 2026-07-16 night; supersedes $27/$47 and the "$29–125 a month" anchor, both cut in v3). The climb strip and the countdown must never show an invented seats-remaining number; a count may appear only when Stripe provides a live one.</li>
+      <li><strong>Skool gamification</strong> — the page promises "nothing here ranks you." Verify at Skool setup that points/levels/leaderboard are fully OFF (not just hidden). If they can't be, this copy softens further.</li>
+      <li><strong>Card-brand logo row</strong> — approved for the offer card ONLY once the Stripe checkout is live (muted, grayscale, at the button). No payment logos while the buttons open the waitlist popup.</li>
+      <li><strong>988 relocation</strong> — crisis line moved OFF this page by owner ruling. It MUST land in: (a) the welcome email, (b) the pinned Skool room rules. This is the standing invariant's new home — verify at Skool setup.</li>
+      <li><strong>Review mode itself</strong> — the "Show the seams" toggle, every footnote, every amber badge, and this list get stripped before launch.</li>
+    </ol>
+  </div></div>
+</section>
+
+</main>
+
 <!-- UNIFIED FOOTER -->
 <footer class="bigfoot">
-  <div class="ffmedia"><img src="site-assets/illustrations/journey.webp" width="1088" height="608" loading="lazy" decoding="async" alt="A woman's journey — bent under a heavy burden, then sitting tall and free on her own throne"></div>
+  <div class="ffmedia"><img src="site-assets/illustrations/journey.webp" width="1088" height="608" loading="lazy" decoding="async" alt="A woman bent under a heavy burden, then sitting tall and free on her own chair"></div>
   <div class="ffinner reveal">
     <span class="eyebrow">Where this goes</span>
     <h2>You weren’t meant to carry this <em>forever</em>.</h2>
-    <p class="fflead">Thirty-eight days. Women beside you. Someone who answers.</p>
-    <a class="btn" href="#join">Save my seat</a>
+    <p class="fflead">One month. One small step a morning. Women beside you.</p>
+    <a class="btn" href="#" data-waitlist>Save my seat — $97</a>
+    <p class="meta">The First Hundred · then the door climbs · money back any day of the month, plus a week</p>
     <p class="brand">Scarred Truth · Zane</p>
-    <p class="fine">© Scarred Truth · You can forgive, and still keep your peace. · <a href="/terms.html" style="color:inherit">Terms</a> · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="/refund.html" style="color:inherit">Refunds</a></p>
+    <p class="fine">© Scarred Truth · You can forgive, and still keep your peace. · <a href="/terms.html" style="color:inherit">Terms</a> · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="/refund.html" style="color:inherit">Refunds</a> — the refund policy there says exactly what this page says: any day of the month, plus 7 after, full refund, no questions.</p>
   </div>
 </footer>
 
@@ -431,20 +976,21 @@
   <div class="popcard">
     <button class="x" id="jpClose" aria-label="Close">×</button>
     <form id="jpForm">
-      <span class="eyebrow">The Rebuild · first 100 women</span>
+      <span class="eyebrow">Myself Again · the First Hundred</span>
       <h3 id="jpTitle">Put your name on the list.</h3>
-      <p class="plead">The doors aren't open just yet. Leave your email and your founding
-        seat — $27, first 100 women — is held until they are. I'll write to you before
-        we begin on August 1, 2026.</p>
+      <p class="plead">Checkout opens in a few days. Leave your email and your founding
+        price is locked — $97, one of the First Hundred. No card today: the moment the
+        doors open, I'll send you your link. They close for good at 8:00 the morning of
+        August 8th — the moment Day 1 posts.</p>
       <label for="jpName">What should I call you?</label>
       <input id="jpName" name="name" type="text" autocomplete="given-name" maxlength="80" placeholder="First name">
       <label for="jpEmail">Your email</label>
       <input id="jpEmail" name="email" type="email" required autocomplete="email" placeholder="you@email.com — never spammed">
-      <label for="jpDream">What does success look like for you in 6 months? Let’s be delusional, you and me — what would be your dream? Where would you be?</label>
+      <label for="jpDream">Optional — skip if you like. What does success look like for you in 6 months? Let’s be delusional, you and me — what would be your dream? Where would you be?</label>
       <textarea id="jpDream" name="dream" placeholder="Sleeping 6 hours? Define your own happy ending."></textarea>
-      <label for="jpBecome">What kind of person do you want to become? A self-confident person? A person who doesn’t need other people’s approval? A person who loves what she sees in the mirror?</label>
+      <label for="jpBecome">Optional. What kind of person do you want to become? A self-confident person? A person who doesn’t need other people’s approval? A person who loves what she sees in the mirror?</label>
       <textarea id="jpBecome" name="become"></textarea>
-      <label for="jpTech">What do you think could help you fall in love with yourself again?</label>
+      <label for="jpTech">Optional. What do you think could help you fall in love with yourself again?</label>
       <textarea id="jpTech" name="technique"></textarea>
       <p class="err" id="jpErr"></p>
       <button class="btn" type="submit" id="jpGo">Hold my seat</button>
@@ -457,6 +1003,9 @@
   </div>
 </div>
 
+<!-- REVIEW MODE toggle — review-only, on the strip-list -->
+<button class="seamtoggle" id="seamBtn" type="button" aria-pressed="false">Show the seams</button>
+
 <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 <script>
 (function(){
@@ -464,12 +1013,57 @@
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
   document.querySelectorAll('.reveal,.seam').forEach(function(el){io.observe(el);});
 
+  // review mode — "show the seams"
+  var sb=document.getElementById('seamBtn');
+  function setSeams(on){
+    document.body.classList.toggle('seams',on);
+    sb.textContent=on?'Hide the seams':'Show the seams';
+    sb.setAttribute('aria-pressed',on?'true':'false');
+    try{localStorage.setItem('seams',on?'1':'0');}catch(e){}
+  }
+  sb.addEventListener('click',function(){setSeams(!document.body.classList.contains('seams'));});
+  try{if(localStorage.getItem('seams')==='1')setSeams(true);}catch(e){}
+
+  // the door clocks — the REAL close: August 8, 2026, 8:00 AM ET (the moment Day 1 posts).
+  // Both clocks (offer card + sticky topline) are hidden without JS so a stale
+  // number can never render. Nothing here is invented.
+  var ck=document.getElementById('doorClock'),tl=document.getElementById('tlClock');
+  if(ck||tl){
+    var end=new Date('2026-08-08T08:00:00-04:00').getTime();
+    var cD=document.getElementById('ckD'),cH=document.getElementById('ckH'),
+        cM=document.getElementById('ckM'),cS=document.getElementById('ckS'),
+        tD=document.getElementById('tlD'),tH=document.getElementById('tlH'),
+        tM=document.getElementById('tlM');
+    var two=function(n){return n<10?'0'+n:''+n};
+    var tick=function(){
+      var ms=end-Date.now();
+      if(ms<=0){
+        if(ck){
+          ck.querySelector('.cnums').style.display='none';
+          ck.querySelector('.clabel').textContent='The doors are closed.';
+          ck.querySelector('.cline').textContent='Day 1 has started. The honest answer now is the next group’s waitlist.';
+        }
+        if(tl)tl.hidden=true;
+        return;
+      }
+      var d=Math.floor(ms/86400000),h=Math.floor(ms/3600000)%24,
+          m=Math.floor(ms/60000)%60,s=Math.floor(ms/1000)%60;
+      if(ck){cD.textContent=two(d);cH.textContent=two(h);cM.textContent=two(m);cS.textContent=two(s);}
+      if(tl){tD.textContent=d;tH.textContent=two(h);tM.textContent=two(m);}
+      setTimeout(tick,1000);
+    };
+    if(ck)ck.hidden=false;
+    if(tl)tl.hidden=false;
+    tick();
+  }
+
   // waitlist popup
   var pop=document.getElementById('joinPop'),form=document.getElementById('jpForm'),
       done=document.getElementById('jpDone'),err=document.getElementById('jpErr'),
       go=document.getElementById('jpGo');
-  function openPop(e){e.preventDefault();pop.classList.add('show');document.getElementById('jpEmail').focus();}
-  function closePop(){pop.classList.remove('show');}
+  var popTrigger=null;
+  function openPop(e){e.preventDefault();popTrigger=e.currentTarget;pop.classList.add('show');document.body.style.overflow='hidden';document.getElementById('jpEmail').focus();}
+  function closePop(){pop.classList.remove('show');document.body.style.overflow='';if(popTrigger){popTrigger.focus();popTrigger=null;}}
   document.querySelectorAll('[data-waitlist]').forEach(function(b){b.addEventListener('click',openPop);});
   document.getElementById('jpClose').addEventListener('click',closePop);
   pop.addEventListener('click',function(e){if(e.target===pop)closePop();});

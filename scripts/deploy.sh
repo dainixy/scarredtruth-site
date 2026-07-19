@@ -72,10 +72,13 @@ check() { c=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$SITE$1"); \
           [ "$c" = "$2" ] && printf '    ok   %-44s %s\n' "$1" "$c" \
                           || { printf '    FAIL %-44s %s (want %s)\n' "$1" "$c" "$2"; fail=1; }; }
 check "/"                                            200
-check "/community.html"                              200
+check "/join-myself-again-cohort"                    200
+# renamed 2026-07-16 — the old sales-page URL must 301 to the permalink
+check "/community.html"                              301
 check "/zane-story.html"                             200
 check "/her-own-woman-quiz.html"                     200
-check "/talk-to-zane-ai.html"                        200
+# Talk to Zane retired 2026-07-16 — must 301 home, never 200, never 404
+check "/talk-to-zane-ai.html"                        301
 check "/quiz-all-profiles.html"                      200
 check "/terms.html"                                  200
 check "/privacy.html"                                200
