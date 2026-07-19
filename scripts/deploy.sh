@@ -73,6 +73,9 @@ check() { c=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$SITE$1"); \
                           || { printf '    FAIL %-44s %s (want %s)\n' "$1" "$c" "$2"; fail=1; }; }
 check "/"                                            200
 check "/join-myself-again-cohort"                    200
+# post-purchase page — Stripe's redirect target; noindex, never linked from the site
+check "/welcome-to-myself-again"                     200
+check "/welcome-to-myself-again.html"                301
 # renamed 2026-07-16 — the old sales-page URL must 301 to the permalink
 check "/community.html"                              301
 check "/zane-story.html"                             200

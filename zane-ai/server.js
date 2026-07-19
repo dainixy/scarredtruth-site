@@ -361,6 +361,7 @@ const MOVED = {
   // the old URL 301s so every link already shared keeps working.
   "/community.html":                   "/join-myself-again-cohort",
   "/join-myself-again-cohort.html":    "/join-myself-again-cohort",
+  "/welcome-to-myself-again.html":     "/welcome-to-myself-again",
 };
 for (const [from, to] of Object.entries(MOVED)) {
   app.get(from, (_req, res) => res.redirect(301, to));
@@ -370,6 +371,12 @@ for (const [from, to] of Object.entries(MOVED)) {
 app.get("/join-myself-again-cohort", (_req, res) => {
   res.set("Cache-Control", "public, max-age=300, must-revalidate");
   res.sendFile(path.join(DOCS_DIR, "community.html"));
+});
+
+// Where Stripe sends her after she pays. noindex; never linked from the site.
+app.get("/welcome-to-myself-again", (_req, res) => {
+  res.set("Cache-Control", "no-store");
+  res.sendFile(path.join(DOCS_DIR, "welcome-to-myself-again.html"));
 });
 
 // docs/ at root: index.html is the homepage, plus the quiz, the story, /site-assets, etc.
