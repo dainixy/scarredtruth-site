@@ -1004,9 +1004,6 @@
   </div>
 </div>
 
-<!-- REVIEW MODE toggle — review-only, on the strip-list -->
-<button class="seamtoggle" id="seamBtn" type="button" aria-pressed="false">Show the seams</button>
-
 <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 <script>
 (function(){
@@ -1014,16 +1011,10 @@
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
   document.querySelectorAll('.reveal,.seam').forEach(function(el){io.observe(el);});
 
-  // review mode — "show the seams"
-  var sb=document.getElementById('seamBtn');
-  function setSeams(on){
-    document.body.classList.toggle('seams',on);
-    sb.textContent=on?'Hide the seams':'Show the seams';
-    sb.setAttribute('aria-pressed',on?'true':'false');
-    try{localStorage.setItem('seams',on?'1':'0');}catch(e){}
-  }
-  sb.addEventListener('click',function(){setSeams(!document.body.classList.contains('seams'));});
-  try{if(localStorage.getItem('seams')==='1')setSeams(true);}catch(e){}
+  // Review mode ("show the seams") removed 2026-07-19 on the owner's call. The .fn / .striplist
+  // / .inv rules in the stylesheet now have no way to activate, so that content stays
+  // display:none permanently. Deliberately removed the localStorage restore too — leaving it
+  // would have re-enabled seams for anyone who had toggled it on, with no button to turn it off.
 
   // the door clocks — the REAL close: August 8, 2026, 8:00 AM ET (the moment Day 1 posts).
   // Both clocks (offer card + sticky topline) are hidden without JS so a stale
