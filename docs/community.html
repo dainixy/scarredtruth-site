@@ -37,9 +37,10 @@
   course-logic footnotes + the strip-list + invented-element badges. The toggle,
   the footnotes, and everything they mark are REVIEW-ONLY and are listed in the
   strip-list; none of it ships to a paid-traffic page.
-  CHECKOUT: buttons open the waitlist popup until the Stripe Payment Links exist
-  ($97 qty 100 · $127 qty 50 · $147 open — swapped as tiers fill). Page must not
-  go to paid traffic with the popup CTA.
+  CHECKOUT: LIVE since 2026-07-19 (owner wired it) — all buttons point at
+  buy.stripe.com and take real money. The waitlist popup below is dead code.
+  Still to wire: the $127 (qty 50) and $147 (open) links, swapped by hand as
+  each tier fills — a Stripe payment link cannot climb on its own.
   VIDEO: .vslot is the placeholder for the 75s script (Script A in the package
   doc). The letter below is the no-play fallback.
 -->
@@ -56,6 +57,10 @@
      the self-referential nav CTA is hidden to keep one accent in the bar. */
   .topbar{position:static}
   .topbar .navcta{display:none}
+  /* One page, one action (9-course rule): no nav menu competing with the button.
+     Brandmark stays so she can always get home. */
+  .topbar .nav .lnk{display:none}
+  .topbar .navtoggle,.topbar #navtog{display:none}
   /* THE BAR — one focal point: the clock. Everything it used to carry
      (the name, the ladder, "one small step a day", the date) is repeated on the
      page two inches below; five facts at equal weight meant none of them landed. */
@@ -203,6 +208,7 @@
   @media(max-width:760px){.proofgrid{grid-template-columns:1fr}}
   .pcard{position:relative;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:32px}
   .pcard blockquote{margin:0;font-size:17px;line-height:1.7;color:var(--ink)}
+  .pcard .plead{font-family:var(--display);font-weight:560;font-size:19px;line-height:1.3;color:var(--gold-deep);margin:0 0 12px}
   .pcard .attr{display:block;font:500 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:16px 0 0}
   .pcard.lead-proof{max-width:640px;margin:48px auto 0;border-color:var(--gold)}
   .pcard.side{max-width:520px;margin:32px auto 0}
@@ -380,7 +386,7 @@
       <a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a>
       <a class="btn ghost" href="#days">See the month, mapped</a>
     </div>
-    <p class="under-btn">Money-back guarantee: if it doesn't help, you get every dollar back — any day of the month, plus a week after. One email, no questions.</p>
+    <p class="under-btn">Money-back guarantee: if it doesn't help, you get every dollar back — any day of the month, plus a week after. One email, no questions.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
       </div>
 </header>
 
@@ -397,7 +403,7 @@
     <figure class="pslot reveal">
       <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" loading="lazy" alt="Zane">
     </figure>
-    <p class="under-portrait">That's me. If you'd rather hear it than read it,
+    <p class="under-portrait">That's me. I've sat with hundreds of women while they rebuilt — this is that, made daily. If you'd rather hear it than read it,
       <a href="/zane-story.html">my whole story is narrated here</a>.</p>
   </div>
 </section>
@@ -495,7 +501,7 @@
         <p style="margin-top:24px">I grew up in my mother's kitchen.</p>
         <p>It was the kind of kitchen women came to. Her friends. The neighbors. Somebody's sister who was “just stopping by” and stayed three hours. They came with coffee cake and they came with their lives — the marriages, the disappointments, the things they couldn't say at home.</p>
         <p>I was the quiet kid at the end of the table. And somewhere in those years, without anyone deciding it, I became the one they talked to. I've been listening to women carry heavy things since before I understood what the things were.</p>
-        <p>I'm telling you that so you know I didn't come to this work from a book. I came to it from that table. No degree. No certificate on a wall. Just a few decades of listening, and one story that changed what I do with my life.</p>
+        <p>I'm telling you that so you know I didn't come to this work from a book. I came to it from that table. No degree. No certificate on a wall. What I have instead is the count: hundreds of women, one at a time, for years — and one story that changed what I do with my life.</p>
         <p>My own life broke once too. I disappeared little by little, trying to keep someone happy — so when I say I've been her, the woman who makes herself smaller until there's almost nothing left, I mean it. That story lives on its own page. This letter is about my mother.</p>
         <p>She was 58 when her marriage ended. Thirty-five years. It came apart on an ordinary Tuesday, over a phone left face-down on the kitchen table — that same table. <span class="inv inline">detail invented — his truth replaces it</span></p>
         <p>People think the hard part is the day everything breaks. It isn't. The hard part is the second month — when the casseroles stop coming, the phone goes quiet, and everyone decides you must be doing better.</p>
@@ -511,7 +517,6 @@
         <p>She's 68 now. She has a life she chose — her own place, her own mornings, her people. She knows I tell this story, and she told me to tell it right: slow, small, and never alone. <span class="inv inline">age + blessing to confirm</span></p>
         <p>If you're where she was, I built this for you.</p>
         <div class="sig-mark reveal"><img src="site-assets/zane-signature.webp" width="564" height="318" loading="lazy" decoding="async" alt="Zane — signed"></div>
-        <a class="btn ghost" href="/zane-story.html" style="margin-top:8px">My whole story →</a>
       </div>
     </div>
   </div>
@@ -525,7 +530,7 @@
   <div class="wrap">
     <div class="pcard lead-proof reveal">
       <span class="inv">sample testimonial — never publish as-is</span>
-      <blockquote>“When I started, I was eating dinner standing over the sink — 26 years of marriage gone, and I could not have told you what food I even liked anymore. Nobody asked me for a leap. One small step every morning, women beside me who understood without me explaining. Day 31, I cooked dinner at my own table for people I chose. Pebble by pebble, I got my whole self back.”</blockquote>
+      <p class="plead">Pebble by pebble, I got my whole self back.</p><blockquote>“When I started, I was eating dinner standing over the sink — 26 years of marriage gone, and I could not have told you what food I even liked anymore. Nobody asked me for a leap. One small step every morning, women beside me who understood without me explaining. Day 31, I cooked dinner at my own table for people I chose. Pebble by pebble, I got my whole self back.”</blockquote>
       <p class="attr">— Karen B., 47</p>
     </div>
   </div>
@@ -669,7 +674,7 @@
       <p><strong>Fridays</strong> — the small-wins thread: the count of what went right. You can't fall behind here. You never owe the room a month — you owe yourself one morning, today's. Every morning starts fresh. Every day stands on its own. Miss three days for a family emergency — or plain old life — and Day 22 opens like nothing happened.</p>
       <p><strong>And one honest note: the days are written, but they're not stone.</strong> I watch what the room needs — the wins, the stuck places — and I adjust the plan week by week. The month serves the women in the room, never the other way around.</p>
       <p class="cta" style="text-align:center;margin-top:32px"><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a></p>
-      <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · then the door climbs · money back any day — the whole promise is below.</p>
+      <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · then the door climbs · money back any day — the whole promise is below.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
     </div>
   </div>
 </section>
@@ -686,7 +691,7 @@
     <h2>The honest terms — exactly what happens when you click</h2>
     <p>You're right to be careful online. You should be. So I won't ask for trust — I'll show you the whole thing instead, step by step:</p>
     <ol class="plan">
-      <li><span class="num">1</span><p>You land on a secure checkout on this site. Card or PayPal — your choice. <span class="inv inline">PayPal conditional on Stripe setup</span></p></li>
+      <li><span class="num">1</span><p>The button takes you off my site to Stripe — you'll see <strong>stripe.com</strong> at the top of your screen. That's right, not wrong: Stripe is the company that handles the card, so I never see or store your number. <span class="inv inline">PayPal conditional on Stripe setup</span></p></li>
       <li><span class="num">2</span><p>One payment: $97. Nothing renews. There is no subscription hiding anywhere. I never see or store your card.</p></li>
       <li><span class="num">3</span><p>Within a minute, two emails arrive: your receipt, and your welcome — with your private invitation to the room.</p></li>
       <li><span class="num">4</span><p>A person — not a bot — approves you in. That's also how I keep the room women-only.</p></li>
@@ -757,6 +762,8 @@
       <li><strong>Friday wins and Sunday rest.</strong> The count of what went right, and the rest built in. Nothing here ranks you — no streaks, no falling behind. This is the only program you can't fail.</li>
       <li><strong>First Hundred standing.</strong> You joined at $97 — the lowest this door will ever be — and the room stays yours after day 31. Day 32 comes with the seat.</li>
     </ul>
+    <p class="cta" style="text-align:center;margin-top:40px"><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a></p>
+    <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · money back any day of the month, plus a week.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
   </div></div>
 </section>
 
@@ -772,16 +779,18 @@
       <p class="dim" style="margin-top:12px"><span class="inv">entire slate = sample testimonials, written as targets for the owner's client interviews — never publish as-is</span></p>
     </div>
     <div class="proofgrid reveal">
-      <div class="pcard"><blockquote>“I told my sister the day I signed up: I'm 61 — what is one month going to do that 61 years didn't? I can tell you now. Somewhere in that first week, the mornings stopped feeling like a wall. Day 19, I laughed the real kind of laugh. By the end, I looked around a room of women who had watched me do it and thought: it was never too late. It was just too much, alone.”</blockquote><p class="attr">— Donna W., 61</p></div>
-      <div class="pcard"><blockquote>“Four years of counseling. A shelf of books. All of it helped me understand my life — none of it helped me live Tuesday. Here I never once had to figure out what came next: he walks you through the steps, one morning at a time, and women were doing them beside me. That's what finally moved me — being taken through it, with company.”</blockquote><p class="attr">— Susan K., 52</p></div>
-      <div class="pcard"><blockquote>“I have left four online groups in three years — dead rooms, drama, or somebody selling oils by week two. This was none of it. A room of women who started the same day I did, rules that actually get kept, and something real to do each morning besides scroll and ache.”</blockquote><p class="attr">— Brenda L., 49</p></div>
-      <div class="pcard"><blockquote>“Everyone kept telling me who to be now that Tom was gone. One morning I typed a single line into the room — just one. By lunch, eleven women had answered. Not with advice. With ‘me too.’ I sat there and cried, and then I made my tea and did my step. You don't know what it does to stop being alone with it until it happens.”</blockquote><p class="attr">— Carol T., 66</p></div>
-      <div class="pcard"><blockquote>“Nobody died. Nobody left me. The kids just grew up and went, and the house got so quiet I could hear myself disappearing into it. The change that saved me was embarrassingly small: day 9, I made my own coffee first — before anyone's texts, before the news. It sounds like nothing. It was the first thing I'd done first for myself in years, and everything after it came a little easier.”</blockquote><p class="attr">— Janet R., 55</p></div>
-      <div class="pcard"><blockquote>“One small thing a day sounded like a fortune cookie. I'm 64 — I've read the fortune cookies. For the first two weeks, nothing outside my window changed. Then I noticed everything had: same house, same people, same phone — and none of it felt like a wall anymore. The world didn't shift first. I did. Nobody is more surprised than me.”</blockquote><p class="attr">— Rose G., 64</p></div>
-      <div class="pcard"><blockquote>“Thirty-one years, and I walked out with two suitcases and a list of complaints as long as my arm. Then I met a woman in the room carrying far more than I ever had — showing up every single morning, steady and kind about it. Watching her, my complaints went quiet, and I started seeing what I still have. She'll never know she carried me through my month.”</blockquote><p class="attr">— Kathy D., 58</p></div>
-      <div class="pcard"><blockquote>“Week three, my mother had a fall and I missed six days straight. That's usually when I quietly disappear from a program — too far behind, too embarrassed. Here I opened Day 22 like nothing happened, because nothing had: every morning starts fresh. I finished on day 37 instead of 31. Nobody graded me. I finished anyway.”</blockquote><p class="attr">— Diane P., 51</p></div>
-      <div class="pcard"><blockquote>“I joined promising myself I would never post. I never did — not once. I read every morning with my coffee, did my step, read the Sunday lesson in my robe. Nobody chased me. Nobody made me perform. It still worked — quietly, the way I needed it to.”</blockquote><p class="attr">— Debra S., 55</p></div>
+      <div class="pcard"><p class="plead">It was never too late. It was just too much, alone.</p><blockquote>“I told my sister the day I signed up: I'm 61 — what is one month going to do that 61 years didn't? I can tell you now. Somewhere in that first week, the mornings stopped feeling like a wall. Day 19, I laughed the real kind of laugh. By the end, I looked around a room of women who had watched me do it and thought: it was never too late. It was just too much, alone.”</blockquote><p class="attr">— Donna W., 61</p></div>
+      <div class="pcard"><p class="plead">None of it helped me live Tuesday.</p><blockquote>“Four years of counseling. A shelf of books. All of it helped me understand my life — none of it helped me live Tuesday. Here I never once had to figure out what came next: he walks you through the steps, one morning at a time, and women were doing them beside me. That's what finally moved me — being taken through it, with company.”</blockquote><p class="attr">— Susan K., 52</p></div>
+      <div class="pcard"><p class="plead">Rules that actually get kept.</p><blockquote>“I have left four online groups in three years — dead rooms, drama, or somebody selling oils by week two. This was none of it. A room of women who started the same day I did, rules that actually get kept, and something real to do each morning besides scroll and ache.”</blockquote><p class="attr">— Brenda L., 49</p></div>
+      <div class="pcard"><p class="plead">By lunch, eleven women had answered.</p><blockquote>“Everyone kept telling me who to be now that Tom was gone. One morning I typed a single line into the room — just one. By lunch, eleven women had answered. Not with advice. With ‘me too.’ I sat there and cried, and then I made my tea and did my step. You don't know what it does to stop being alone with it until it happens.”</blockquote><p class="attr">— Carol T., 66</p></div>
+      <div class="pcard"><p class="plead">Day 9, I made my own coffee first.</p><blockquote>“Nobody died. Nobody left me. The kids just grew up and went, and the house got so quiet I could hear myself disappearing into it. The change that saved me was embarrassingly small: day 9, I made my own coffee first — before anyone's texts, before the news. It sounds like nothing. It was the first thing I'd done first for myself in years, and everything after it came a little easier.”</blockquote><p class="attr">— Janet R., 55</p></div>
+      <div class="pcard"><p class="plead">The world didn’t shift first. I did.</p><blockquote>“One small thing a day sounded like a fortune cookie. I'm 64 — I've read the fortune cookies. For the first two weeks, nothing outside my window changed. Then I noticed everything had: same house, same people, same phone — and none of it felt like a wall anymore. The world didn't shift first. I did. Nobody is more surprised than me.”</blockquote><p class="attr">— Rose G., 64</p></div>
+      <div class="pcard"><p class="plead">My complaints went quiet.</p><blockquote>“Thirty-one years, and I walked out with two suitcases and a list of complaints as long as my arm. Then I met a woman in the room carrying far more than I ever had — showing up every single morning, steady and kind about it. Watching her, my complaints went quiet, and I started seeing what I still have. She'll never know she carried me through my month.”</blockquote><p class="attr">— Kathy D., 58</p></div>
+      <div class="pcard"><p class="plead">I opened Day 22 like nothing happened.</p><blockquote>“Week three, my mother had a fall and I missed six days straight. That's usually when I quietly disappear from a program — too far behind, too embarrassed. Here I opened Day 22 like nothing happened, because nothing had: every morning starts fresh. I finished on day 37 instead of 31. Nobody graded me. I finished anyway.”</blockquote><p class="attr">— Diane P., 51</p></div>
+      <div class="pcard proof-last"><p class="plead">I never posted a word. It still worked.</p><blockquote>“I joined promising myself I would never post. I never did — not once. I read every morning with my coffee, did my step, read the Sunday lesson in my robe. Nobody chased me. Nobody made me perform. It still worked — quietly, the way I needed it to.”</blockquote><p class="attr">— Debra S., 55</p></div>
     </div>
+    <p class="cta" style="text-align:center;margin-top:48px"><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a></p>
+    <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · the kitchen-table promise: money back any day of the month, plus a week.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
   </div>
 </section>
 
@@ -839,8 +848,8 @@
       <div class="crung"><span class="cnum">$147</span><span class="cwho">after that</span></div>
     </div>
     <a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a>
-    <p class="under-btn">Money-back guarantee: every dollar back, any day of the month. The full promise is right below.</p>
-    <p class="paytrust">Secure checkout through Stripe · card or PayPal <span class="inv inline">PayPal conditional</span> · I never see or store your card</p>
+    <p class="under-btn">The kitchen-table promise: every dollar back, any day of the month. It's spelled out right below.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
+    <p class="paytrust">The button opens Stripe's secure page — you'll see stripe.com up top <span class="inv inline">PayPal conditional</span> · I never see or store your card · about a minute</p>
     <p class="seatline">Doors close 08.08 at 8:00 am ET</p>
   </div>
 
@@ -873,9 +882,9 @@
 <!-- THE GUARANTEE -->
 <section class="band">
   <div class="wrap"><div class="read reveal">
-    <span class="eyebrow">The money-back guarantee</span>
+    <span class="eyebrow">The kitchen-table promise</span>
     <h2>Every dollar back. Any day. One email.</h2>
-    <p>This is a full money-back guarantee — here it is, in plain words:</p>
+    <p>I call it the kitchen-table promise, because it's the kind you make sitting across from someone. It's a full money-back guarantee — here it is, in plain words:</p>
     <p class="guarantee-line"><strong>If Myself Again doesn't help you — any day of the month, even the last day, and up to a week after it ends — email me and I'll send back every dollar. No questions. No forms. No “exit interview.” One email, full refund, and we part as friends.</strong></p>
     <p>Why would I offer that? Three reasons, and they're all selfish:</p>
     <p><strong>First — you've been burned.</strong> Most programs like this offer no refund at all, or hide one behind “completed homework” requirements. I can't talk you out of your caution, and I shouldn't; it's earned. I can only take the risk off you and put it on me, where it belongs.</p>
@@ -883,7 +892,7 @@
     <p><strong>Third — a promise this open keeps me honest.</strong> Every morning I write has to be worth staying for. That's good pressure. I want it.</p>
     <div class="gplate" role="img" aria-label="Every dollar back — any day of the month, plus seven after. No questions. One email.">
       <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#C9A05A" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#C9A05A" stroke-width="6.5" stroke-linecap="round"/></svg>
-      <b>Money-back guarantee</b>
+      <b>The kitchen-table promise</b>
       <div class="rule"></div>
       <span>every dollar · any day of the month</span>
       <span>plus 7 after · no questions · one email</span>
@@ -897,7 +906,7 @@
     <p>And you keep everything — every morning I sent you, everything you wrote, anything the room gave you. I'm not repossessing your rebuild.</p>
     <p><strong>How it works when you ask:</strong> you email, a person answers, the refund goes back to your card within a few days. That's the whole procedure.</p>
     <p class="cta" style="text-align:center;margin-top:32px"><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a></p>
-    <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · doors close 08.08 at 8:00 am ET.</p>
+    <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · doors close 08.08 at 8:00 am ET.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
     <div class="pcard side"><span class="inv">sample testimonial</span><blockquote>“I don't do internet programs. I especially don't do internet programs run by men I have never met. What got me was the refund — any day of the month, even the last one, no questions. I decided the only thing I was truly risking was hope. I never asked for a dollar back. Trust the woman who checked.”</blockquote><p class="attr">— Linda M., 63</p></div>
   </div></div>
 </section>
@@ -923,7 +932,7 @@
       <details><summary>I can't really afford it.</summary>
       <p>Then please don't stretch — $97 is real money, and stretching thin is the opposite of what this room teaches. But two honest things before you close the page. The price only climbs from here: $127 when the first hundred are in, then $147 — waiting is the expensive choice. And if the real voice in your head isn't “can't afford it” so much as “shouldn't spend it on me” — read the one above.</p></details>
       <details><summary>Why is a man leading this?</summary>
-      <p>The honest answer is the letter above: I grew up the kid women talked to in my mother's kitchen, my own life broke the way many of yours did, and I walked beside my mother through the biggest rebuild I've ever seen. I claim no degree and no title. The mornings are mine; the room is yours — I open the day, keep it safe, and stay out of the way. Judge all of it by the refund.</p></details>
+      <p>Because I've done it hundreds of times — sat with a woman while she put her life back together, one at a time, for years. The rest is the letter above: I grew up the kid women talked to in my mother's kitchen, my own life broke the way many of yours did, and I walked beside my mother through the biggest rebuild I've ever seen. I claim no degree and no title. The mornings are mine; the room is yours — I open the day, keep it safe, and stay out of the way. Judge all of it by the refund.</p></details>
       <details><summary>Is this therapy?</summary>
       <p>No — and it doesn't pretend to be. It's a daily practice with company. If you're carrying something deep and heavy, therapy is the right tool and this can sit beside it, not instead of it.</p></details>
       <details><summary>Is it really only women?</summary>
@@ -960,7 +969,7 @@
       <p>The morning of August 8th, at 8:00 Eastern — the moment Day 1 posts, the door shuts. Everyone starts together; that shared Day 1 is half the magic. After that: the next group's waitlist, at the higher price.</p></details>
     </div>
     <p class="cta" style="text-align:center;margin-top:48px"><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a></p>
-    <p class="under-btn" style="text-align:center;margin:16px auto 0">One payment · money back any day of the month, plus a week · Day 1 is 08.08.</p>
+    <p class="under-btn" style="text-align:center;margin:16px auto 0">One payment · money back any day of the month, plus a week · Day 1 is 08.08.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
   </div></div>
 </section>
 
@@ -1023,7 +1032,7 @@
       <li><strong>PayPal at checkout</strong> — conditional on connecting a PayPal business account to Stripe (EEA). If not enabled by launch, the line reads "card, securely through Stripe."</li>
       <li><strong>The sample Day 1</strong> — mine until the owner blesses or edits it as the real Day 1.</li>
       <li><strong>The "Mom and me" photo at the letter</strong> — a generated PLACEHOLDER (owner ordered 2026-07-16: "like an old family picture with him and his mom posing together… just a placeholder for now"). The mother's face is imagined. A real family photo — or his explicit blessing of this one — replaces it before launch.</li>
-      <li><strong>The buttons open the waitlist popup</strong> — until the Stripe Payment Links exist ($97 capped at 100 · $127 capped at 50 · $147 open — swapped by hand as each tier fills; Stripe links can't climb on their own). The honest-terms walk-through describes the FUTURE checkout; do not run paid traffic in popup mode.</li>
+      <li><strong>CHECKOUT IS LIVE (owner wired it 2026-07-19).</strong> All 8 buttons go to buy.stripe.com — a real payment link, taking real money. The waitlist popup markup is now dead code (no trigger binds to it). Consequences that are now REAL, not future: the honest-terms walk-through must describe Stripe's off-site page truthfully (fixed 2026-07-19 — it previously said "checkout on this site", which was false the moment the link went live); refunds must be honoured from day one; the price ladder needs its second and third links ($127 capped 50 · $147 open) ready to swap by hand, because a Stripe link cannot climb on its own.</li>
       <li><strong>The waitlist price lock</strong> — the popup promises "$97 locked" for leaving an email. That's a rule the owner must honor even if the first hundred fill before her invite arrives. If he won't honor it, the popup line must change before launch.</li>
       <li><strong>The ladder is law</strong> — $97 → $127 → $147, enforced, never reset (owner ruling 2026-07-16 night; supersedes $27/$47 and the "$29–125 a month" anchor, both cut in v3). The climb strip and the countdown must never show an invented seats-remaining number; a count may appear only when Stripe provides a live one.</li>
       <li><strong>Skool gamification</strong> — the page promises "nothing here ranks you." Verify at Skool setup that points/levels/leaderboard are fully OFF (not just hidden). If they can't be, this copy softens further.</li>
