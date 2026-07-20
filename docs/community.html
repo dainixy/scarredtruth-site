@@ -56,36 +56,28 @@
      the self-referential nav CTA is hidden to keep one accent in the bar. */
   .topbar{position:static}
   .topbar .navcta{display:none}
-  .topline{position:sticky;top:0;z-index:60;background:var(--paper-2);border-bottom:1px solid var(--line-soft);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 16px;text-align:center}
-  .topline p{margin:0;font:500 12px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
-  .topline strong{color:var(--gold-deep);font-weight:600}
-  .topline .btn{min-height:48px;padding:8px 16px;font-size:11px;display:inline-flex;align-items:center;flex:none}
+  /* THE BAR — one focal point: the clock. Everything it used to carry
+     (the name, the ladder, "one small step a day", the date) is repeated on the
+     page two inches below; five facts at equal weight meant none of them landed. */
+  .topline{position:sticky;top:0;z-index:60;background:var(--paper-2);border-bottom:1px solid var(--line-soft);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 16px}
   .topline .tl8{width:13px;height:21px;flex:none;opacity:.9}
-  /* THE CLOCK — its own instrument, not more words in the sentence.
-     Every segment is a fixed-width tabular cell so nothing shifts as the digits
-     roll; the old row jittered because days were unpadded while h/m were not. */
-  .topline .tlclock{display:inline-flex;align-items:baseline;gap:8px;flex:none;
-    padding-left:16px;margin-left:8px;border-left:1px solid var(--line)}
-  .topline .tlk{font:500 12px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;
-    color:var(--dim)}
+  .topline .tlclock{display:inline-flex;align-items:baseline;gap:10px}
+  .topline .tlk{font:500 12px/1.6 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+  .topline .tlks{display:none}
   .topline .tseg{display:inline-flex;align-items:baseline;gap:2px}
-  .topline .tseg b{font:600 13px/1.4 var(--mono);color:var(--ink);
-    font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
-    min-width:2ch;text-align:right;display:inline-block}
-  .topline .tseg i{font:500 11px/1.4 var(--mono);font-style:normal;color:var(--dim);
-    letter-spacing:.06em}
-  @media(max-width:860px){.topline .tlmore{display:none}}
+  .topline .tseg b{font:600 17px/1.2 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;min-width:2ch;text-align:right;display:inline-block}
+  .topline .tseg i{font:500 11px/1.2 var(--mono);font-style:normal;color:var(--dim);letter-spacing:.06em}
+  .topline .btn{min-height:44px;padding:8px 16px;font-size:11px;display:inline-flex;align-items:center;flex:none}
   @media(max-width:560px){
-    /* One line or nothing. The sentence wrapped to three lines under the button,
-       so on a phone the clock and the price are all that survive — everything
-       else here is repeated in the hero two inches below. */
     .topline{gap:10px;padding:8px 12px;justify-content:space-between}
     .topline .tl8{display:none}
-    .topline p{font-size:11px;letter-spacing:.04em}
-    .topline .tllong{display:none}
-    .topline .tlclock{padding-left:0;margin-left:0;border-left:0;gap:6px}
+    .topline .tlkl{display:none}
+    .topline .tlks{display:inline}
     .topline .tlk{font-size:11px;letter-spacing:.08em}
+    .topline .tlclock{gap:7px}
+    .topline .tseg b{font-size:15px}
     .topline .btn{padding:8px 12px}
+  }
   }
 
   /* THE STITCHED EIGHT + the 08.08 date lockup — the date, infinity, a suture */
@@ -362,7 +354,7 @@
 <main id="main" tabindex="-1">
 
 <!-- TOPLINE — the facts, before anything asks for attention -->
-<div class="topline"><svg class="stitch8 tl8" viewBox="0 0 64 100" aria-hidden="true"><path d="M32 9 C51 9 51 43 32 50 C13 57 13 91 32 91 C51 91 51 57 32 50 C13 43 13 9 32 9 Z"/></svg><p class="tlsent"><strong><span class="tllong">The First Hundred join at </span>$97</strong><span class="tlmore"> · then the door climbs — $127, then $147</span><span class="tllong"> · Day 1 is 08.08</span></p><span class="tlclock" id="tlClock" hidden><span class="tlk">Closes in</span><span class="tseg"><b id="tlD">––</b><i>d</i></span><span class="tseg"><b id="tlH">––</b><i>h</i></span><span class="tseg"><b id="tlM">––</b><i>m</i></span><span class="tseg"><b id="tlS">––</b><i>s</i></span></span><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat</a></div>
+<div class="topline"><svg class="stitch8 tl8" viewBox="0 0 64 100" aria-hidden="true"><path d="M32 9 C51 9 51 43 32 50 C13 57 13 91 32 91 C51 91 51 57 32 50 C13 43 13 9 32 9 Z"/></svg><span class="tlclock" id="tlClock" hidden><span class="tlk"><span class="tlkl">Doors close in</span><span class="tlks">Closes in</span></span><span class="tseg"><b id="tlD">&ndash;&ndash;</b><i>d</i></span><span class="tseg"><b id="tlH">&ndash;&ndash;</b><i>h</i></span><span class="tseg"><b id="tlM">&ndash;&ndash;</b><i>m</i></span><span class="tseg"><b id="tlS">&ndash;&ndash;</b><i>s</i></span></span><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat &mdash; $97</a></div>
 
 <aside class="fn"><h4>Why the page looks this way — course logic</h4>
 <p>The best-tested finding in the 12-course study, four independent datasets: plain, copy-heavy pages beat pretty ones (One Peak: +25% copy-heavy vs graphic-heavy; Neville: a plain-text email out-sold the designed one 120 orders to 2). So this stays an editorial letter in the site's own paper-and-ink system — no funnel gloss, no checkmark grids (Neville flags them as clinical for this buyer), no highlight boxes. The formatting work went where the courses agree it pays: a subhead path a skimmer can follow to the offer (79% always scan — Nielsen via Neville/CXL), 2–4 line paragraphs, one CTA repeated about every screen once the case is built (Buchan/Makepeace/Milligan), price + refund in plain words beside every button (CXL: "the single highest-priority action item"), and the facts band up top for warm arrivals (Milligan). Visuals pass (2026-07-16): every image on this page traces to a course rule — the arc map, the week medallions, the Day-1 note card, the guarantee plate, the two pull-quote bands, the morning-table band. Still refused: card-logo rows (checkout real estate), testimonial photos (no real members yet — stock or AI faces on sample quotes would be fabricated-review territory). Stat bands and the countdown were refused in the first pass, then RULED IN by the owner (2026-07-16 night: "we have real timer and real constraints and we need to use them") — both run on real enforcement only: the true close instant, the true tier caps. No fake counters anywhere. DUAL-READERSHIP PASS (owner-ordered, same night): the page was serving the word-for-word reader and starving the scanner — against Makepeace ("there are readers and there are scanners"), Benson ("your sub headlines should tell the story of your sales letter", one claim each), CXL ("wall of text is pretty much at all times to be avoided", 2–4 line paragraphs, a break every couple of scrolls). Fix: crossheads added so subheads alone carry the pitch, long paragraphs split, buried lists converted to the site's gold-dash bullets (.tick), one bolded money-phrase per screen (Makepeace: sparing, or it dies). The LETTER stays unbroken prose on purpose — the study's one TESTED formatting result (Neville 120:2) says run the story as plain text, never trim it to bullets.</p></aside>
