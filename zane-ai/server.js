@@ -18,7 +18,8 @@ const express = require("express");
 
 const { buildSystemPrompt, CRISIS_AWARE_DIRECTIVE } = require("./prompt/zane-system");
 const {
-  classifyRisk, clampInput, findBannedFragments, CRISIS_REPLY, DANGER_REPLY,
+  classifyRisk, clampInput, findBannedFragments, findVoiceViolations, correctionFor,
+  CRISIS_REPLY, DANGER_REPLY,
 } = require("./lib/guardrails");
 const ai = require("./lib/ai");
 const store = require("./lib/store");
@@ -203,6 +204,17 @@ app.post("/api/waitlist", async (req, res) => {
   }
 });
 
+// Record something without ever letting the recording break the reply. The JSON store
+// is synchronous and the Supabase one is async, so normalise before catching.
+// logEvent() spreads every field except type/resultId into the payload column — pass
+// fields flat, never wrapped in a `payload` key, or they end up double-nested.
+function logQuietly(evt) {
+  try {
+    const r = store.logEvent(evt);
+    if (r && typeof r.catch === "function") r.catch(() => {});
+  } catch (_) { /* never surfaces to her */ }
+}
+
 // --- the note from Zane -------------------------------------------------------
 app.post("/api/note", async (req, res) => {
   if (!originAllowed(req)) return res.status(403).json({ error: "Not allowed." });
@@ -218,9 +230,19 @@ app.post("/api/note", async (req, res) => {
     become: clampInput(String(b.become || b.open2 || "")),
     technique: clampInput(String(b.technique || "")),
   };
-  const { note, source } = await generateNote(ctx);
+  // Unlike chat, nothing is on her screen yet — so the voice gate BLOCKS here and the
+  // note is rewritten once if Zane broke his own laws. The audit is recorded so we can
+  // see whether the drafting rules are actually holding on real women.
+  const audit = [];
+  const { note, source, violations } = await generateNote(ctx, { onAudit: (a) => audit.push(a) });
   if (b.resultId) { try { await store.updateResult(String(b.resultId), { note, noteSource: source }); } catch (_) {} }
-  try { await store.logEvent({ type: "note_generated", resultId: b.resultId || null, source }); } catch (_) {}
+  logQuietly({
+    type: "note_generated",
+    resultId: b.resultId || null,
+    source,
+    audit,
+    laws: (violations || []).map((v) => v.law),
+  });
   res.json({ note, source });
 });
 
@@ -289,7 +311,31 @@ app.post("/api/chat", async (req, res) => {
     let total = cleaned.reduce((s, m) => s + m.content.length, 0);
     while (total > MAX_TOTAL_INPUT_CHARS && cleaned.length > 1) { total -= cleaned[0].content.length; cleaned = cleaned.slice(1); }
 
-    let system = buildSystemPrompt();
+    // Did he break a voice law LAST turn? Chat streams live, so that reply is already
+    // read and cannot be pulled back — the next turn is the first place we can act on
+    // it. The client sends the history, so this costs no database read.
+    let correction = "";
+    {
+      let lastAssistant = -1;
+      for (let i = messages.length - 1; i >= 0; i--) {
+        if (messages[i] && messages[i].role === "assistant" && messages[i].content) { lastAssistant = i; break; }
+      }
+      if (lastAssistant > -1) {
+        let herPrev = "";
+        for (let i = lastAssistant - 1; i >= 0; i--) {
+          if (messages[i] && messages[i].role === "user") { herPrev = String(messages[i].content || ""); break; }
+        }
+        correction = correctionFor(
+          findVoiceViolations(String(messages[lastAssistant].content || ""), {
+            herText: herPrev,
+            // everything he already said to her — so a line he has spent counts as spent
+            recent: messages.slice(0, lastAssistant).filter((m) => m && m.role === "assistant" && m.content).map((m) => String(m.content)),
+          })
+        );
+      }
+    }
+
+    let system = buildSystemPrompt(correction);
     if (rec) {
       const c = [`CONTEXT: She just took your confidence quiz. Her main pattern is ${rec.primaryName || rec.primary} ("${rec.coreFear || ""}").`];
       // Rows from before 14 Jul 2026 answered the two OLD pain questions; newer rows
@@ -309,23 +355,69 @@ app.post("/api/chat", async (req, res) => {
     const ctrl = new AbortController();
     res.on("close", () => { if (!res.writableEnded) { try { ctrl.abort(); } catch (_) {} } });
 
-    const full = await ai.stream({
+    // She sees tokens the moment they exist — no buffering, no gate in front of her.
+    // A failed attempt that emitted nothing is invisible to her, so the retry onto the
+    // backup provider happens silently and she just watches the typing dot a moment
+    // longer. Every failure is written to our own events table because Render's logs
+    // expire (the 19 Jul blank reply was undiagnosable by the time we looked).
+    let sent = 0;
+    const result = await ai.stream({
       system,
       messages: cleaned.length ? cleaned : [{ role: "user", content: "Hi." }],
       model: ai.CHAT_MODEL, maxTokens: MAX_TOKENS, signal: ctrl.signal,
-      onDelta: (d) => out.send({ delta: d }),
+      onDelta: (d) => { sent += d.length; out.send({ delta: d }); },
+      onAttemptFailed: (f) => {
+        if (process.env.NODE_ENV !== "test") console.error("[zane-ai] model attempt failed:", JSON.stringify(f));
+        logQuietly({ type: "chat_model_failure", resultId, ...f });
+      },
     });
 
+    const full = result.text || "";
+    // Belt and braces: ai.stream is contracted never to resolve empty, but silence must
+    // never reach her again, so the honest line stands in if it ever does.
+    if (!full.trim()) throw new ai.ModelFailure("empty after retries", { emitted: sent, stage: "empty" });
+
+    await store.appendMessage(resultId, "assistant", full);
+    out.send({ done: true, degraded: result.degraded || undefined });
+    out.end();
+
+    // --- her reading window: everything below happens after she has the reply --------
     const banned = findBannedFragments(full);
     if (banned.length && process.env.NODE_ENV !== "test") console.warn("[zane-ai] banned fragment in output:", banned.join(", "));
-    await store.appendMessage(resultId, "assistant", full);
-    out.send({ done: true });
-    out.end();
+    const violations = findVoiceViolations(full, {
+      herText: lastUserText,
+      recent: cleaned.filter((m) => m.role === "assistant").map((m) => m.content),
+    });
+    if (violations.length) {
+      logQuietly({
+        type: "voice_violation",
+        resultId,
+        model: result.model,
+        laws: violations.map((v) => v.law),
+        detail: violations.map((v) => v.detail).slice(0, 6),
+      });
+    }
   } catch (err) {
-    out.send({ delta: "Something on my end just dropped the thread. Give me a moment and say that again — I'm still here." });
-    out.send({ done: true, error: true });
-    out.end();
-    if (process.env.NODE_ENV !== "test") console.error("[zane-ai] chat error:", err.message);
+    if (!err || !err.clientGone) {
+      // Only speak up if she has nothing on screen; never staple an apology onto a reply
+      // she is already reading.
+      if (!res.writableEnded) {
+        if (!(err && err.emitted > 0)) {
+          out.send({ delta: "Something on my end just dropped the thread. Give me a moment and say that again — I'm still here." });
+        }
+        out.send({ done: true, error: true });
+        out.end();
+      }
+      logQuietly({
+        type: "chat_failed",
+        resultId,
+        stage: err && err.stage,
+        message: String((err && err.message) || err).slice(0, 300),
+      });
+      if (process.env.NODE_ENV !== "test") console.error("[zane-ai] chat error:", err && err.message);
+    } else if (!res.writableEnded) {
+      out.end();
+    }
   }
 });
 

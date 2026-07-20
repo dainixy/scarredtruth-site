@@ -64,6 +64,10 @@
      Brandmark stays so she can always get home. */
   .topbar .nav .lnk{display:none}
   .topbar .navtoggle,.topbar #navtog{display:none}
+  /* With every nav item hidden, the shared justify-content:space-between — a rule
+     for holding two things apart — was pushing a lone brandmark hard left against
+     a wall of empty space. One child, so centre it. */
+  .topbar .row{justify-content:center}
   /* THE BAR — one focal point: the clock. Everything it used to carry
      (the name, the ladder, "one small step a day", the date) is repeated on the
      page two inches below; five facts at equal weight meant none of them landed. */
