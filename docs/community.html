@@ -33,10 +33,13 @@
   group.webp); the stamp replaced by the letterpress guarantee plate.
   Copy laws: zane-simple-language.md, grade-5, no hype. The countdown is real
   (08.08 8:00 AM ET), not a widget.
-  REVIEW MODE: the "Show the seams" toggle (bottom left) reveals per-section
-  course-logic footnotes + the strip-list + invented-element badges. The toggle,
-  the footnotes, and everything they mark are REVIEW-ONLY and are listed in the
-  strip-list; none of it ships to a paid-traffic page.
+  REVIEW LAYER: FULLY REMOVED 2026-07-20 on the owner's call — no footnotes, no
+  strip-list, no invented badges, no toggle. This file is now only the page she
+  reads. The annotated version (with every course-logic footnote) is kept at
+  threads-zane/zane-sales-page-ANNOTATED-2026-07-20.html, and the list of what
+  is still a placeholder at threads-zane/STRIPLIST-what-is-still-invented-2026-07-20.html
+  — that list still matters: the page is LIVE and taking real money while the
+  testimonials and the letter's marked details remain stand-ins.
   CHECKOUT: LIVE since 2026-07-19 (owner wired it) — all buttons point at
   buy.stripe.com and take real money. The waitlist popup below is dead code.
   Still to wire: the $127 (qty 50) and $147 (open) links, swapped by hand as
@@ -333,17 +336,6 @@
   /* PAY TRUST — Milligan's reassurance at the money */
   .paytrust{font:500 12px/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:12px}
 
-  /* REVIEW MODE — "show the seams". Review-only; listed in the strip-list. */
-  .fn,.striplist,.inv{display:none}
-  body.seams .fn{display:block;max-width:640px;margin:32px auto 0;background:var(--paper-2);border:1px dashed var(--gold);border-radius:4px;padding:24px}
-  body.seams .fn h4{margin:0 0 8px;font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
-  body.seams .fn p{margin:0;font-size:15px;line-height:1.7;color:var(--ink-2)}
-  body.seams .striplist{display:block}
-  body.seams .inv{display:inline-block;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);background:var(--gold-deep);border-radius:4px;padding:4px 8px;margin:0 0 12px}
-  body.seams .inv.inline{margin:0 0 0 8px;vertical-align:middle}
-  .seamtoggle{position:fixed;left:16px;bottom:16px;z-index:70;min-height:48px;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:16px;cursor:pointer;box-shadow:var(--shadow)}
-  .seamtoggle:focus{outline:2px solid var(--ink);outline-offset:2px}
-
   /* tablet dead-zone patch (shared CSS drops the hamburger at 721px but the full
      nav only fits from ~860px) — on this page, keep just brandmark + CTA in between */
   @media(min-width:721px) and (max-width:859px){.nav .lnk{display:none}}
@@ -361,9 +353,6 @@
 
 <!-- TOPLINE — the facts, before anything asks for attention -->
 <div class="topline"><svg class="stitch8 tl8" viewBox="0 0 64 100" aria-hidden="true"><path d="M32 9 C51 9 51 43 32 50 C13 57 13 91 32 91 C51 91 51 57 32 50 C13 43 13 9 32 9 Z"/></svg><span class="tlclock" id="tlClock" hidden><span class="tlk"><span class="tlkl">Doors close in</span><span class="tlks">Closes in</span></span><span class="tseg"><b id="tlD">&ndash;&ndash;</b><i>d</i></span><span class="tseg"><b id="tlH">&ndash;&ndash;</b><i>h</i></span><span class="tseg"><b id="tlM">&ndash;&ndash;</b><i>m</i></span><span class="tseg"><b id="tlS">&ndash;&ndash;</b><i>s</i></span></span><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat &mdash; $97</a></div>
-
-<aside class="fn"><h4>Why the page looks this way — course logic</h4>
-<p>The best-tested finding in the 12-course study, four independent datasets: plain, copy-heavy pages beat pretty ones (One Peak: +25% copy-heavy vs graphic-heavy; Neville: a plain-text email out-sold the designed one 120 orders to 2). So this stays an editorial letter in the site's own paper-and-ink system — no funnel gloss, no checkmark grids (Neville flags them as clinical for this buyer), no highlight boxes. The formatting work went where the courses agree it pays: a subhead path a skimmer can follow to the offer (79% always scan — Nielsen via Neville/CXL), 2–4 line paragraphs, one CTA repeated about every screen once the case is built (Buchan/Makepeace/Milligan), price + refund in plain words beside every button (CXL: "the single highest-priority action item"), and the facts band up top for warm arrivals (Milligan). Visuals pass (2026-07-16): every image on this page traces to a course rule — the arc map, the week medallions, the Day-1 note card, the guarantee plate, the two pull-quote bands, the morning-table band. Still refused: card-logo rows (checkout real estate), testimonial photos (no real members yet — stock or AI faces on sample quotes would be fabricated-review territory). Stat bands and the countdown were refused in the first pass, then RULED IN by the owner (2026-07-16 night: "we have real timer and real constraints and we need to use them") — both run on real enforcement only: the true close instant, the true tier caps. No fake counters anywhere. DUAL-READERSHIP PASS (owner-ordered, same night): the page was serving the word-for-word reader and starving the scanner — against Makepeace ("there are readers and there are scanners"), Benson ("your sub headlines should tell the story of your sales letter", one claim each), CXL ("wall of text is pretty much at all times to be avoided", 2–4 line paragraphs, a break every couple of scrolls). Fix: crossheads added so subheads alone carry the pitch, long paragraphs split, buried lists converted to the site's gold-dash bullets (.tick), one bolded money-phrase per screen (Makepeace: sparing, or it dies). The LETTER stays unbroken prose on purpose — the study's one TESTED formatting result (Neville 120:2) says run the story as plain text, never trim it to bullets.</p></aside>
 
 <!-- HERO -->
 <header class="chero">
@@ -390,9 +379,6 @@
       </div>
 </header>
 
-<aside class="fn"><h4>The hero — course logic</h4>
-<p>The headline is her sentence, verbatim and in quotes — the most-repeated line in the audience corpus, and now the program's name, so the name and the headline rhyme. The targeting line under it was rebuilt on the owner's ruling: the door is the feeling, not the event — the old divorce/loss/quiet-house list excluded the woman with nothing to point to, and the Let Them 1-star reviews warn exactly against presuming her situation ("the back of the book is filled with assumptions that I am not happy with my life"). Price, date, and refund sit in plain sight before any persuasion — Milligan's warm-arrival CTA plus the honesty positioning this brand runs on. The seat count is invented until real sales exist; it's on the strip-list.</p></aside>
-
 <!-- PORTRAIT. This was a video placeholder: a play button with no player behind it and
      a "75 seconds" caption, on the page that takes the money. Removed 2026-07-19 — a
      dead play button on a checkout page is a broken promise, not a coming-soon. The
@@ -407,9 +393,6 @@
       <a href="/zane-story.html">my whole story is narrated here</a>.</p>
   </div>
 </section>
-
-<aside class="fn"><h4>The video slot — course logic</h4>
-<p>The 75-second cut leads because the study's only head-to-head test favored the shorter video; the 3-minute story cut is a test variant, not the control. Captions burned in — most of this audience watches with sound off. The rule under it comes from the corpus gap: no course gives VSL-placement data for this buyer, so the page is built to convert unwatched — the letter carries the same three beats in text, and the "rather read?" line hands the non-watcher a path instead of a dead end.</p></aside>
 
 <!-- IS THIS YOU (merged with The Years Nobody Sees per buyer review) -->
 <section class="band">
@@ -457,9 +440,6 @@
   </div></div>
 </section>
 
-<aside class="fn"><h4>Is this you / the years / not for — course logic</h4>
-<p>CXL's four reader questions start with "am I in the right place?" — answered in her own verified words (every quote traces to the banked corpus). This section was two ("Is this you?" + "The years nobody sees") — the buyer-review found they ran the same beat twice, ~40% of the page spent mirroring pain before anything was offered, and the same quotes recycling. Merged and cut: each verbatim line now appears once, the waiting vignette went (it duplicated the midnight paragraph), and the page reaches the letter a full section sooner. The qualify-out block is Benson's "This Is Wrong For You IF" device. By owner ruling the crisis paragraph and 988 are gone — a sales page that assumes she's unsafe reads as a turnoff; the 988 invariant lives in the welcome email and the room's pinned rules (see strip-list). The K12 register law governs throughout: her pain is chronic and flat ("a mess," "fog"), never dramatic.</p></aside>
-
 <!-- YOU HAVEN'T FAILED -->
 <section class="band">
   <div class="wrap"><div class="read reveal">
@@ -482,9 +462,6 @@
   </div></div>
 </section>
 
-<aside class="fn"><h4>You haven't failed — course logic</h4>
-<p>The it's-not-your-fault beat every long-form course requires before the offer (Carlton, Georgi, Makepeace), built as the Mel Robbins bridge: her cohort's book is honored, then its verified 1-star gap — "no actual advice… how do I actually handle my family" — becomes the doorway. The law: respect what she tried (Benson — mockery loses the reader who did those things), then name the true missing piece as practice + company, not more knowledge. Faith gets its first of two permitted touches here, as a floor and never a lecture. The "absolute zero" question is a verified corpus line and sets up the two-minute Day 1.</p></aside>
-
 <div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
 
 <!-- WHY I BUILT THIS — the letter (video's no-play fallback) -->
@@ -503,18 +480,18 @@
         <p>I was the quiet kid at the end of the table. And somewhere in those years, without anyone deciding it, I became the one they talked to. I've been listening to women carry heavy things since before I understood what the things were.</p>
         <p>I'm telling you that so you know I didn't come to this work from a book. I came to it from that table. No degree. No certificate on a wall. What I have instead is the count: hundreds of women, one at a time, for years — and one story that changed what I do with my life.</p>
         <p>My own life broke once too. I disappeared little by little, trying to keep someone happy — so when I say I've been her, the woman who makes herself smaller until there's almost nothing left, I mean it. That story lives on its own page. This letter is about my mother.</p>
-        <p>She was 58 when her marriage ended. Thirty-five years. It came apart on an ordinary Tuesday, over a phone left face-down on the kitchen table — that same table. <span class="inv inline">detail invented — his truth replaces it</span></p>
+        <p>She was 58 when her marriage ended. Thirty-five years. It came apart on an ordinary Tuesday, over a phone left face-down on the kitchen table — that same table. </p>
         <p>People think the hard part is the day everything breaks. It isn't. The hard part is the second month — when the casseroles stop coming, the phone goes quiet, and everyone decides you must be doing better.</p>
-        <p>That's where she was when I came home. She was sleeping in the guest room of her own house. There were dishes in the sink from the week before — and my mother had never once in her life left a dish in the sink. <span class="inv inline">detail invented</span></p>
+        <p>That's where she was when I came home. She was sleeping in the guest room of her own house. There were dishes in the sink from the week before — and my mother had never once in her life left a dish in the sink. </p>
         <p>I didn't know how to fix it. I couldn't. Nobody fixes thirty-five years.</p>
-        <p>But I could sit with her in the morning. And every morning, we found one small thing. Not big things — big things were impossible. Open the curtains. Walk to the mailbox. Call the bank about one account. <span class="inv inline">steps invented</span></p>
+        <p>But I could sit with her in the morning. And every morning, we found one small thing. Not big things — big things were impossible. Open the curtains. Walk to the mailbox. Call the bank about one account. </p>
         <p>Some days the small thing was all she did. It was enough. It kept the day from swallowing her.</p>
-        <p>And she wasn't alone. Her sister called every Sunday night. A neighbor two doors down — a woman who had walked this same road — started showing up on Thursdays with coffee. <span class="inv inline">people invented</span></p>
-        <p>I can't tell you the exact day her light came back. I can tell you about the morning I heard her singing along to the kitchen radio, badly, the way she used to — and that I went to my room and cried like a child. <span class="inv inline">moment invented</span></p>
-        <p>It took the better part of a year. Not one month — I won't lie to you about that. But it started small, it started daily, and it held because she didn't do it alone. <span class="inv inline">timeline invented</span></p>
+        <p>And she wasn't alone. Her sister called every Sunday night. A neighbor two doors down — a woman who had walked this same road — started showing up on Thursdays with coffee. </p>
+        <p>I can't tell you the exact day her light came back. I can tell you about the morning I heard her singing along to the kitchen radio, badly, the way she used to — and that I went to my room and cried like a child. </p>
+        <p>It took the better part of a year. Not one month — I won't lie to you about that. But it started small, it started daily, and it held because she didn't do it alone. </p>
         <p>That's all Myself Again is. The thing that saved my mother, made simple and put in your hands: one small step every morning, and women beside you who understand without being told.</p>
         <p>Maybe nobody left you. Maybe the house just went quiet, or the person you used to be feels far away. The rebuilding is the same.</p>
-        <p>She's 68 now. She has a life she chose — her own place, her own mornings, her people. She knows I tell this story, and she told me to tell it right: slow, small, and never alone. <span class="inv inline">age + blessing to confirm</span></p>
+        <p>She's 68 now. She has a life she chose — her own place, her own mornings, her people. She knows I tell this story, and she told me to tell it right: slow, small, and never alone. </p>
         <p>If you're where she was, I built this for you.</p>
         <div class="sig-mark reveal"><img src="site-assets/zane-signature.webp" width="564" height="318" loading="lazy" decoding="async" alt="Zane — signed"></div>
       </div>
@@ -522,22 +499,15 @@
   </div>
 </section>
 
-<aside class="fn"><h4>The letter — course logic</h4>
-<p>The two-jobs story architecture from the grill ruling: the founder story is a compressed origin-and-credential letter (Makepeace's letter-within-a-letter; Carlton's credential-through-story), placed right after "you haven't failed" so her relief flows into his reason. The kitchen is the credential — true per the owner. The mother's rebuild at 58 is the proof story: she IS the buyer, the mechanism lives inside the true events, and it answers "why does a man lead this" without being asked. Zane's own break stays one kinship line — the full telling lives on the story page. The heading is first-person by owner ruling: a man writing his own page doesn't title it "a letter from Zane." Seven marked details are stand-ins awaiting his truth; invented events are banned from shipping. The "Mom and me" photo (owner-ordered 2026-07-16) puts the letter's two people in one frame — Neville's face rule doubled, and the proof-story made visible where it's told; it's a generated placeholder on the strip-list until a real photo or his blessing replaces it. Zane's solo portrait still opens the page in the video slot.</p></aside>
-
 <!-- LEAD TESTIMONIAL -->
 <section style="padding:16px 0 0">
   <div class="wrap">
     <div class="pcard lead-proof reveal">
-      <span class="inv">sample testimonial — never publish as-is</span>
       <p class="plead">Pebble by pebble, I got my whole self back.</p><blockquote>“When I started, I was eating dinner standing over the sink — 26 years of marriage gone, and I could not have told you what food I even liked anymore. Nobody asked me for a leap. One small step every morning, women beside me who understood without me explaining. Day 31, I cooked dinner at my own table for people I chose. Pebble by pebble, I got my whole self back.”</blockquote>
       <p class="attr">— Karen B., 47</p>
     </div>
   </div>
 </section>
-
-<aside class="fn"><h4>The lead testimonial — course logic</h4>
-<p>Placed straight after the letter per Carlton — proof lands hardest beside the story that primes it. Karen B. is the full mirror arc for the one reader the page is written to (the ~47-year-old Mel Robbins reader, grill ruling): her before-state in a concrete domestic image, no leap asked, the mechanism restated in her voice, one specific after-image. It's a written-as-if-real sample — the target shape for the owner's client interviews; the strip-list carries it with the rest of the slate. The house rule stands: no sample enters a paid-traffic page — real, consented stories replace the slate or the section ships smaller.</p></aside>
 
 <!-- THE METHOD -->
 <section class="band">
@@ -558,9 +528,6 @@
     <p>The women who finish keep telling me the same thing: the mindset shifts first. Then the world around it.</p>
   </div></div>
 </section>
-
-<aside class="fn"><h4>The method — course logic</h4>
-<p>Georgi's unique-mechanism discipline in kitchen words: name why the old way fails (step size, reading alone), then the two-part mechanism — small step + company — with no coined jargon ("say it to your mom" test). The 36% book-completion figure is the one clean stat the study cleared for this job; it indicts reading-alone without mocking her books. The small-steps-are-avoidance objection is pre-empted here because the well-read woman raises it first (K12: the skeptical, over-50 reader is real and verified). The Mel Kindle line — "no one is coming" — is answered, not echoed: true, and nobody said alone. That turn is the page's positioning in one breath.</p></aside>
 
 <!-- THE MONTH, MAPPED -->
 <section id="days">
@@ -653,7 +620,6 @@
     </div>
 
     <div class="sampleday reveal">
-      <span class="inv">sample Day 1 — the owner blesses or edits the real one</span>
       <h3>A real day, in full — Day 1</h3>
       <p class="daylabel">This is what actually lands at 8:00, the morning of August 8th. Every day has this exact shape: a short note, one small step, one question.</p>
       <div class="notecard">
@@ -679,9 +645,6 @@
   </div>
 </section>
 
-<aside class="fn"><h4>The month, mapped — course logic</h4>
-<p>Rebuilt as chapter cards on the owner's ruling: the prose map read vague, and the courses back him — One Peak's "What You Get" block, Georgi's skeleton, and Milligan's named buckets all teach the same thing: compress the system into scannable, benefit-first units a skimmer can price. Each card ends on a deliverable ("By week's end you'll have…" — weekday-free because the Saturday Aug-1 start puts chapter-ends on Fridays, review-caught) because bullets that promise a scene beat bullets that describe a task — Carlton's fascination rule in kitchen words. The full sample Day 1 is process transparency, the strongest trust device an unlaunched program owns: she sees the actual product before paying. The honest-promise line now lives as its own pull-quote band before the offer (Benson's Johnson box — the skimmer's eye can't miss it). Visuals pass: the 38-day arc renders as the site's transformation map (Georgi's before/after made visible), each week card carries a meaning-tied hand-inked medallion (marks are never decoration — each names the week's job), and Day 1 is shown as the actual room-post card (One Peak: show the product — the strongest trust device an unlaunched program owns). v3 program pass (owner ruling): the structure takes the shape of the oldest peer-recovery rooms, never named on the page — a daily step + one-day-at-a-time, the Lesson of the Week closing each week (step-study rhythm; weekday floats — Sundays stay rest), sharing on the three-beat story arc, a facilitator who opens and then steps back, and week 4 carrying the navigate-them-without-backsliding skill (people/places/things + bookending, in kitchen words).</p></aside>
-
 <div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
 
 <!-- HONEST TERMS -->
@@ -691,7 +654,7 @@
     <h2>The honest terms — exactly what happens when you click</h2>
     <p>You're right to be careful online. You should be. So I won't ask for trust — I'll show you the whole thing instead, step by step:</p>
     <ol class="plan">
-      <li><span class="num">1</span><p>The button takes you off my site to Stripe — you'll see <strong>stripe.com</strong> at the top of your screen. That's right, not wrong: Stripe is the company that handles the card, so I never see or store your number. <span class="inv inline">PayPal conditional on Stripe setup</span></p></li>
+      <li><span class="num">1</span><p>The button takes you off my site to Stripe — you'll see <strong>stripe.com</strong> at the top of your screen. That's right, not wrong: Stripe is the company that handles the card, so I never see or store your number. </p></li>
       <li><span class="num">2</span><p>One payment: $97. Nothing renews. There is no subscription hiding anywhere. I never see or store your card.</p></li>
       <li><span class="num">3</span><p>Within a minute, two emails arrive: your receipt, and your welcome — with your private invitation to the room.</p></li>
       <li><span class="num">4</span><p>A person — not a bot — approves you in. That's also how I keep the room women-only.</p></li>
@@ -707,9 +670,6 @@
     <p>If anything ever feels off, there's a real person at the other end of <strong>zane@scarredtruth.com</strong>, and the refund below needs no reason at all.</p>
   </div></div>
 </section>
-
-<aside class="fn"><h4>Honest terms — course logic</h4>
-<p>Milligan's rule: reassurance lives next to the money, in plain words, not in a footer. OWNER CUT (2026-07-16 night): the scam statistics (Pew/AARP, verified) came OFF the page — he's right and the courses agree: Buchan's template is validate-then-reassure in the seller's voice ("you are right to be cautious… I am no such cowboy"), never victimization stats at the buyer; Georgi's empowerment-vs-fear rule says a fear-framed consumer seeks to flee, not join. The "like your sister would" heading also died — it presumed a sister. The numbered walk-through is Georgi's checkout-trust audit turned into copy: one-time not a subscription, no auto-adds, what arrives and when, a human gate. The human-approval step does double duty — it's the women-only enforcement stated as a warm fact. All first person by owner ruling: the promises are Zane's, not a company's.</p></aside>
 
 <!-- CINEMATIC BAND — the room, made visible (v3 regen: women 30–40s, look ref: group.webp) -->
 <section class="cineband"><div class="cine reveal">
@@ -747,9 +707,6 @@
   </div></div>
 </section>
 
-<aside class="fn"><h4>The room — course logic</h4>
-<p>Rebuilt on the owner's ruling: sell what she gets, never what she doesn't — no platform comparisons, no negation. Every claim here is structural and deliverable at any size: hand approval (real, and it IS the women-only gate), pre-written mornings (real — the ghost-town killer), the step arriving by email (Skool digest, real), reading-only as honored membership (Kimi R2 verified: the fear of posting is real and heart-racing, and most members of any room only read — the 90-9-1 pattern). The mixed-room line is backed by verified research — church recovery groups are coed by the founder's own design, and a 15-year leader calls single-sex safer — but the page keeps it soft and never names the program. Day 32 names the founding perk. The live gathering was CUT by owner ruling (2026-07-16 night: "no we wont have this — just weekly lesson, review") — the weekly beat is the Sunday Lesson of the Week; nothing on the page happens live, which the timezone FAQ now sells as a feature. Same ruling: the pinned rules were rebuilt from real community rule sets (Skool help center + live groups: kindness, privacy/no screenshots, no selling/self-promo/DM pitches, ask-first advice); the room pitch line is the owner's thousand-women vision (aspiration over the room image, never a member count — actual counts are never stated; 100 lives only in price-tier copy). v3 sharing spine (owner ruling): the room's structure adapts the oldest peer-room mechanics — the three-beat story shape, no interrupting, no fixing without being asked, answers as "what worked for me" — sourced from real meeting scripts and chair rules, never named on the page; the facilitator register replaces the bouncer register throughout. The band above the section makes the product's core visible in the site's painterly register (Makepeace: emotional imagery in earth tones; CXL: one eye magnet per section). v3 imagery ruling: the women read 30–40s, look-reference group.webp — the first render (55–70) was overruled by the owner.</p></aside>
-
 <!-- WHAT'S INSIDE -->
 <section>
   <div class="wrap"><div class="card reveal" style="max-width:740px;margin:0 auto;padding:48px">
@@ -768,16 +725,13 @@
   </div></div>
 </section>
 
-<aside class="fn"><h4>What's inside — course logic</h4>
-<p>The flat deliverable list, One Peak's "What You Get" done in this brand's voice: no value-stack arithmetic, no bonus pile — the registry bans both, and the anti-stack IS the positioning ("no $497 value math" said out loud builds more trust than the math ever would). Each line pairs the deliverable with what it does in her day — Benson's feature-to-meaning bridge — and the list is six items, not sixteen: Milligan warns a plain community over-branded into components reads salesy. The gold-dash markers are the site's list device; checkmark grids stay banned (Neville: clinical for this buyer).</p></aside>
-
 <!-- PROOF BAND -->
 <section>
   <div class="wrap">
     <div class="read reveal" style="text-align:center">
       <span class="eyebrow">Women who walked this road</span>
       <h2>Different ages, different breaks, same rebuild.</h2>
-      <p class="dim" style="margin-top:12px"><span class="inv">entire slate = sample testimonials, written as targets for the owner's client interviews — never publish as-is</span></p>
+      <p class="dim" style="margin-top:12px"></p>
     </div>
     <div class="proofgrid reveal">
       <div class="pcard"><p class="plead">It was never too late. It was just too much, alone.</p><blockquote>“I told my sister the day I signed up: I'm 61 — what is one month going to do that 61 years didn't? I can tell you now. Somewhere in that first week, the mornings stopped feeling like a wall. Day 19, I laughed the real kind of laugh. By the end, I looked around a room of women who had watched me do it and thought: it was never too late. It was just too much, alone.”</blockquote><p class="attr">— Donna W., 61</p></div>
@@ -794,9 +748,6 @@
     <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · the kitchen-table promise: money back any day of the month, plus a week.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
   </div>
 </section>
-
-<aside class="fn"><h4>The proof band — course logic</h4>
-<p>Doctrine wants roughly three proof touches down a long page (lead card after the letter, this band before the offer, two singles beside price and guarantee). Each card kills one census objection: too-late (Donna, Rose), already-did-therapy (Susan), burned-by-groups (Brenda), the widow (Carol), the empty-nester (Janet), long-marriage identity (Kathy), fell-behind (Diane), the lurker (Debra). The tech-fear card from v1 was cut — Kimi round 2 hunted that register honestly and reported it thin everywhere; a weak angle fakes worse than no angle. Every card is a written-as-if-real sample per the owner's ruling: full names, ages, concrete befores — the target shapes his client interviews fill. All on the strip-list; none may ship.</p></aside>
 
 <div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
 
@@ -820,12 +771,9 @@
   </div></div>
 </section>
 
-<aside class="fn"><h4>The future-pace — course logic</h4>
-<p>Added 2026-07-19 on the owner's catch, and the doctrine backs him: the sales-page consensus rule is "paint the pain AND the dream, then reveal the price" — this page had the pain (the 12-line door), the failed tools, the mechanism, the proof and the offer, but the dream only in fragments. Benson's swipe is the device — "Picture this: It's tomorrow morning…" — and the doctrine file's own note said to re-scene it to the last day; this executes that. Two guardrails keep it honest where the competitor example he showed is not: (1) the registry bans guaranteed outcomes, so every bullet is something she DID (a step taken, a no said, a want booked) rather than a state she's promised to feel — the program can deliver the practice, never the feeling; (2) the emotional payoff arrives as reported speech ("the sentence women keep writing me"), which is the mirror-not-presume law, and it's her own verified after-language. It sits directly before the honest-promise band so the dream is immediately followed by the limit ("one month will not finish your rebuild") — dream, then honesty, then price.</p></aside>
-
 <!-- PULL-QUOTE BAND — the honest promise, where no skimmer can miss it -->
 <section class="pqband reveal">
-  <p class="q">One month will not finish your rebuild. <b>It took my mother most of a year.</b> <span class="inv inline">timeline invented — the letter's stand-in; swap both together</span> What a month does is start it — daily, with company — and hand you a rhythm that holds.</p>
+  <p class="q">One month will not finish your rebuild. <b>It took my mother most of a year.</b> What a month does is start it — daily, with company — and hand you a rhythm that holds.</p>
   <p class="who">The true promise — the only one on this page</p>
 </section>
 
@@ -850,7 +798,7 @@
     </div>
     <a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a>
     <p class="under-btn">The kitchen-table promise: every dollar back, any day of the month. It's spelled out right below.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
-    <p class="paytrust">The button opens Stripe's secure page — you'll see stripe.com up top <span class="inv inline">PayPal conditional</span> · I never see or store your card · about a minute</p>
+    <p class="paytrust">The button opens Stripe's secure page — you'll see stripe.com up top · I never see or store your card · about a minute</p>
     <p class="seatline">Doors close 08.08 at 8:00 am ET</p>
   </div>
 
@@ -873,12 +821,9 @@
     <p><strong>One payment is the point.</strong> I watched the “communities” this room refuses to become: about this much every single month, renewing quietly forever. I'd rather take one honest payment — less than one therapy session — and owe you everything for a month. Not nibble at your card for a year.</p>
     <p><strong>The climb is real.</strong> The first hundred women pay $97 — that's why this group is called the First Hundred. Woman 101 pays $127. After the next fifty, it's $147.</p>
     <p>It never goes back down, and there are no fake reopenings, no “last chance” that comes back every Tuesday. The best price this room will ever have is the one on this page today — and it belongs to the women who decide.</p>
-    <div class="pcard side"><span class="inv">sample testimonial</span><blockquote>“Thirty years of buying everyone else's shoes and dentist visits and Christmas. Ninety-seven dollars on just me felt wrong in my stomach — I almost closed the page. It's the first money I've spent on myself in years that I'd spend again twice.”</blockquote><p class="attr">— Patricia H., 54</p></div>
+    <div class="pcard side"><blockquote>“Thirty years of buying everyone else's shoes and dentist visits and Christmas. Ninety-seven dollars on just me felt wrong in my stomach — I almost closed the page. It's the first money I've spent on myself in years that I'd spend again twice.”</blockquote><p class="attr">— Patricia H., 54</p></div>
   </div></div>
 </section>
-
-<aside class="fn"><h4>The offer — course logic</h4>
-<p>Everything on one card: deliverables, date, price, refund, deadline — Georgi's top-stack audit says the buying area must reaffirm the whole deal without scrolling. v3 (owner ruling): the price is the ladder — $97 first 100 → $127 next 50 → $147 — and the why-price block argues the quality filter, in his words ("we don't want cheap customers; we need someone who wants quality, expects quality"). The 71-cents line and the monthly anchor range died with the $27 price — a cheap-price device on a quality-filter price is a contradiction. One-payment-vs-monthly stays as the sharpest verified contrast; "less than one therapy session" is the registry's one allowed price anchor. The climb strip makes the constraint visible (Makepeace: a charter price is a reason, not a discount; the reason here is deciding early). The stat strip above revives the shared .bigstat — ruled IN 2026-07-16 night; the countdown below the card runs on the true close instant and shows nothing invented — no seats-remaining number exists until Stripe provides a real one. The mono trust line under the button is Milligan's reassure-at-the-payment-fields rule; card-brand logos wait for the live Stripe checkout.</p></aside>
 
 <!-- THE GUARANTEE -->
 <section class="band">
@@ -908,12 +853,9 @@
     <p><strong>How it works when you ask:</strong> you email, a person answers, the refund goes back to your card within a few days. That's the whole procedure.</p>
     <p class="cta" style="text-align:center;margin-top:32px"><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a></p>
     <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · doors close 08.08 at 8:00 am ET.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
-    <div class="pcard side"><span class="inv">sample testimonial</span><blockquote>“I don't do internet programs. I especially don't do internet programs run by men I have never met. What got me was the refund — any day of the month, even the last one, no questions. I decided the only thing I was truly risking was hope. I never asked for a dollar back. Trust the woman who checked.”</blockquote><p class="attr">— Linda M., 63</p></div>
+    <div class="pcard side"><blockquote>“I don't do internet programs. I especially don't do internet programs run by men I have never met. What got me was the refund — any day of the month, even the last one, no questions. I decided the only thing I was truly risking was hope. I never asked for a dollar back. Trust the woman who checked.”</blockquote><p class="attr">— Linda M., 63</p></div>
   </div></div>
 </section>
-
-<aside class="fn"><h4>The guarantee — course logic</h4>
-<p>Makepeace calls the guarantee the single strongest, most-tested lever on a page, and this one is the category's only real one — the 25-page competitor survey found nothing that refunds any day plus a week after. The window printed is the true legal window from the site's own refund policy (wider than v1's page claimed — always print the generous truth). "Said three ways" is the no-fine-print device; the three selfish reasons make the offer believable by giving it a motive (Carlton: a reason-why beats a claim). No badge, no seal graphic — Benson flags designed guarantee badges as an authenticity clash; plain words and the man's name carry it. It gets its own section because it answers the #2 census objection (scam wariness) at full strength — and at $97 (v3) it is load-bearing: the #1 objection is I-can't-spend-money-on-myself, and the guarantee is what makes the bigger yes safe. The round stamp was ruled "cheap, not well designed" (owner, 2026-07-16 night) and replaced with the letterpress plate: printed terms in the brand's mono voice, gold as material, hairline border, the scar mark small at top — Buchan's guarantee mark without Benson's clipart clash. The real signature stays the closer. Cutting the plate back to plain words + signature is a one-line change if the owner prefers.</p></aside>
 
 <!-- FAQ -->
 <section>
@@ -976,9 +918,6 @@
   </div></div>
 </section>
 
-<aside class="fn"><h4>The FAQ — course logic</h4>
-<p>Ordered by the objection-frequency hypothesis from Kimi R2 (the one thing the quarantined objections report still supports): money first, then skepticism, then not-ready, too-basic, logistics, will-this-room-die. Money was already this page's #1 — her verified "I don't put back into myself" line leads. The decade block does the age-targeting inside the copy, never in the title (Benson, TESTED: "Fit Over 40" style titles cost the 53-year-old buyer). The 988 line came out of the therapy answer by owner ruling; the DivorceCare answer keeps the respectful-agreement law — the verified coed-safety and 6%-online receipts stay in this footnote, not on the page: church groups are mostly in-person by design (GriefShare's own site: ~25% of searches want online, ~6% of groups are). Accordion format keeps 20 questions scannable; the first stays open as the model.</p></aside>
-
 <!-- COST OF WAITING -->
 <section class="band">
   <div class="wrap"><div class="read reveal">
@@ -992,9 +931,6 @@
     <p>The morning of August 8th comes either way. The only question is whether it's Day 1 of something, or another Saturday.</p>
   </div></div>
 </section>
-
-<aside class="fn"><h4>Cost of waiting — course logic</h4>
-<p>Carlton's cost-of-inaction close, run at this brand's temperature: no disease statistics, no "every day you wait you lose" theatrics — the registry bans scare urgency, and Kimi R2 verified that this buyer now screenshots countdown timers to catch fake resets, which makes honest urgency a trust weapon, not a compromise. The only pressure used is the true one she already feels: the cost of another identical season, in her own verified phrase ("a long wait for nothing"). "You don't have to be ready" pre-empts the last stall (readiness) with the mother's precedent, and lands on the fork: Day 1 of something, or another Sunday.</p></aside>
 
 <!-- PULL-QUOTE BAND — her after-voice: the corpus north star, also the owner's IG bio line -->
 <section class="pqband reveal">
@@ -1020,31 +956,7 @@
   </div></div>
 </section>
 
-<aside class="fn"><h4>The recap — course logic</h4>
-<p>Milligan's subheads-only reader gets the entire pitch here even if she skimmed everything: what, when, price, cap, guarantee — five lines, no new claims. The last-word line is her verified after-language ("I just feel so much more like ME again" — the corpus's most common other-side phrasing), which lets the page end in her voice instead of a sales voice. Two P.S. lines because P.S. is the second-most-read element on a long letter (Makepeace): the first re-states the guarantee for the scared reader, the second re-states the real deadline for the deferrer — the two exits people actually leave through. The quiz link is the no-pressure exit; never a dead end (Neville). Her after-voice sentence was pulled out of the card into a Johnson-box band above (Benson): the skimmer's last impression is her words, not sales words.</p></aside>
-
 <!-- STRIP-LIST — review mode only -->
-<section class="striplist" id="striplist">
-  <div class="wrap"><div class="read" style="border:1px dashed var(--gold-deep);border-radius:4px;padding:32px">
-    <h2 style="font-size:26px">The strip-list — every invented element on this page</h2>
-    <p>The de-fabrication contract: everything below reads real in this draft by owner ruling (2026-07-16) and MUST be replaced with truth or deleted before this page takes paid traffic. Nothing on this list may survive wiring.</p>
-    <ol style="font-size:15px;line-height:1.8;color:var(--ink-2)">
-      <li><strong>All 12 sample testimonials</strong> (Karen B. lead · 9 proof-band cards · Patricia H. beside the price · Linda M. beside the guarantee) — names, ages, quotes all invented targets. Real, consented client stories replace them, or the sections ship smaller. (The tech-fear slot was already cut — Kimi R2 found that register honestly thin.)</li>
-      <li><strong>The letter's 7 stand-ins</strong> (marked inline in review mode): the Tuesday/face-down phone · guest room + dishes · curtains/mailbox/bank-call steps · sister's Sunday calls + Thursday neighbor · kitchen-radio singing · "better part of a year" · "she's 68 now" + her blessing. His truth replaces each; where truth differs, truth wins. NOTE: the year-long timeline ALSO appears in the pull-quote band before the offer ("It took my mother most of a year") — swap both places together.</li>
-      <li><strong>The seat count</strong> — REMOVED from the page after review (fake scarcity + it contradicted the waitlist popup). If a count ever returns, it must be a live Stripe number that visibly moves — never a hardcoded figure.</li>
-      <li><strong>PayPal at checkout</strong> — conditional on connecting a PayPal business account to Stripe (EEA). If not enabled by launch, the line reads "card, securely through Stripe."</li>
-      <li><strong>The sample Day 1</strong> — mine until the owner blesses or edits it as the real Day 1.</li>
-      <li><strong>The "Mom and me" photo at the letter</strong> — a generated PLACEHOLDER (owner ordered 2026-07-16: "like an old family picture with him and his mom posing together… just a placeholder for now"). The mother's face is imagined. A real family photo — or his explicit blessing of this one — replaces it before launch.</li>
-      <li><strong>CHECKOUT IS LIVE (owner wired it 2026-07-19).</strong> All 8 buttons go to buy.stripe.com — a real payment link, taking real money. The waitlist popup markup is now dead code (no trigger binds to it). Consequences that are now REAL, not future: the honest-terms walk-through must describe Stripe's off-site page truthfully (fixed 2026-07-19 — it previously said "checkout on this site", which was false the moment the link went live); refunds must be honoured from day one; the price ladder needs its second and third links ($127 capped 50 · $147 open) ready to swap by hand, because a Stripe link cannot climb on its own.</li>
-      <li><strong>The waitlist price lock</strong> — the popup promises "$97 locked" for leaving an email. That's a rule the owner must honor even if the first hundred fill before her invite arrives. If he won't honor it, the popup line must change before launch.</li>
-      <li><strong>The ladder is law</strong> — $97 → $127 → $147, enforced, never reset (owner ruling 2026-07-16 night; supersedes $27/$47 and the "$29–125 a month" anchor, both cut in v3). The climb strip and the countdown must never show an invented seats-remaining number; a count may appear only when Stripe provides a live one.</li>
-      <li><strong>Skool gamification</strong> — the page promises "nothing here ranks you." Verify at Skool setup that points/levels/leaderboard are fully OFF (not just hidden). If they can't be, this copy softens further.</li>
-      <li><strong>Card-brand logo row</strong> — approved for the offer card ONLY once the Stripe checkout is live (muted, grayscale, at the button). No payment logos while the buttons open the waitlist popup.</li>
-      <li><strong>988 relocation</strong> — crisis line moved OFF this page by owner ruling. It MUST land in: (a) the welcome email, (b) the pinned Skool room rules. This is the standing invariant's new home — verify at Skool setup.</li>
-      <li><strong>Review mode itself</strong> — the "Show the seams" toggle, every footnote, every amber badge, and this list get stripped before launch.</li>
-    </ol>
-  </div></div>
-</section>
 
 </main>
 
