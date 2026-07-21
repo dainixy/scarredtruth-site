@@ -331,12 +331,16 @@
   .notecard .nclabel{font:600 11px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 8px}
 
   /* THE GUARANTEE PLATE — printed terms, not clipart (v3: replaces the round stamp) */
-  .gplate{float:right;width:220px;margin:8px 0 16px 24px;border:1px solid var(--gold);border-radius:4px;background:var(--paper-2);box-shadow:var(--shadow);padding:24px 16px;text-align:center}
-  @media(max-width:560px){.gplate{float:none;margin:0 auto 24px}}
-  .gplate svg{display:block;margin:0 auto 12px}
-  .gplate b{display:block;font:600 12px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
-  .gplate span{display:block;font:500 12px/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-top:6px}
-  .gplate .rule{width:24px;height:1px;background:var(--gold);margin:12px auto}
+  /* The guarantee badge is the centrepiece of this section, not a sidebar. A stamp:
+     the mark, the name, one big serif line, the terms. Everything else defers to it. */
+  .gplate{width:100%;max-width:420px;margin:32px auto 40px;border:1px solid var(--gold);border-radius:16px;background:var(--paper-2);box-shadow:var(--shadow);padding:40px 32px;text-align:center;position:relative}
+  .gplate::before{content:"";position:absolute;inset:6px;border:1px solid var(--gold);border-radius:12px;opacity:.34;pointer-events:none}
+  @media(max-width:560px){.gplate{padding:32px 22px}}
+  .gplate svg{display:block;margin:0 auto 16px}
+  .gplate .kicker{display:block;font:600 12px/1.5 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep)}
+  .gplate .big{font-family:var(--display);font-weight:600;font-size:32px;line-height:1.08;letter-spacing:-.01em;color:var(--ink);margin:10px 0 0}
+  .gplate .rule{width:32px;height:1px;background:var(--gold);margin:18px auto}
+  .gplate span{display:block;font:500 13px/1.7 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 
   /* PAY TRUST — Milligan's reassurance at the money */
   .paytrust{font:500 12px/1.7 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:12px}
@@ -809,10 +813,11 @@
 <!-- FUTURE-PACE — the dream, dated. Benson's "picture this" re-scened to the last morning. -->
 <section class="band">
   <div class="wrap"><div class="read reveal">
-    <span class="eyebrow">One month from now</span>
-    <h2>September 8th: here's what's yours.</h2>
-    <p>It's the morning after the last day. Same house, same hour, same quiet.</p>
-    <p>What's different is what you're holding.</p>
+    <span class="eyebrow">Picture the last day — September 8th</span>
+    <h2>The month is done. Here's what you keep.</h2>
+    <p>Picture it. The month is over. Same house, same early hour, same quiet you know.</p>
+    <p>One thing is different — what you're holding.</p>
+    <p>You did one small step every morning, for a month. This is what it leaves in your hands:</p>
     <ul class="tick">
       <li><strong>The words.</strong> Written down, in your own handwriting, for when he calls — and for the people you can't cut out of your life. The next hard conversation isn't improvised.</li>
       <li><strong>Your mornings.</strong> The first hour of the day, claimed before the phone gets it — thirty-one times, including the bad days. That's a habit now, not a plan.</li>
@@ -890,29 +895,20 @@
   <div class="wrap"><div class="read reveal">
     <span class="eyebrow">The kitchen-table promise</span>
     <h2>Every dollar back. Any day. One email.</h2>
-    <p>I call it the kitchen-table promise, because it's the kind you make sitting across from someone. It's a full money-back guarantee — here it is, in plain words:</p>
-    <p class="guarantee-line"><strong>If Myself Again doesn't help you — any day of the month, even the last day, and up to a week after it ends — email me and I'll send back every dollar. No questions. No forms. No “exit interview.” One email, full refund, and we part as friends.</strong></p>
-    <p>Why would I offer that? Three reasons, and they're all selfish:</p>
-    <p><strong>First — you've been burned.</strong> Most programs like this offer no refund at all, or hide one behind “completed homework” requirements.</p>
-    <p>I can't talk you out of your caution, and I shouldn't; it's earned. I can only take the risk off you and put it on me, where it belongs.</p>
-    <p><strong>Second — I don't want your $97 if the room didn't help you.</strong> That money would cost me more than it's worth. At this price I mean that more, not less.</p>
-    <p><strong>Third — a promise this open keeps me honest.</strong> Every morning I write has to be worth staying for.</p>
-    <p>That's good pressure. I want it.</p>
-    <div class="gplate" role="img" aria-label="Every dollar back — any day of the month, plus seven after. No questions. One email.">
-      <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#C9A05A" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#C9A05A" stroke-width="6.5" stroke-linecap="round"/></svg>
-      <b>The kitchen-table promise</b>
+    <p>The kind of promise you make sitting across the table from someone — not the kind buried in fine print. Here it is:</p>
+
+    <div class="gplate" role="img" aria-label="Every dollar back — any day of the month, even the last, plus seven days after. No questions. One email.">
+      <svg width="44" height="44" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#C9A05A" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#C9A05A" stroke-width="6.5" stroke-linecap="round"/></svg>
+      <span class="kicker">The kitchen-table promise</span>
+      <div class="big">Every dollar back.</div>
       <div class="rule"></div>
-      <span>every dollar · any day of the month</span>
-      <span>plus 7 after · no questions · one email</span>
+      <span>any day of the month · even the last</span>
+      <span>plus a week after · no questions · one email</span>
     </div>
-    <p>Said three ways, so there's no fine print to wonder about:</p>
-    <ul class="tick">
-      <li>Day 3, feels wrong? Every dollar back.</li>
-      <li>Day 31, finished it all, still not for you? Every dollar back.</li>
-      <li>A week after it ends, on reflection? Every dollar back.</li>
-    </ul>
-    <p>And you keep everything — every morning I sent you, everything you wrote, anything the room gave you. I'm not repossessing your rebuild.</p>
-    <p><strong>How it works when you ask:</strong> you email, a person answers, the refund goes back to your card within a few days. That's the whole procedure.</p>
+
+    <p class="guarantee-line"><strong>If Myself Again doesn't help you, email me. I send back every dollar — no forms, no “exit interview.” We part as friends.</strong></p>
+    <p>Why so openly? You've been burned before, and the risk should sit with me, not you. And I don't want your $97 if the room didn't help you — at this price, I mean that more, not less.</p>
+    <p>You keep everything either way — every morning I sent you, everything you wrote. I'm not repossessing your rebuild.</p>
     <p class="cta" style="text-align:center;margin-top:32px"><a class="btn" href="https://buy.stripe.com/dRm4gt9BQc43aoi5r69EI00">Save my seat — $97</a></p>
     <p class="under-btn" style="text-align:center;margin:16px auto 0">$97 once, for the First Hundred · doors close 08.08 at 8:00 am ET.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
     <div class="pcard side"><blockquote>“I don't do internet programs. I especially don't do internet programs run by men I have never met. What got me was the refund — any day of the month, even the last one, no questions. I decided the only thing I was truly risking was hope. I never asked for a dollar back. Trust the woman who checked.”</blockquote><p class="attr">— Linda M., 63</p></div>
