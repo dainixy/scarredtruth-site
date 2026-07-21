@@ -133,7 +133,7 @@ section{padding:84px 0;position:relative}
 /* ---- the seam (gold stitch) + the torn-paper tear ---- */
 .seam{position:relative;height:18px;overflow:hidden;margin:12px 0}
 .seam .bar{position:absolute;inset:0;transform:scaleX(0);transform-origin:left center;transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
-  background:repeating-linear-gradient(90deg,transparent 0 16px,var(--ember) 16px 18px)}
+  background:repeating-linear-gradient(90deg,transparent 0 16px,var(--gold) 16px 18px)}
 .seam .bar::before{content:"";position:absolute;top:50%;left:0;right:0;height:2px;background:var(--gold-deep);opacity:.8;transform:translateY(-50%)}
 .seam.in .bar{transform:scaleX(1)}
 /* handwritten Zane signature sign-off (home origin + story close + quiz result) */
