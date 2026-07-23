@@ -54,6 +54,8 @@
 <script defer src="site-assets/backtotop.js"></script>
 <style>
   /* page-specific bits — values from the Daybreak scale only */
+  @font-face{font-family:'Caveat';font-style:normal;font-weight:500 700;font-display:swap;
+    src:url('site-assets/fonts/caveat.woff2') format('woff2')}
 
   /* TOPLINE — STICKY key-info bar (owner ruling): price · live countdown · CTA.
      The shared topbar goes static on this page so only ONE bar sticks;
@@ -195,9 +197,15 @@
   /* WHY — portrait + letter (pattern from index.html origin block) */
   .origin-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:start}
   @media(max-width:860px){.origin-grid{grid-template-columns:1fr;gap:32px}}
-  .portraitframe{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-lift);background:var(--paper)}
-  .portraitframe img{width:100%;height:auto;display:block}
-  .portraitframe .tag{position:absolute;z-index:2;top:16px;left:16px;font:600 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);padding:8px 12px;border-radius:4px}
+  /* two real prints laid on the paper, annotated in Zane's pen (scribble pattern from index) */
+  .printpair{position:relative;padding:26px 0 26px}
+  .printpair figure{margin:0;position:relative;width:86%;border-radius:4px;box-shadow:var(--shadow-lift)}
+  .printpair img{width:100%;height:auto;display:block;border-radius:4px}
+  .p-before{transform:rotate(-2.2deg);z-index:1}
+  .p-after{transform:rotate(1.8deg);margin:-26px 0 0 14%;z-index:2}
+  .printpair .arrow{position:absolute;pointer-events:none;overflow:visible;z-index:3}
+  .printpair .arrow path{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;opacity:.6}
+  @media(max-width:560px){.printpair figure{width:92%}.p-after{margin:-16px 0 0 8%}}
   .letterbody p{font-size:17px;line-height:1.8}
   .sig-mark img{max-width:180px;height:auto}
 
@@ -499,9 +507,17 @@
 <section id="why">
   <div class="wrap">
     <div class="origin-grid">
-      <div class="portraitframe reveal">
-        <img src="site-assets/illustrations/zane-and-mom.webp" width="900" height="1205" loading="lazy" decoding="async" alt="An old family photo: Zane and his mother posed together in her kitchen, her arm around him">
-        <span class="tag">Mom and me</span>
+      <div class="printpair reveal">
+        <figure class="p-before">
+          <img src="site-assets/illustrations/zane-mom-before.webp" width="900" height="1195" loading="lazy" decoding="async" alt="A printed photo from the second month: Zane's mother at her kitchen table, tired and not smiling, Zane beside her with an arm around her shoulders">
+          <span class="scribble" style="top:-16px;right:4px;transform:rotate(-4deg)">the second month</span>
+          <svg class="arrow" aria-hidden="true" width="44" height="46" viewBox="0 0 44 46" style="top:16px;right:44px"><path d="M40 3 C31 15 19 26 7 39 M7 39 L17 36 M7 39 L11 29"/></svg>
+        </figure>
+        <figure class="p-after">
+          <img src="site-assets/illustrations/zane-mom-after.webp" width="900" height="1195" loading="lazy" decoding="async" alt="A printed photo from a year later: his mother smiling in plain daylight, Zane hugging her on the couch">
+          <span class="scribble" style="bottom:-14px;right:8px;transform:rotate(-3deg)">a year later</span>
+          <svg class="arrow" aria-hidden="true" width="40" height="48" viewBox="0 0 40 48" style="bottom:14px;right:38px"><path d="M37 45 C28 33 18 19 9 5 M9 5 L12 15 M9 5 L19 9"/></svg>
+        </figure>
       </div>
       <div class="reveal letterbody">
         <span class="eyebrow">A letter, before you decide anything</span>
