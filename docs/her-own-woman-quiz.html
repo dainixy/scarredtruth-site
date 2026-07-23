@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- After a fresh submit the URL becomes /r/<id> (history.replaceState), and anything the page
+     injects AFTER that — the server note's signature, or a full re-render via "Take it again" —
+     resolved its relative site-assets/ paths against /r/ and 404'd (broken signature image,
+     23 Jul 2026). Every relative URL on this page means "from the site root"; say so. -->
+<base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What's Quietly Draining Your Confidence? — Scarred Truth</title>
 <meta name="description" content="Find the one quiet thing draining your confidence — and the first step back. Free, no email to see your result.">
@@ -564,6 +569,9 @@ function afterResult(){
 }
 function fillNote(text){
   var slot=document.getElementById('zane-note-slot'); if(!slot||!text) return;
+  /* One signature, and it's the handwritten one. Notes stored before 23 Jul 2026 end with a
+     typed "— Zane" (the old prompt asked for it) right above the signature image — strip it. */
+  text=String(text).replace(/\s*[—–-]+\s*Zane[.!]?\s*$/,'');
   var nm=person.name?esc(person.name):'';
   var paras=String(text).split(/\n{2,}/).map(function(x){return '<p>'+esc(x.trim())+'</p>';}).join('');
   slot.innerHTML='<div class="notewrap reveal"><div class="note"><div class="nh">A note from Zane'+(nm?' · for you, '+nm:'')+'</div>'+paras+
@@ -656,7 +664,9 @@ function wireReveal(){
   document.querySelectorAll('.reveal,.seam').forEach(function(el){REVEAL.observe(el);});
 }
 function topbar(){
-  return '<a class="skip" href="#main">Skip to content</a>'+
+  /* onclick, not a bare fragment: with <base href="/"> a plain #main would navigate to the
+     homepage instead of jumping. Focus moves too, so the skip link still works for keyboards. */
+  return '<a class="skip" href="#main" onclick="var m=document.getElementById(\'main\');if(m){m.setAttribute(\'tabindex\',\'-1\');m.focus();m.scrollIntoView();}return false;">Skip to content</a>'+
     '<div class="topbar"><div class="row">'+
     '<a class="brandmark" href="/"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a>'+
     '<input id="navtog" type="checkbox" aria-label="Menu">'+

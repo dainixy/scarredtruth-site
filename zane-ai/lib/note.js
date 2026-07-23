@@ -108,7 +108,7 @@ function buildPrompt(ctx, correction = "") {
       : faith === "spiritual"
         ? "She's spiritual, not religious. You may gesture once at something steady that's bigger than her, in her own register — never the word God, no scripture, no church."
         : "Do NOT bring up God, faith, prayer, or spirituality at all — she didn't ask for it.",
-    "End with ONE small, worst-day-proof first step she could do tonight. Close with '— Zane' and nothing else.",
+    "End with ONE small, worst-day-proof first step she could do tonight. Do not sign off — no name, no dash, no closing line after the step: the page places his handwritten signature under the note, and a typed one doubled it.",
     correction,
   ].filter(Boolean).join("\n");
 
@@ -144,9 +144,11 @@ function fallbackNote(ctx) {
   const fm = faithMode(ctx);
   if (fm === "god") p.push("And you don’t have to do it on your own strength. You were already held before you ever found these words.");
   if (fm === "spiritual") p.push("And you don’t have to do it on willpower alone. Lean on what holds you — it was there before you found these words.");
-  p.push((ctx.primary && ctx.primary.firstStep
+  // No typed "— Zane": the result page renders his handwritten signature under the note,
+  // and the typed one doubled it (owner, 23 Jul 2026).
+  p.push(ctx.primary && ctx.primary.firstStep
     ? "Here’s where I’d start" + (nm ? ", " + nm : "") + ": " + ctx.primary.firstStep
-    : "Start small tonight: one honest sentence, to yourself or to me.") + "\n\n— Zane");
+    : "Start small tonight: one honest sentence, to yourself or to me.");
   return p.join("\n\n");
 }
 
@@ -193,9 +195,12 @@ async function generateNote(ctx, opts = {}) {
   if (ai.MOCK) return { note: fallbackNote(ctx), source: "mock", violations: [] };
 
   const her = herWords(ctx);
+  // The model is told not to sign; this catches it when it signs anyway, so a typed
+  // "— Zane" never reaches the page (which shows the handwritten signature).
+  const stripSig = (s) => String(s || "").replace(/\s*[—–-]+\s*Zane[.!]?\s*$/, "").trim();
   const attempt = async (correction) => {
     const { system, messages } = buildPrompt(ctx, correction);
-    const note = await ai.complete({ system, messages, model: ai.NOTE_MODEL, maxTokens: 400, temperature: 0.85 });
+    const note = stripSig(await ai.complete({ system, messages, model: ai.NOTE_MODEL, maxTokens: 400, temperature: 0.85 }));
     // opts.recent: notes already sent to OTHER women. The worst live failure was four
     // women receiving the same sentence, so if the caller can supply recent notes this
     // catches it outright. Without them, SHAPES rotation plus the prompt rule carry it.
