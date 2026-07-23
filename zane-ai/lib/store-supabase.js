@@ -65,6 +65,10 @@ function fromRow(r) {
     pcts: r.pcts,
     profileTallies: r.profile_tallies,
     rebuilding: r.rebuilding,
+    // Which question-set she answered. Lives inside person (jsonb) because adding a real
+    // column needs the SQL editor and inserts would fail if toRow wrote a column that
+    // doesn't exist yet. 1 = pre-23-Jul-2026 rows that never carried it.
+    corpusV: (r.person && r.person.corpusV) || 1,
     answers: r.answers,
     person: r.person,
     chatCount: r.chat_count || 0,

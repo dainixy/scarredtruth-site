@@ -110,6 +110,9 @@ app.post("/api/result", async (req, res) => {
     pcts: b.pcts && typeof b.pcts === "object" ? b.pcts : null,
     profileTallies: b.profileTallies && typeof b.profileTallies === "object" ? b.profileTallies : null,
     rebuilding: !!b.rebuilding,
+    // Which question-set she answered (1 = pre-23-Jul-2026 pages that never sent it).
+    // The result page uses this to freeze old /r/ links to their stored percentages.
+    corpusV: Number(b.corpusV) || 1,
     person: {
       name: clampInput(String(person.name || "")).slice(0, 80),
       // What she writes is stored whole — never clamped. clampInput is a model-prompt
@@ -123,6 +126,15 @@ app.post("/api/result", async (req, res) => {
       dream: String(person.dream || ""),
       become: String(person.become || ""),
       technique: String(person.technique || ""),
+      // The belief + fear cards (23 Jul 2026): short option codes, stored for analysis
+      // and to steer the note. Never free text, so a small clamp is safe.
+      faith: String(person.faith || "").slice(0, 40),
+      fear: String(person.fear || "").slice(0, 40),
+      // Duplicated into person because Supabase's results table has no corpus_v column
+      // and no DDL path exists from the dev machine — person is jsonb, so the version
+      // rides here and store-supabase.fromRow lifts it back to rec.corpusV.
+      // SQL: select ... where person->>'corpusV' = '2'
+      corpusV: Number(b.corpusV) || 1,
       open1: String(person.open1 || ""),
       open2: String(person.open2 || ""),
       email: clampInput(String(person.email || "")).slice(0, 160),
@@ -229,6 +241,10 @@ app.post("/api/note", async (req, res) => {
     dream: clampInput(String(b.dream || b.open1 || "")),
     become: clampInput(String(b.become || b.open2 || "")),
     technique: clampInput(String(b.technique || "")),
+    // Belief + fear option codes (23 Jul 2026) — ground truth for the faith line,
+    // context for what scares her. Old pages simply don't send them.
+    faith: b.faith ? String(b.faith).slice(0, 40) : null,
+    fear: b.fear ? String(b.fear).slice(0, 40) : null,
   };
   // Unlike chat, nothing is on her screen yet — so the voice gate BLOCKS here and the
   // note is rewritten once if Zane broke his own laws. The audit is recorded so we can

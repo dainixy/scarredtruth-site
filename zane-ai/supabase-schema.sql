@@ -42,3 +42,8 @@ create index if not exists results_created_at_idx on results (created_at);
 -- 30-day TTL: getResult() already filters expired rows in app code. Optional manual
 -- cleanup of old rows:
 --   delete from results where expires_at < (extract(epoch from now()) * 1000);
+
+-- Question-set version (quiz v2, 23 Jul 2026): stored INSIDE person (jsonb) as
+-- person->>'corpusV' — deliberately NOT a column, so no migration is ever needed
+-- before a deploy. Filter by question-set:
+--   select * from results where coalesce(person->>'corpusV','1') = '2';

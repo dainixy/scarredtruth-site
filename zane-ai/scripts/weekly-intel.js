@@ -67,7 +67,7 @@ async function main() {
   const pad = (s, n) => String(s).padEnd(n);
   console.log(`\n=== Scarred Truth — weekly intelligence (last ${DAYS} days · ${process.env.STORE_BACKEND === "supabase" ? "supabase" : "local"}) ===\n`);
   console.log(`Quizzes completed:        ${total}`);
-  console.log(`Left open-ended answers:  ${recent.filter((r) => r.person && (r.person.open1 || r.person.open2)).length}`);
+  console.log(`Left open-ended answers:  ${recent.filter((r) => r.person && (r.person.dream || r.person.become || r.person.technique || r.person.open1 || r.person.open2)).length}`);
   console.log(`Gave email:               ${recent.filter((r) => r.person && r.person.email).length}`);
   console.log(`Chats started:            ${recent.filter((r) => (r.chatCount || 0) > 0).length}`);
   const recentMsgs = messages.filter((m) => (m.ts || 0) >= since && m.role === "user");
@@ -82,13 +82,25 @@ async function main() {
   tally(recent.filter((r) => r.secondary), (r) => NAMES[r.secondary] || r.secondary).forEach(([k, n]) =>
     console.log(`  ${pad(k, 20)} ${n}`));
 
-  console.log(`\n-- What she's carrying & what costs her (open-ended #1, recent sample) --`);
-  recent.filter((r) => r.person && r.person.open1).slice(-12).forEach((r) =>
-    console.log(`  [${NAMES[r.primary] || r.primary}] "${(r.person.open1 || "").replace(/\s+/g, " ").slice(0, 160)}"`));
+  // Field names changed 14 Jul 2026 (open1/open2 -> dream/become/technique); read both so
+  // old rows still count. The third answer was never sampled before — added 23 Jul 2026.
+  const openField = (r, k, legacy) => (r.person && (r.person[k] || (legacy ? r.person[legacy] : ""))) || "";
+  const sample = (label, k, legacy) => {
+    console.log(`\n-- ${label} --`);
+    recent.filter((r) => openField(r, k, legacy)).slice(-12).forEach((r) =>
+      console.log(`  [${NAMES[r.primary] || r.primary}] "${openField(r, k, legacy).replace(/\s+/g, " ").slice(0, 160)}"`));
+  };
+  sample("A really good day, six months out (recent sample)", "dream", "open1");
+  sample("The part of herself she wants back", "become", "open2");
+  sample("The first sign things are turning", "technique");
 
-  console.log(`\n-- What "lighter" would look like (open-ended #2, recent sample) --`);
-  recent.filter((r) => r.person && r.person.open2).slice(-12).forEach((r) =>
-    console.log(`  [${NAMES[r.primary] || r.primary}] "${(r.person.open2 || "").replace(/\s+/g, " ").slice(0, 160)}"`));
+  console.log(`\n-- What she believes (belief card) --`);
+  tally(recent.filter((r) => r.person && r.person.faith), (r) => r.person.faith).forEach(([k, n]) =>
+    console.log(`  ${pad(k, 20)} ${n}`));
+
+  console.log(`\n-- What scares her most about trying (fear card) --`);
+  tally(recent.filter((r) => r.person && r.person.fear), (r) => r.person.fear).forEach(([k, n]) =>
+    console.log(`  ${pad(k, 20)} ${n}`));
 
   console.log(`\n(For deeper analysis, hand results + messages to an LLM.)\n`);
 }

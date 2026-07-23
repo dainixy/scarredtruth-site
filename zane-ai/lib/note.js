@@ -1,12 +1,16 @@
 // note.js — the genuinely-unique "note from Zane", built from her quiz result and
 // the three things she wrote at the end.
 //
-// The three questions CHANGED on 14 Jul 2026. They used to ask about her pain
-// ("where does this show up most, what's it costing you" / "what would lighter look
-// like"). They now ask about her ENDING — where she wants to be in six months, who
-// she wants to be proud of in the mirror, and what she thinks would help her fall in
-// love with herself again. Her answers are the raw material for the book, so the note
-// must answer the ending she named, not the old pain question.
+// The three questions changed on 14 Jul 2026 (pain -> her ending) and were reworded
+// again on 23 Jul 2026. They now ask: `dream` = walk me through a really good day six
+// months from now; `become` = what part of you do you want back; `technique` = what
+// would be the FIRST SIGN things are starting to change. The field names are frozen
+// transport keys — the framing lines in buildPrompt/fallbackNote must match the
+// CURRENT questions, or the model answers a question she was never asked.
+//
+// Since 23 Jul the quiz also sends two option codes: `faith` (what she believes —
+// explicit ground truth that OVERRIDES the regex guess) and `fear` (what scares her
+// most about trying). See faithMode() and FEAR_PHRASES.
 //
 // Rows written before 14 Jul carry open1/open2 instead; the callers map those in as
 // `dream`/`become` so an old result page still gets a real note.
@@ -36,6 +40,31 @@ function herFaith(ctx) {
   return mentionsFaith(ctx.dream) || mentionsFaith(ctx.become) || mentionsFaith(ctx.technique);
 }
 
+// What she TICKED on the belief question beats any regex guess from her free text:
+// 'god' -> God may be named plainly; 'spiritual' -> something steady, never the word
+// God; 'none' -> no faith content at all, even if she typed "blessed" somewhere.
+// No explicit answer (old rows, skipped card) falls back to the regex, as before.
+// Mirrors faithMode() in the quiz page's instant note — keep the two in step.
+function faithMode(ctx) {
+  const f = ctx.faith || "";
+  if (f === "god" || f === "complicated") return "god";
+  if (f === "universe" || f === "spiritual") return "spiritual";
+  if (f) return "none"; // none / figuring / decline — her explicit answer wins
+  return herFaith(ctx) ? "god" : "none";
+}
+
+// Fear-card option codes -> plain words for the prompt. Described, never quoted back —
+// the prompt already forbids echoing a checkbox at her.
+const FEAR_PHRASES = {
+  failself: "failing and proving to herself she wasn't capable",
+  foolish: "looking foolish in front of other people",
+  judged: "being judged by people whose opinion matters to her",
+  successpressure: "succeeding and then having to keep proving herself",
+  regret: "making the wrong choice and regretting it",
+  letdown: "disappointing someone or letting people down",
+  tryanyway: "she gets nervous, but usually tries anyway",
+};
+
 // Everything she typed — used both to steer the note and to check it afterwards.
 function herWords(ctx) {
   return [ctx.dream, ctx.become, ctx.technique].filter(Boolean).join("\n");
@@ -58,8 +87,8 @@ function shapeFor(ctx) {
 }
 
 function buildPrompt(ctx, correction = "") {
-  const { name, primary, secondary, dream, become, technique } = ctx;
-  const faith = herFaith(ctx);
+  const { name, primary, secondary, dream, become, technique, fear } = ctx;
+  const faith = faithMode(ctx);
   const system = [
     "You are Zane — a real man (never mention being an AI or a model) who helps women rebuild after losing themselves, at Scarred Truth.",
     "Write a SHORT, personal note (3–5 short paragraphs, about 120–190 words) to one woman who just took your quiz.",
@@ -74,9 +103,11 @@ function buildPrompt(ctx, correction = "") {
     "3. Warmth is active and first-person: thank her, stand beside her, be moved by her. Never open with \"Glad it...\" or any praise that has nobody doing it.",
     "4. No metaphors that need unpacking — no shovels, no bricks, no doors, no guests in her own life. If a line sounds clever, cut it. Read every sentence aloud; if you'd need a breath in the middle, split it.",
     "BANNED words/phrases (never use): resentment, closure, boundaries, self-worth, self-esteem, healing journey, process your emotions, trauma, triggered, toxic, narcissist, codependent, attachment style, inner child, reframe, release, journey, manifest, erasure, 'just forgive', 'everything happens for a reason', 'time heals', 'find yourself', 'love yourself first', 'just be confident', 'move on', 'let it go', 'what doesn't kill you'. Do not describe her confidence as a thing to build or get back.",
-    faith
-      ? "She mentioned faith, so you may name God plainly and gently as a quiet floor — never preachy, never 'God has a plan' or 'pray harder'."
-      : "Do NOT bring up God or faith unless she did.",
+    faith === "god"
+      ? "Faith is real to her, so you may name God plainly and gently as a quiet floor — never preachy, never 'God has a plan' or 'pray harder'."
+      : faith === "spiritual"
+        ? "She's spiritual, not religious. You may gesture once at something steady that's bigger than her, in her own register — never the word God, no scripture, no church."
+        : "Do NOT bring up God, faith, prayer, or spirituality at all — she didn't ask for it.",
     "End with ONE small, worst-day-proof first step she could do tonight. Close with '— Zane' and nothing else.",
     correction,
   ].filter(Boolean).join("\n");
@@ -85,9 +116,10 @@ function buildPrompt(ctx, correction = "") {
     `Her main pattern is ${primary?.name}: "${primary?.coreFear}".`,
     secondary ? `There's some ${secondary.name} in her too.` : "",
     name ? `Her name is ${firstName(name)} — use it once, naturally.` : "She didn't give her name.",
-    dream ? `Asked where she wants to be in six months, and told not to hold back, she wrote: "${dream}"` : "",
-    become ? `Asked who she'd be proud to see looking back at her in the mirror, she wrote: "${become}"` : "",
-    technique ? `Asked what she thinks would help her fall in love with herself again, she wrote: "${technique}"` : "",
+    dream ? `Asked to walk you through a really good day six months from now, she wrote: "${dream}"` : "",
+    become ? `Asked what part of herself she wants back, she wrote: "${become}"` : "",
+    technique ? `Asked what the first small sign would be that things are starting to change, she wrote: "${technique}"` : "",
+    fear && FEAR_PHRASES[fear] ? `What scares her most about trying: ${FEAR_PHRASES[fear]}. Let that sharpen what you understand about her — never recite it back to her.` : "",
     "Write the note now. Speak to HER directly — not about her.",
   ].filter(Boolean).join("\n");
 
@@ -103,13 +135,15 @@ function fallbackNote(ctx) {
   const technique = trimEnd(ctx.technique);
   const p = [];
   p.push((nm ? nm + ", here" : "Here") + "’s what I want you to know.");
-  if (dream) p.push(`You told me where you want to be: “${dream}.” I read it twice. You said it out loud, which is further than most people ever get.`);
+  if (dream) p.push(`You walked me through the day you want: “${dream}.” I read it twice. You said it out loud, which is further than most people ever get.`);
   p.push(ctx.primary && ctx.primary.whatsTrue
     ? ctx.primary.whatsTrue
     : "What you scored is the one weight you’ve carried longest. Weights can be set down.");
-  if (become) p.push(`And the woman you want to see in the mirror — “${become}” — you don’t have to build her from scratch. She’s who you were before you started making yourself smaller.`);
-  if (technique) p.push(`You already know what would help. You said it yourself: “${technique}.”`);
-  if (herFaith(ctx)) p.push("And you don’t have to do it on your own strength. You were already held before you ever found these words.");
+  if (become) p.push(`And the part of you you want back — “${become}” — she’s still in there. She’s who you were before you started making yourself smaller.`);
+  if (technique) p.push(`You even know what the first sign will look like. You said it yourself: “${technique}.”`);
+  const fm = faithMode(ctx);
+  if (fm === "god") p.push("And you don’t have to do it on your own strength. You were already held before you ever found these words.");
+  if (fm === "spiritual") p.push("And you don’t have to do it on willpower alone. Lean on what holds you — it was there before you found these words.");
   p.push((ctx.primary && ctx.primary.firstStep
     ? "Here’s where I’d start" + (nm ? ", " + nm : "") + ": " + ctx.primary.firstStep
     : "Start small tonight: one honest sentence, to yourself or to me.") + "\n\n— Zane");
@@ -199,4 +233,4 @@ async function generateNote(ctx, opts = {}) {
   }
 }
 
-module.exports = { generateNote, buildPrompt, fallbackNote, mentionsFaith, SHAPES, shapeFor };
+module.exports = { generateNote, buildPrompt, fallbackNote, mentionsFaith, faithMode, SHAPES, shapeFor };
