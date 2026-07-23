@@ -3,6 +3,13 @@
 **Design system: read `./DESIGN.md` in full before writing any HTML or CSS.** Every color,
 size, duration and radius comes from there. If a value isn't in it, it doesn't exist.
 
+**Copy doctrine: before writing or reviewing ANY sales/landing/homepage/email/VSL copy on
+this site, load the `zane-copy-doctrine` skill** (global, `~/.claude/skills/`) — the
+adjudicated 12-course doctrine. Live offer facts (name, prices, dates, guarantee wording) are
+owned by `threads-zane/CONTEXT.md` — read it, never write a price or date from memory. The
+full course-learnings corpus (Instagram system, storytelling, funnels) is indexed at
+`threads-zane/docs/zane-learnings-map.md`.
+
 **Stack:** hand-authored static HTML. No framework, no build step, no bundler. Pages are
 served as-is.
 
