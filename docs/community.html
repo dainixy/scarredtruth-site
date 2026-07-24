@@ -44,8 +44,10 @@
   buy.stripe.com and take real money. The waitlist popup below is dead code.
   Still to wire: the $127 (qty 50) and $147 (open) links, swapped by hand as
   each tier fills — a Stripe payment link cannot climb on its own.
-  VIDEO: .vslot is the placeholder for the 75s script (Script A in the package
-  doc). The letter below is the no-play fallback.
+  VIDEO: LIVE since 2026-07-24 — .vslot holds the real 104s video (yt-zane scene
+  0153; final script in threads-zane/zane-video-final-script-2026-07-24.html:
+  the approved beats + the two mom prints shown IN the video). preload="none",
+  poster-only page cost. The letter below is the no-play fallback.
 -->
 <link rel="preload" as="font" type="font/woff2" crossorigin href="site-assets/fonts/fraunces-roman.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="site-assets/fonts/newsreader-roman.woff2">
@@ -151,12 +153,26 @@
   .under-btn{font-size:15px;color:var(--ink-2);max-width:44ch;margin:16px auto 0}
   .seatline{font:500 12px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-top:12px}
 
-  /* PORTRAIT — was .vslot/.vplay/.vtag, a play button with no player behind it.
-     Removed 2026-07-19 with the fake video; these are its honest replacements. */
-  .pslot{position:relative;max-width:640px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--paper)}
-  .pslot img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;object-position:50% 22%}
+  /* Caption under the video (was under the 2026-07-19..24 stand-in portrait). */
   .under-portrait{text-align:center;font-size:15px;color:var(--ink-2);margin:12px auto 0;max-width:44ch}
   .under-portrait a{color:var(--ember)}
+
+  /* VIDEO — the real player, restored 2026-07-24 now the video exists.
+     Portrait 9:16, poster-only until she presses play (preload="none"),
+     captions burned into the file so muted playback still carries. */
+  .vslot{position:relative;width:min(390px,86vw);margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--paper-2)}
+  .vslot video{display:block;width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;background:#b9cbdf}
+  .vplay{position:absolute;inset:0;width:100%;border:0;margin:0;padding:0;cursor:pointer;
+    background:linear-gradient(180deg,rgba(42,35,29,0) 58%,rgba(42,35,29,.40) 100%)}
+  .vplay .vring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    display:grid;place-items:center;width:74px;height:74px;border-radius:50%;
+    background:var(--paper-2);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}
+  .vplay .vring svg{display:block;margin-left:5px}
+  .vplay:hover .vring{background:#fff}
+  .vplay:focus-visible{outline:3px solid var(--ember);outline-offset:-3px}
+  .vplay .vtime{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+    font:600 13px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;
+    color:#FFFDF8;text-shadow:0 1px 8px rgba(42,35,29,.65);white-space:nowrap}
 
   /* mirror quotes — her verbatim lines */
   .mirror{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
@@ -399,20 +415,36 @@
     <p class="under-btn">Money-back guarantee: if it doesn't help, you get every dollar back — any day of the month, plus a week after. One email, no questions.<br><span style="font-size:13px;color:var(--dim)">The button opens Stripe's secure page — about a minute.</span></p>
       </div>
 </header>
-<!-- PORTRAIT. This was a video placeholder: a play button with no player behind it and
-     a "75 seconds" caption, on the page that takes the money. Removed 2026-07-19 — a
-     dead play button on a checkout page is a broken promise, not a coming-soon. The
-     portrait stays because her seeing his face still does work; the only media that
-     actually exists is the story narration, which is linked honestly below. -->
+<!-- VIDEO. The placeholder removed 2026-07-19 ("a dead play button on a checkout page
+     is a broken promise") is back as a real player 2026-07-24: the 104s video produced
+     via yt-zane scene 0153 (script: threads-zane/zane-video-final-script-2026-07-24.html).
+     preload="none" — the page loads only the 84KB poster; the 18.6MB mp4 streams on
+     press. Captions are burned in. The letter below stays the no-play fallback. -->
 <section style="padding:16px 0">
   <div class="wrap">
-    <figure class="pslot reveal">
-      <img src="site-assets/illustrations/zane.webp" width="800" height="450" decoding="async" loading="lazy" alt="Zane">
+    <figure class="vslot reveal">
+      <video id="zvid" preload="none" playsinline width="720" height="1280"
+             poster="site-assets/illustrations/zane-video-poster.webp">
+        <source src="site-assets/video/zane-myself-again.mp4" type="video/mp4">
+      </video>
+      <button class="vplay" id="zplay" type="button" aria-label="Play the video — 1 minute 44 seconds">
+        <span class="vring" aria-hidden="true"><svg width="26" height="30" viewBox="0 0 26 30" fill="currentColor" aria-hidden="true"><path d="M0 0 L26 15 L0 30 Z"/></svg></span>
+        <span class="vtime">1 min 44 sec</span>
+      </button>
     </figure>
-    <p class="under-portrait">That's me. I've sat with hundreds of women while they rebuilt — this is that, made daily. If you'd rather hear it than read it,
-      <a href="/zane-story.html">my whole story is narrated here</a>.</p>
+    <p class="under-portrait">That's me. Press play — what this is and why I built it. The words are on the screen even with the sound off. If you'd rather hear the whole story,
+      <a href="/zane-story.html">it's narrated here</a>.</p>
   </div>
 </section>
+<script>
+(function(){
+  var b=document.getElementById('zplay'),v=document.getElementById('zvid');
+  if(!b||!v)return;
+  b.addEventListener('click',function(){
+    b.remove();v.controls=true;v.play();
+  });
+})();
+</script>
 
 <!-- IS THIS YOU (merged with The Years Nobody Sees per buyer review) -->
 <section class="band">
