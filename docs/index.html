@@ -37,88 +37,44 @@
 <style>
   /* page-specific bits not covered by the shared light system */
 
-  /* HERO — full-bleed immersive illustration + floating glass card */
-  .hero{position:relative;min-height:clamp(660px,92vh,940px);min-height:clamp(560px,92svh,940px);display:flex;align-items:center;padding:0;overflow:hidden;background:var(--paper)}
-  /* svh = the SMALL viewport height: the screen as it really is once Instagram's own header
-     and toolbar are eating ~100-180px of it. vh pretends they aren't there, which is exactly
-     why the quiz button was landing at 643px on a 664px screen and getting sliced by the edge.
-     The vh line above stays as a fallback for browsers that don't know svh. The 660px floor
-     also had to drop to 560 — it was forcing the hero TALLER than a small phone's screen. */
-  .heropic{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:78% 42%;display:block;transform-origin:64% 50%;animation:heroDrift 32s ease-in-out infinite alternate}
-  @keyframes heroDrift{from{transform:scale(1.05)}to{transform:scale(1.12) translate(-1.4%,-0.6%)}}
-  .hero-scrim{position:absolute;inset:0;pointer-events:none;background:
-    linear-gradient(98deg,rgba(247,242,233,.95) 0%,rgba(247,242,233,.88) 23%,rgba(247,242,233,.5) 45%,rgba(247,242,233,.12) 65%,rgba(247,242,233,0) 84%),
-    linear-gradient(180deg,rgba(247,242,233,0) 55%,rgba(247,242,233,.5) 82%,rgba(247,242,233,.95) 96%,var(--paper) 100%)}
+  /* HERO — washed illustration backdrop, words directly on it (rebuilt 2026-07-24).
+     The old full-strength image + glass card hid the illustration completely on phones
+     (wide crop pushed the pair off-frame, then an opaque card covered what was left).
+     Now the picture IS the background at ~1/3 strength — ink text clears AA at the worst
+     pixel with no scrim and no card — and phones load the portrait crop (hero-pair.webp)
+     so the woman and the man she carries are always in frame. No animation: LCP element. */
+  .hero{position:relative;display:flex;align-items:center;min-height:clamp(540px,78svh,800px);overflow:hidden;background:var(--paper)}
+  .heropic{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 38%;filter:grayscale(.4);opacity:.34}
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:96px;z-index:1;background:linear-gradient(0deg,var(--paper),rgba(247,242,233,0))}
   .hero .wrap{position:relative;z-index:2;width:100%}
-  .hero-card{max-width:560px;background:rgba(255,253,248,.62);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);border:1px solid rgba(255,255,255,.65);border-radius:24px;box-shadow:0 34px 80px rgba(120,80,40,.24),inset 0 1px 0 rgba(255,255,255,.6);padding:46px 44px}
-  @media(max-width:600px){
-    .hero-card{padding:18px 20px;background:rgba(255,253,248,.85)}
-    /* Every saving below is geometry, not copy. The headline, the italic line and all three
-       bullets survive intact — they are the only place the site says what it is FOR, and that is
-       the trust step she needs before she taps. We buy the space from air instead. */
-    .hero h1{font-size:37px;line-height:1.08;letter-spacing:-.015em}  /* 4 lines -> 3, same words */
-    .hero .lead{margin:10px 0 10px;font-size:17px}
-    .bullets{margin:0 0 12px}
-    .bullets li{margin:0 0 6px;font-size:16px;line-height:1.4}
-    .cta-free{margin:0 0 9px;font-size:13.5px}
-    .cta-row{gap:8px}
+  .hcopy{max-width:600px;padding:48px 0}
+  .hcopy h1{font-size:clamp(30px,4.2vw,52px);line-height:1.12}
+  .hcopy h1 .ink{color:var(--gold-deep);font-style:italic;font-weight:560}
+  .that{font-family:var(--display);font-style:italic;font-size:clamp(19px,2.2vw,24px);line-height:1.4;color:var(--ink);margin:20px 0 0}
+  .lead-in{font-size:16px;color:var(--ink-2);margin:24px 0 0}
+  .lead-in q{font-style:italic}
+  .bullets{list-style:none;padding:0;margin:12px 0 0}
+  .bullets li{position:relative;padding-left:26px;margin:0 0 10px;color:var(--ink);font-size:17px;line-height:1.5}
+  .bullets li::before{content:"";position:absolute;left:0;top:12px;width:14px;height:2px;background:var(--gold)}
+  .trust{font:400 15px/1.5 var(--body);color:var(--ink-2);margin:24px 0 12px;max-width:44ch}
+  .trust strong{color:var(--gold-deep);font-weight:560}
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .cta-row .btn{white-space:nowrap;letter-spacing:.06em;padding-left:24px;padding-right:24px}
+  .quiet{font:500 13px/1 var(--mono);letter-spacing:.04em;color:var(--ink-2);text-decoration:underline;text-underline-offset:4px}
+  .quiet:hover{color:var(--ink)}
+  /* Phones (incl. short in-app Instagram viewports): the whole message + the button fit the
+     first screen because the image no longer spends any vertical space of its own. */
+  @media(max-width:640px){
+    .hero{min-height:min(78svh,700px)}
+    .hcopy{padding:32px 0 40px}
+    .hcopy h1{font-size:clamp(28px,7.8vw,34px)}
+    .that{font-size:18px;margin-top:14px}
+    .lead-in{margin-top:18px}
+    .bullets li{font-size:15.5px;margin-bottom:8px}
+    .trust{font-size:14px;margin:18px 0 10px}
+    .heropic{object-position:50% 24%;opacity:.30}
+    .cta-row .btn{width:100%;text-align:center;padding:17px 12px}
   }
-  /* SHORT screens, not just narrow ones. An iPhone inside Instagram is ~664px tall; an older or
-     smaller one is ~560px. Width alone never told us that — which is why the button sat at exactly
-     the same pixel on every phone and fell off the bottom of the small ones. This is the only
-     breakpoint on the site that asks how much screen she actually HAS. Copy is untouched; only the
-     type scale and the air move. */
-  @media(max-width:600px) and (max-height:700px){
-    .hero-card{padding:14px 18px}
-    .hero h1{font-size:32px;line-height:1.06}
-    .hero .lead{font-size:16px;margin:8px 0 8px}
-    .bullets li{font-size:15px;line-height:1.36;margin:0 0 5px}
-    .bullets{margin:0 0 10px}
-    .cta-free{font-size:13px;margin:0 0 8px}
-  }
-  /* The smallest screens still in real use (an older iPhone inside Instagram, ~560px of height).
-     Squeeze the scale, never the words. Below this there is simply not enough glass to hold a
-     headline, three bullets and a button at once — and I would rather she scroll six pixels than
-     lose the only lines that tell her what this is for. */
-  @media(max-width:600px) and (max-height:600px){
-    .hero-card{padding:12px 16px}
-    .hero h1{font-size:28px;line-height:1.05}
-    .hero .lead{font-size:15px;margin:6px 0 6px}
-    .bullets li{font-size:14.5px;line-height:1.32;margin:0 0 4px}
-    .bullets{margin:0 0 8px}
-    .cta-free{font-size:12.5px;margin:0 0 7px;max-width:34ch}
-    .cta-row .btn{padding-top:14px;padding-bottom:14px}
-  }
-  .hero h1 .ink{color:var(--gold-deep);font-style:italic;font-weight:560}
-  .hero .lead{margin:20px 0 16px}
-  .hero-cap{position:absolute;right:18px;bottom:18px;z-index:2;font:500 9px/1.4 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#5e4029;background:rgba(255,253,248,.5);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);padding:8px 13px;border-radius:30px;border:1px solid rgba(255,255,255,.5)}
-  @media(max-width:760px){.hero-cap{display:none}}
-  @media(prefers-reduced-motion:reduce){.heropic{animation:none;transform:scale(1.05)}}
-  .bullets{list-style:none;padding:0;margin:0 0 26px}
-  .bullets li{position:relative;padding-left:28px;margin:0 0 11px;color:var(--ink);font-size:17px;line-height:1.5}
-  .bullets li::before{content:"";position:absolute;left:0;top:9px;width:13px;height:2px;background:var(--gold)}
-  .bullets li::after{content:"";position:absolute;left:5px;top:3px;width:2px;height:13px;background:var(--ember)}
-  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-  /* "See what you're carrying" overflowed its box by ~1px and wrapped onto two ragged lines, which
-     read as a rendering bug. The fix is to take the air OUT of the label, not to make the type
-     bigger — bigger type is wider type and wraps harder. 24 chars x 1.62px of tracking = 39px of
-     pure air; halving it is invisible and buys back the line. */
-  .cta-row .btn{letter-spacing:.06em;padding-left:22px;padding-right:22px;white-space:nowrap}
-  /* One dominant action. "Watch my story" was a second full-size button competing with the only
-     button that leads to the quiz — and it cost ~60px of vertical space on the exact screen we are
-     fighting for. It becomes a quiet text link underneath: still there, no longer shouting. */
-  .cta-row .btn.ghost{background:none;border:0;box-shadow:none;padding:6px 2px;color:var(--ink-2);
-    text-decoration:underline;text-underline-offset:4px;letter-spacing:.04em;font-size:12.5px}
-  .cta-row .btn.ghost:hover{background:none;color:var(--ink)}
-  /* The strongest objection-killer we own, said BEFORE she has to decide. Above the button, not
-     below it — below lands off the bottom of the very screen this is all for. */
-  .cta-free{font:400 14px/1.45 var(--body);color:var(--ink-2);margin:0 0 12px;max-width:38ch}
-  .cta-free strong{color:var(--gold-deep);font-weight:560}
-  .stats{display:flex;gap:28px;margin-top:30px;flex-wrap:wrap}
-  .stat{position:relative;padding-right:26px}
-  .stat:not(:last-child)::after{content:"";position:absolute;right:0;top:4px;bottom:4px;width:1px;background:var(--line)}
-  .stat b{display:block;font-family:var(--display);font-style:italic;font-weight:560;font-size:30px;line-height:1;color:var(--gold-deep)}
-  .stat span{display:block;font:500 10.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-top:8px}
 
   /* ORIGIN — illustrated portrait + confession */
   .origin-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:center}
@@ -266,31 +222,27 @@
 
 <!-- HERO -->
 <header class="hero" id="top">
-  <img class="heropic" src="site-assets/illustrations/hero-wide.webp" alt="A woman in hiking gear climbing a mountain at dawn, carrying an elegant man on her back who scrolls his phone, indifferent to her effort">
-  <div class="hero-scrim"></div>
+  <picture>
+    <source media="(max-width:640px)" srcset="site-assets/illustrations/hero-pair.webp">
+    <img class="heropic" src="site-assets/illustrations/hero-wide.webp" width="1088" height="608" fetchpriority="high" alt="A woman in hiking gear climbing a mountain at dawn, carrying an elegant man on her back who scrolls his phone, indifferent to her effort">
+  </picture>
   <div class="wrap">
-    <div class="hero-card reveal">
-      <span class="eyebrow">Scarred Truth · Zane</span>
+    <div class="hcopy">
       <h1>Scar tissue grows back <span class="ink">stronger</span> than skin that was never cut.</h1>
-      <p class="lead it" style="margin:20px 0 16px">That's not a metaphor. That's you.</p>
+      <p class="that">That's you. And you've already heard the usual advice:</p>
+      <p class="lead-in"><q>Let it go. Move on. Love yourself more.</q> Nobody ever says <em>how</em>. This is the how:</p>
       <ul class="bullets">
-        <li>Forgive — without reconciling, or letting them back in.</li>
-        <li>Put down the weight that was never yours — even the voice that says you're not enough.</li>
-        <li>Rebuild stronger than the version that broke.</li>
+        <li>Forgive — with the door still locked. The forgiving is for you. The lock is for them.</li>
+        <li>Stop paying a bill somebody else ran up. The weight was never yours to carry.</li>
+        <li>Rebuild — small, boring, daily. That's the whole secret. There isn't another one.</li>
       </ul>
-      <p class="cta-free">Fifteen gentle questions, no wrong answers — and <strong>no email needed</strong> to see your result.</p>
+      <p class="trust">Start with the free quiz: fifteen gentle questions, no wrong answers — <strong>no email needed</strong> to see your result.</p>
       <div class="cta-row">
         <a class="btn" href="her-own-woman-quiz.html">See what you're carrying</a>
-        <a class="btn ghost" href="#origin">Read my story</a>
-      </div>
-      <div class="stats">
-        <div class="stat"><b>1M+</b><span>find these words / month</span></div>
-        <div class="stat"><b>Eight</b><span>hearts — one is yours</span></div>
-        <div class="stat"><b>Free</b><span>quiz · 4 minutes</span></div>
+        <a class="quiet" href="#origin">Read my story →</a>
       </div>
     </div>
   </div>
-  <span class="hero-cap">The weight you were never meant to carry</span>
 </header>
 
 <div class="tear"><svg viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,30 L0,14 L50,9 L100,18 L150,8 L200,16 L250,10 L300,20 L350,7 L400,17 L450,11 L500,6 L550,18 L600,10 L650,19 L700,8 L750,15 L800,11 L850,19 L900,7 L950,16 L1000,11 L1050,20 L1100,9 L1150,17 L1200,12 L1200,30 Z" fill="#FFFDF8"/></svg></div>
