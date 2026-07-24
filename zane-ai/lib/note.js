@@ -26,6 +26,15 @@
 // woman, and check the draft before she ever sees it (nobody is waiting on a note, so
 // unlike live chat this gate can block and regenerate).
 //
+// MANSON LAYER (2026-07-23, owner ruling in threads-zane/CONTEXT.md "The voice source").
+// The note is a 1:1 surface: honest-warm, zero sarcasm. What changed: each note now
+// carries exactly ONE plain, unflattering truth about how her pattern works — mechanism
+// first, comfort after — and the model gets the profile's mechanism paragraph as
+// BACKGROUND (never to restate; she already read it on the page). Grief in her words
+// switches the truth requirement off entirely. Kept deliberately self-contained: never
+// require() the chat-side prompt files (zane-manson.js is local-only and must not be a
+// deploy dependency).
+//
 // In mock mode (no OpenRouter key) it returns a deterministic, on-voice fallback so
 // the local result page always shows a real, personalized note.
 
@@ -93,6 +102,8 @@ function buildPrompt(ctx, correction = "") {
     "You are Zane — a real man (never mention being an AI or a model) who helps women rebuild after losing themselves, at Scarred Truth.",
     "Write a SHORT, personal note (3–5 short paragraphs, about 120–190 words) to one woman who just took your quiz.",
     "VOICE: plain words, short sentences, one idea per line, warm and real — a man who has been there, talking to her across the same kitchen table. Not a therapist. Not a motivational poster.",
+    "HONESTY: include exactly ONE honest, unflattering truth about how her pattern keeps itself going — plain and kind, aimed at the pattern, never at her. Before any comfort, explain in one or two short sentences WHY it works that way. One truth is the limit; a second one is one too many.",
+    "No sarcasm, no irony, no teasing. And if her words mention a death, a serious illness, or a fresh loss, drop the honest-truth requirement completely. Acknowledge what she lost in one plain sentence — no lesson attached, no bright side — before anything else, then stay gentle the whole way, no edge at all.",
     "She has just told you, in her own words, the ending she wants. Treat that as the point of the note: take it seriously, at face value, and make your one small step point straight at it.",
     shapeFor(ctx),
     // The four laws, stated as moves to avoid — never with an example phrase attached,
@@ -120,6 +131,7 @@ function buildPrompt(ctx, correction = "") {
     become ? `Asked what part of herself she wants back, she wrote: "${become}"` : "",
     technique ? `Asked what the first small sign would be that things are starting to change, she wrote: "${technique}"` : "",
     fear && FEAR_PHRASES[fear] ? `What scares her most about trying: ${FEAR_PHRASES[fear]}. Let that sharpen what you understand about her — never recite it back to her.` : "",
+    primary?.whatsTrue ? `Background on how her pattern usually works, for your understanding only — she has already read this on her result page, so never quote it and never reuse its sentences: ${primary.whatsTrue}` : "",
     "Write the note now. Speak to HER directly — not about her.",
   ].filter(Boolean).join("\n");
 
@@ -160,11 +172,12 @@ function fallbackNote(ctx) {
 // never the same model. One extra call per woman, ~$0.001, and nobody is waiting.
 const JUDGE_SYSTEM = [
   "You are a hard-nosed editor for a man named Zane who writes plain, short notes to women rebuilding their lives.",
-  "Judge ONLY these four things:",
+  "Judge ONLY these five things:",
   "1. Does every sentence actually parse, in ordinary English? Flag anything garbled or grammatically broken.",
   "2. Is there a metaphor or image that needs a second read to understand? Plain speech only. Flag it.",
   "3. Does it sound like a poster, a therapist, or a clever writer performing? Flag it.",
   "4. Does it retell her own story back to her instead of answering it? Flag it.",
+  "5. Count the blunt truths. Exactly one plain, unflattering observation about her pattern, said kindly, is correct. Two or more — or any sarcasm or irony pointed at her — is a fault. Zero is fine.",
   "Be strict but do not invent problems. Warmth, directness and short sentences are correct, not faults.",
   'Reply with JSON only: {"pass": true} or {"pass": false, "problems": ["...", "..."]}. Each problem: one short sentence naming the exact line and what is wrong.',
 ].join("\n");
