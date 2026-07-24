@@ -38,6 +38,7 @@
   .qhero-head{position:relative;z-index:2;max-width:840px;margin:0 auto;padding:0 26px}
   .qhero-head h1{margin:0 auto;max-width:21ch;font-size:clamp(30px,4.9vw,55px);line-height:1.06}
   .qhero-head h1 .ink{color:var(--gold-deep);font-style:italic;font-weight:560}
+  .qhero-allbtn{display:inline-block;margin-top:20px}
   .qhero-bg{position:relative;z-index:1;width:100%;margin-top:clamp(2px,1vh,16px)}
   /* the image's TOP edge dissolves into the shared warm wash (mask) — women rise out of the gradient, no seam */
   .qhero-bg img{display:block;width:100%;height:auto;opacity:.8;-webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 8%,#000 18%);mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 8%,#000 18%)}
@@ -691,7 +692,6 @@ function topbar(){
       '<a class="lnk" href="/">Home</a>'+
       '<a class="lnk" href="#" onclick="go(\'entry\');return false;">The&nbsp;Quiz</a>'+
       '<a class="lnk" href="/zane-story.html">My&nbsp;Story</a>'+
-      '<a class="lnk" href="/quiz-all-profiles.html">All&nbsp;Profiles</a>'+
       '<a class="navcta" href="/join-myself-again-cohort">Join&nbsp;Myself&nbsp;Again</a>'+
     '</nav>'+
   '</div></div>'+
@@ -738,6 +738,7 @@ function renderEntry(){
   '<header class="qhero" id="top">'+
     '<div class="qhero-head reveal">'+
       '<h1>Eight ways a strong woman <span class="ink">loses herself</span>.<br>Which is yours?</h1>'+
+      '<a class="btn ghost qhero-allbtn" href="/quiz-all-profiles.html">See all eight profiles</a>'+
     '</div>'+
     '<div class="qhero-bg reveal">'+
       '<img src="site-assets/illustrations/group.webp" alt="Eight women — each losing herself a different way, around the one who found her way back">'+
