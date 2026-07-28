@@ -85,14 +85,14 @@
   .topline .tseg i{font:500 11px/1.2 var(--mono);font-style:normal;color:var(--dim);letter-spacing:.06em}
   .topline .btn{min-height:44px;padding:8px 16px;font-size:11px;display:inline-flex;align-items:center;flex:none}
   @media(max-width:560px){
-    .topline{gap:10px;padding:8px 12px;justify-content:space-between}
-    .topline .tl8{display:none}
+    .topline{gap:8px;padding:8px 10px;justify-content:space-between}
+    .topline .zinf.tl8{width:16px;height:16px}
     .topline .tlkl{display:none}
     .topline .tlks{display:inline}
-    .topline .tlk{font-size:11px;letter-spacing:.08em}
-    .topline .tlclock{gap:7px}
-    .topline .tseg b{font-size:15px}
-    .topline .btn{padding:8px 12px}
+    .topline .tlk{font-size:10px;letter-spacing:.06em}
+    .topline .tlclock{gap:5px}
+    .topline .tseg b{font-size:14px}
+    .topline .btn{padding:8px 10px;font-size:10px}
   }
 
   /* THE STITCHED EIGHT + the 08.08 date lockup — the date, infinity, a suture */
@@ -211,8 +211,13 @@
   .plan p{margin:4px 0 0;font-size:17px;line-height:1.7;color:var(--ink-2)}
 
   /* WHY — portrait + letter (pattern from index.html origin block) */
-  .origin-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:48px;align-items:start}
-  @media(max-width:860px){.origin-grid{grid-template-columns:1fr;gap:32px}}
+  .origin-grid{display:grid;grid-template-columns:.82fr 1.18fr;grid-template-areas:"photos head" "photos text";gap:0 48px;align-items:start}
+  .origin-grid .letterhead{grid-area:head}
+  .origin-grid .letterhead h2{margin-bottom:0}
+  .origin-grid .printpair{grid-area:photos}
+  .origin-grid .letterbody{grid-area:text}
+  /* mobile: headline first, the prints under it, then the letter */
+  @media(max-width:860px){.origin-grid{grid-template-columns:1fr;grid-template-areas:"head" "photos" "text";gap:32px}}
   /* two real prints laid on the paper, annotated in Zane's pen (scribble pattern from index) */
   .printpair{position:relative;padding:26px 0 26px}
   .printpair figure{margin:0;position:relative;width:86%;border-radius:4px;box-shadow:var(--shadow-lift)}
@@ -540,6 +545,10 @@
 <section id="why">
   <div class="wrap">
     <div class="origin-grid">
+      <div class="reveal letterhead">
+        <span class="eyebrow">A letter, before you decide anything</span>
+        <h2>Why I built this</h2>
+      </div>
       <div class="printpair reveal">
         <figure class="p-before">
           <img src="site-assets/illustrations/zane-mom-before.webp" width="900" height="1195" loading="lazy" decoding="async" alt="A printed photo from the second month: Zane's mother at her kitchen table, tired and not smiling, Zane beside her with an arm around her shoulders">
@@ -553,8 +562,6 @@
         </figure>
       </div>
       <div class="reveal letterbody">
-        <span class="eyebrow">A letter, before you decide anything</span>
-        <h2>Why I built this</h2>
         <p style="margin-top:24px">I grew up in my mother's kitchen.</p>
         <p>It was the kind of kitchen women came to. Her friends. The neighbors. Somebody's sister who was “just stopping by” and stayed three hours. They came with coffee cake and they came with their lives — the marriages, the disappointments, the things they couldn't say at home.</p>
         <p>I was the quiet kid at the end of the table. And somewhere in those years, without anyone deciding it, I became the one they talked to. I've been listening to women carry heavy things since before I understood what the things were.</p>
@@ -1184,6 +1191,18 @@
   var io=new IntersectionObserver(function(es){es.forEach(function(e){
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
   document.querySelectorAll('.reveal,.seam').forEach(function(el){io.observe(el);});
+
+  // iOS Safari suspends SVG (SMIL) timelines when the tab is backgrounded or the
+  // mark scrolls offscreen, and often never resumes them — the 08.08 infinity/heart
+  // morph froze on iPhones. Kick the timeline whenever the mark comes back.
+  var mark=document.querySelector('svg.zbig');
+  if(mark&&mark.unpauseAnimations){
+    var kick=function(){try{mark.unpauseAnimations();mark.setCurrentTime(mark.getCurrentTime());}catch(e){}};
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)kick();});
+    window.addEventListener('pageshow',kick);
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)kick();});}).observe(mark);
+    setInterval(function(){if(!document.hidden)kick();},4000);
+  }
 
   // Review mode ("show the seams") removed 2026-07-19 on the owner's call. The .fn / .striplist
   // / .inv rules in the stylesheet now have no way to activate, so that content stays
