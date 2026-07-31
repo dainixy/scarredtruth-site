@@ -4,11 +4,12 @@
 size, duration and radius comes from there. If a value isn't in it, it doesn't exist.
 
 **Copy doctrine: before writing or reviewing ANY sales/landing/homepage/email/VSL copy on
-this site, load the `zane-copy-doctrine` skill** (global, `~/.claude/skills/`) — the
-adjudicated 12-course doctrine. Live offer facts (name, prices, dates, guarantee wording) are
-owned by `threads-zane/CONTEXT.md` — read it, never write a price or date from memory. The
-full course-learnings corpus (Instagram system, storytelling, funnels) is indexed at
-`threads-zane/docs/zane-learnings-map.md`.
+this site, load the `zane-copy-doctrine` skill** (global, `~/.claude/skills/`); Zane's voice
+= `zane-manson-voice`, story structure = `zane-storytelling`. All Zane doctrine paths route
+through `~/.claude/docs/zane-canon.md` (canon root: the `zane-brain` repo — renamed from
+threads-zane 2026-07-31). Live offer facts (name, prices, dates, guarantee wording) are owned
+by `<canon>/CONTEXT.md` — read it, never write a price or date from memory. The corpus index
+is `<canon>/INDEX.md`.
 
 **Stack:** hand-authored static HTML. No framework, no build step, no bundler. Pages are
 served as-is.
