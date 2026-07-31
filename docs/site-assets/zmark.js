@@ -1,5 +1,5 @@
 /* zmark.js — drives the stitched-eight marks: the traveling dash on every
-   .zinf, and the 08.08 infinity→heart morph on .zbig.
+   .zinf, and the 15.08 infinity→heart morph on .zbig.
    These were CSS keyframes + SMIL <animate>. iOS Safari suspends SMIL when the
    mark is offscreen or the tab was backgrounded (often permanently), and stills
    the CSS draw under Reduce Motion — on iPhones the marks froze. rAF is the one
