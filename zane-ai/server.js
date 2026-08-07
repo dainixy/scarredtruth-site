@@ -259,8 +259,12 @@ app.post("/api/freebie", async (req, res) => {
 
   const name = String(b.name || "").trim().slice(0, 80);
 
+  // `books` is all three, flagged with the one she asked for, because she gets the set —
+  // the same set the delivery email carries. The no-JS branch can only hand over one file
+  // (a 303 goes to a single URL), so it sends the one she asked for and the email fills in
+  // the other two.
   if (wantsRedirect) res.redirect(303, book.file);
-  else res.json({ ok: true, file: book.file, title: book.title });
+  else res.json({ ok: true, file: book.file, title: book.title, books: freebies.list(b.magnet) });
 
   // --- after she has the file ----------------------------------------------------
   logQuietly({ type: "freebie_signup", email, name, magnet: b.magnet, source: sourceOf(b.source) });

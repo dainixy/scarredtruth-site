@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free books — Scarred Truth | Zane</title>
+<title>Freebies — Scarred Truth | Zane</title>
 <meta name="description" content="Three short books, free. The tools for when your head won't switch off, the first month after he goes, and why your body wakes you at three in the morning. One email each.">
 
 <link rel="icon" type="image/svg+xml" href="/site-assets/favicon.svg">
@@ -160,6 +160,12 @@
   .gdone .gtick{font:500 12px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;
     color:var(--gold-deep);display:block;margin-bottom:10px}
   .gdone p{font-size:17px;line-height:1.65;color:var(--ink-2);margin:0 0 16px}
+  /* the other two books, under the one she asked for — quiet, so the accent stays single */
+  .gmore{list-style:none;padding:0;margin:16px 0 0}
+  .gmore li{margin:0 0 8px}
+  .gmore a{font:500 13px/1.5 var(--mono);letter-spacing:.06em;color:var(--ink-2);
+    text-decoration:underline;text-underline-offset:4px}
+  .gmore a:hover{color:var(--ink)}
   .bkget{white-space:normal}
   /* `.btn` sets display:inline-block, and an author display beats the UA stylesheet's
      [hidden]{display:none} — so without this the "hidden" trigger stays on screen.
@@ -206,13 +212,13 @@
 <!-- TOP BAR -->
 <div class="topbar"><div class="row"><a class="brandmark" href="/"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a><input id="navtog" type="checkbox" aria-label="Menu">
 <label class="navtoggle" for="navtog" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
-<nav class="nav" aria-label="Primary"><a class="lnk" href="/">Home</a><a class="lnk" href="/her-own-woman-quiz.html">The&nbsp;Quiz</a><a class="lnk" href="/freebies" aria-current="page">Free&nbsp;Books</a><a class="lnk" href="/zane-story.html">My&nbsp;Story</a><a class="navcta" href="/join-myself-again-cohort">Join&nbsp;Myself&nbsp;Again</a></nav></div></div>
+<nav class="nav" aria-label="Primary"><a class="lnk" href="/">Home</a><a class="lnk" href="/her-own-woman-quiz.html">The&nbsp;Quiz</a><a class="lnk" href="/freebies" aria-current="page">Freebies</a><a class="lnk" href="/zane-story.html">My&nbsp;Story</a><a class="navcta" href="/join-myself-again-cohort">Join&nbsp;Myself&nbsp;Again</a></nav></div></div>
 <a id="main" tabindex="-1"></a>
 
 <!-- HERO -->
 <header class="fhero">
   <div class="wrap">
-    <span class="keyline">Free · no card, no catch</span>
+    <span class="keyline">Freebies · no card, no catch</span>
     <h1>Three short books for the hours nobody else is awake for.</h1>
     <p class="that">Not pep talks. Tools. Every one of them takes ten minutes or less.</p>
     <ul class="fshelf">
@@ -224,8 +230,8 @@
       already know what you should do and your body won't go along with it. So every tool in them
       starts with the body, not with thinking harder.
       <strong>You've been sold magic before. Not here.</strong></p>
-    <p class="fdeal">They're free. I ask for an email so I can send you the file — and so I can
-      write to you now and then. One tap unsubscribes, and I won't chase you.</p>
+    <p class="fdeal">Ask for one and you get all three. I need an email to send them to — and
+      I'll write to you now and then. One tap unsubscribes, and I won't chase you.</p>
   </div>
 </header>
 
@@ -405,8 +411,8 @@
       <p>No. You get the book, and then a letter from me now and again — the same kind of thing
         that's in the books. One tap unsubscribes and it actually works.</p></div>
     <div class="faq"><h3>Can I have all three?</h3>
-      <p>Yes. Ask for one, then ask for the next. Same email is fine — each book comes on its own
-        so nothing lands as one giant attachment.</p></div>
+      <p>You already do. Ask for one and all three arrive together — on this page straight away,
+        and in the email a minute later. There's nothing else to fill in.</p></div>
     <div class="faq"><h3>What if the email doesn't turn up?</h3>
       <p>You'll already have the book — this page hands you the file the second you ask, so the
         email is a spare copy, not the delivery. If it's missing, look in spam, and write to
@@ -516,16 +522,35 @@
           if(!res.ok || !res.j || !res.j.ok) throw new Error((res.j&&res.j.error)||'Something went wrong on my end.');
           remember(email);
           form.hidden=true;
+          /* She asked for one and gets all three — the same set the email carries. The one
+             she asked for is the ember button; the other two are quiet links under it, so
+             there is still exactly one accent on screen (DESIGN.md §6). */
+          var books=(res.j.books&&res.j.books.length)?res.j.books
+                    :[{title:res.j.title,file:res.j.file,requested:true}];
+          var mine=books.filter(function(x){return x.requested})[0]||books[0];
+          var others=books.filter(function(x){return x!==mine});
           done.innerHTML='<span class="gtick">Yours</span>'+
-            '<p>It\'s on its way to <strong>'+email.replace(/[&<>"]/g,'')+'</strong> — that can take a minute or two. '+
-            'Here it is right now so you don\'t have to wait for it.</p>'+
-            '<a class="btn" href="'+res.j.file+'" download>Open '+(res.j.title||'the book')+'</a>';
+            '<p>On its way to <strong>'+email.replace(/[&<>"]/g,'')+'</strong>, which can take a '+
+            'minute or two. You asked for one — take all three, they\'re here now.</p>'+
+            '<a class="btn" href="'+mine.file+'" download>Open '+mine.title+'</a>'+
+            (others.length?'<ul class="gmore">'+others.map(function(x){
+              return '<li><a href="'+x.file+'" download>'+x.title+'</a></li>';}).join('')+'</ul>':'');
           done.hidden=false;
           done.querySelector('.btn').focus();
-          /* second book, one tap: the other triggers now say so */
+          /* Every other row now says she has that book too, instead of offering to send
+             something she already has. */
           gates.forEach(function(g){
-            var t=g.querySelector('.bkget');
-            if(t && !t.hidden && g!==gate) t.textContent=t.textContent.replace(/^Get /,'Send me ');
+            if(g===gate) return;
+            var t=g.querySelector('.bkget'), f=g.querySelector('.gform'), d=g.querySelector('.gdone');
+            if(!d || !d.hidden) return;           // already delivered — leave it
+            var bk=books.filter(function(x){return x.slug===g.dataset.magnet})[0];
+            if(!bk) return;
+            if(t) t.hidden=true;
+            if(f) f.hidden=true;
+            d.innerHTML='<span class="gtick">Yours too</span>'+
+              '<p>This one came with the set.</p>'+
+              '<a class="btn ghost" href="'+bk.file+'" download>Open '+bk.title+'</a>';
+            d.hidden=false;
           });
         })
         .catch(function(e){

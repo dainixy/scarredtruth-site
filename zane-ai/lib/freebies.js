@@ -64,8 +64,30 @@ const FREEBIES = {
   },
 };
 
+// Reading order. The books cross-reference each other — The Night Shift calls
+// 10 Psychology Hacks "the first book" and REBUILD "book two" — so this order is the
+// series, not a preference.
+const ORDER = ["10-psychology-hacks", "rebuild-15-things", "the-night-shift"];
+
 function get(slug) {
   return Object.prototype.hasOwnProperty.call(FREEBIES, String(slug || "")) ? FREEBIES[slug] : null;
+}
+
+// Every book, flagged with the one she actually asked for.
+//
+// She asks for one and receives all three, on the page AND in the email. The two have to
+// match: the delivery email carries all three links (one automation, owner ruling
+// 2026-08-06), so a page that handed over a single file would be stingier than the email
+// she gets a minute later. Which book she ASKED for is still recorded — that's her own
+// per-book group, and it's the useful signal about what is actually wrong tonight.
+function list(requestedSlug) {
+  const want = String(requestedSlug || "");
+  return ORDER.map((slug) => ({
+    slug,
+    title: FREEBIES[slug].title,
+    file: FREEBIES[slug].file,
+    requested: slug === want,
+  }));
 }
 
 // Both groups, in one place, so the endpoint can't accidentally send only one of them.
@@ -74,4 +96,4 @@ function groupsFor(slug) {
   return book ? [book.group, ALL_GROUP] : [];
 }
 
-module.exports = { FREEBIES, get, groupsFor, ALL_GROUP };
+module.exports = { FREEBIES, ORDER, get, list, groupsFor, ALL_GROUP };
