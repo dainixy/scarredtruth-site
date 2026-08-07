@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free books — Scarred Truth | Zane</title>
+<meta name="description" content="Three short books, free. The tools for when your head won't switch off, the first month after he goes, and why your body wakes you at three in the morning. One email each.">
+
+<link rel="icon" type="image/svg+xml" href="/site-assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/site-assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/site-assets/apple-touch-icon.png">
+<meta name="theme-color" content="#F7F2E9">
+<link rel="canonical" href="https://scarredtruth.com/freebies">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Three short books, free — Scarred Truth">
+<meta property="og:description" content="Tools for the hours nobody else is awake for. Each one takes ten minutes or less.">
+<meta property="og:image" content="https://scarredtruth.com/site-assets/og-image.png">
+<meta property="og:url" content="https://scarredtruth.com/freebies">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://scarredtruth.com/site-assets/og-image.png">
+
+<!-- preload ONLY the two above-fold faces (h1 + lead). Not all five. -->
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/site-assets/fonts/fraunces-roman.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/site-assets/fonts/newsreader-roman.woff2">
+
+<!--
+  FREE BOOKS (/freebies) — built 2026-08-06. The library page: three ebooks, each
+  handed over for an email address.
+
+  Delivery is TWO things and the order matters: the page gives her the PDF the
+  instant she asks (so a typo, a spam filter or a MailerLite outage can never cost
+  her the thing she came for), and MailerLite emails the same link so she still has
+  it tomorrow. Server: POST /api/freebie. Group-per-book and why: zane-ai/lib/freebies.js.
+
+  ACCENT DISCIPLINE (DESIGN.md §6): the three "Get it" triggers are .btn.ghost —
+  ink, not ember — because two or three of them share a viewport and ember allows
+  exactly ONE per viewport region. The ember appears only on the open form's submit
+  and then on the download link, i.e. only ever on the single thing there is to do
+  next. Do not "improve" these to ember; that breaks the rule three ways at once.
+  For the same reason the section labels here are .keyline (--dim), not .eyebrow
+  (unconditionally ember, and already flagged as ember-creep debt in DESIGN.md).
+-->
+<link rel="stylesheet" href="/site-assets/scarred-light.css">
+<script defer src="/site-assets/img-resilience.js"></script>
+<script defer src="/site-assets/backtotop.js"></script>
+<!-- reveal.js is the SITE-WIDE backstop, not a nicety: the stylesheet starts every
+     .reveal at opacity:0, and a page that ships without this script is one failed
+     observer away from 5,000px of blank cream (it happened once already). The inline
+     observer at the bottom stays because reveal.js only watches .reveal, not .seam. -->
+<script defer src="/site-assets/reveal.js"></script>
+<script defer src="/site-assets/zmark.js"></script>
+<style>
+  /* ---- hero: words only. No illustration band — the three covers are this page's
+     pictures, and the LCP element stays text. ---- */
+  .fhero{padding:64px 0 48px}
+  .fhero h1{font-size:clamp(32px,4.6vw,52px);line-height:1.12;max-width:26ch;margin:0}
+  .fhero .that{font-family:var(--display);font-style:italic;font-size:clamp(19px,2.2vw,22px);
+    line-height:1.4;color:var(--ink);margin:16px 0 0;max-width:34ch}
+  .fhero .flead{font-size:17px;line-height:1.7;color:var(--ink-2);margin:24px 0 0;max-width:56ch}
+  .fhero .flead strong{color:var(--gold-deep);font-weight:560}
+  .fhero .fdeal{font-size:15px;line-height:1.6;color:var(--ink-2);margin:16px 0 0;max-width:52ch}
+  /* clamp bounds must both sit on the type scale — the fluid middle is free (DESIGN.md §4).
+     28/34 were not on it; 26/32 are, and the rendered size on a 390px phone is unchanged. */
+  @media(max-width:640px){.fhero{padding:40px 0 32px}.fhero h1{font-size:clamp(26px,7.6vw,32px)}}
+
+  /* The three covers, in the hero. She came here for books: one of them has to be on
+     the first screen, on a phone as well as a desktop. They link down to their own row,
+     so a tap does the obvious thing. No hover lift — these are the goods, not controls.
+
+     SIZING: three equal FLUID columns, capped at the width of the prose beside them, so
+     the row reads as one block flush with the text instead of a huddle of thumbnails in
+     the left margin. Fluid columns (not a fixed cover height) mean the row can never
+     overflow a narrow phone, which a fixed height silently does below ~360px.
+
+     `align-items:end` because the covers are not all the same trim: 10 Psychology Hacks
+     is 0.71 wide-to-tall, the other two are 0.77. Aligning the BOTTOMS makes that read as
+     a shelf of real books; aligning the tops would just look like a mistake.
+
+     The cap is `56ch at 17px` — the exact same declaration the prose beside it uses — so
+     the row ends flush with the paragraph instead of overhanging it, and if the reading
+     width is ever retuned both move together. (`ch` resolves against the element's own
+     font-size, hence the font-size here; the row contains only images.) */
+  .fshelf{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:end;
+    font-size:17px;max-width:56ch;margin:28px 0 0;padding:0;list-style:none}
+  .fshelf a{display:block;line-height:0}
+  .fshelf img{display:block;width:100%;height:auto;border-radius:4px;
+    border:1px solid var(--line);box-shadow:var(--shadow)}
+  /* Phones: the gap shrinks so the covers themselves get the space. Nothing else changes
+     — the columns are fluid, so this is the whole mobile treatment. */
+  @media(max-width:560px){.fshelf{gap:10px;margin-top:24px}}
+
+  /* the quiet section label — mono, --dim. Never ember (see the note in <head>). */
+  .keyline{font:500 12px/1.4 var(--mono);letter-spacing:.28em;text-transform:uppercase;
+    color:var(--dim);margin:0 0 16px;display:block}
+
+  /* ---- the shelf ---- */
+  .shelf{list-style:none;margin:0;padding:0}
+  /* scroll-margin, because the topbar and the countdown bar are both sticky: without it
+     a jump from a hero cover parks the book's title underneath them. */
+  .shelf>li{padding:48px 0;border-top:1px solid var(--line-soft);scroll-margin-top:128px}
+  .shelf>li:first-child{border-top:none;padding-top:8px}
+  .bk{display:grid;grid-template-columns:168px 1fr;gap:40px;align-items:start}
+  /* One fixed cover column so every title starts on the same vertical line, while the
+     covers keep their own trim sizes inside it — a shelf, not a card grid. */
+  .bkcover{width:168px;display:flex;justify-content:center}
+  .bkcover img{display:block;width:auto;height:auto;max-width:100%;border-radius:4px;
+    border:1px solid var(--line);box-shadow:var(--shadow)}
+  .bklabel{font:500 11px/1.5 var(--mono);letter-spacing:.18em;text-transform:uppercase;
+    color:var(--dim);margin:0 0 10px}
+  /* 11px, not the 9px I first copied off .plan .soon on the homepage: the type floor is
+     "11px rendered, no exceptions" (DESIGN.md §2). The homepage's 8.5px badge is a
+     pre-existing violation and belongs to the site-wide migration. */
+  .bknew{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold-deep);border:1px solid var(--gold);border-radius:20px;padding:4px 9px;
+    margin-left:8px;vertical-align:middle;white-space:nowrap}
+  .bk h2{font-size:clamp(26px,3.4vw,32px);line-height:1.15;margin:0}
+  .bksub{font-family:var(--display);font-style:italic;font-size:19px;line-height:1.4;
+    color:var(--gold-deep);margin:8px 0 0}
+  .bkwhy{font-size:17px;line-height:1.7;color:var(--ink-2);margin:16px 0 0;max-width:58ch}
+  .bkgets{list-style:none;padding:0;margin:20px 0 0;max-width:58ch}
+  .bkgets li{position:relative;padding-left:24px;margin:0 0 10px;font-size:17px;
+    line-height:1.55;color:var(--ink)}
+  .bkgets li::before{content:"";position:absolute;left:0;top:12px;width:13px;height:2px;
+    background:var(--gold)}
+  @media(max-width:720px){
+    .bk{grid-template-columns:120px 1fr;gap:24px}
+    .bkcover{width:120px}
+    .bk h2{font-size:26px}
+    .bksub{font-size:17px}
+  }
+  /* Below 560 the two-column row stops working as READING: a 96px cover column leaves
+     the prose about 28 characters wide, well under the 50-character floor (DESIGN.md §4).
+     So the cover moves above the text and the prose gets the full column — the same thing
+     .origin-grid and .rebuild-combo already do on this site. All three covers are in the
+     hero anyway, so nothing is lost by making this one smaller. */
+  @media(max-width:560px){
+    .bk{grid-template-columns:1fr;gap:20px}
+    .bkcover{width:auto;justify-content:flex-start}
+    .bkcover img{width:104px}
+    .bkwhy,.bkgets li{font-size:17px}
+  }
+
+  /* ---- the gate: trigger -> one email field -> the file ---- */
+  .gate{margin-top:24px}
+  .gform{margin:0;max-width:440px}
+  .glabel{display:block;font:500 12px/1.5 var(--mono);letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-2);margin:0 0 8px}
+  .grow{display:flex;gap:12px;flex-wrap:wrap}
+  .ginput{flex:1 1 200px;min-width:0;min-height:48px;padding:12px 16px;font:400 17px/1.4 var(--body);
+    color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:4px}
+  .ginput::placeholder{color:var(--dim)}
+  .ginput:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-color:var(--ink)}
+  .gform .btn{border-radius:4px}
+  .gform .btn[disabled]{opacity:.6;cursor:default}
+  .gnote{font:400 13px/1.6 var(--body);color:var(--dim);margin:12px 0 0}
+  .gerr{font:400 15px/1.6 var(--body);color:var(--fam-vanish);margin:12px 0 0}
+  /* the honeypot: off-screen rather than display:none, which some bots skip */
+  .ghp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .gdone{margin:0;max-width:52ch}
+  .gdone .gtick{font:500 12px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold-deep);display:block;margin-bottom:10px}
+  .gdone p{font-size:17px;line-height:1.65;color:var(--ink-2);margin:0 0 16px}
+  .bkget{white-space:normal}
+  /* `.btn` sets display:inline-block, and an author display beats the UA stylesheet's
+     [hidden]{display:none} — so without this the "hidden" trigger stays on screen.
+     Bitten by exactly this once; keep the pair together. */
+  .bkget[hidden],.gform[hidden],.gdone[hidden],.gerr[hidden]{display:none}
+
+  /* ---- how they fit + the next step ---- */
+  .fitband{padding:8px 0 0}
+  .fitband p{font-size:17px;line-height:1.7;color:var(--ink-2);margin:0}
+  /* Capped at the reading column and centred: at 1140px the card was two-thirds empty
+     paper, because the prose inside it is (correctly) only ~58 characters wide. Copy
+     stays left-aligned — centred body past ~5 lines is banned (DESIGN.md §11). */
+  .nextcard{max-width:var(--read);margin:0 auto;padding:48px 44px}
+  .nextcard h2{font-size:clamp(26px,3.6vw,32px);line-height:1.18;margin:0 0 14px}
+  .nextcard h2 em{color:var(--gold-deep);font-style:italic}
+  .nextcard p{font-size:17px;line-height:1.7;color:var(--ink-2);margin:0 0 24px}
+  .nextcard .underbtn{font:400 13px/1.6 var(--body);color:var(--dim);margin:16px 0 0}
+  @media(max-width:560px){.nextcard{padding:32px 24px}}
+
+  /* The shared stylesheet has NO base `a` rule, so an unstyled prose link renders in
+     the browser's default blue — a cool hue on warm paper, which the palette forbids
+     outright. Scoped to this page's prose; the same bug is live in index.html's FAQ and
+     belongs to the site-wide migration, not to this change. */
+  .faq p a,.fdeal a,.bkwhy a{color:var(--ember);text-decoration:underline;text-underline-offset:3px}
+  .faq p a:hover,.fdeal a:hover,.bkwhy a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- 15.08 countdown bar — sitewide chrome, same markup as every other page -->
+<style>.tlbar{position:sticky;top:0;z-index:70;background:var(--paper-2,#FFFDF8);border-bottom:1px solid var(--line-soft,#efe7d8);box-shadow:0 1px 2px rgba(70,45,20,.04),0 16px 40px rgba(120,80,40,.07);display:flex;align-items:center;justify-content:center;gap:16px;padding:8px 16px}.tlbar .zinf{overflow:visible;flex:none}.tlbar .zinf path{fill:none;stroke-linecap:round;stroke-linejoin:round}.tlbar .zinf .zt{stroke:var(--gold,#C9A05A);opacity:.18}.tlbar .zinf .zl{stroke:var(--gold-deep,#7A4F12);stroke-dasharray:62 38;animation:zdraw 4.6s linear infinite}.tlbar .zinf .zm{fill:var(--gold-deep,#7A4F12);stroke:none}.tlbar .zinf{width:26px;height:26px}.tlbar .zinf .zt,.tlbar .zinf .zl{stroke-width:3.4}@keyframes zdraw{0.0%{stroke-dashoffset:-0.00}4.2%{stroke-dashoffset:-1.78}8.3%{stroke-dashoffset:-4.20}12.5%{stroke-dashoffset:-7.73}16.7%{stroke-dashoffset:-12.53}20.8%{stroke-dashoffset:-18.45}25.0%{stroke-dashoffset:-25.00}29.2%{stroke-dashoffset:-31.55}33.3%{stroke-dashoffset:-37.47}37.5%{stroke-dashoffset:-42.27}41.7%{stroke-dashoffset:-45.80}45.8%{stroke-dashoffset:-48.22}50.0%{stroke-dashoffset:-50.00}54.2%{stroke-dashoffset:-51.78}58.3%{stroke-dashoffset:-54.20}62.5%{stroke-dashoffset:-57.73}66.7%{stroke-dashoffset:-62.53}70.8%{stroke-dashoffset:-68.45}75.0%{stroke-dashoffset:-75.00}79.2%{stroke-dashoffset:-81.55}83.3%{stroke-dashoffset:-87.47}87.5%{stroke-dashoffset:-92.27}91.7%{stroke-dashoffset:-95.80}95.8%{stroke-dashoffset:-98.22}100.0%{stroke-dashoffset:-100.00}}.tlbar .tlclock{display:inline-flex;align-items:baseline;gap:10px}.tlbar .tlk{font:500 12px/1.6 'Spline Sans Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--dim,#8A8079);white-space:nowrap}.tlbar .tlks{display:none}.tlbar .tseg{display:inline-flex;align-items:baseline;gap:2px}.tlbar .tseg b{font:600 17px/1.2 'Spline Sans Mono',monospace;color:var(--ink,#2A231D);font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;min-width:2ch;text-align:right;display:inline-block}.tlbar .tseg i{font:500 11px/1.2 'Spline Sans Mono',monospace;font-style:normal;color:var(--dim,#8A8079);letter-spacing:.06em}.tlbar .tlgo{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;font:600 11px/1 'Spline Sans Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--ember,#A8512F);border-radius:4px;text-decoration:none}@media(max-width:560px){.tlbar{gap:8px;padding:8px 10px;justify-content:space-between}.tlbar .zinf{width:16px;height:16px}.tlbar .tlkl{display:none}.tlbar .tlks{display:inline}.tlbar .tlk{font-size:10px;letter-spacing:.06em}.tlbar .tlclock{gap:5px}.tlbar .tseg b{font-size:14px}.tlbar .tlgo{padding:8px 10px;font-size:10px}}
+/* NARROW PHONES — this bar's contents need 379px minimum (16px mark + 184px clock +
+   153px button + gaps + padding), so below that the WHOLE PAGE scrolls sideways. Proven
+   by measurement: hide .tlbar at 360px and document scrollWidth drops 379 -> 360.
+   Dropping the "Closes in" words reclaims ~70px and the countdown still reads perfectly
+   next to "Save my seat — $97". Scoped to <=380px so 390px phones are untouched.
+   THIS SAME BUG IS LIVE on index / quiz / story / profiles / privacy / terms / refund,
+   which each carry their own copy of this <style> block. Same two lines fix each. */
+@media(max-width:380px){.tlbar .tlk{display:none}.tlbar{gap:6px;padding:8px 8px}}</style>
+<div class="tlbar"><svg class="zinf" viewBox="0 0 48 48" aria-hidden="true"><path class="zt" d="M36.356 16 c10.192 0 10.192 16 0 16 c-10.19 0 -14.266 -16 -25.478 -16 c-9.17 0 -9.17 16 0 16 c11.212 0 15.288 -16 25.48 -16 z"/><path class="zl" pathLength="100" d="M36.356 16 c10.192 0 10.192 16 0 16 c-10.19 0 -14.266 -16 -25.478 -16 c-9.17 0 -9.17 16 0 16 c11.212 0 15.288 -16 25.48 -16 z"/></svg><span class="tlclock" id="tlbarC" hidden><span class="tlk"><span class="tlkl">Doors close in</span><span class="tlks">Closes in</span></span><span class="tseg"><b class="d">&ndash;&ndash;</b><i>d</i></span><span class="tseg"><b class="h">&ndash;&ndash;</b><i>h</i></span><span class="tseg"><b class="m">&ndash;&ndash;</b><i>m</i></span><span class="tseg"><b class="s">&ndash;&ndash;</b><i>s</i></span></span><a class="tlgo" href="/join-myself-again-cohort">Save my seat &mdash; $97</a></div>
+<script>(function(){var w=document.getElementById('tlbarC');if(!w)return;var E=new Date('2026-08-15T08:00:00-04:00').getTime(),D=w.querySelector('.d'),H=w.querySelector('.h'),M=w.querySelector('.m'),S=w.querySelector('.s'),p=function(n){return(n<10?'0':'')+n};function t(){var ms=E-Date.now();if(ms<=0){w.hidden=true;return}D.textContent=p(Math.floor(ms/864e5));H.textContent=p(Math.floor(ms/36e5)%24);M.textContent=p(Math.floor(ms/6e4)%60);S.textContent=p(Math.floor(ms/1e3)%60);setTimeout(t,1e3)}w.hidden=false;t()})();</script>
+
+<!-- TOP BAR -->
+<div class="topbar"><div class="row"><a class="brandmark" href="/"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a><input id="navtog" type="checkbox" aria-label="Menu">
+<label class="navtoggle" for="navtog" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
+<nav class="nav" aria-label="Primary"><a class="lnk" href="/">Home</a><a class="lnk" href="/her-own-woman-quiz.html">The&nbsp;Quiz</a><a class="lnk" href="/freebies" aria-current="page">Free&nbsp;Books</a><a class="lnk" href="/zane-story.html">My&nbsp;Story</a><a class="navcta" href="/join-myself-again-cohort">Join&nbsp;Myself&nbsp;Again</a></nav></div></div>
+<a id="main" tabindex="-1"></a>
+
+<!-- HERO -->
+<header class="fhero">
+  <div class="wrap">
+    <span class="keyline">Free · no card, no catch</span>
+    <h1>Three short books for the hours nobody else is awake for.</h1>
+    <p class="that">Not pep talks. Tools. Every one of them takes ten minutes or less.</p>
+    <ul class="fshelf">
+      <li><a href="#book-one"><img src="/site-assets/covers/10-psychology-hacks-400.webp" width="400" height="565" alt="10 Psychology Hacks That Actually Work" decoding="async"></a></li>
+      <li><a href="#book-two"><img src="/site-assets/covers/rebuild-15-things-400.webp" width="400" height="517" alt="REBUILD" decoding="async"></a></li>
+      <li><a href="#book-three"><img src="/site-assets/covers/the-night-shift-400.webp" width="400" height="517" alt="The Night Shift" decoding="async"></a></li>
+    </ul>
+    <p class="flead">I wrote these for the part of the night when advice stops working — when you
+      already know what you should do and your body won't go along with it. So every tool in them
+      starts with the body, not with thinking harder.
+      <strong>You've been sold magic before. Not here.</strong></p>
+    <p class="fdeal">They're free. I ask for an email so I can send you the file — and so I can
+      write to you now and then. One tap unsubscribes, and I won't chase you.</p>
+  </div>
+</header>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- THE SHELF -->
+<section>
+  <div class="wrap">
+    <span class="keyline">The books</span>
+    <ul class="shelf">
+
+      <li class="reveal" id="book-one">
+        <div class="bk">
+          <div class="bkcover">
+            <img src="/site-assets/covers/10-psychology-hacks-400.webp" width="400" height="565"
+                 alt="Cover of 10 Psychology Hacks That Actually Work — cracked terracotta earth"
+                 loading="lazy" decoding="async">
+          </div>
+          <div class="bkbody">
+            <p class="bklabel">Book one · 24 pages</p>
+            <h2>10 Psychology Hacks That Actually Work</h2>
+            <p class="bksub">When your brain won't switch off</p>
+            <p class="bkwhy">Start here if your head simply will not go quiet. Ten tools, and not
+              one of them is "think about it differently" — they're physical. Cold. Humming. Weight
+              on your chest. Things you can do with your hands at two in the morning without having
+              to decide anything first.</p>
+            <ul class="bkgets">
+              <li>10 tools that switch off the 2am spiral — each one takes under 10 minutes, most under 3</li>
+              <li>the real reason "just calm down" has never once worked — nothing is wrong with you, your body just speaks a different language</li>
+              <li>an honest science page that shows which viral calm-down tricks actually survived the lab — and which ones flopped</li>
+            </ul>
+            <div class="gate" data-magnet="10-psychology-hacks">
+              <button class="btn ghost bkget" type="button" aria-expanded="false" aria-controls="gf-10-psychology-hacks">Get 10 Psychology Hacks</button>
+              <form class="gform" id="gf-10-psychology-hacks" method="post" action="/api/freebie" hidden>
+                <input type="hidden" name="magnet" value="10-psychology-hacks">
+                <input type="hidden" name="redirect" value="1">
+                <label class="glabel" for="ge-10-psychology-hacks">Your email — I'll send the book here</label>
+                <div class="grow">
+                  <input class="ginput" id="ge-10-psychology-hacks" type="email" name="email" required
+                         autocomplete="email" inputmode="email" spellcheck="false" placeholder="you@example.com">
+                  <button class="btn" type="submit">Send it to me</button>
+                </div>
+                <p class="ghp"><label for="gw-10-psychology-hacks">Leave this field empty</label><input id="gw-10-psychology-hacks" type="text" name="website" tabindex="-1" autocomplete="off"></p>
+                <p class="gnote">Free. One tap unsubscribes, and I won't chase you.</p>
+                <p class="gerr" role="alert" hidden></p>
+              </form>
+              <div class="gdone" role="status" hidden></div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="reveal" id="book-two">
+        <div class="bk">
+          <div class="bkcover">
+            <img src="/site-assets/covers/rebuild-15-things-400.webp" width="400" height="517"
+                 alt="Cover of REBUILD — a broken bowl mended with gold"
+                 loading="lazy" decoding="async">
+          </div>
+          <div class="bkbody">
+            <p class="bklabel">Book two · 33 pages</p>
+            <h2>REBUILD</h2>
+            <p class="bksub">15 things that actually work after you lose him — or yourself</p>
+            <p class="bkwhy">He left, or you did, or nobody left and you still went missing
+              somewhere in the middle of it. This is the one for the first bad month — the
+              cold-water reset, the letter you write and never send, the full purge, the small
+              tombstones, and the part where you go back and pick up one thing you were before him.</p>
+            <ul class="bkgets">
+              <li>15 tools that get you through the worst nights — each one takes ten minutes or less</li>
+              <li>the 2am wave calmed body-first, so something still works when thinking is impossible</li>
+              <li>an honest science page that shows which tools survived the lab — and which run on women's word alone</li>
+            </ul>
+            <div class="gate" data-magnet="rebuild-15-things">
+              <button class="btn ghost bkget" type="button" aria-expanded="false" aria-controls="gf-rebuild-15-things">Get REBUILD</button>
+              <form class="gform" id="gf-rebuild-15-things" method="post" action="/api/freebie" hidden>
+                <input type="hidden" name="magnet" value="rebuild-15-things">
+                <input type="hidden" name="redirect" value="1">
+                <label class="glabel" for="ge-rebuild-15-things">Your email — I'll send the book here</label>
+                <div class="grow">
+                  <input class="ginput" id="ge-rebuild-15-things" type="email" name="email" required
+                         autocomplete="email" inputmode="email" spellcheck="false" placeholder="you@example.com">
+                  <button class="btn" type="submit">Send it to me</button>
+                </div>
+                <p class="ghp"><label for="gw-rebuild-15-things">Leave this field empty</label><input id="gw-rebuild-15-things" type="text" name="website" tabindex="-1" autocomplete="off"></p>
+                <p class="gnote">Free. One tap unsubscribes, and I won't chase you.</p>
+                <p class="gerr" role="alert" hidden></p>
+              </form>
+              <div class="gdone" role="status" hidden></div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="reveal" id="book-three">
+        <div class="bk">
+          <div class="bkcover">
+            <img src="/site-assets/covers/the-night-shift-400.webp" width="400" height="517"
+                 alt="Cover of The Night Shift — a full moon through the gap in drawn curtains"
+                 loading="lazy" decoding="async">
+          </div>
+          <div class="bkbody">
+            <p class="bklabel">Book three · 35 pages<span class="bknew">New</span></p>
+            <h2>The Night Shift</h2>
+            <p class="bksub">Your body knows why you can't sleep</p>
+            <p class="bkwhy">You don't drift awake at three in the morning. You jolt — heart
+              already going, before you've had a single thought. Then your mind grabs the nearest
+              thing to blame it on and hands it to you as a fact. It isn't one. This is fifteen ways
+              out of that hour, laid out in the order of one night.</p>
+            <ul class="bkgets">
+              <li>15 tools in the order of one night — before bed, lights out, the 2am wake-up, toward morning</li>
+              <li>why the thing you believe at 3am is weather and not truth — your body spikes first, and your mind invents the reason after</li>
+              <li>an honest science page that grades all fifteen, including the viral ones that don't survive the studies</li>
+            </ul>
+            <div class="gate" data-magnet="the-night-shift">
+              <button class="btn ghost bkget" type="button" aria-expanded="false" aria-controls="gf-the-night-shift">Get The Night Shift</button>
+              <form class="gform" id="gf-the-night-shift" method="post" action="/api/freebie" hidden>
+                <input type="hidden" name="magnet" value="the-night-shift">
+                <input type="hidden" name="redirect" value="1">
+                <label class="glabel" for="ge-the-night-shift">Your email — I'll send the book here</label>
+                <div class="grow">
+                  <input class="ginput" id="ge-the-night-shift" type="email" name="email" required
+                         autocomplete="email" inputmode="email" spellcheck="false" placeholder="you@example.com">
+                  <button class="btn" type="submit">Send it to me</button>
+                </div>
+                <p class="ghp"><label for="gw-the-night-shift">Leave this field empty</label><input id="gw-the-night-shift" type="text" name="website" tabindex="-1" autocomplete="off"></p>
+                <p class="gnote">Free. One tap unsubscribes, and I won't chase you.</p>
+                <p class="gerr" role="alert" hidden></p>
+              </form>
+              <div class="gdone" role="status" hidden></div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- HOW THEY FIT -->
+<section class="fitband">
+  <div class="wrap"><div class="read reveal">
+    <span class="keyline">Which one first</span>
+    <p>Book one and book three are for the night itself. Book two is for the months after somebody
+      goes. They don't need each other and there's no order to keep — take the one that matches the
+      hour you're reading this in.</p>
+  </div></div>
+</section>
+
+<!-- THE NEXT STEP -->
+<section>
+  <div class="wrap"><div class="card nextcard reveal">
+    <span class="keyline">After the books</span>
+    <h2>The tools work better with <em>company</em>.</h2>
+    <p>All three books end the same way, because it keeps being true: knowing what to do at 3am is
+      one thing. Having a room full of women who know exactly what your 3am looks like is another.
+      That's Myself Again — one full month, starting the morning of August 15, 2026, and the doors
+      shut the same instant they open. One small thing a day. I post every morning myself, and I
+      read everything.</p>
+    <a class="btn ghost" href="/join-myself-again-cohort">See Myself Again</a>
+    <p class="underbtn">$97 once for the First Hundred, then the price climbs — it never comes back
+      down. Money back any day of the month, plus a week: one email, no questions.</p>
+  </div></div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap"><div class="read reveal">
+    <h2 style="text-align:center;margin-bottom:30px">Before you ask</h2>
+    <div class="faq"><h3>Is it really free?</h3>
+      <p>Yes. No card, no trial, nothing to buy inside the book. I ask for an email so I have
+        somewhere to send the file.</p></div>
+    <div class="faq"><h3>Will you flood my inbox?</h3>
+      <p>No. You get the book, and then a letter from me now and again — the same kind of thing
+        that's in the books. One tap unsubscribes and it actually works.</p></div>
+    <div class="faq"><h3>Can I have all three?</h3>
+      <p>Yes. Ask for one, then ask for the next. Same email is fine — each book comes on its own
+        so nothing lands as one giant attachment.</p></div>
+    <div class="faq"><h3>What if the email doesn't turn up?</h3>
+      <p>You'll already have the book — this page hands you the file the second you ask, so the
+        email is a spare copy, not the delivery. If it's missing, look in spam, and write to
+        <a href="mailto:zane@scarredtruth.com">zane@scarredtruth.com</a> if you'd rather I just
+        send it myself.</p></div>
+  </div></div>
+</section>
+
+<!-- UNIFIED FOOTER -->
+<footer class="bigfoot">
+  <div class="ffmedia"><img src="/site-assets/illustrations/journey.webp" width="1088" height="612" alt="A woman's journey — bent under a heavy burden, then sitting tall and free on her own throne" loading="lazy" decoding="async"></div>
+  <div class="ffinner reveal">
+    <span class="eyebrow">Where this goes</span>
+    <h2>You weren’t meant to carry this <em>forever</em>.</h2>
+    <p class="fflead">See the one weight you’re really carrying — then let’s set it down, together.</p>
+    <a class="btn" href="/her-own-woman-quiz.html">Find what you’re still carrying</a>
+    <p class="brand">Scarred Truth · Zane</p>
+    <p class="fine">© Scarred Truth · You can forgive, and still keep your peace. · <a href="/terms.html" style="color:inherit">Terms</a> · <a href="/privacy.html" style="color:inherit">Privacy</a> · <a href="/refund.html" style="color:inherit">Refunds</a></p>
+    <p class="fine">Scarred Truth is operated by Humble Echo LLC · <a href="mailto:zane@scarredtruth.com" style="color:inherit">zane@scarredtruth.com</a></p>
+  </div>
+</footer>
+
+<noscript><style>.reveal{opacity:1!important;transform:none!important}
+  /* With JS off the form cannot be revealed by a click, so show it outright — the
+     <form> posts on its own and the server 303s her straight to the PDF. */
+  .gform[hidden]{display:block!important}
+  .bkget{display:none!important}</style></noscript>
+
+<script>
+(function(){
+  /* the shared reveal — opacity + translateY only, fires once (DESIGN.md §7) */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
+  document.querySelectorAll('.reveal,.seam').forEach(function(el){io.observe(el);});
+})();
+
+(function(){
+  /* THE GATE.
+     Trigger -> one email field -> the file, without leaving the page. The <form> is a
+     real form with a real action, so the no-JS path (see the <noscript> above) posts
+     and the server redirects her to the PDF; everything here is enhancement.
+
+     Only one form is open at a time — which is also what keeps exactly one ember
+     button on screen (DESIGN.md §6).
+
+     After her first book we remember the address for the session and pre-fill it, so
+     asking for the second is one tap. Pre-fill, never a silent submit: she can always
+     see which address it's going to. */
+  var KEY='st.freebie.email';
+  var gates=[].slice.call(document.querySelectorAll('.gate'));
+  if(!gates.length) return;
+
+  function remembered(){ try{ return sessionStorage.getItem(KEY)||''; }catch(e){ return ''; } }
+  function remember(v){ try{ sessionStorage.setItem(KEY,v); }catch(e){} }
+
+  function closeOthers(keep){
+    gates.forEach(function(g){
+      if(g===keep) return;
+      var f=g.querySelector('.gform'), b=g.querySelector('.bkget'), d=g.querySelector('.gdone');
+      if(!f || f.hidden) return;   // nothing open here
+      if(d && !d.hidden) return;   // already delivered — never take that away
+      f.hidden=true;
+      if(b){ b.hidden=false; b.setAttribute('aria-expanded','false'); }
+    });
+  }
+
+  gates.forEach(function(gate){
+    var trigger=gate.querySelector('.bkget');
+    var form=gate.querySelector('.gform');
+    var input=gate.querySelector('.ginput');
+    var submit=form.querySelector('button[type=submit]');
+    var err=gate.querySelector('.gerr');
+    var done=gate.querySelector('.gdone');
+    var label=trigger ? trigger.textContent : '';
+
+    trigger.addEventListener('click',function(){
+      closeOthers(gate);
+      form.hidden=false;
+      trigger.hidden=true;
+      trigger.setAttribute('aria-expanded','true');
+      var known=remembered();
+      if(known && !input.value) input.value=known;
+      (known ? submit : input).focus();
+    });
+
+    form.addEventListener('submit',function(ev){
+      /* No fetch available (very old browser)? Let the plain form post do its job. */
+      if(typeof window.fetch!=='function') return;
+      ev.preventDefault();
+      err.hidden=true;
+      var email=(input.value||'').trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        err.textContent="That email doesn't look right — check it once more?";
+        err.hidden=false; input.focus(); return;
+      }
+      submit.disabled=true;
+      var was=submit.textContent; submit.textContent='Sending…';
+
+      var body={magnet:form.querySelector('[name=magnet]').value,email:email,
+        website:form.querySelector('[name=website]').value,
+        source:{referrer:document.referrer||'',landing:location.pathname+location.search}};
+
+      fetch('/api/freebie',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(body)})
+        .then(function(r){ return r.json().then(function(j){ return {ok:r.ok,j:j}; }); })
+        .then(function(res){
+          if(!res.ok || !res.j || !res.j.ok) throw new Error((res.j&&res.j.error)||'Something went wrong on my end.');
+          remember(email);
+          form.hidden=true;
+          done.innerHTML='<span class="gtick">Yours</span>'+
+            '<p>It\'s on its way to <strong>'+email.replace(/[&<>"]/g,'')+'</strong> — that can take a minute or two. '+
+            'Here it is right now so you don\'t have to wait for it.</p>'+
+            '<a class="btn" href="'+res.j.file+'" download>Open '+(res.j.title||'the book')+'</a>';
+          done.hidden=false;
+          done.querySelector('.btn').focus();
+          /* second book, one tap: the other triggers now say so */
+          gates.forEach(function(g){
+            var t=g.querySelector('.bkget');
+            if(t && !t.hidden && g!==gate) t.textContent=t.textContent.replace(/^Get /,'Send me ');
+          });
+        })
+        .catch(function(e){
+          submit.disabled=false; submit.textContent=was;
+          err.textContent=e.message||'Something went wrong on my end. Try once more?';
+          err.hidden=false;
+        });
+    });
+  });
+})();
+</script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4174d8e5224f4696a8c281220e7e06fa"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

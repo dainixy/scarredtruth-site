@@ -15,8 +15,14 @@ function enabled() {
   return !!(process.env.MAILERLITE_API_KEY && process.env.MAILERLITE_GROUP_ID);
 }
 
-// Documented upsert: re-sending the same email updates rather than duplicating.
-async function syncSubscriber({ email, name, profile, resultUrl }) {
+// Documented upsert: re-sending the same email updates rather than duplicating —
+// and adding an EXISTING subscriber to a new group is what fires that group's
+// automation, which is how the free books get delivered (see lib/freebies.js).
+//
+// `groups` is optional. Left out, she lands in the quiz group exactly as before;
+// passed, she lands in those groups instead. `magnet` names which free book she
+// asked for, so the subscriber record reads straight without cross-referencing ids.
+async function syncSubscriber({ email, name, profile, resultUrl, groups, magnet }) {
   if (!enabled() || !email) return { skipped: true };
 
   const res = await fetch(`${API}/subscribers`, {
@@ -32,8 +38,9 @@ async function syncSubscriber({ email, name, profile, resultUrl }) {
         name: name || "",
         profile: profile || "",
         result_url: resultUrl || "",
+        magnet: magnet || "",
       },
-      groups: [process.env.MAILERLITE_GROUP_ID],
+      groups: Array.isArray(groups) && groups.length ? groups : [process.env.MAILERLITE_GROUP_ID],
     }),
   });
 

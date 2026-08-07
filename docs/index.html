@@ -205,6 +205,29 @@
   .proof .lbl{font:500 12px/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);margin-top:14px}
 
   /* popup CSS removed with the popup — see the note where the markup was. */
+
+  /* FREE BOOKS band (added 2026-08-06) — the doorway to /freebies, where the three
+     ebooks are handed over for an email. A vertical list, not a three-up feature
+     grid (banned, DESIGN.md §11), and the button is .btn.ghost because this page's
+     one ember already belongs to the quiz.
+     (NOTE for whoever reads this next: the .goodies/.gcard/.gbadge rules further up
+     are dead — no markup on this page uses them. Left alone deliberately; they
+     pre-date this change.) */
+  .fbooks{list-style:none;margin:26px auto 0;padding:0;max-width:720px}
+  .fbooks li+li{border-top:1px solid var(--line-soft)}
+  .frow{display:grid;grid-template-columns:56px 1fr auto;gap:20px;align-items:center;
+    padding:18px 4px;text-decoration:none;color:inherit;min-height:48px}
+  .frow img{display:block;width:56px;height:auto;border-radius:3px;border:1px solid var(--line)}
+  .fbt{display:block;font-family:var(--display);font-size:22px;line-height:1.22;color:var(--ink);margin:0}
+  .frow:hover .fbt{color:var(--gold-deep)}
+  .fbs{display:block;font-size:15px;line-height:1.45;color:var(--dim);margin:3px 0 0}
+  .fbgo{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+  @media(max-width:560px){
+    .frow{grid-template-columns:44px 1fr;gap:14px}
+    .frow img{width:44px}
+    .fbt{font-size:19px}
+    .fbgo{display:none}
+  }
 </style>
 <link rel="canonical" href="https://scarredtruth.com/">
 </head>
@@ -218,7 +241,7 @@
 <!-- TOP BAR -->
 <div class="topbar"><div class="row"><a class="brandmark" href="/"><svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true"><path d="M32 14 L68 14 L86 50 L68 86 L32 86 L14 50 Z" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linejoin="round"/><path d="M36 40 L64 40 M62 42 L38 60 M36 62 L64 62" fill="none" stroke="#BC6A43" stroke-width="6.5" stroke-linecap="round"/></svg><span>Scarred&nbsp;Truth</span></a><input id="navtog" type="checkbox" aria-label="Menu">
 <label class="navtoggle" for="navtog" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
-<nav class="nav" aria-label="Primary"><a class="lnk" href="/">Home</a><a class="lnk" href="/her-own-woman-quiz.html">The&nbsp;Quiz</a><a class="lnk" href="/zane-story.html">My&nbsp;Story</a><a class="navcta" href="/join-myself-again-cohort">Join&nbsp;Myself&nbsp;Again</a></nav></div></div>
+<nav class="nav" aria-label="Primary"><a class="lnk" href="/">Home</a><a class="lnk" href="/her-own-woman-quiz.html">The&nbsp;Quiz</a><a class="lnk" href="/freebies">Free&nbsp;Books</a><a class="lnk" href="/zane-story.html">My&nbsp;Story</a><a class="navcta" href="/join-myself-again-cohort">Join&nbsp;Myself&nbsp;Again</a></nav></div></div>
 <a id="main" tabindex="-1"></a>
 
 <!-- HERO -->
@@ -463,6 +486,40 @@
       <p class="dim" style="margin-top:18px;color:var(--ink-2)">They were wrong. So are you.</p>
     </div>
   </div></div>
+</section>
+
+<div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>
+
+<!-- FREE BOOKS — placed here on purpose: below the quiz invite and the proof, so it
+     never competes with the quiz for the first decision. This is the "not tonight,
+     but take something with you" door. -->
+<section>
+  <div class="wrap">
+    <div class="read reveal" style="text-align:center">
+      <span class="eyebrow">Free · yours to keep</span>
+      <h2>Three short books.</h2>
+      <p class="dim" style="max-width:50ch;margin:14px auto 0">Tools for the hours nobody else is
+        awake for. Every one of them takes ten minutes or less.</p>
+    </div>
+    <ul class="fbooks reveal">
+      <li><a class="frow" href="/freebies">
+        <img src="site-assets/covers/10-psychology-hacks-112.webp" width="79" height="112" alt="" loading="lazy" decoding="async">
+        <span><span class="fbt">10 Psychology Hacks That Actually Work</span><span class="fbs">When your brain won't switch off</span></span>
+        <span class="fbgo">Get it →</span>
+      </a></li>
+      <li><a class="frow" href="/freebies">
+        <img src="site-assets/covers/rebuild-15-things-112.webp" width="86" height="112" alt="" loading="lazy" decoding="async">
+        <span><span class="fbt">REBUILD</span><span class="fbs">15 things that actually work after you lose him — or yourself</span></span>
+        <span class="fbgo">Get it →</span>
+      </a></li>
+      <li><a class="frow" href="/freebies">
+        <img src="site-assets/covers/the-night-shift-112.webp" width="86" height="112" alt="" loading="lazy" decoding="async">
+        <span><span class="fbt">The Night Shift</span><span class="fbs">Your body knows why you can't sleep</span></span>
+        <span class="fbgo">Get it →</span>
+      </a></li>
+    </ul>
+    <p style="text-align:center;margin-top:30px"><a class="btn ghost" href="/freebies">See all three books</a></p>
+  </div>
 </section>
 
 <div class="wrap"><div class="seam reveal"><div class="bar"></div></div></div>

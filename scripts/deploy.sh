@@ -83,6 +83,15 @@ check "/her-own-woman-quiz.html"                     200
 # Talk to Zane retired 2026-07-16 — must 301 home, never 200, never 404
 check "/talk-to-zane-ai.html"                        301
 check "/quiz-all-profiles.html"                      200
+# the free books (2026-08-06). Added here the same day the page shipped, because the whole
+# lesson of the 2026-07-14 incident above is that a verify list which only names pages that
+# already existed reports "verified" while every NEW page 404s.
+check "/freebies"                                    200
+check "/freebies.html"                               301
+check "/downloads/10-psychology-hacks.pdf"           200
+check "/downloads/rebuild-15-things.pdf"             200
+check "/downloads/the-night-shift.pdf"               200
+check "/site-assets/covers/the-night-shift-400.webp" 200
 check "/terms.html"                                  200
 check "/privacy.html"                                200
 check "/refund.html"                                 200

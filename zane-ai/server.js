@@ -25,6 +25,7 @@ const ai = require("./lib/ai");
 const store = require("./lib/store");
 const { generateNote } = require("./lib/note");
 const mailerlite = require("./lib/mailerlite");
+const freebies = require("./lib/freebies");
 
 const PORT = process.env.PORT || 5178;
 const MAX_TOKENS = 400;
@@ -70,6 +71,10 @@ app.use((req, res, next) => {
 // 256kb, not 64kb: a woman pouring out her whole story is the point of this site, and a
 // body over the limit used to be a silent total loss (no error middleware, empty .catch).
 app.use(express.json({ limit: "256kb" }));
+// The free-book form posts urlencoded when JavaScript is off, so the no-JS path
+// reaches the same endpoint instead of dying at an empty req.body. Small limit:
+// nothing legitimate on this path is bigger than an email address.
+app.use(express.urlencoded({ extended: false, limit: "16kb" }));
 
 // --- per-IP rate limit (cost + abuse guard) -----------------------------------
 const hits = new Map();
@@ -213,6 +218,61 @@ app.post("/api/waitlist", async (req, res) => {
   } catch (err) {
     if (process.env.NODE_ENV !== "test") console.error("[zane-ai] waitlist error:", err.message);
     res.status(500).json({ error: "could not save" });
+  }
+});
+
+// --- the free books ------------------------------------------------------------
+// She gives an email, she gets the book. Two things happen, in this order:
+//   1. the response hands her the file immediately — she never waits on email, and
+//      a bounced/spam-filtered/misspelled address cannot cost her the thing she
+//      asked for;
+//   2. she joins TWO MailerLite groups — the shared "Free books — all", which is what
+//      the single delivery automation watches, and her own book's group, which is the
+//      permanent record of which book she reached for (see lib/freebies.js).
+// Step 1 is why step 2 is allowed to be fire-and-forget: MailerLite can be down and
+// the page still works.
+//
+// No schema change: rows land in `events` (type=freebie_signup, payload jsonb).
+// Pull the list: select * from events where type='freebie_signup' order by ts;
+app.post("/api/freebie", async (req, res) => {
+  if (!originAllowed(req)) return res.status(403).json({ error: "Not allowed." });
+  if (rateLimited(req.ip || "anon")) return res.status(429).json({ error: "Slow down a moment — try again shortly." });
+
+  const b = req.body || {};
+  const wantsRedirect = String(b.redirect || "") === "1"; // set by the <form> itself: the no-JS path
+  const book = freebies.get(b.magnet);
+  if (!book) return res.status(400).json({ error: "Unknown book." });
+
+  const email = String(b.email || "").trim().slice(0, 160);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (wantsRedirect) return res.redirect(303, "/freebies");
+    return res.status(400).json({ error: "That email doesn't look right — check it once more?" });
+  }
+
+  // Honeypot: a field no human sees, so anything that fills it is a bot. MailerLite
+  // bills by subscriber, so a scripted form is a real monthly cost, not just noise.
+  // Answer 200 and do nothing — a bot that learns it failed comes back different.
+  if (String(b.website || "").trim()) {
+    if (wantsRedirect) return res.redirect(303, book.file);
+    return res.json({ ok: true, file: book.file, title: book.title });
+  }
+
+  const name = String(b.name || "").trim().slice(0, 80);
+
+  if (wantsRedirect) res.redirect(303, book.file);
+  else res.json({ ok: true, file: book.file, title: book.title });
+
+  // --- after she has the file ----------------------------------------------------
+  logQuietly({ type: "freebie_signup", email, name, magnet: b.magnet, source: sourceOf(b.source) });
+
+  if (mailerlite.enabled()) {
+    mailerlite
+      .syncSubscriber({ email, name, groups: freebies.groupsFor(b.magnet), magnet: b.magnet })
+      .then(() => store.logEvent({ type: "mailerlite_synced", email, magnet: b.magnet }))
+      .catch((err) => {
+        console.error("[zane-ai] freebie mailerlite failed:", err.message);
+        store.logEvent({ type: "mailerlite_failed", email, magnet: b.magnet, error: err.message });
+      });
   }
 });
 
@@ -441,8 +501,15 @@ app.post("/api/chat", async (req, res) => {
 // Cache assets hard (7d) so once an image loads on a device it sticks and is never re-fetched
 // from a (possibly cold/sleeping) server; revalidate HTML every 5 min so edits still show.
 function staticCache(res, fp) {
-  if (/\.(webp|png|jpe?g|gif|svg|ico|woff2?|mp3|mp4)$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=604800");
+  // pdf is in the list because the free books never change once published, and the
+  // biggest of them is 12 MB — without this she re-downloads it on every visit.
+  if (/\.(webp|png|jpe?g|gif|svg|ico|woff2?|mp3|mp4|pdf)$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=604800");
   else if (/\.html?$/i.test(fp)) res.setHeader("Cache-Control", "public, max-age=300, must-revalidate");
+  // The free books stay reachable by direct URL — ManyChat's DM flows hand out these
+  // exact links — but they must not rank in search, or Google sends her to a bare PDF
+  // instead of to /freebies and the email is never asked for. noindex (not a robots.txt
+  // Disallow, which would stop the crawler ever reading this header).
+  if (/[/\\]downloads[/\\]/.test(fp)) res.setHeader("X-Robots-Tag", "noindex");
 }
 // ---- MOVED URLS (renamed 2026-07-13: dropped "-light", clearer names) ---------------
 // Every old URL answers a permanent redirect, so inbound links, Google results and
@@ -470,6 +537,9 @@ const MOVED = {
   "/community.html":                   "/join-myself-again-cohort",
   "/join-myself-again-cohort.html":    "/join-myself-again-cohort",
   "/welcome-to-myself-again.html":     "/welcome-to-myself-again",
+  // The free books live at a clean permalink; the .html twin 301s so the page has
+  // exactly one URL in search results.
+  "/freebies.html":                    "/freebies",
 };
 for (const [from, to] of Object.entries(MOVED)) {
   app.get(from, (_req, res) => res.redirect(301, to));
@@ -479,6 +549,12 @@ for (const [from, to] of Object.entries(MOVED)) {
 app.get("/join-myself-again-cohort", (_req, res) => {
   res.set("Cache-Control", "public, max-age=300, must-revalidate");
   res.sendFile(path.join(DOCS_DIR, "community.html"));
+});
+
+// The free books — served at the clean permalink. Must sit BEFORE express.static.
+app.get("/freebies", (_req, res) => {
+  res.set("Cache-Control", "public, max-age=300, must-revalidate");
+  res.sendFile(path.join(DOCS_DIR, "freebies.html"));
 });
 
 // Where Stripe sends her after she pays. noindex; never linked from the site.
